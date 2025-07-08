@@ -94,11 +94,11 @@
         "items": [
           {
             "label": "Help Docs",
-            "href": "https://help.thanks.io",
+            "href": "https://help.thanks.io"
           },
           {
             "label": "Postman",
-            "href": "https://api-docs.thanks.io",
+            "href": "https://api-docs.thanks.io"
           }
         ]
       },
