@@ -1,0 +1,53 @@
+---
+title: 'Order Item Status Change'
+description: 'This event will fire whenever an Order Item changes status.'
+---
+
+## Status Types
+
+- **Processing** : Mail piece is being processed.
+- **Printed** : Mail piece has been printed.
+- **Shipped** : Mail piece has been shipped.
+- **In Transit** : Mail piece is in transit to destination.
+- **In Local Area** : Mail piece is in local area for delivery.
+- **Processed for Delivery** : Mail piece is out for delivery.
+- **Re-routed** : Mail piece has been re-routed.
+- **Returned to Sender** : Mail piece is being returned to sender.
+- **Delivered** : Mail piece has been delivered to recipient.
+- **Failed** : Mail piece was not able to be printed or delivered.
+
+
+## Example
+
+```json
+{
+    "event_type": "order_item.status_update",
+    "event_id": "7199e4e0-516b-11f0-ba5f-f135ea42fb62",
+    "data": {
+        "order_item.id": 2668662,
+        "order_item.scans": null,
+        "order_item.failure": null,
+        "recipient.name": "John Doe",
+        "recipient.company": null,
+        "recipient.address": "123 Fake St",
+        "recipient.address2": null,
+        "recipient.city": "Any Town",
+        "recipient.province": "NY",
+        "recipient.postal_code": "12345",
+        "recipient.country": "US",
+        "recipient.email": null,
+        "recipient.phone": null,
+        "recipient.custom_1": "Example Custom 1",
+        "recipient.custom_2": "Example Custom 2",
+        "recipient.custom_3": "Example Custom 3",
+        "recipient.custom_4": "Example Custom 4",
+        "order.id": 42399,
+        "order.status": "Printing",
+        "order_item.delivery_date": "2025-07-05",
+        "order_item.previous_status": null,
+        "order_item.current_status": "Processing"
+    },
+    "timestamp": 1750818235,
+    "date_time": "2025-06-25 02:23:55"
+}
+```

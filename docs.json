@@ -13,23 +13,33 @@
       {
         "tab": "Guides",
         "groups": [
+          
           {
             "group": "Get Started",
+            "icon": "play",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "quickstart"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Authentication",
+            "icon": "lock",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "authentication/bearer-token",
+              "authentication/oauth"
+            ]
+          },
+          {
+            "group": "Common Workflows",
+            "icon": "water",
+            "pages": [
+              "workflows/markdown",
+              "workflows/code",
+              "workflows/images",
+              "workflows/settings",
+              "workflows/navigation",
+              "workflows/reusable-snippets"
             ]
           }
         ]
@@ -38,10 +48,17 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Get Started",
+            "icon": "play",
             "pages": [
               "api-reference/introduction"
             ]
+          },
+          {
+            "group": "Endpoints",
+            "openapi": {
+              "source": "api-reference/openapi.json"
+            }
           },
           {
             "group": "Endpoint Examples",
@@ -53,9 +70,62 @@
             ]
           }
         ]
+      },
+        {
+        "tab": "Native Integrations",
+        "groups": [
+          {
+            "group": "Get Started",
+            "icon": "play",
+            "pages": [
+              "native-integrations/introduction"
+            ]
+          },
+          {
+            "group": "Integrations List",
+            "icon": "list",
+            "pages": [
+              "native-integrations/zapier"
+            ]
+          }
+        ]
+      },
+        {
+        "tab": "Webhooks ",
+        "groups": [
+          {
+            "group": "Get Started",
+            "icon": "play",
+            "pages": [
+              "webhooks/introduction"
+            ]
+          },
+          {
+            "group": "Available Webhooks",
+            "icon": "list",
+            "pages": [
+              "webhooks/available/order-item-status-change",
+              "webhooks/available/order-status-change",
+              "webhooks/available/qr-code-scans"
+
+            ]
+          }
+        ]
       }
+
+      
     ]
   },
+
+  "api": {
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["javascript", "curl", "python"]
+    }
+  },
+
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"

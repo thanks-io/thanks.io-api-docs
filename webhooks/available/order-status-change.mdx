@@ -1,0 +1,32 @@
+---
+title: 'Order Status Change'
+description: 'This event will fire whenever an Order changes status.'
+---
+
+## Status Types
+
+- **Reviewing** : Order is within hour cancellation window.
+- **Printing** : Mail pieces are being sent to printer network.
+- **Printed** : All mail pieces have been sent to printer network.
+- **Fulfilled** : All processing related to order is completed (notifications, order settled.)
+- **Shipped** : Mail pieces have been shipped.
+- **Delivered** : A mail piece has been delivered for this order.
+- **Cancelled** : Order was cancelled by client.
+- **Error** : All items in order were not able to be printed.
+
+
+
+## Example
+
+```json
+{
+    "event_type": "order.status_update",
+    "event_id": "a8a59df0-516d-11f0-9ca2-31daad0e4f7f",
+    "data": {
+        "order.id": 42401,
+        "order.status": "Printing",
+    },
+    "timestamp": 1750819187,
+    "date_time": "2025-06-25 02:39:47"
+}
+```

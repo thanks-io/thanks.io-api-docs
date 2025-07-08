@@ -1,0 +1,39 @@
+---
+title: 'QR Code Scans'
+description: 'This event will fire whenever a recipient scans a thanks.io QR Code on your mailer.'
+---
+
+## Example
+
+```json
+{
+    "event_type": "order_item.status_update",
+    "event_id": "c4e1aa40-516a-11f0-94e9-4b4494619f64",
+    "data": {
+        "order_item.id": 2668661,
+        "order_item.scans": 4,
+        "order_item.failure": null,
+        "recipient.name": "John Doe",
+        "recipient.company": null,
+        "recipient.address": "123 Fake St",
+        "recipient.address2": null,
+        "recipient.city": "Any Town",
+        "recipient.province": "NY",
+        "recipient.postal_code": "12345",
+        "recipient.country": "US",
+        "recipient.email": null,
+        "recipient.phone": null,
+        "recipient.custom_1": "Example Custom 1",
+        "recipient.custom_2": "Example Custom 2",
+        "recipient.custom_3": "Example Custom 3",
+        "recipient.custom_4": "Example Custom 4",
+        "order.id": 42398,
+        "order.status": "Fulfilled",
+        "order_item.delivery_date": "2025-06-05",
+        "order_item.current_status": "Processing",
+        "qrcode.url": "https://www.google.com"
+    },
+    "timestamp": 1750817946,
+    "date_time": "2025-06-25 02:19:06"
+}
+```
