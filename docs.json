@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "thanks.io",
+  "name": "thanks.io is Your Complete Direct Mail Automation Toolkit",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#4c1180",
+    "light": "#8e56f3",
+    "dark": "#6822c7"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -54,26 +54,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
@@ -82,21 +63,58 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Help Docs",
+        "href": "https://help.thanks.io",
+        "icon": "book-open-cover"
+      },
+      {
+        "label": "Postman",
+        "href": "https://api-docs.thanks.io",
+        "icon": "rocket"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://dashboard.thanks.io"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "facebook": "https://www.facebook.com/groups/thanksio",
+      "github": "https://github.com/thanks-io",
+      "linkedin": "https://www.linkedin.com/company/11209125",
+      "youtube": "https://www.youtube.com/c/thanksio",
+       "x": "https://twitter.com/thanks_io_",
+       "instagram": "https://www.instagram.com/thanks.io"
+    },
+    "links": [
+      {
+        "header": "Resources",
+        "items": [
+          {
+            "label": "Help Docs",
+            "href": "https://help.thanks.io",
+          },
+          {
+            "label": "Postman",
+            "href": "https://api-docs.thanks.io",
+          }
+        ]
+      },
+      {
+        "header": "Company",
+        "items": [
+          {
+            "label": "Website",
+            "href": "https://www.thanks.io"
+          },
+          {
+            "label": "Contact",
+            "href": "mailto:support@thanks.io"
+          }
+        ]
+      }
+    ]
   }
 }
