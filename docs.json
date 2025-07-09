@@ -45,6 +45,7 @@
             "group": "FAQs",
             "icon": "square-question",
             "pages": [
+              "faqs/quick-implementation",
               "faqs/images",
               "faqs/messages",
               "faqs/previews",
@@ -162,9 +163,9 @@
   "navbar": {
     "links": [
       {
-        "label": "Help Docs",
-        "href": "https://help.thanks.io",
-        "icon": "book-open-cover"
+        "label": "Schedule API Consult",
+        "href": "https://calendly.com/thanks-io/",
+        "icon": "headset"
       },
       {
         "label": "Postman",
@@ -194,6 +195,10 @@
           {
             "label": "Help Docs",
             "href": "https://help.thanks.io"
+          },
+          {
+            "label": "Schedule API Consult",
+            "href": "https://calendly.com/thanks-io/"
           },
           {
             "label": "Postman",
