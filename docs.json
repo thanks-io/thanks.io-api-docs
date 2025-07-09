@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "thanks.io is Your Complete Direct Mail Automation Toolkit",
+  "name": "thanks.io Direct Mail Automation Toolkit",
   "colors": {
     "primary": "#4c1180",
     "light": "#8e56f3",
@@ -27,12 +27,21 @@
             "group": "Common Workflows",
             "icon": "water",
             "pages": [
-              "workflows/markdown",
-              "workflows/code",
-              "workflows/images",
-              "workflows/settings",
-              "workflows/navigation",
-              "workflows/reusable-snippets"
+              "workflows/campaign",
+              "workflows/letter-pdf-order",
+              "workflows/postcard-order",
+              "workflows/giftcard-order"
+            ]
+          },
+          {
+            "group": "FAQs",
+            "icon": "square-question",
+            "pages": [
+              "faqs/images",
+              "faqs/messages",
+              "faqs/previews",
+              "faqs/qrcode",
+              "faqs/return-address"
             ]
           }
         ]
