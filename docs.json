@@ -13,22 +13,15 @@
       {
         "tab": "Guides",
         "groups": [
-          
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
+            "pages": ["index", "quickstart", "api-mode", "creatives"]
           },
           {
             "group": "Authentication",
             "icon": "lock",
-            "pages": [
-              "authentication/bearer-token",
-              "authentication/oauth"
-            ]
+            "pages": ["authentication/bearer-token", "authentication/oauth"]
           },
           {
             "group": "Common Workflows",
@@ -50,14 +43,12 @@
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           },
           {
             "group": "Endpoints",
             "openapi": {
-              "source": "api-reference/openapi.json"
+              "source": "api-reference/openapi.yml"
             }
           },
           {
@@ -71,34 +62,57 @@
           }
         ]
       },
-        {
+      {
         "tab": "Native Integrations",
         "groups": [
           {
             "group": "Get Started",
             "icon": "play",
+            "pages": ["native-integrations/introduction"]
+          },
+          {
+            "group": "General Integrations",
+            "icon": "list",
             "pages": [
-              "native-integrations/introduction"
+              "native-integrations/available/zapier",
+              "native-integrations/available/make",
+              "native-integrations/available/zoho",
+              "native-integrations/available/monday-dot-com",
+              "native-integrations/available/integrately",
+              "native-integrations/available/pabbly"
             ]
           },
           {
-            "group": "Integrations List",
-            "icon": "list",
+            "group": "Real Estate Integrations",
+            "icon": "house",
             "pages": [
-              "native-integrations/zapier"
+              "native-integrations/available/highlevel",
+              "native-integrations/available/api-nation",
+              "native-integrations/available/api-nation-webhooks"
+            ]
+          },
+          {
+            "group": "Insurance Integrations",
+            "icon": "notes-medical",
+            "pages": ["native-integrations/available/medicarepro"]
+          },
+          {
+            "group": "Platform Integrations",
+            "icon": "envelope",
+            "pages": [
+              "native-integrations/available/email",
+              "native-integrations/available/embed-widget"
             ]
           }
         ]
       },
-        {
+      {
         "tab": "Webhooks ",
         "groups": [
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": [
-              "webhooks/introduction"
-            ]
+            "pages": ["webhooks/introduction"]
           },
           {
             "group": "Available Webhooks",
@@ -107,13 +121,10 @@
               "webhooks/available/order-item-status-change",
               "webhooks/available/order-status-change",
               "webhooks/available/qr-code-scans"
-
             ]
           }
         ]
       }
-
-      
     ]
   },
 
@@ -155,8 +166,8 @@
       "github": "https://github.com/thanks-io",
       "linkedin": "https://www.linkedin.com/company/11209125",
       "youtube": "https://www.youtube.com/c/thanksio",
-       "x": "https://twitter.com/thanks_io_",
-       "instagram": "https://www.instagram.com/thanks.io"
+      "x": "https://twitter.com/thanks_io_",
+      "instagram": "https://www.instagram.com/thanks.io"
     },
     "links": [
       {

@@ -1,0 +1,4044 @@
+openapi: 3.0.0
+info:
+  title: thanks.io API
+  description: >-
+    **Visit**
+    [<b>https://dashboard.thanks.io/profile/billing</b>](https://dashboard.thanks.io/profile/billing)
+    **to turn on testing mode while testing to automatically cancel all
+    submitted orders. Otherwise you have 1 hour to cancel an order.**
+
+
+    ## thanks.io Embed
+
+
+    Separate from this API, our prebuilt embed widget makes it easy to integrate
+    your CRM with thanks.io and give your clients the ability to send direct
+    mail with minimal effort. Visit
+    [https://github.com/thanks-io/thanks.io-embed](https://github.com/thanks-io/thanks.io-embed)
+    for more details.
+
+
+    ## API Tokens
+
+
+    Tokens can be generated on your API Access Page:  
+
+    [https://dashboard.thanks.io/profile/billing](https://dashboard.thanks.io/profile/billing)
+
+
+    The simplest to use is "Personal Access Tokens" for use as a Bearer Token.
+
+
+    <img src="https://d2md0c8rpvzmz5.cloudfront.net/assets/auth.png">
+
+
+    For example, your request will end up looking like,
+
+
+    <img src="https://d2md0c8rpvzmz5.cloudfront.net/assets/Auth-Example.png">
+
+
+    ## Image Template Examples
+
+
+    For sample images templates please use these guides:
+
+
+    [http://go.thanks.io/imagetemplates](http://go.thanks.io/imagetemplates)
+
+
+    ## Use Case Examples
+
+
+    For an example of the direct mail thanks.io offers please read our
+    white-paper:  
+
+    [https://www.thanks.io/whitepaper/](https://www.thanks.io/whitepaper/)
+  version: 1.0.0
+servers:
+  - url: http://{{domain}}
+  - url: https://dashboard.thanks.io
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Send
+    description: >-
+      - **message** _\[postcards require this if message_template is not set\]_
+      - Handwritten message content.
+          
+      - **message_template** _\[postcards require this if message is not set\]_
+      - ID of message template to use.
+          
+      - **image_template** _\[postcards require this if front_image_url is not
+      set\]_ - ID of image template to use.
+          
+      - **front_image_url** _\[postcards require this if image_template is not
+      set\]_ - URL to image to use for front of postcard, letter, or windowless
+      letter.
+          
+      - **mailing_lists** _\[required if recipients or_ radius_search _not
+      set\]_ - ID of mailing list to sent to.
+          
+      - **recipients** _\[required if mailing_lists or_ radius_search _not
+      set\]_ - Array of recipients to send to. Sub fields area _\[name, address,
+      city, province, postal_code, country, custom1,_ custom2, custom3,
+      custom4\]
+          
+      - **handwriting_style** _\[optional\]_ - ID of handwriting style to use.
+          
+      - **handwriting_color** _\[optional\]_ - Handwriting color to use. Options
+      are 'blue', 'black', 'green', 'purple', 'red'. Or can be specified as hex
+      format, such as '#4287f5'
+          
+      - **handwriting_realism** _\[optional\] -_ Boolean, set to true to turn on
+      the realism effect for AI fonts.
+          
+      - **use_custom_background** _\[optional\]_ - Use custom background image.
+      If custom_background_image is not specified, account background image will
+      be used
+          
+      - **custom_background_image** _\[optional\]_ - URL to custom background
+      image to use. Must be 1875px by 1275px for postcards or 1650px by 2475px
+      for notecards. 3337px x 1777px for 6x11 Postcards.
+          
+      - **sub_account** _\[optional\]_ - ID of Sub Account to use for this
+      order.
+          
+      - **size** _\[optional\]_ - options are \[4x6, 6x9, 6x11\] - defaults to
+      \[4x6\] - only valid for postcards.
+          
+      - **qrcode_url** _\[optional\]_ - URL to Autogenerate QR Code on back of
+      postcard, on letter, on windowless letter, or inside notecard.
+          
+      - **email_additional** _\[optional\]_ - Optional email to send alerts to
+      about order (such as QR scan notifications).
+          
+      - **send_standard_mail** \[optional\] **\-** Boolean, set to true to send
+      mailing as Standard Mail postage class.
+          
+      - **radius_search -** _\[required if mailing_lists or_ recipients _not
+      set\]_ - array of fields that specify details needed to perform a radius
+      search of nearest neighbors. There is a $.05 lookup fee for each record.
+      Subfields are:
+          
+          - **address** _\[required\]_ - Search Full Address (Example: 7777 Main St, Yonkers, NY) to use for center of nearest neighbor search.
+              
+          - **record_count** _\[required\]_ - Number of nearest neighbors to search for. Valid numbers are 1-10000
+              
+          - **record_types** _\[optional\] -_ Which type of records to search for. Valid options are 'all', 'likelytomove', 'likelytorefi', 'absenteeowner', 'highnetworth', 'majorityhomeequity', 'homefreeclear', 'underwater', 'kidsinhousehold', 'newhomeowner', 'firsttimehomebuyer', 'renters', 'retiring', 'retired', 'pool', 'onlybusinesses', 'newbusiness'. Defaults to 'all'
+              
+          - **append_data** _\[optional\] -_ Append phone and email to each record for an additional fee. Defaults to false.
+              
+          - **use_property_owner** _\[optional\] -_ Use Property Owners Address when searching for a commercial record_type. Defaults to false
+              
+          - **include_condos** _\[optional\] -_ Include condos in search. Defaults to true
+              
+          - **preview** _\[optional\] -_ Return a preview of number of neighbors found and cost. Defaults to false
+              
+
+      **Return Address Fields**
+
+
+      US addresses only. Name, Street, City, State, and Postal Code are all
+      required for custom return address to be used.
+
+
+      - **return_name** _\[optional\]_
+          
+      - **return_address** _\[optional\]_
+          
+      - **return_address2** _\[optional\]_
+          
+      - **return_city** _\[optional\]_
+          
+      - **return_state** _\[optional\]_
+          
+      - **return_postal_code** _\[optional\]_
+          
+
+      **Giftcards Only**
+
+
+      - **giftcard_brand** _\[optional\]_ - options are listed in Giftcards List
+      Brands request. Required if not using a message template
+          
+      - **giftcard_amount_in_cents** _\[optional\]_ - Giftcard value in cents.
+      Required if not using a message template.
+          
+
+      **Letters and Windowless Letters Only**
+
+
+      - additional_pages_url _\[optional\]_ - URL to PDF file to include as
+      additional pages. For letters, up to 10 additional pages are allowed in
+      the PDF file and pages are printed double-sided. For Windowless letters
+      one additional page is allowed in the PDF file and it's printed on the
+      back of the cover image.
+  - name: Send with HTML Content
+    description: >-
+      Use HTML to generate front or back postcard images on the fly.
+
+
+      **\*NOTE: Our rendering image may generate image differently than your
+      browser, so make sure to preview any content after initial set up. Turn on
+      API mode while testing creatives to automatically cancel any API orders.**
+
+
+      - **front_image_html_url** - URL to HTML file to use for content of front
+      image.
+
+      - **back_image_html_url** - URL to HTML file to use for content of back
+      image.
+
+      - **front_image_html_content** - HTML string to use for content of front
+      image.
+
+      - **back_image_html_content** - HTML string file to use for content of
+      back image.
+  - name: Stored Sends
+    description: >-
+      Stored Sends all you to save a Direct Mail send for a later time. All
+      request parameters are exactly the same as a instanst Send call.  
+        
+      A URL will be returned by the stored send call. Once this URL is hit, the
+      direct mail send will be made.  
+        
+      This allows you to save calls in your database to be made at a later time
+      with only a GET request for any user. Campaigns and staggered sends are
+      example use cases.
+  - name: Order Previews
+    description: >-
+      Returns array of images of what print will look like when placing an
+      order. Useful to have clients confirm before placing an actual order.
+
+
+      Any `Send` call can return preview images by adding `"preview": true` to
+      the POST parameters.
+  - name: Proof Previews
+  - name: Sub Accounts
+  - name: Mailing Lists
+  - name: Image Templates
+    description: >-
+      - **sub_account** _\[optional\]_ - ID of Sub Account. Returns Image
+      Templates specific to this sub account.
+          
+
+      - **type** _\[optional\]_ - Return image templates for this type only.
+      Valid options are '_postcard_', '_postcard6x11_', '_letter_',
+      '_notecard_', '_giftcard_', '_windowlessletter_'
+  - name: Message Templates
+    description: >-
+      - **sub_account** \[_optional_\] - ID of Sub Account. Returns Image
+      Templates specific to this sub account.
+
+      - **type** \[_optional_\] - Return image templates for this type only.
+      Valid options are '_postcard_', '_postcard6x11_', '_letter_',
+      '_notecard_', '_giftcard_', '_windowlessletter_'
+  - name: Handwriting Styles
+  - name: Recipients
+  - name: Orders
+  - name: Giftcards
+  - name: Image Builder
+paths:
+  /send/postcard:
+    post:
+      tags:
+        - Order Previews
+      summary: 4x6 Postcard Preview
+      description: Return Preview images of 4x6 Postcard Send.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                image_template: 6
+                preview: true
+                handwriting_style: 4
+                email_additional: test@test.com
+                message: >-
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                recipients:
+                  - name: Current Resident
+                    address: 123 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+                    custom1: Example Custom 1
+                    custom2: Example Custom 2
+                    custom3: Example Custom 3
+                    custom4: Example Custom 4
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 08 Apr 2025 04:57:52 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '120'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '119'
+            cf-cache-status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=jxptn%2FqkY7gu7G19%2Bx9gzjCITW89lyGh%2Fs7R9LQLJVwfVDuCQFuUNXTDaoMqQvbMZWxZQvqsd9z4BslvVZSMbpjY1lNwmQgfs91psyJg1bnw%2Bl1QXpGOYu%2FpBUNyZm%2FrgDloYsl8x9ros2JzvQ%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 92cf2fa26ef85078-ORD
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=29983&min_rtt=28986&rtt_var=11582&sent=7&recv=8&lost=0&retrans=0&sent_bytes=2801&recv_bytes=3580&delivery_rate=99910&cwnd=241&unsent_bytes=0&cid=01952e3d92f4ace6&ts=3830&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                code: 200
+                message: OK
+                data:
+                  previews:
+                    - >-
+                      https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                    - >-
+                      https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/1056d992-b7f8-bf98-5ad5-9d089cd46e62.png
+  /send/letter:
+    post:
+      tags:
+        - Order Previews
+      summary: Letter Preview
+      description: Return Preview images of Letter Send.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                front_image_url: >-
+                  https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png
+                handwriting_style: 5
+                message: This is a test message
+                mailing_lists:
+                  - 5166
+                  - 514
+                return_name: Custom Return
+                return_address: 123 Fake Street
+                return_address2: Unit 1
+                return_city: Anytown
+                return_state: NY
+                return_postal_code: '10990'
+                preview: true
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 08 Apr 2025 05:03:43 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '120'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '119'
+            cf-cache-status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=rNQX9g2Wot2vZ%2FDHo7yUQACvY83GgWlmz2AGL50IkGj8BT%2B9wtKoXJW8plk47e6umVi75ebADvxuOlaLsOsyEfrwiLnLmiZ159LD0w%2FCGm%2Brnce6zrHJTB6HszhBBPGaBak9tRlOHlOnUgj3jA%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 92cf383c4c5c7039-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=32783&min_rtt=19966&rtt_var=25569&sent=82&recv=82&lost=0&retrans=1&sent_bytes=6922&recv_bytes=11142&delivery_rate=144850&cwnd=241&unsent_bytes=0&cid=47d676f0c49855ac&ts=75260&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                code: 200
+                message: OK
+                data:
+                  previews:
+                    - >-
+                      https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/9e3212b0-fd22-18a6-fd14-630ffbc66ed8.png
+  /send/windowlessletter:
+    post:
+      tags:
+        - Order Previews
+      summary: Windowless Letter
+      description: Return Preview images of Windowless Letter Send.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                front_image_url: >-
+                  https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png
+                handwriting_style: 5
+                message: This is a test message
+                preview: true
+                recipients:
+                  - name: Current Resident
+                    address: 123 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 08 Apr 2025 05:03:22 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '120'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '117'
+            cf-cache-status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=tb6Ps4OGrysnAAF3OgXOqchKWvu5SKQ0xSsNLtRz2IlSA9cAXWQngUOy9d7K7AW8fzp95Xg7n0eGQwjXwhx2qY6fredgPnJrSdQNZJmsizZ0rqURjC8eylnIhzF6KQm2EVBi6E6b4sE8kHHGyQ%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 92cf37bafd2d7039-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=34611&min_rtt=20532&rtt_var=29220&sent=61&recv=61&lost=0&retrans=1&sent_bytes=5727&recv_bytes=8699&delivery_rate=140174&cwnd=241&unsent_bytes=0&cid=47d676f0c49855ac&ts=54593&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                code: 200
+                message: OK
+                data:
+                  previews:
+                    - >-
+                      https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/59be0dca-e2dc-8d90-ea24-8d4b29cbc7c1.png
+  /send/notecard:
+    post:
+      tags:
+        - Order Previews
+      summary: Notecard
+      description: Return Preview images of Notecard Send.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                image_template: 6
+                handwriting_style: 4
+                message: >-
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                preview: true
+                recipients:
+                  - name: Current Resident
+                    address: 123 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 08 Apr 2025 05:02:58 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '120'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '118'
+            cf-cache-status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=CRVKzT0QPiFsn%2FrLpobmwjqrgkZZMm%2B%2By5BeiA2jaVU7hnnKwrkgbOnRnzj0F3AAOedmaUOcuHLAVy6uDTks5h20QlPrzmHrqSqSJOqWm2ev5wgS9ciUbghQj5xsZIB5Hkj4P3HAvifHNc%2B%2BFg%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 92cf372bdd407039-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=36603&min_rtt=20796&rtt_var=33645&sent=38&recv=38&lost=0&retrans=1&sent_bytes=4484&recv_bytes=6224&delivery_rate=139257&cwnd=239&unsent_bytes=0&cid=47d676f0c49855ac&ts=30860&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                code: 200
+                message: OK
+                data:
+                  previews:
+                    - >-
+                      https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                    - >-
+                      https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/cdf1281a-aec7-7122-e9ee-f0dbbc4cc7ef.png
+  /send/giftcard:
+    post:
+      tags:
+        - Order Previews
+      summary: Giftcard
+      description: Return Preview images of Giftcard Send.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                image_template: 6
+                handwriting_style: 4
+                preview: true
+                message: >-
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                recipients:
+                  - name: Current Resident
+                    address: 1 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+                giftcard_amount_in_cents: 10000
+                giftcard_brand: amazonus
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 08 Apr 2025 05:02:29 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '120'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '119'
+            cf-cache-status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=%2F8FkJWzF9EPt18ZjYbEPhyGPvUOlFR%2FpAKQLOrSh8eDNwg6bEp5puWnCvOLLkifYC6R2Q2On9g2XTG6COPhgL226lu7OmPlsJ7SWAJYMrb29neYu1gpR%2FdRADleWk0RCCn5Nm4%2BzzK7p1nYmMA%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 92cf3670be467039-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=23404&min_rtt=20796&rtt_var=9661&sent=6&recv=8&lost=0&retrans=0&sent_bytes=2801&recv_bytes=3438&delivery_rate=139257&cwnd=236&unsent_bytes=0&cid=47d676f0c49855ac&ts=1588&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                success: true
+                code: 200
+                message: OK
+                data:
+                  previews:
+                    - >-
+                      https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                    - >-
+                      https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/f32ca6b3-293c-98d8-62ed-4ca8b6f33ca6.png
+  /stored_send/postcard:
+    post:
+      tags:
+        - Stored Sends
+      summary: Create 4x6 Postcard Stored Send
+      description: Send 4x6 Postcard with Recipients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                image_template: 6
+                handwriting_style: 4
+                message: >-
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                recipients:
+                  - name: Current Resident
+                    address: 123 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+                    custom1: Example Custom 1
+                    custom2: Example Custom 2
+                    custom3: Example Custom 3
+                    custom4: Example Custom 4
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 10 Jan 2025 18:56:43 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=xH0boQNspdSz12jAxc2eEqDwuSrFLL6I3OkqJv9pJJVRI%2BoiIRLiFh8WFTnmreNyav0yh1vae706x%2FO7zHBxXH3NtsEK3Yg2F2KsCpNKV%2BLrkwz6iqgyrN5HnDkr3Pn%2BuX4dRdYEa33iQWLAVg%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8ffee37c6d537c7e-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=24504&min_rtt=20328&rtt_var=10606&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2803&recv_bytes=3565&delivery_rate=142463&cwnd=241&unsent_bytes=0&cid=1a691d71cbb05852&ts=133&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                stored_send_url: >-
+                  https://api.thanks.io/api/v2/stored_send/postcard/a1e11350-cf84-11ef-b283-59990529091a
+  /stored_send/letter:
+    post:
+      tags:
+        - Stored Sends
+      summary: Created Letter Stored Send
+      description: Send Letter with Mailing List and custom return.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                front_image_url: >-
+                  https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png
+                handwriting_style: 5
+                message: This is a test message
+                mailing_lists:
+                  - 5166
+                  - 514
+                return_name: Custom Return
+                return_address: 123 Fake Street
+                return_address2: Unit 1
+                return_city: Anytown
+                return_state: NY
+                return_postal_code: '10990'
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 10 Jan 2025 18:57:12 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '147'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=p3u5%2BWc8UY6GxXcLcOb51Syz0KhEXm11DEGanxonMmQLhDgsGlPJlnx%2BQovMPrErPorCT3vAU69TPn2zE9E02M4pCxJc%2BmDVE5%2FkEzAKylz0ZtWV8Y7WzlYe7G75AmOHRSVLknjGFHvsILbcvA%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8ffee4332f5a7c7e-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=23967&min_rtt=20328&rtt_var=6861&sent=37&recv=39&lost=0&retrans=0&sent_bytes=5518&recv_bytes=8423&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=29330&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                stored_send_url: >-
+                  https://api.thanks.io/api/v2/stored_send/letter/b348dfe0-cf84-11ef-b48b-f78696b5cd8e
+  /stored_send/windowlessletter:
+    post:
+      tags:
+        - Stored Sends
+      summary: Created Windowless Letter Stored Send
+      description: Send Windowless Letter.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                front_image_url: >-
+                  https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png
+                handwriting_style: 5
+                message: This is a test message
+                recipients:
+                  - name: Current Resident
+                    address: 123 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 10 Jan 2025 18:57:15 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '146'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=HkYKcneYuv3L0zLjBi%2FvUVkiqAknh8OmslsqCkT35TLcBKMAeelbJ4u7sn4Xnte%2Buy9ami91WWKe%2BWmVp8ryWoywr04VkCaFQCUF2soS6tRNt%2BIX%2BG7k%2FaqN5kA9Rsp6Je%2FTNOQjYn3N6D45Ag%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8ffee444baff7c7e-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=23956&min_rtt=20328&rtt_var=5168&sent=42&recv=44&lost=0&retrans=0&sent_bytes=6671&recv_bytes=10883&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=32164&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                stored_send_url: >-
+                  https://api.thanks.io/api/v2/stored_send/windowlessletter/b4f96a20-cf84-11ef-89fc-13bd45910715
+  /stored_send/notecard:
+    post:
+      tags:
+        - Stored Sends
+      summary: Created Notecard Stored Send
+      description: Send 4x6 Postcard with Recipients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                image_template: 6
+                handwriting_style: 4
+                message: >-
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                recipients:
+                  - name: Current Resident
+                    address: 123 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 10 Jan 2025 18:57:17 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '145'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=P7SLqzWDFDw%2Ffqz%2FLexk7ln%2FeB%2B7sNQPMgpBuUvkPk6rBM922pfXgHkN2h4dEvWSZQACWgOD3zBQav6LRlLMPGdHyMT5MczBiCTjweP7UVFX6EYng2A9osy2B2JDARgSNBJ9EVIMykh6X5H2MA%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8ffee45329257c7e-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=23616&min_rtt=20328&rtt_var=4556&sent=47&recv=49&lost=0&retrans=0&sent_bytes=7838&recv_bytes=13654&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=34444&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                stored_send_url: >-
+                  https://api.thanks.io/api/v2/stored_send/notecard/b65532f0-cf84-11ef-b912-9d2c391f55eb
+  /stored_send/giftcard:
+    post:
+      tags:
+        - Stored Sends
+      summary: Created Giftcard Stored Send
+      description: Send 4x6 Postcard with Recipients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                image_template: 6
+                handwriting_style: 4
+                message: >-
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                recipients:
+                  - name: Current Resident
+                    address: 1 Main Street
+                    city: Fake City
+                    province: NY
+                    postal_code: '55555'
+                    country: US
+                giftcard_amount_in_cents: 10000
+                giftcard_brand: amazonus
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 10 Jan 2025 18:57:19 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '144'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=tnexc%2FJNLZE9dsshYMlkl%2FGaTSpnmNAKjPzC%2BsOc8oncdBSxN272VI0lAg8gfGKU6HhZ3o6zOswLHtVe3rsdYTmpiycXQRAMCVL955OBlmGvJe%2BoYQ0XlnlOo67nhmk%2FNV%2FqVK6EWbQvtx80fg%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8ffee4616e0f7c7e-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=23478&min_rtt=20328&rtt_var=3693&sent=52&recv=55&lost=0&retrans=0&sent_bytes=8993&recv_bytes=16496&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=36728&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                stored_send_url: >-
+                  https://api.thanks.io/api/v2/stored_send/giftcard/b7b1c2f0-cf84-11ef-8697-6dc67192f756
+  /api/v2/stored_send/postcard/a1e11350-cf84-11ef-b283-59990529091a:
+    get:
+      tags:
+        - Stored Sends
+      summary: Execute Stored Send
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /proof/postcard:
+    post:
+      tags:
+        - Proof Previews
+      summary: Postcard Proof 6x9
+      description: View a proof of front and back of postcard returned as a PDF file.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                to_name: Sample Recipient
+                to_address: 1 Main Street
+                to_address2: Apartment 1
+                to_city: Woodbridge
+                to_state: NJ
+                to_postal_code: '07095'
+                to_country: US
+                return_name: 6x9 Sample Business Name
+                front_image_url: >-
+                  https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645579.png
+                message: This is an example test postcard message.
+                handwriting_style: '5'
+                handwriting_color: back
+                custom_background_image: >-
+                  https://s3.amazonaws.com/content.thanks.io/templates/images/c09d39aadfc-3701d4467b8/3c375a60-6de5-11ee-9ea8-7374ba13eca7.png
+                qrcode_url: https://www.google.com
+                size: 6x9
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Fri, 20 Oct 2023 15:02:38 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=sZokQ8YMV%2BYyU9kTIYRZsTQI647haJPQT3h7V84Tx2vFIPJfARCstgGr6V2yIri0BJBeG9ftvFFvOO7%2B5V2nbZBbU%2BoKh%2B8MgMq%2BPvHg5fLkwk6IpH5wG7865eExDk4%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 819224805b5ce223-ORD
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                proof_url: >-
+                  https://s3.amazonaws.com/content.thanks.io/sls-order-proofs/pdfs/b048b2f4-6c0c-7240-e4d1-1211f2619388.pdf
+  /sub-accounts:
+    get:
+      tags:
+        - Sub Accounts
+      summary: List
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 31 Mar 2020 02:12:11 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '143'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  - id: 7
+                    user_id: 2
+                    title: Test Sub Account
+                    return_name: Your Business
+                    return_address: 123 Main Street
+                    return_address2: Apartment 1
+                    return_city: Fake City
+                    return_state: NY
+                    return_postal_code: '55555'
+                    default_envelope: null
+                    created_at: '2020-03-26 17:44:31'
+                    updated_at: '2020-03-31 02:12:07'
+    post:
+      tags:
+        - Sub Accounts
+      summary: Create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: New Sub Account 22
+                return_name: Your Business
+                return_address: 123 Main Street
+                return_address2: Apartment 1
+                return_city: Fake City
+                return_state: NY
+                return_postal_code: '55555'
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 31 Mar 2020 02:17:53 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                user_id: 2
+                title: New Sub Account 2
+                return_name: Your Business
+                return_address: 123 Main Street
+                return_address2: Apartment 1
+                return_city: Fake City
+                return_state: NY
+                return_postal_code: '55555'
+                updated_at: '2020-03-31 02:17:53'
+                created_at: '2020-03-31 02:17:53'
+                id: 9
+  /sub-accounts/8:
+    get:
+      tags:
+        - Sub Accounts
+      summary: Show
+      description: Show details for a specific Sub Account.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 31 Mar 2020 02:19:41 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '146'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 8
+                user_id: 2
+                title: New Sub Account
+                return_name: Your Business
+                return_address: 123 Main Street
+                return_address2: Apartment 1
+                return_city: Fake City
+                return_state: NY
+                return_postal_code: '55555'
+                default_envelope: null
+                created_at: '2020-03-31 02:17:33'
+                updated_at: '2020-03-31 02:17:33'
+    put:
+      tags:
+        - Sub Accounts
+      summary: Update
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "{\n    \"title\": \"API Update\",\n    \"return_name\": \"Your
+                Business\",\n    \"return_address\": \"123 Main Street\",\n   
+                \"return_address2\": \"Apartment 1\",\n    \"return_city\":
+                \"Fake City\",\n    \"return_state\": \"NY\"\n}"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Mon, 06 Apr 2020 02:34:17 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '146'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 8
+                user_id: 2
+                title: API Update
+                return_name: Your Business
+                return_address: 123 Main Street
+                return_address2: Apartment 1
+                return_city: Fake City
+                return_state: NY
+                return_postal_code: '55555'
+                default_envelope: null
+                created_at: '2020-03-31 02:17:33'
+                updated_at: '2020-04-06 02:34:02'
+  /sub-accounts/7:
+    delete:
+      tags:
+        - Sub Accounts
+      summary: Delete
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /mailing-lists/:
+    post:
+      tags:
+        - Mailing Lists
+      summary: Create
+      description: >-
+        - qrcode_url - this will be used as the default QR Code URL when placing
+        orders with this mailiing list
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "{\n    \"description\": \"New Mailing List\",\n   
+                \"sub_account\": 7,\n    \"qrcode_url\" :
+                \"https://www.google.com\"\n}"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '201':
+          description: Created
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 07 Sep 2021 02:10:32 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '147'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                type: manual
+                description: New Mailing List (Created via API 09/07/2021)
+                sub_account_id: 7
+                user_id: 2
+                updated_at: '2021-09-07 02:10:32'
+                created_at: 1 second ago
+                id: 610
+  /mailing-lists/buy-radius-search:
+    post:
+      tags:
+        - Mailing Lists
+      summary: Append Radius Search ($.05 per record) To Existing List
+      description: >-
+        This call will purchase a radius search mailing listing and add it to
+        your account. Each record added to the mailing list costs $.05.
+
+
+        - address \[required\] - Search Street Address (Example: 123 Main St) to
+        use for center of nearest neighbor search.
+
+        - mailing_list_id \[requred\] - Mailing List ID to append radius search
+        leads to.
+
+        - postal_code \[required\] = Postal Code to use for center of nearest
+        neighbor search.
+
+        - record_count \[required\] - Number of nearest neighbors to search for.
+        Valid numbers are 1-10000
+
+        - record_types \[optional\] - Which type of records to search for. Valid
+        options are 'all', 'likelytomove', 'likelytorefi', 'absenteeowner',
+        'highnetworth', 'majorityhomeequity', 'homefreeclear', 'underwater',
+        'kidsinhousehold', 'newhomeowner', 'firsttimehomebuyer', 'renters',
+        'retiring', 'retired', 'pool', 'onlybusinesses', 'newbusiness'. Defaults
+        to 'all'
+
+        - append_data \[optional\] - Append phone and email to each record for
+        an additional fee ($.20 per record). Defaults to false.
+
+        - use_property_owner \[optional\] - Use Property Owners Address when
+        searching for a commercial record_type. Defaults to false
+
+        - include_condos \[optional\] - Include condos in search. Defaults to
+        true
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "{\n    \"address\": \"123 Main Street\",\n    \"postal_code\":
+                \"55555\",\n    \"record_types\": \"all\",\n   
+                \"mailing_list_id\": \"1236\",\n    \"record_count\": 1,\n   
+                \"include_condos\": false,\n    \"append_data\": false,\n   
+                \"use_property_owner\": false\n}"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 Feb 2023 17:45:20 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=60pFX2AxLWYLdeY0UMrnWIUjjOKZ1gA%2F%2FR%2Bf8u%2B26%2F5UBBXjsaxF55gZ7NwuvXWRlcvjpx2D7dG%2BbX6TtdMfVXaZKLfeVey124W9KqG5O%2Fa5rKj6DZ%2Ft1V6XKxcfD6%2BS%2F22jPvtmAafahZcOow%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 79d988f02ff9239a-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                mailing_list_id: 1236
+                failure: false
+  /mailing-lists:
+    get:
+      tags:
+        - Mailing Lists
+      summary: List
+      description: sub_account is optional.
+      parameters:
+        - name: items_per_page
+          in: query
+          schema:
+            type: integer
+          example: '5'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Tue, 31 Mar 2020 02:42:11 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  - id: 515
+                    user_id: 2
+                    sub_account_id: null
+                    type: map
+                    description: Mailing list (Map) created 03/27/2020
+                    file: null
+                    field_map: null
+                    shape_data: >-
+                      {"type":"rectangle","count":30,"northeast":{"lat":41.50233372463283,"lng":-73.95891380310059},"southwest":{"lat":41.50130521936773,"lng":-73.96028709411621}}
+                    total_recipients: 30
+                    processed: 1
+                    created_at: 4 days ago
+                    updated_at: '2020-03-27 02:24:23'
+                    leads_data: null
+                    deleted_at: null
+                  - id: 514
+                    user_id: 2
+                    sub_account_id: null
+                    type: manual
+                    description: Multiple Test
+                    file: null
+                    field_map: null
+                    shape_data: null
+                    total_recipients: 1
+                    processed: 1
+                    created_at: 2 weeks ago
+                    updated_at: '2020-03-10 13:33:04'
+                    leads_data: null
+                    deleted_at: null
+                  - id: 513
+                    user_id: 2
+                    sub_account_id: null
+                    type: map
+                    description: Mailing list (Map) created 03/06/2020
+                    file: null
+                    field_map: null
+                    shape_data: >-
+                      {"type":"rectangle","count":23,"northeast":{"lat":41.49198222373539,"lng":-73.97047233581544},"southwest":{"lat":41.48561706807948,"lng":-73.97532176971437}}
+                    total_recipients: 23
+                    processed: 1
+                    created_at: 3 weeks ago
+                    updated_at: '2020-03-06 20:02:12'
+                    leads_data: null
+                    deleted_at: null
+                  - id: 512
+                    user_id: 2
+                    sub_account_id: null
+                    type: map
+                    description: Mailing list (Map) created 03/06/2020
+                    file: null
+                    field_map: null
+                    shape_data: >-
+                      {"type":"rectangle","count":4,"northeast":{"lat":41.49018204111472,"lng":-73.97163105010988},"southwest":{"lat":41.487417377546755,"lng":-73.9750213623047}}
+                    total_recipients: 4
+                    processed: 1
+                    created_at: 3 weeks ago
+                    updated_at: '2020-03-06 20:01:57'
+                    leads_data: null
+                    deleted_at: null
+                  - id: 511
+                    user_id: 2
+                    sub_account_id: null
+                    type: map
+                    description: Mailing list (Map) created 03/06/2020
+                    file: null
+                    field_map: null
+                    shape_data: >-
+                      {"type":"rectangle","count":39,"northeast":{"lat":41.49140359906281,"lng":-73.96489334106447},"southwest":{"lat":41.48455614800461,"lng":-73.97459220886232}}
+                    total_recipients: 39
+                    processed: 1
+                    created_at: 3 weeks ago
+                    updated_at: '2020-03-06 20:01:35'
+                    leads_data: null
+                    deleted_at: null
+                links:
+                  first: >-
+                    http://develop.dashboard.thanks.io/api/v2/mailing-lists?page=1
+                  last: >-
+                    http://develop.dashboard.thanks.io/api/v2/mailing-lists?page=21
+                  prev: null
+                  next: >-
+                    http://develop.dashboard.thanks.io/api/v2/mailing-lists?page=2
+                meta:
+                  current_page: 1
+                  from: 1
+                  last_page: 21
+                  path: http://develop.dashboard.thanks.io/api/v2/mailing-lists
+                  per_page: '5'
+                  to: 5
+                  total: 103
+  /mailing-lists/{mailing_list_id}/recipients:
+    get:
+      tags:
+        - Mailing Lists
+      summary: Recipients
+      description: |-
+        * limit is optional.  max is 10000
+        * updated_since is optional.  format is [Y-m-d H:i:s]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '1000'
+        - name: updated_since
+          in: query
+          schema:
+            type: string
+          example: '2020-04-06 01:55:50'
+        - name: mailing_list_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Mon, 11 May 2020 04:00:28 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '145'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                current_page: 1
+                data:
+                  - id: 293345
+                    mailing_list_id: 514
+                    session_id: null
+                    name: John Doe
+                    address: 123 Main Street
+                    address2: null
+                    city: Austin
+                    province: TX
+                    postal_code: '78703'
+                    country: US
+                    dob: null
+                    custom1: null
+                    custom2: null
+                    deliverability: null
+                    can_deliver: true
+                    created_at: '2020-03-10 13:33:04'
+                    updated_at: '2020-04-06 01:57:50'
+                first_page_url: >-
+                  http://develop.dashboard.thanks.io/api/v2/mailing-lists/514/recipients?page=1
+                from: 1
+                last_page: 1
+                last_page_url: >-
+                  http://develop.dashboard.thanks.io/api/v2/mailing-lists/514/recipients?page=1
+                next_page_url: null
+                path: >-
+                  http://develop.dashboard.thanks.io/api/v2/mailing-lists/514/recipients
+                per_page: '1000'
+                prev_page_url: null
+                to: 1
+                total: 1
+  /mailing-lists/{mailing_list_id}:
+    delete:
+      tags:
+        - Mailing Lists
+      summary: Delete
+      parameters:
+        - name: mailing_list_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /image-templates:
+    get:
+      tags:
+        - Image Templates
+      summary: List By Type
+      description: sub_account is optional.
+      parameters:
+        - name: items_per_page
+          in: query
+          schema:
+            type: integer
+          example: '5'
+        - name: type
+          in: query
+          schema:
+            type: string
+          example: letter
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /message-templates:
+    get:
+      tags:
+        - Message Templates
+      summary: List By Type
+      parameters:
+        - name: items_per_page
+          in: query
+          schema:
+            type: integer
+          example: '2'
+        - name: type
+          in: query
+          schema:
+            type: string
+          example: giftcard
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /handwriting-styles:
+    get:
+      tags:
+        - Handwriting Styles
+      summary: List
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sun, 05 Apr 2020 17:27:45 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  - handwriting_style_id: '1'
+                    name: Hi Clarice
+                  - handwriting_style_id: '2'
+                    name: Practiced Sharpie
+                  - handwriting_style_id: '3'
+                    name: Bold Note
+                  - handwriting_style_id: '4'
+                    name: Foxy Lady
+                  - handwriting_style_id: '5'
+                    name: That Dude
+                  - handwriting_style_id: '6'
+                    name: Normal Print
+                  - handwriting_style_id: '7'
+                    name: Shopping List
+                  - handwriting_style_id: '8'
+                    name: Lazy Note
+                  - handwriting_style_id: '9'
+                    name: Blurred Lines
+                  - handwriting_style_id: '10'
+                    name: Birthday Card
+                  - handwriting_style_id: '11'
+                    name: Scully, Not Molder
+                  - handwriting_style_id: '12'
+                    name: Wow! Signal
+  /recipients:
+    post:
+      tags:
+        - Recipients
+      summary: Address Append and Recipient Create using/ Email Address
+      description: >-
+        Add a recipeint using email address. If no/invalid address is specified
+        and a valid email address is, we’ll attempt to look up a valid street
+        address using the email address for a fee.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                mailing_list: 1
+                email: testemail@thanks.io
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Mon, 30 Dec 2024 20:05:25 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '146'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=lFdxlZC1HzcbapT%2Bq%2BJslY3GH%2BmIKa5L0imA9kN3h49D2qFFvKhbAbxvjFUmgFYeJ1hrHdY7RZTXBokeM%2Fil%2FyxVlDDYbstXkfk86KzwIWHDHkZYqxK30wX4KNjjuo8UxHdXAa4kk64P2Vwb6Q%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8fa4a4fdfdf7c33a-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=25625&min_rtt=21650&rtt_var=6606&sent=65&recv=66&lost=0&retrans=0&sent_bytes=6825&recv_bytes=8749&delivery_rate=200267&cwnd=228&unsent_bytes=0&cid=2edb79d7f0793852&ts=58023&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                province: NY
+                city: Warwick
+                name: Example Name
+                company: ''
+                dob: ''
+                country: US
+                address: 1 Test Street
+                address2: ''
+                email: testemail@thanks.io
+                phone: ''
+                custom1: null
+                custom2: null
+                custom3: null
+                custom4: null
+                postal_code: '10990'
+                id: 18092812
+                mailing_list_id: 1
+    get:
+      tags:
+        - Recipients
+      summary: Search Recipients By Email
+      description: Search for recipients by email address.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Mon, 06 Apr 2020 01:24:43 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                current_page: 1
+                data:
+                  - id: 296446
+                    mailing_list_id: 514
+                    session_id: null
+                    name: Jane Doe
+                    address: 123 Main Street
+                    address2: null
+                    city: Kansas City
+                    province: MO
+                    postal_code: '64105'
+                    country: US
+                    dob: null
+                    custom1: null
+                    custom2: null
+                    deliverability: null
+                    can_deliver: true
+                    created_at: '2020-04-06 01:56:48'
+                    updated_at: '2020-04-06 01:56:48'
+                first_page_url: https://dashboard.thanks.io/api/recipients?page=1
+                from: 1
+                last_page: 1
+                last_page_url: https://dashboard.thanks.io/api/recipients?page=1
+                next_page_url: null
+                path: https://dashboard.thanks.io/api/recipients
+                per_page: 100
+                prev_page_url: null
+                to: 1
+                total: 1
+  /recipients_multi:
+    post:
+      tags:
+        - Recipients
+      summary: Create Multiple Recipients
+      description: Add multiple recipients at once
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                - mailing_list: 1
+                  name: Tobias First
+                  address: 987 Main Street
+                  address2: null
+                  city: LENEXA
+                  province: KS
+                  postal_code: '66216'
+                  country: US
+                  dob: 04/23/1981
+                  custom1: null
+                  custom2: null
+                  email: testemail@thanks.io
+                  phone: '1234567890'
+                - mailing_list: 1
+                  name: Tobias Second
+                  address: 654 Main Street
+                  address2: null
+                  city: LENEXA
+                  province: KS
+                  postal_code: '66216'
+                  country: US
+                  dob: 04/23/1981
+                  custom1: null
+                  custom2: null
+                  email: testemail@thanks.io
+                  phone: '1234567890'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Sun, 16 Oct 2022 14:26:20 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=PGU5wfwnVs62qYdMWlVe2%2FaqmHMHCBybGxMrRO9CDvxbkJL%2FE2E7SAX2h8zPJft8vJBpYzqL6jQy0JnVXH8QaEVYYh5dELOpaSXQCSpUzz3EZYWId%2B4Ps%2Fk%2BAf9AezB9iFqvOsSIzuxd865aCCo%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 75b1780dd9678c3c-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            alt-svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=86400, h3-29=":443"; ma=86400
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - province: KS
+                  city: Lenexa
+                  name: Tobias First
+                  company: null
+                  dob: 04/23/1981
+                  country: US
+                  address: 987 Main Street
+                  address2: ''
+                  email: testemail@thanks.io
+                  phone: '1234567890'
+                  custom1: null
+                  custom2: null
+                  postal_code: '66216'
+                - province: KS
+                  city: Lenexa
+                  name: Tobias Second
+                  company: null
+                  dob: 04/23/1981
+                  country: US
+                  address: 654 Main Street
+                  address2: ''
+                  email: testemail@thanks.io
+                  phone: '1234567890'
+                  custom1: null
+                  custom2: null
+                  postal_code: '66216'
+  /recipients/delete-by-address:
+    post:
+      tags:
+        - Recipients
+      summary: Delete a Recipient By Address
+      description: >-
+        * **mailing_list** *[Required]* - ID of mailing list to remove recipient
+        from
+
+
+        * **address** *[Required]*
+
+
+        * **postal_code** *[Required]*
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                mailing_list: 540
+                address: 123 Main Street
+                city: LENEXA
+                province: KS
+                postal_code: '66216'
+                country: US
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Sat, 04 Jul 2020 22:33:29 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: Recipient 297230 Deleted
+  /recipients/296446:
+    get:
+      tags:
+        - Recipients
+      summary: Get Recipient Details
+      description: Gets a specific recipient by ID
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Mon, 06 Apr 2020 02:09:06 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 296446
+                mailing_list_id: 514
+                session_id: null
+                name: Jane Doe
+                address: 123 Main Street
+                address2: null
+                city: Kansas City
+                province: MO
+                postal_code: '64105'
+                country: US
+                dob: null
+                custom1: null
+                custom2: null
+                deliverability: null
+                can_deliver: true
+                created_at: '2020-04-06 01:56:48'
+                updated_at: '2020-04-06 01:56:48'
+                mailing_list:
+                  id: 514
+                  user_id: 2
+                  sub_account_id: null
+                  type: manual
+                  description: Mailing List Test
+                  file: null
+                  field_map: null
+                  shape_data: null
+                  total_recipients: 2
+                  processed: 1
+                  created_at: 3 weeks ago
+                  updated_at: '2020-04-06 01:56:48'
+                  leads_data: null
+                  deleted_at: null
+    put:
+      tags:
+        - Recipients
+      summary: Update Recipient
+      description: Update details of a specific recipient by ID.
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "{\n  \"name\":\"Jane Doe\",\n  \"address\":\"123 Main
+                Street\",\n  \"address2\": \"Apartment 1\",\n  \"city\":\"Kansas
+                City\",\n  \"province\":\"MO\",\n  \"postal_code\":\"64105\",\n 
+                \"country\":\"US\",\n  \"dob\":\"04/23/1981\",\n 
+                \"custom1\":\"Custom 1\",\n  \"custom2\":\"Custom 2\"\n}"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Mon, 06 Apr 2020 02:24:43 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '147'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 296446
+                mailing_list_id: 514
+                session_id: null
+                name: Jane Doe
+                address: 123 Main Street
+                address2: Apartment 1
+                city: Kansas City
+                province: MO
+                postal_code: '64105'
+                country: US
+                dob: 04/23/1981
+                custom1: Custom 1
+                custom2: Custom 2
+                deliverability: null
+                can_deliver: true
+                created_at: '2020-04-06 01:56:48'
+                updated_at: '2020-04-06 02:24:43'
+                mailing_list:
+                  id: 514
+                  user_id: 2
+                  sub_account_id: null
+                  type: manual
+                  description: Mailing List Test
+                  file: null
+                  field_map: null
+                  shape_data: null
+                  total_recipients: 2
+                  processed: 1
+                  created_at: 3 weeks ago
+                  updated_at: '2020-04-06 01:56:48'
+                  leads_data: null
+                  deleted_at: null
+  /recipients/293401:
+    delete:
+      tags:
+        - Recipients
+      summary: Delete a Recipient
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: text/html; charset=UTF-8
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Mon, 06 Apr 2020 02:29:53 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+            Content-Encoding:
+              schema:
+                type: string
+                example: gzip
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Recipient Deleted
+  /recipients/lookup:
+    post:
+      tags:
+        - Recipients
+      summary: Address Append with Email
+      description: >-
+        Look up a valid street address using the email address for a fee. This
+        does not save the recipient to a mailing list.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: testemail@thanks.io
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Tue, 07 Jan 2025 03:12:21 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=6LT%2B2XUHgcgqE8Qlwy1Tan1nA8b3XrycKILACQiVU5W%2F2Qar%2FUMQNHX6Oi2AuPPoWxv4xobR1EUjFENjhTXR35cB0M4%2BsYmvDbRSjeqmzlIRUrI%2BN9qSoczq2CAqP8yGug%2FEGr0Pxgrs69lYWA%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 8fe0c408987941fb-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            server-timing:
+              schema:
+                type: string
+                example: >-
+                  cfL4;desc="?proto=TCP&rtt=27556&min_rtt=20574&rtt_var=12702&sent=4&recv=6&lost=0&retrans=0&sent_bytes=2803&recv_bytes=2609&delivery_rate=140760&cwnd=214&unsent_bytes=0&cid=b43738d6e925373f&ts=136&x=0"
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                province: NY
+                city: Warwick
+                name: Test Name
+                company: ''
+                dob: ''
+                country: US
+                address: 123 Main Street
+                address2: ''
+                email: testemail@thanks.io
+                phone: '1234567890'
+                custom1: null
+                custom2: null
+                custom3: null
+                custom4: null
+                postal_code: 10990-2623
+                id: null
+                mailing_list_id: null
+  /orders/{order_id}/track:
+    get:
+      tags:
+        - Orders
+      summary: Track Order
+      parameters:
+        - name: order_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Wed, 06 Jan 2021 13:16:15 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '148'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  id: 37844
+                  order:
+                    sub_account_id: null
+                    type: postcard
+                    message: >-
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    style: 4
+                    size: 4x6
+                    front_image: >-
+                      https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                    high_quality_preview: >-
+                      https://s3.amazonaws.com/cdn.thanks.io/user_assets/d/c09d39aadfc-3701d4467b8/high_quality_previews/558656e0-5020-11eb-b023-51fc31846b80.pdf
+                    total_estimated_recipients: 1
+                    authorization_total: 99
+                    total_recipients: 1
+                    grand_total: 99
+                    status: Fulfilled
+                    method: API
+                    created_at: '2021-01-06 13:08:17'
+                    updated_at: '2021-01-06 13:08:57'
+                  stats:
+                    delivered: 0
+                    processing: 1
+                    printed: 0
+                    in_transit: 0
+                    in_local_area: 0
+                    processed_for_delivery: 0
+                    re_routed: 0
+                    returned_to_sender: 0
+                    failed: 0
+                  errors: []
+                  returned: []
+  /orders/stats:
+    get:
+      tags:
+        - Orders
+      summary: Stats
+      description: Return summary of stats for orders between a date range.
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+          example: '2020-07-01'
+        - name: end_date
+          in: query
+          schema:
+            type: string
+          example: '2020-07-31'
+        - name: sub_account_id
+          in: query
+          schema:
+            type: integer
+          description: ID of subaccount to use (optional)
+          example: '9'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Wed, 10 Jun 2020 02:55:45 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                delivered: 0
+                processing: 1
+                printed: 0
+                in_transit: 51
+                in_local_area: 0
+                processed_for_delivery: 0
+                re_routed: 0
+                returned_to_sender: 0
+                failed: 2835
+                total_cost: $2,622.43
+                total_requests: 2947
+                total_sent: 2947
+  /orders/list:
+    get:
+      tags:
+        - Orders
+      summary: List
+      description: Return list of recent orders.
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          description: Max results to send (optional).  Valid values are 1-100
+          example: '5'
+        - name: sub_account_id
+          in: query
+          schema:
+            type: integer
+          description: ID of subaccount to use (optional)
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Sat, 29 Jan 2022 16:47:11 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            cache-control:
+              schema:
+                type: string
+                example: no-cache, private
+            x-ratelimit-limit:
+              schema:
+                type: integer
+                example: '150'
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+                example: '149'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Expect-CT:
+              schema:
+                type: string
+                example: >-
+                  max-age=604800,
+                  report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=r6DUUOlmyVw%2B%2BwaLtifqiKBsWES6ewvRCLPYwI2WmMpoSIN7H4xxa4lCM%2Bl7wtk6mvCYUuyBUAnCTkrEepXbhzIXg3EGdaSxZqC0YCBH2bLlrGAt8hwr6IitEydYM7OtUvyMXD4ODXeYVb2nKCg%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 6d53f0e09b168c96-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            alt-svc:
+              schema:
+                type: string
+                example: h3=":443"; ma=86400, h3-29=":443"; ma=86400
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                data:
+                  - id: 37265
+                    message: >-
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    size: 4x6
+                    sub_account_id: 1
+                    type: postcard
+                    style: 4
+                    front_image: >-
+                      https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                    high_quality_preview: null
+                    total_estimated_recipients: 1
+                    authorization_total: 49
+                    total_recipients: 1
+                    grand_total: 49
+                    status: Fulfilled
+                    method: Card Builder
+                    created_at:
+                      date: '2020-03-30 16:33:04.000000'
+                      timezone_type: 3
+                      timezone: UTC
+                    updated_at:
+                      date: '2020-12-25 02:48:06.000000'
+                      timezone_type: 3
+                      timezone: UTC
+                links:
+                  first: >-
+                    https://dashboard.thanks.io/api/v2/orders/list?page=1
+                  last: >-
+                    https://dashboard.thanks.io/api/v2/orders/list?page=1
+                  prev: null
+                  next: null
+                meta:
+                  current_page: 1
+                  from: 1
+                  last_page: 1
+                  path: https://dashboard.thanks.io/api/v2/orders/list
+                  per_page: '5'
+                  to: 1
+                  total: 1
+  /orders/search:
+    get:
+      tags:
+        - Orders
+      summary: Search by Street Address
+      description: Return summary of stats for orders between a date range.
+      parameters:
+        - name: street_address
+          in: query
+          schema:
+            type: string
+          example: 100 Main St
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Date:
+              schema:
+                type: string
+                example: Wed, 06 Jan 2021 13:16:54 GMT
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '146'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                matched_order_items:
+                  - order_id: 37844
+                    name: Test Name
+                    address: 100 Main St
+                    address2: null
+                    city: Warwick
+                    province: NY
+                    postal_code: '10990'
+                    country: US
+                    created_at: 2021-01-06 13:08:52 UTC
+                    failure: null
+                    individual_price: 99
+                    status: Processing
+                orders:
+                  - id: 37844
+                    order:
+                      sub_account_id: null
+                      type: postcard
+                      message: >-
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      style: 4
+                      size: 4x6
+                      front_image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                      high_quality_preview: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/user_assets/d/c09d39aadfc-3701d4467b8/high_quality_previews/558656e0-5020-11eb-b023-51fc31846b80.pdf
+                      total_estimated_recipients: 1
+                      authorization_total: 99
+                      total_recipients: 1
+                      grand_total: 99
+                      status: Fulfilled
+                      method: API
+                      created_at: '2021-01-06 13:08:17'
+                      updated_at: '2021-01-06 13:08:57'
+                    stats:
+                      delivered: 0
+                      processing: 1
+                      printed: 0
+                      in_transit: 0
+                      in_local_area: 0
+                      processed_for_delivery: 0
+                      re_routed: 0
+                      returned_to_sender: 0
+                      failed: 0
+                    errors: []
+                    returned: []
+  /order/{order_id}/cancel:
+    put:
+      tags:
+        - Orders
+      summary: Cancel
+      description: >-
+        If Order is in _Reviewing_ Status, then this will cancel the order and
+        refund the credits for the order back to your account.
+      requestBody:
+        content: {}
+      parameters:
+        - name: order_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Wed, 04 Oct 2023 02:50:01 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '150'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '149'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=FbXJ9lOAo1m9nqmrf9YdNPG4s1ec4PqanAQSjHASCIMfegbk%2BGN3g5r4TCDYatHlPgQaT%2FMBzW2ncqWxEbiCrVTyArjsY19CSjcPSC1Qp5PDhCHW9HexJlutaqTdEVmTOKS3%2FnvliLbncSUFLQ%3D%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Strict-Transport-Security:
+              schema:
+                type: string
+                example: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options:
+              schema:
+                type: string
+                example: nosniff
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 810a1d70eaa201ca-ORD
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                order:
+                  id: 37294
+                  user_id: 2
+                  sub_account_id: 66
+                  type: postcard
+                  message: "Dear %FIRST_NAME%\r\n\r\nHope all is well\n\n-John Doe"
+                  message_template_id: null
+                  style: 4
+                  handwriting_color: null
+                  size: 6x9
+                  addons: null
+                  envelope_id: null
+                  front_image: >-
+                    https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png
+                  back_image: null
+                  high_quality_preview: null
+                  is_dynamic: 0
+                  append_or_current_resident: 0
+                  dynamic_image_url: null
+                  custom_background_url: null
+                  additional_letter_pages: null
+                  additional_letter_pages_count: 0
+                  giftcard_brand: null
+                  giftcard_image: null
+                  giftcard_amount: null
+                  qrcode_url: null
+                  share_image: null
+                  mailing_lists: null
+                  mailing_list_ids_used: null
+                  campaign_id: null
+                  total_estimated_recipients: 3
+                  sales_tax_total: 0
+                  authorization_total: 267
+                  total_recipients: 0
+                  grand_total: 0
+                  leads_fee: 0
+                  transaction_id: 38080
+                  settled: 1
+                  status: cancelled
+                  method: api
+                  email_cc: null
+                  notifications: null
+                  return_name: null
+                  return_address: null
+                  return_address2: null
+                  return_city: null
+                  return_province: null
+                  return_postal_code: null
+                  allow_share: 0
+                  session_id: null
+                  created_at: '2020-04-06 00:20:31'
+                  updated_at: '2023-10-04 02:46:14'
+                  display_addons: ''
+                  display_status: Cancelled
+                  display_trigger: API
+                  display_type: Postcard-6x9
+                  handwriting_image: null
+                  share_url: https://dashboard.thanks.io/share/order/37294
+                  giftcard_brand_longname: ''
+  /giftcard-brands:
+    get:
+      tags:
+        - Giftcards
+      summary: List Brands
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Date:
+              schema:
+                type: string
+                example: Wed, 29 Dec 2021 02:16:13 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            cache-control:
+              schema:
+                type: string
+                example: no-cache, private
+            x-ratelimit-limit:
+              schema:
+                type: integer
+                example: '150'
+            x-ratelimit-remaining:
+              schema:
+                type: integer
+                example: '147'
+            CF-Cache-Status:
+              schema:
+                type: string
+                example: DYNAMIC
+            Expect-CT:
+              schema:
+                type: string
+                example: >-
+                  max-age=604800,
+                  report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+            Report-To:
+              schema:
+                type: string
+                example: >-
+                  {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=DHzEzjNOnpg9AzhjMhTwzjy96k79BQV%2BDgU8lNSREc7xKwLrn%2FwQ%2Bhc7AtImYx0r4NVTNdmk13QJF45ac%2BF5951inpioyJ%2FLzqqdBMf630Qmd%2BJuv%2BYbFmQZ9jnFMvOYjUQOA%2FOQ1Br2M%2B%2FV4p0%3D"}],"group":"cf-nel","max_age":604800}
+            NEL:
+              schema:
+                type: string
+                example: '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+            Server:
+              schema:
+                type: string
+                example: cloudflare
+            CF-RAY:
+              schema:
+                type: string
+                example: 6c4f866ecbeb8c09-EWR
+            Content-Encoding:
+              schema:
+                type: string
+                example: br
+            alt-svc:
+              schema:
+                type: string
+                example: >-
+                  h3=":443"; ma=86400, h3-29=":443"; ma=86400, h3-28=":443";
+                  ma=86400, h3-27=":443"; ma=86400
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                main:
+                  title: Featured
+                  brands:
+                    - brand_code: amazonus
+                      title: Amazon.com
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/amazonus.png
+                    - brand_code: starbucksus
+                      title: Starbucks
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/starbucks.png
+                food:
+                  title: Food
+                  brands:
+                    - brand_code: applebees
+                      title: Applebees
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/applebees.png
+                    - brand_code: burgerkingus
+                      title: Burger King
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/burgerking.png
+                    - brand_code: charthouse
+                      title: Chart House
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/charthouse.png
+                    - brand_code: chilis
+                      title: Chili's
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/chilis.png
+                    - brand_code: chipotle
+                      title: Chipotle
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/chipotle.png
+                    - brand_code: coldstonecreameryus
+                      title: Cold Stone Creamery
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/coldstone.png
+                    - brand_code: dominos
+                      title: Domino's
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/dominos.png
+                    - brand_code: doordashus
+                      title: DoorDash
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/doordash.png
+                    - brand_code: dunkindonuts
+                      title: Dunkin' Donuts
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/dunkindonts.png
+                    - brand_code: grubhubus
+                      title: Grubhub
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/grubhub.png
+                    - brand_code: ihop
+                      title: IHOP
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/ihop.png
+                    - brand_code: mortons
+                      title: Morton's The Steakhouse
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/mortons.png
+                    - brand_code: omahasteaks
+                      title: Omaha Steaks
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/omahasteaks.png
+                    - brand_code: ontheborder
+                      title: On The Border
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/ontheborder.png
+                    - brand_code: outback
+                      title: Outback Steakhouse
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/outback.png
+                    - brand_code: papjohns
+                      title: Papa John's
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/papajohns.png
+                    - brand_code: pfchangs
+                      title: P.F. Chang's
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/pfchangs.png
+                    - brand_code: redrobin
+                      title: Red Robin
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/redrobin.png
+                    - brand_code: sonicus
+                      title: SONIC
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/sonic.png
+                    - brand_code: tgifridaysus
+                      title: TGI Fridays
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/tjfridays.png
+                    - brand_code: ubereats
+                      title: Uber Eats
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/ubereats.png
+                    - brand_code: wine
+                      title: Wine.com
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/wine.png
+                entertainment:
+                  title: Entertainment
+                  brands:
+                    - brand_code: amctheatres
+                      title: AMC Theatres
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/amctheaters.png
+                    - brand_code: itunesus
+                      title: Apple Gift Card
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/itunes.png
+                    - brand_code: cinemark
+                      title: Cinemark
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/cinemark.png
+                    - brand_code: fandangous
+                      title: Fandango
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/fandango.png
+                    - brand_code: gamestop
+                      title: Game Stop
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/gamestop.png
+                    - brand_code: googleplay
+                      title: Google Play
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/googleplay.png
+                    - brand_code: playstation
+                      title: Sony Playstation
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/playstation.png
+                    - brand_code: regal
+                      title: Regal
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/regal.png
+                    - brand_code: xbox
+                      title: Microsoft Xbox
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/xbox.png
+                gifts:
+                  title: Gifts
+                  brands:
+                    - brand_code: 1800flowers
+                      title: 1-800-Flowers.com
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/1800flowers.png
+                    - brand_code: autozoneus
+                      title: AutoZone
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/autozone.png
+                    - brand_code: babygap
+                      title: Baby Gap
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/babygap.png
+                    - brand_code: barnesandnoble
+                      title: Barnes and Noble
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/barnesandnoble.png
+                    - brand_code: bassproshops
+                      title: Bass Pro Shops
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/bassprosshops.png
+                    - brand_code: buildabear
+                      title: Build-A-Bear Workshop
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/buildabear.png
+                    - brand_code: cabelas
+                      title: Cabela's
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/cabelas.png
+                    - brand_code: callaway
+                      title: Callaway
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/callaway.png
+                    - brand_code: cratebarrelus
+                      title: Crate & Barrel
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/crateandbarrel.png
+                    - brand_code: cvs
+                      title: CVS Pharmacy
+                      image: https://s3.amazonaws.com/cdn.thanks.io/giftcards/cvs.png
+                    - brand_code: ebay1
+                      title: eBay
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/ebay.png
+                    - brand_code: fanatics
+                      title: Fanatics
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/fanatics.png
+                    - brand_code: footlocker
+                      title: Foot Locker
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/footlocker.png
+                    - brand_code: goplaygolf
+                      title: Go Play Golf
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/goplaygolf.png
+                    - brand_code: kohls
+                      title: Kohl's
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/kohls.png
+                    - brand_code: landsend
+                      title: Land's End
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/landsend.png
+                    - brand_code: reius
+                      title: REI
+                      image: https://s3.amazonaws.com/cdn.thanks.io/giftcards/rei.png
+                    - brand_code: sephora
+                      title: Sephora
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/sephora.png
+                    - brand_code: spaweek
+                      title: Spa Week
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/spaweek.png
+                travel:
+                  title: Travel
+                  brands:
+                    - brand_code: uber
+                      title: Uber
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/uberpng.png
+                    - brand_code: americanairlines
+                      title: American Airlines
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/americanairlines.png
+                    - brand_code: delta
+                      title: Delta Air Lines
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/delta.png
+                    - brand_code: hotels
+                      title: Hotels.com
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/hotels.png
+                big_box:
+                  title: Big Box
+                  brands:
+                    - brand_code: bestbuy
+                      title: Best Buy
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/bestbuy.png
+                    - brand_code: homedepot
+                      title: The Home Depot
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/homedepot.png
+                    - brand_code: target
+                      title: Target
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/target.png
+                    - brand_code: walmart
+                      title: Walmart
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/walmart.png
+                    - brand_code: wayfairus
+                      title: Wayfair
+                      image: >-
+                        https://s3.amazonaws.com/cdn.thanks.io/giftcards/wayfair.png
+                other:
+                  title: Other
+                  brands: []
+  /build/image-template:
+    get:
+      tags:
+        - Image Builder
+      summary: Build image
+      description: Build image for the front of your notecard or postcard.
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: integer
+          description: Template ID to use (allowed values 1-13) (required)
+          example: '8'
+        - name: background_url
+          in: query
+          schema:
+            type: string
+          description: Background Image URL
+        - name: header
+          in: query
+          schema:
+            type: string
+          description: Header Text
+          example: This would be your image header
+        - name: subheader
+          in: query
+          schema:
+            type: string
+          description: Header Subtext
+          example: This would be your image subheader
+        - name: redirect_url
+          in: query
+          schema:
+            type: string
+          description: Link for QR Code (optional)
+          example: https://www.thanks.io
+        - name: logo_url
+          in: query
+          schema:
+            type: string
+          description: Image URL to logo (optional)
+          example: https://s3.amazonaws.com/cdn.thanks.io/assets/brand/logo%402x.png
+        - name: overlay_url
+          in: query
+          schema:
+            type: string
+          description: Image URL to replace graphical overlay (optional)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
