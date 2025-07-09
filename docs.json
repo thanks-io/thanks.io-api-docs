@@ -8,6 +8,14 @@
     "dark": "#6822c7"
   },
   "favicon": "/favicon.svg",
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
+  },
   "navigation": {
     "tabs": [
       {
@@ -16,7 +24,7 @@
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": ["index", "quickstart", "api-mode", "creatives"]
+            "pages": ["index", "quickstart", "api-mode", "creatives", "mcp-server", "rate-limits"]
           },
           {
             "group": "Authentication",
@@ -57,11 +65,11 @@
           {
             "group": "Endpoints",
             "openapi": {
-              "source": "api-reference/openapi.yml"
+              "source": "api-reference/openapi.json"
             }
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Usage Examples",
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
@@ -87,6 +95,7 @@
               "native-integrations/available/make",
               "native-integrations/available/zoho",
               "native-integrations/available/monday-dot-com",
+              "native-integrations/available/hubspot",
               "native-integrations/available/integrately",
               "native-integrations/available/pabbly"
             ]
