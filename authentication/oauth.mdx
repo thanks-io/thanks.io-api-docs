@@ -1,107 +1,46 @@
 ---
 title: 'OAuth'
-description: 'API Authentication'
+description: 'OAuth Authentication integrating thanks.io with your application'
 ---
 
-<Info>
-  **Prerequisite**: Please install Node.js (version 19 or higher) before proceeding. <br />
-  Please upgrade to ```docs.json``` before proceeding and delete the legacy ```mint.json``` file.
-</Info>
+# introduction
 
-Follow these steps to install and run Mintlify on your operating system:
+Thanks.io supports OAuth 2.0 for secure authentication and authorization. This allows users to grant your application access to their thanks.io account without sharing their credentials.
 
-**Step 1**: Install Mintlify:
+# Set Up
 
-<CodeGroup>
+To integrate OAuth 2.0 with your application, follow these steps:
 
-  ```bash npm
-  npm i -g mintlify
-  ```
+1.  **Create an account on thanks.io**: Create account [HERE](https://dashboard.thanks.io/register) if you haven't already.
 
-```bash yarn
-yarn global add mintlify
+2. **Register your OAuth Client**: Go to the [thanks.io API Settings](https://dashboard.thanks.io/developer) and register your application in the "OAuth Clients" section to obtain your client ID and client secret.  
+
+# Implementation
+
+1.  **Redirect user to authorize your application**: When a user wants to connect their thanks.io account to your application, redirect them to the thanks.io authorization endpoint with the following parameters:
+
+```http
+GET https://dashboard.thanks.io/oauth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI
 ```
 
-</CodeGroup>
+2.  **Request your client's access token**: After the user authorizes your application, they will be redirected back to your specified redirect URI with an authorization code.  You'll use this AUTHORIZATION_CODE to request an access token:
 
-**Step 2**: Navigate to the docs directory (where the `docs.json` file is located) and execute the following command:
+```http
+POST https://dashboard.thanks.io/oauth/token
+Content-Type: application/x-www-form-urlencoded
 
-```bash
-mintlify dev
+grant_type=authorization_code&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&redirect_uri=YOUR_REDIRECT_URI&code=AUTHORIZATION_CODE
 ```
 
-A local preview of your documentation will be available at `http://localhost:3000`.
+3.  **Store the tokens securely**: The response will include an access token, refresh token, and expiration time. Store these tokens securely.
 
-### Custom Ports
+4.  **Use the access token**: You can now use the access token to make authenticated requests to the thanks.io API as a [bearer token in the Authorization header](/authentication/bearer-token).
 
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. To run Mintlify on port 3333, for instance, use this command:
+4. **Handle Token Expiration**: Access tokens have a limited lifespan. Implement token refresh logic to obtain new tokens using the refresh token flow.
 
-```bash
-mintlify dev --port 3333
+```http
+POST /oauth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=refresh_token&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&refresh_token=YOUR_REFRESH_TOKEN
 ```
-
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
-
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
-
-## Mintlify Versions
-
-Please note that each CLI release is associated with a specific version of Mintlify. If your local website doesn't align with the production version, please update the CLI:
-
-<CodeGroup>
-
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
-</CodeGroup>
-
-## Validating Links
-
-The CLI can assist with validating reference links made in your documentation. To identify any broken links, use the following command:
-
-```bash
-mintlify broken-links
-```
-
-## Deployment
-
-<Tip>
-  Unlimited editors available under the [Pro
-  Plan](https://mintlify.com/pricing) and above.
-</Tip>
-
-If the deployment is successful, you should see the following:
-
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-## Code Formatting
-
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
-
-## Troubleshooting
-
-<AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
-
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of mintlify: `npm remove -g mintlify`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall mintlify: `npm install -g mintlify`
-  </Accordion>
-
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the \~/.mintlify folder. Afterwards, run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in the CLI version? [Check out the CLI changelog.](https://www.npmjs.com/package/mintlify?activeTab=versions)
