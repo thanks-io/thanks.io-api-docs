@@ -1,22 +1,106 @@
 {
-    "openapi": "3.0.0",
+    "openapi": "3.1.0",
     "x-mcp": {
         "enabled": true
     },
     "info": {
         "title": "thanks.io API",
-        "description": "**Visit** [<b>https://dashboard.thanks.io/profile/billing</b>](https://dashboard.thanks.io/profile/billing) **to turn on testing mode while testing to automatically cancel all submitted orders. Otherwise you have 1 hour to cancel an order.**\n\n## thanks.io Embed\n\nSeparate from this API, our prebuilt embed widget makes it easy to integrate your CRM with thanks.io and give your clients the ability to send direct mail with minimal effort. Visit [https://github.com/thanks-io/thanks.io-embed](https://github.com/thanks-io/thanks.io-embed) for more details.\n\n## API Tokens\n\nTokens can be generated on your API Access Page:  \n[https://dashboard.thanks.io/profile/billing](https://dashboard.thanks.io/profile/billing)\n\nThe simplest to use is \"Personal Access Tokens\" for use as a Bearer Token.\n\n<img src=\"https://d2md0c8rpvzmz5.cloudfront.net/assets/auth.png\">\n\nFor example, your request will end up looking like,\n\n<img src=\"https://d2md0c8rpvzmz5.cloudfront.net/assets/Auth-Example.png\">\n\n## Image Template Examples\n\nFor sample images templates please use these guides:\n\n[http://go.thanks.io/imagetemplates](http://go.thanks.io/imagetemplates)\n\n## Use Case Examples\n\nFor an example of the direct mail thanks.io offers please read our white-paper:  \n[https://www.thanks.io/whitepaper/](https://www.thanks.io/whitepaper/)",
-        "version": "1.0.0"
+        "description": "Use thanks.io to send postcards, letters, notecards, windowless letters, and giftcards through our API.",
+        "contact": {
+            "url": "https://www.thanks.io",
+            "email": "support@thanks.io"
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about thanks.io",
+        "url": "https://docs.thanks.io"
     },
     "servers": [
         {
-            "url": "http://{{domain}}"
-        },
-        {
-            "url": "https://develop-dashboard.thanks.io"
+            "url": "https://api.thanks.io/api/v2",
+            "description": "The main API server for thanks.io"
         }
     ],
     "components": {
+        "schemas": {
+          "giftcard-group": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Giftcard Brand Grouping Title"
+              },
+              "brands": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "brand_code": {
+                      "type": "string",
+                      "description": "Code to send to the API to use this brand"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Giftcard Brand Title to display to users"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "Image URL for the brand to display to users"
+                    }, 
+                    "available_amounts": {
+                      "type": "array",
+                      "description": "Available amounts for this brand in cents",
+                      "items": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "giftcard-group-list": {
+            "type": "object",
+            "properties": {
+              "brands": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "brand_code": {
+                      "type": "string",
+                      "description": "Code to send to the API to use this brand",
+                      "example": "amazonus"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Giftcard Brand Title to display to users",
+                      "example": "Amazon.com"
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "Image URL for the brand to display to users",
+                      "example": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/amazonus.png"
+                    }, 
+                    "available_amounts": {
+                      "type": "array",
+                      "description": "Available amounts for this brand in cents",
+                      "items": {
+                        "type": "integer",
+                        "example": 1000
+                      }
+                    },
+                    "group": {
+                        "type": "string",
+                        "description": "Giftcard Brand Grouping Title",
+                        "example": "Featured"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "securitySchemes": {
             "noauthAuth": {
                 "type": "http",
@@ -36,19 +120,15 @@
     "tags": [
         {
             "name": "Send",
-            "description": "- **message** _\\[postcards require this if message_template is not set\\]_ - Handwritten message content.\n    \n- **message_template** _\\[postcards require this if message is not set\\]_ - ID of message template to use.\n    \n- **image_template** _\\[postcards require this if front_image_url is not set\\]_ - ID of image template to use.\n    \n- **front_image_url** _\\[postcards require this if image_template is not set\\]_ - URL to image to use for front of postcard, letter, or windowless letter.\n    \n- **mailing_lists** _\\[required if recipients or_ radius_search _not set\\]_ - ID of mailing list to sent to.\n    \n- **recipients** _\\[required if mailing_lists or_ radius_search _not set\\]_ - Array of recipients to send to. Sub fields area _\\[name, address, city, province, postal_code, country, custom1,_ custom2, custom3, custom4\\]\n    \n- **handwriting_style** _\\[optional\\]_ - ID of handwriting style to use.\n    \n- **handwriting_color** _\\[optional\\]_ - Handwriting color to use. Options are 'blue', 'black', 'green', 'purple', 'red'. Or can be specified as hex format, such as '#4287f5'\n    \n- **handwriting_realism** _\\[optional\\] -_ Boolean, set to true to turn on the realism effect for AI fonts.\n    \n- **use_custom_background** _\\[optional\\]_ - Use custom background image. If custom_background_image is not specified, account background image will be used\n    \n- **custom_background_image** _\\[optional\\]_ - URL to custom background image to use. Must be 1875px by 1275px for postcards or 1650px by 2475px for notecards. 3337px x 1777px for 6x11 Postcards.\n    \n- **sub_account** _\\[optional\\]_ - ID of Sub Account to use for this order.\n    \n- **size** _\\[optional\\]_ - options are \\[4x6, 6x9, 6x11\\] - defaults to \\[4x6\\] - only valid for postcards.\n    \n- **qrcode_url** _\\[optional\\]_ - URL to Autogenerate QR Code on back of postcard, on letter, on windowless letter, or inside notecard.\n    \n- **email_additional** _\\[optional\\]_ - Optional email to send alerts to about order (such as QR scan notifications).\n    \n- **send_standard_mail** \\[optional\\] **\\-** Boolean, set to true to send mailing as Standard Mail postage class.\n    \n- **radius_search -** _\\[required if mailing_lists or_ recipients _not set\\]_ - array of fields that specify details needed to perform a radius search of nearest neighbors. There is a $.05 lookup fee for each record. Subfields are:\n    \n    - **address** _\\[required\\]_ - Search Full Address (Example: 7777 Main St, Yonkers, NY) to use for center of nearest neighbor search.\n        \n    - **record_count** _\\[required\\]_ - Number of nearest neighbors to search for. Valid numbers are 1-10000\n        \n    - **record_types** _\\[optional\\] -_ Which type of records to search for. Valid options are 'all', 'likelytomove', 'likelytorefi', 'absenteeowner', 'highnetworth', 'majorityhomeequity', 'homefreeclear', 'underwater', 'kidsinhousehold', 'newhomeowner', 'firsttimehomebuyer', 'renters', 'retiring', 'retired', 'pool', 'onlybusinesses', 'newbusiness'. Defaults to 'all'\n        \n    - **append_data** _\\[optional\\] -_ Append phone and email to each record for an additional fee. Defaults to false.\n        \n    - **use_property_owner** _\\[optional\\] -_ Use Property Owners Address when searching for a commercial record_type. Defaults to false\n        \n    - **include_condos** _\\[optional\\] -_ Include condos in search. Defaults to true\n        \n    - **preview** _\\[optional\\] -_ Return a preview of number of neighbors found and cost. Defaults to false\n        \n\n**Return Address Fields**\n\nUS addresses only. Name, Street, City, State, and Postal Code are all required for custom return address to be used.\n\n- **return_name** _\\[optional\\]_\n    \n- **return_address** _\\[optional\\]_\n    \n- **return_address2** _\\[optional\\]_\n    \n- **return_city** _\\[optional\\]_\n    \n- **return_state** _\\[optional\\]_\n    \n- **return_postal_code** _\\[optional\\]_\n    \n\n**Giftcards Only**\n\n- **giftcard_brand** _\\[optional\\]_ - options are listed in Giftcards List Brands request. Required if not using a message template\n    \n- **giftcard_amount_in_cents** _\\[optional\\]_ - Giftcard value in cents. Required if not using a message template.\n    \n\n**Letters and Windowless Letters Only**\n\n- additional_pages_url _\\[optional\\]_ - URL to PDF file to include as additional pages. For letters, up to 10 additional pages are allowed in the PDF file and pages are printed double-sided. For Windowless letters one additional page is allowed in the PDF file and it's printed on the back of the cover image."
+            "description": ""
         },
         {
             "name": "Send with HTML Content",
-            "description": "Use HTML to generate front or back postcard images on the fly.\n\n**\\*NOTE: Our rendering image may generate image differently than your browser, so make sure to preview any content after initial set up. Turn on API mode while testing creatives to automatically cancel any API orders.**\n\n- **front_image_html_url** - URL to HTML file to use for content of front image.\n- **back_image_html_url** - URL to HTML file to use for content of back image.\n- **front_image_html_content** - HTML string to use for content of front image.\n- **back_image_html_content** - HTML string file to use for content of back image."
-        },
-        {
-            "name": "Stored Sends",
-            "description": "Stored Sends all you to save a Direct Mail send for a later time. All request parameters are exactly the same as a instanst Send call.  \n  \nA URL will be returned by the stored send call. Once this URL is hit, the direct mail send will be made.  \n  \nThis allows you to save calls in your database to be made at a later time with only a GET request for any user. Campaigns and staggered sends are example use cases."
+            "description": "Test"
         },
         {
             "name": "Order Previews",
-            "description": "Returns array of images of what print will look like when placing an order. Useful to have clients confirm before placing an actual order.\n\nAny `Send` call can return preview images by adding `\"preview\": true` to the POST parameters."
+            "description": "Test"
         },
         {
             "name": "Proof Previews"
@@ -61,11 +141,11 @@
         },
         {
             "name": "Image Templates",
-            "description": "- **sub_account** _\\[optional\\]_ - ID of Sub Account. Returns Image Templates specific to this sub account.\n    \n\n- **type** _\\[optional\\]_ - Return image templates for this type only. Valid options are '_postcard_', '_postcard6x11_', '_letter_', '_notecard_', '_giftcard_', '_windowlessletter_'"
+            "description": ""
         },
         {
             "name": "Message Templates",
-            "description": "- **sub_account** \\[_optional_\\] - ID of Sub Account. Returns Image Templates specific to this sub account.\n- **type** \\[_optional_\\] - Return image templates for this type only. Valid options are '_postcard_', '_postcard6x11_', '_letter_', '_notecard_', '_giftcard_', '_windowlessletter_'"
+            "description": ""
         },
         {
             "name": "Handwriting Styles"
@@ -317,84 +397,6 @@
                                     "type": "string",
                                     "example": "chunked"
                                 }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "120"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "119"
-                                }
-                            },
-                            "cf-cache-status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=rNQX9g2Wot2vZ%2FDHo7yUQACvY83GgWlmz2AGL50IkGj8BT%2B9wtKoXJW8plk47e6umVi75ebADvxuOlaLsOsyEfrwiLnLmiZ159LD0w%2FCGm%2Brnce6zrHJTB6HszhBBPGaBak9tRlOHlOnUgj3jA%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "92cf383c4c5c7039-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=32783&min_rtt=19966&rtt_var=25569&sent=82&recv=82&lost=0&retrans=1&sent_bytes=6922&recv_bytes=11142&delivery_rate=144850&cwnd=241&unsent_bytes=0&cid=47d676f0c49855ac&ts=75260&x=0\""
-                                }
                             }
                         },
                         "content": {
@@ -475,90 +477,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "120"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "117"
-                                }
-                            },
-                            "cf-cache-status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=tb6Ps4OGrysnAAF3OgXOqchKWvu5SKQ0xSsNLtRz2IlSA9cAXWQngUOy9d7K7AW8fzp95Xg7n0eGQwjXwhx2qY6fredgPnJrSdQNZJmsizZ0rqURjC8eylnIhzF6KQm2EVBi6E6b4sE8kHHGyQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "92cf37bafd2d7039-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=34611&min_rtt=20532&rtt_var=29220&sent=61&recv=61&lost=0&retrans=1&sent_bytes=5727&recv_bytes=8699&delivery_rate=140174&cwnd=241&unsent_bytes=0&cid=47d676f0c49855ac&ts=54593&x=0\""
-                                }
                             }
                         },
                         "content": {
@@ -638,90 +556,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "120"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "118"
-                                }
-                            },
-                            "cf-cache-status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=CRVKzT0QPiFsn%2FrLpobmwjqrgkZZMm%2B%2By5BeiA2jaVU7hnnKwrkgbOnRnzj0F3AAOedmaUOcuHLAVy6uDTks5h20QlPrzmHrqSqSJOqWm2ev5wgS9ciUbghQj5xsZIB5Hkj4P3HAvifHNc%2B%2BFg%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "92cf372bdd407039-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=36603&min_rtt=20796&rtt_var=33645&sent=38&recv=38&lost=0&retrans=1&sent_bytes=4484&recv_bytes=6224&delivery_rate=139257&cwnd=239&unsent_bytes=0&cid=47d676f0c49855ac&ts=30860&x=0\""
                                 }
                             }
                         },
@@ -806,90 +640,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "120"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "119"
-                                }
-                            },
-                            "cf-cache-status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=%2F8FkJWzF9EPt18ZjYbEPhyGPvUOlFR%2FpAKQLOrSh8eDNwg6bEp5puWnCvOLLkifYC6R2Q2On9g2XTG6COPhgL226lu7OmPlsJ7SWAJYMrb29neYu1gpR%2FdRADleWk0RCCn5Nm4%2BzzK7p1nYmMA%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "92cf3670be467039-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=23404&min_rtt=20796&rtt_var=9661&sent=6&recv=8&lost=0&retrans=0&sent_bytes=2801&recv_bytes=3438&delivery_rate=139257&cwnd=236&unsent_bytes=0&cid=47d676f0c49855ac&ts=1588&x=0\""
-                                }
                             }
                         },
                         "content": {
@@ -909,808 +659,6 @@
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-            }
-        },
-        "/stored_send/postcard": {
-            "post": {
-                "tags": [
-                    "Stored Sends"
-                ],
-                "summary": "Create 4x6 Postcard Stored Send",
-                "description": "Send 4x6 Postcard with Recipients",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "example": {
-                                    "image_template": 6,
-                                    "handwriting_style": 4,
-                                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                                    "recipients": [
-                                        {
-                                            "name": "Current Resident",
-                                            "address": "123 Main Street",
-                                            "city": "Fake City",
-                                            "province": "NY",
-                                            "postal_code": "55555",
-                                            "country": "US",
-                                            "custom1": "Example Custom 1",
-                                            "custom2": "Example Custom 2",
-                                            "custom3": "Example Custom 3",
-                                            "custom4": "Example Custom 4"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Fri, 10 Jan 2025 18:56:43 GMT"
-                                }
-                            },
-                            "Content-Type": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=xH0boQNspdSz12jAxc2eEqDwuSrFLL6I3OkqJv9pJJVRI%2BoiIRLiFh8WFTnmreNyav0yh1vae706x%2FO7zHBxXH3NtsEK3Yg2F2KsCpNKV%2BLrkwz6iqgyrN5HnDkr3Pn%2BuX4dRdYEa33iQWLAVg%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8ffee37c6d537c7e-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=24504&min_rtt=20328&rtt_var=10606&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2803&recv_bytes=3565&delivery_rate=142463&cwnd=241&unsent_bytes=0&cid=1a691d71cbb05852&ts=133&x=0\""
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "stored_send_url": "https://api.thanks.io/api/v2/stored_send/postcard/a1e11350-cf84-11ef-b283-59990529091a"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/stored_send/letter": {
-            "post": {
-                "tags": [
-                    "Stored Sends"
-                ],
-                "summary": "Created Letter Stored Send",
-                "description": "Send Letter with Mailing List and custom return.",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "example": {
-                                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
-                                    "handwriting_style": 5,
-                                    "message": "This is a test message",
-                                    "mailing_lists": [
-                                        5166,
-                                        514
-                                    ],
-                                    "return_name": "Custom Return",
-                                    "return_address": "123 Fake Street",
-                                    "return_address2": "Unit 1",
-                                    "return_city": "Anytown",
-                                    "return_state": "NY",
-                                    "return_postal_code": "10990"
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Fri, 10 Jan 2025 18:57:12 GMT"
-                                }
-                            },
-                            "Content-Type": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "147"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=p3u5%2BWc8UY6GxXcLcOb51Syz0KhEXm11DEGanxonMmQLhDgsGlPJlnx%2BQovMPrErPorCT3vAU69TPn2zE9E02M4pCxJc%2BmDVE5%2FkEzAKylz0ZtWV8Y7WzlYe7G75AmOHRSVLknjGFHvsILbcvA%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8ffee4332f5a7c7e-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=23967&min_rtt=20328&rtt_var=6861&sent=37&recv=39&lost=0&retrans=0&sent_bytes=5518&recv_bytes=8423&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=29330&x=0\""
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "stored_send_url": "https://api.thanks.io/api/v2/stored_send/letter/b348dfe0-cf84-11ef-b48b-f78696b5cd8e"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/stored_send/windowlessletter": {
-            "post": {
-                "tags": [
-                    "Stored Sends"
-                ],
-                "summary": "Created Windowless Letter Stored Send",
-                "description": "Send Windowless Letter.",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "example": {
-                                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
-                                    "handwriting_style": 5,
-                                    "message": "This is a test message",
-                                    "recipients": [
-                                        {
-                                            "name": "Current Resident",
-                                            "address": "123 Main Street",
-                                            "city": "Fake City",
-                                            "province": "NY",
-                                            "postal_code": "55555",
-                                            "country": "US"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Fri, 10 Jan 2025 18:57:15 GMT"
-                                }
-                            },
-                            "Content-Type": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "146"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=HkYKcneYuv3L0zLjBi%2FvUVkiqAknh8OmslsqCkT35TLcBKMAeelbJ4u7sn4Xnte%2Buy9ami91WWKe%2BWmVp8ryWoywr04VkCaFQCUF2soS6tRNt%2BIX%2BG7k%2FaqN5kA9Rsp6Je%2FTNOQjYn3N6D45Ag%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8ffee444baff7c7e-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=23956&min_rtt=20328&rtt_var=5168&sent=42&recv=44&lost=0&retrans=0&sent_bytes=6671&recv_bytes=10883&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=32164&x=0\""
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "stored_send_url": "https://api.thanks.io/api/v2/stored_send/windowlessletter/b4f96a20-cf84-11ef-89fc-13bd45910715"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/stored_send/notecard": {
-            "post": {
-                "tags": [
-                    "Stored Sends"
-                ],
-                "summary": "Created Notecard Stored Send",
-                "description": "Send 4x6 Postcard with Recipients",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "example": {
-                                    "image_template": 6,
-                                    "handwriting_style": 4,
-                                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                                    "recipients": [
-                                        {
-                                            "name": "Current Resident",
-                                            "address": "123 Main Street",
-                                            "city": "Fake City",
-                                            "province": "NY",
-                                            "postal_code": "55555",
-                                            "country": "US"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Fri, 10 Jan 2025 18:57:17 GMT"
-                                }
-                            },
-                            "Content-Type": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "145"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=P7SLqzWDFDw%2Ffqz%2FLexk7ln%2FeB%2B7sNQPMgpBuUvkPk6rBM922pfXgHkN2h4dEvWSZQACWgOD3zBQav6LRlLMPGdHyMT5MczBiCTjweP7UVFX6EYng2A9osy2B2JDARgSNBJ9EVIMykh6X5H2MA%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8ffee45329257c7e-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=23616&min_rtt=20328&rtt_var=4556&sent=47&recv=49&lost=0&retrans=0&sent_bytes=7838&recv_bytes=13654&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=34444&x=0\""
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "stored_send_url": "https://api.thanks.io/api/v2/stored_send/notecard/b65532f0-cf84-11ef-b912-9d2c391f55eb"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/stored_send/giftcard": {
-            "post": {
-                "tags": [
-                    "Stored Sends"
-                ],
-                "summary": "Created Giftcard Stored Send",
-                "description": "Send 4x6 Postcard with Recipients",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "example": {
-                                    "image_template": 6,
-                                    "handwriting_style": 4,
-                                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                                    "recipients": [
-                                        {
-                                            "name": "Current Resident",
-                                            "address": "1 Main Street",
-                                            "city": "Fake City",
-                                            "province": "NY",
-                                            "postal_code": "55555",
-                                            "country": "US"
-                                        }
-                                    ],
-                                    "giftcard_amount_in_cents": 10000,
-                                    "giftcard_brand": "amazonus"
-                                }
-                            }
-                        }
-                    }
-                },
-                "parameters": [
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Fri, 10 Jan 2025 18:57:19 GMT"
-                                }
-                            },
-                            "Content-Type": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "144"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=tnexc%2FJNLZE9dsshYMlkl%2FGaTSpnmNAKjPzC%2BsOc8oncdBSxN272VI0lAg8gfGKU6HhZ3o6zOswLHtVe3rsdYTmpiycXQRAMCVL955OBlmGvJe%2BoYQ0XlnlOo67nhmk%2FNV%2FqVK6EWbQvtx80fg%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8ffee4616e0f7c7e-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=23478&min_rtt=20328&rtt_var=3693&sent=52&recv=55&lost=0&retrans=0&sent_bytes=8993&recv_bytes=16496&delivery_rate=200665&cwnd=246&unsent_bytes=0&cid=1a691d71cbb05852&ts=36728&x=0\""
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "stored_send_url": "https://api.thanks.io/api/v2/stored_send/giftcard/b7b1c2f0-cf84-11ef-8697-6dc67192f756"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v2/stored_send/postcard/a1e11350-cf84-11ef-b283-59990529091a": {
-            "get": {
-                "tags": [
-                    "Stored Sends"
-                ],
-                "summary": "Execute Stored Send",
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {}
                         }
                     }
                 }
@@ -1774,84 +722,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=sZokQ8YMV%2BYyU9kTIYRZsTQI647haJPQT3h7V84Tx2vFIPJfARCstgGr6V2yIri0BJBeG9ftvFFvOO7%2B5V2nbZBbU%2BoKh%2B8MgMq%2BPvHg5fLkwk6IpH5wG7865eExDk4%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "819224805b5ce223-ORD"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
                             }
                         },
                         "content": {
@@ -1888,42 +758,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Tue, 31 Mar 2020 02:12:11 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "143"
                                 }
                             }
                         },
@@ -2003,42 +837,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Tue, 31 Mar 2020 02:17:53 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
-                                }
                             }
                         },
                         "content": {
@@ -2086,42 +884,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Tue, 31 Mar 2020 02:19:41 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "146"
                                 }
                             }
                         },
@@ -2188,42 +950,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Mon, 06 Apr 2020 02:34:17 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "146"
                                 }
                             }
                         },
@@ -2310,42 +1036,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Tue, 07 Sep 2021 02:10:32 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "147"
-                                }
                             }
                         },
                         "content": {
@@ -2410,84 +1100,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=60pFX2AxLWYLdeY0UMrnWIUjjOKZ1gA%2F%2FR%2Bf8u%2B26%2F5UBBXjsaxF55gZ7NwuvXWRlcvjpx2D7dG%2BbX6TtdMfVXaZKLfeVey124W9KqG5O%2Fa5rKj6DZ%2Ft1V6XKxcfD6%2BS%2F22jPvtmAafahZcOow%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "79d988f02ff9239a-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
                             }
                         },
                         "content": {
@@ -2537,42 +1149,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Tue, 31 Mar 2020 02:42:11 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
                                 }
                             }
                         },
@@ -2733,42 +1309,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Mon, 11 May 2020 04:00:28 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "145"
                                 }
                             }
                         },
@@ -3074,90 +1614,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "146"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=lFdxlZC1HzcbapT%2Bq%2BJslY3GH%2BmIKa5L0imA9kN3h49D2qFFvKhbAbxvjFUmgFYeJ1hrHdY7RZTXBokeM%2Fil%2FyxVlDDYbstXkfk86KzwIWHDHkZYqxK30wX4KNjjuo8UxHdXAa4kk64P2Vwb6Q%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8fa4a4fdfdf7c33a-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=25625&min_rtt=21650&rtt_var=6606&sent=65&recv=66&lost=0&retrans=0&sent_bytes=6825&recv_bytes=8749&delivery_rate=200267&cwnd=228&unsent_bytes=0&cid=2edb79d7f0793852&ts=58023&x=0\""
-                                }
                             }
                         },
                         "content": {
@@ -3209,42 +1665,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Mon, 06 Apr 2020 01:24:43 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
                                 }
                             }
                         },
@@ -3356,90 +1776,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=PGU5wfwnVs62qYdMWlVe2%2FaqmHMHCBybGxMrRO9CDvxbkJL%2FE2E7SAX2h8zPJft8vJBpYzqL6jQy0JnVXH8QaEVYYh5dELOpaSXQCSpUzz3EZYWId%2B4Ps%2Fk%2BAf9AezB9iFqvOsSIzuxd865aCCo%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "75b1780dd9678c3c-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "alt-svc": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
-                                }
                             }
                         },
                         "content": {
@@ -3524,42 +1860,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Sat, 04 Jul 2020 22:33:29 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
-                                }
                             }
                         },
                         "content": {
@@ -3597,42 +1897,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Mon, 06 Apr 2020 02:09:06 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
                                 }
                             }
                         },
@@ -3722,42 +1986,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Mon, 06 Apr 2020 02:24:43 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "147"
-                                }
                             }
                         },
                         "content": {
@@ -3827,48 +2055,6 @@
                                     "type": "string",
                                     "example": "text/html; charset=UTF-8"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Mon, 06 Apr 2020 02:29:53 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "gzip"
-                                }
                             }
                         },
                         "content": {
@@ -3916,90 +2102,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=6LT%2B2XUHgcgqE8Qlwy1Tan1nA8b3XrycKILACQiVU5W%2F2Qar%2FUMQNHX6Oi2AuPPoWxv4xobR1EUjFENjhTXR35cB0M4%2BsYmvDbRSjeqmzlIRUrI%2BN9qSoczq2CAqP8yGug%2FEGr0Pxgrs69lYWA%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "8fe0c408987941fb-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "server-timing": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cfL4;desc=\"?proto=TCP&rtt=27556&min_rtt=20574&rtt_var=12702&sent=4&recv=6&lost=0&retrans=0&sent_bytes=2803&recv_bytes=2609&delivery_rate=140760&cwnd=214&unsent_bytes=0&cid=b43738d6e925373f&ts=136&x=0\""
                                 }
                             }
                         },
@@ -4063,42 +2165,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Wed, 06 Jan 2021 13:16:15 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "148"
                                 }
                             }
                         },
@@ -4197,43 +2263,7 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Wed, 10 Jun 2020 02:55:45 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
-                                }
-                            }
+                             }
                         },
                         "content": {
                             "application/json": {
@@ -4301,84 +2331,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "cache-control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "x-ratelimit-limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "x-ratelimit-remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Expect-CT": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=r6DUUOlmyVw%2B%2BwaLtifqiKBsWES6ewvRCLPYwI2WmMpoSIN7H4xxa4lCM%2Bl7wtk6mvCYUuyBUAnCTkrEepXbhzIXg3EGdaSxZqC0YCBH2bLlrGAt8hwr6IitEydYM7OtUvyMXD4ODXeYVb2nKCg%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "6d53f0e09b168c96-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "alt-svc": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400"
                                 }
                             }
                         },
@@ -4469,42 +2421,6 @@
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Wed, 06 Jan 2021 13:16:54 GMT"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "146"
                                 }
                             }
                         },
@@ -4607,84 +2523,6 @@
                                     "type": "string",
                                     "example": "application/json"
                                 }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "Cache-Control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "X-RateLimit-Limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "X-RateLimit-Remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "149"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=FbXJ9lOAo1m9nqmrf9YdNPG4s1ec4PqanAQSjHASCIMfegbk%2BGN3g5r4TCDYatHlPgQaT%2FMBzW2ncqWxEbiCrVTyArjsY19CSjcPSC1Qp5PDhCHW9HexJlutaqTdEVmTOKS3%2FnvliLbncSUFLQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Strict-Transport-Security": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=31536000; includeSubDomains; preload"
-                                }
-                            },
-                            "X-Content-Type-Options": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "nosniff"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "810a1d70eaa201ca-ORD"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
                             }
                         },
                         "content": {
@@ -4764,7 +2602,9 @@
                 "tags": [
                     "Giftcards"
                 ],
+                "operationId": "listGiftcardBrands",
                 "summary": "List Brands",
+                "description": "List all available Giftcard brands.",
                 "security": [
                     {
                         "noauthAuth": []
@@ -4772,451 +2612,100 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "200 response",
                         "headers": {
-                            "Date": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "Wed, 29 Dec 2021 02:16:13 GMT"
-                                }
-                            },
                             "Content-Type": {
                                 "schema": {
                                     "type": "string",
                                     "example": "application/json"
-                                }
-                            },
-                            "Transfer-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "chunked"
-                                }
-                            },
-                            "Connection": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "keep-alive"
-                                }
-                            },
-                            "cache-control": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "no-cache, private"
-                                }
-                            },
-                            "x-ratelimit-limit": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "150"
-                                }
-                            },
-                            "x-ratelimit-remaining": {
-                                "schema": {
-                                    "type": "integer",
-                                    "example": "147"
-                                }
-                            },
-                            "CF-Cache-Status": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "DYNAMIC"
-                                }
-                            },
-                            "Expect-CT": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
-                                }
-                            },
-                            "Report-To": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=DHzEzjNOnpg9AzhjMhTwzjy96k79BQV%2BDgU8lNSREc7xKwLrn%2FwQ%2Bhc7AtImYx0r4NVTNdmk13QJF45ac%2BF5951inpioyJ%2FLzqqdBMf630Qmd%2BJuv%2BYbFmQZ9jnFMvOYjUQOA%2FOQ1Br2M%2B%2FV4p0%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "NEL": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                                }
-                            },
-                            "Server": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "cloudflare"
-                                }
-                            },
-                            "CF-RAY": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "6c4f866ecbeb8c09-EWR"
-                                }
-                            },
-                            "Content-Encoding": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "br"
-                                }
-                            },
-                            "alt-svc": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": "h3=\":443\"; ma=86400, h3-29=\":443\"; ma=86400, h3-28=\":443\"; ma=86400, h3-27=\":443\"; ma=86400"
                                 }
                             }
                         },
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "main": {
-                                        "title": "Featured",
-                                        "brands": [
-                                            {
-                                                "brand_code": "amazonus",
-                                                "title": "Amazon.com",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/amazonus.png"
-                                            },
-                                            {
-                                                "brand_code": "starbucksus",
-                                                "title": "Starbucks",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/starbucks.png"
-                                            }
-                                        ]
-                                    },
-                                    "food": {
-                                        "title": "Food",
-                                        "brands": [
-                                            {
-                                                "brand_code": "applebees",
-                                                "title": "Applebees",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/applebees.png"
-                                            },
-                                            {
-                                                "brand_code": "burgerkingus",
-                                                "title": "Burger King",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/burgerking.png"
-                                            },
-                                            {
-                                                "brand_code": "charthouse",
-                                                "title": "Chart House",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/charthouse.png"
-                                            },
-                                            {
-                                                "brand_code": "chilis",
-                                                "title": "Chili's",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/chilis.png"
-                                            },
-                                            {
-                                                "brand_code": "chipotle",
-                                                "title": "Chipotle",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/chipotle.png"
-                                            },
-                                            {
-                                                "brand_code": "coldstonecreameryus",
-                                                "title": "Cold Stone Creamery",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/coldstone.png"
-                                            },
-                                            {
-                                                "brand_code": "dominos",
-                                                "title": "Domino's",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/dominos.png"
-                                            },
-                                            {
-                                                "brand_code": "doordashus",
-                                                "title": "DoorDash",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/doordash.png"
-                                            },
-                                            {
-                                                "brand_code": "dunkindonuts",
-                                                "title": "Dunkin' Donuts",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/dunkindonts.png"
-                                            },
-                                            {
-                                                "brand_code": "grubhubus",
-                                                "title": "Grubhub",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/grubhub.png"
-                                            },
-                                            {
-                                                "brand_code": "ihop",
-                                                "title": "IHOP",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/ihop.png"
-                                            },
-                                            {
-                                                "brand_code": "mortons",
-                                                "title": "Morton's The Steakhouse",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/mortons.png"
-                                            },
-                                            {
-                                                "brand_code": "omahasteaks",
-                                                "title": "Omaha Steaks",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/omahasteaks.png"
-                                            },
-                                            {
-                                                "brand_code": "ontheborder",
-                                                "title": "On The Border",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/ontheborder.png"
-                                            },
-                                            {
-                                                "brand_code": "outback",
-                                                "title": "Outback Steakhouse",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/outback.png"
-                                            },
-                                            {
-                                                "brand_code": "papjohns",
-                                                "title": "Papa John's",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/papajohns.png"
-                                            },
-                                            {
-                                                "brand_code": "pfchangs",
-                                                "title": "P.F. Chang's",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/pfchangs.png"
-                                            },
-                                            {
-                                                "brand_code": "redrobin",
-                                                "title": "Red Robin",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/redrobin.png"
-                                            },
-                                            {
-                                                "brand_code": "sonicus",
-                                                "title": "SONIC",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/sonic.png"
-                                            },
-                                            {
-                                                "brand_code": "tgifridaysus",
-                                                "title": "TGI Fridays",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/tjfridays.png"
-                                            },
-                                            {
-                                                "brand_code": "ubereats",
-                                                "title": "Uber Eats",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/ubereats.png"
-                                            },
-                                            {
-                                                "brand_code": "wine",
-                                                "title": "Wine.com",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/wine.png"
-                                            }
-                                        ]
-                                    },
-                                    "entertainment": {
-                                        "title": "Entertainment",
-                                        "brands": [
-                                            {
-                                                "brand_code": "amctheatres",
-                                                "title": "AMC Theatres",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/amctheaters.png"
-                                            },
-                                            {
-                                                "brand_code": "itunesus",
-                                                "title": "Apple Gift Card",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/itunes.png"
-                                            },
-                                            {
-                                                "brand_code": "cinemark",
-                                                "title": "Cinemark",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/cinemark.png"
-                                            },
-                                            {
-                                                "brand_code": "fandangous",
-                                                "title": "Fandango",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/fandango.png"
-                                            },
-                                            {
-                                                "brand_code": "gamestop",
-                                                "title": "Game Stop",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/gamestop.png"
-                                            },
-                                            {
-                                                "brand_code": "googleplay",
-                                                "title": "Google Play",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/googleplay.png"
-                                            },
-                                            {
-                                                "brand_code": "playstation",
-                                                "title": "Sony Playstation",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/playstation.png"
-                                            },
-                                            {
-                                                "brand_code": "regal",
-                                                "title": "Regal",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/regal.png"
-                                            },
-                                            {
-                                                "brand_code": "xbox",
-                                                "title": "Microsoft Xbox",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/xbox.png"
-                                            }
-                                        ]
-                                    },
-                                    "gifts": {
-                                        "title": "Gifts",
-                                        "brands": [
-                                            {
-                                                "brand_code": "1800flowers",
-                                                "title": "1-800-Flowers.com",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/1800flowers.png"
-                                            },
-                                            {
-                                                "brand_code": "autozoneus",
-                                                "title": "AutoZone",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/autozone.png"
-                                            },
-                                            {
-                                                "brand_code": "babygap",
-                                                "title": "Baby Gap",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/babygap.png"
-                                            },
-                                            {
-                                                "brand_code": "barnesandnoble",
-                                                "title": "Barnes and Noble",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/barnesandnoble.png"
-                                            },
-                                            {
-                                                "brand_code": "bassproshops",
-                                                "title": "Bass Pro Shops",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/bassprosshops.png"
-                                            },
-                                            {
-                                                "brand_code": "buildabear",
-                                                "title": "Build-A-Bear Workshop",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/buildabear.png"
-                                            },
-                                            {
-                                                "brand_code": "cabelas",
-                                                "title": "Cabela's",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/cabelas.png"
-                                            },
-                                            {
-                                                "brand_code": "callaway",
-                                                "title": "Callaway",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/callaway.png"
-                                            },
-                                            {
-                                                "brand_code": "cratebarrelus",
-                                                "title": "Crate & Barrel",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/crateandbarrel.png"
-                                            },
-                                            {
-                                                "brand_code": "cvs",
-                                                "title": "CVS Pharmacy",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/cvs.png"
-                                            },
-                                            {
-                                                "brand_code": "ebay1",
-                                                "title": "eBay",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/ebay.png"
-                                            },
-                                            {
-                                                "brand_code": "fanatics",
-                                                "title": "Fanatics",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/fanatics.png"
-                                            },
-                                            {
-                                                "brand_code": "footlocker",
-                                                "title": "Foot Locker",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/footlocker.png"
-                                            },
-                                            {
-                                                "brand_code": "goplaygolf",
-                                                "title": "Go Play Golf",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/goplaygolf.png"
-                                            },
-                                            {
-                                                "brand_code": "kohls",
-                                                "title": "Kohl's",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/kohls.png"
-                                            },
-                                            {
-                                                "brand_code": "landsend",
-                                                "title": "Land's End",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/landsend.png"
-                                            },
-                                            {
-                                                "brand_code": "reius",
-                                                "title": "REI",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/rei.png"
-                                            },
-                                            {
-                                                "brand_code": "sephora",
-                                                "title": "Sephora",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/sephora.png"
-                                            },
-                                            {
-                                                "brand_code": "spaweek",
-                                                "title": "Spa Week",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/spaweek.png"
-                                            }
-                                        ]
-                                    },
-                                    "travel": {
-                                        "title": "Travel",
-                                        "brands": [
-                                            {
-                                                "brand_code": "uber",
-                                                "title": "Uber",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/uberpng.png"
-                                            },
-                                            {
-                                                "brand_code": "americanairlines",
-                                                "title": "American Airlines",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/americanairlines.png"
-                                            },
-                                            {
-                                                "brand_code": "delta",
-                                                "title": "Delta Air Lines",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/delta.png"
-                                            },
-                                            {
-                                                "brand_code": "hotels",
-                                                "title": "Hotels.com",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/hotels.png"
-                                            }
-                                        ]
-                                    },
-                                    "big_box": {
-                                        "title": "Big Box",
-                                        "brands": [
-                                            {
-                                                "brand_code": "bestbuy",
-                                                "title": "Best Buy",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/bestbuy.png"
-                                            },
-                                            {
-                                                "brand_code": "homedepot",
-                                                "title": "The Home Depot",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/homedepot.png"
-                                            },
-                                            {
-                                                "brand_code": "target",
-                                                "title": "Target",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/target.png"
-                                            },
-                                            {
-                                                "brand_code": "walmart",
-                                                "title": "Walmart",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/walmart.png"
-                                            },
-                                            {
-                                                "brand_code": "wayfairus",
-                                                "title": "Wayfair",
-                                                "image": "https://s3.amazonaws.com/cdn.thanks.io/giftcards/wayfair.png"
-                                            }
-                                        ]
-                                    },
-                                    "other": {
-                                        "title": "Other",
-                                        "brands": []
+                                    "type": "object",
+                                    "properties": {
+                                        "main": {
+                                            "description": "Featured Giftcard Brands",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        },
+                                        "food": {
+                                            "description": "Food Related Giftcard Brands",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        },
+                                        "entertainment": {
+                                            "description": "Entertainment Related Giftcard Brands",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        },
+                                        "gift": {
+                                            "description": "Gift Related Giftcard Brands",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        },
+                                        "travel": {
+                                            "description": "Travel Industry Giftcard Brands",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        },
+                                         "big_box": {
+                                            "description": "Big Box Store Giftcard Brands",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        },                                       
+                                         "other": {
+                                            "description": "Giftcard Brands that don't fit in other categories",
+                                            "$ref": "#/components/schemas/giftcard-group"
+                                        }   
                                     }
-                                }
+                                },
+                                "example": {"main":{"title":"Featured","brands":[{"brand_code":"amazonus","title":"Amazon.com","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/amazonus.png","available_amounts":[500,1000,1500,2000,2500,3000,4000,5000,10000,20000]},{"brand_code":"starbucksus","title":"Starbucks","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/starbucks.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]}]},"food":{"title":"Food","brands":[{"brand_code":"applebees","title":"Applebees","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/applebees.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"baskinrobbinsus","title":"Baskin Robbins","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/baskin.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"burgerkingus","title":"Burger King","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/burgerking.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"charthouse","title":"Chart House","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/charthouse.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"chilis","title":"Chili's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/chilis.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"chipotle","title":"Chipotle","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/chipotle.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"coldstonecreameryus","title":"Cold Stone Creamery","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/coldstone.png","available_amounts":[1000,1500,2000,2500,5000,10000]},{"brand_code":"dominos","title":"Domino's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/dominos.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"doordashus","title":"DoorDash","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/doordash.png","available_amounts":[1500,2000,2500,5000,10000,20000]},{"brand_code":"dunkindonuts","title":"Dunkin' Donuts","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/dunkindonts.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"grubhubus","title":"Grubhub","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/grubhub.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"ihop","title":"IHOP","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ihop.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"mortons","title":"Morton's The Steakhouse","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/mortons.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"omahasteaks","title":"Omaha Steaks","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/omahasteaks.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"ontheborder","title":"On The Border","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ontheborder.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"outback","title":"Outback Steakhouse","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/outback.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"panerabreadus","title":"Panera","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/panera.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"papjohns","title":"Papa John's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/papajohns.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"pfchangs","title":"P.F. Chang's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/pfchangs.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"redrobin","title":"Red Robin","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/redrobin.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"sonicus","title":"SONIC","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/sonic.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"tacobellus","title":"Taco Bell","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/tacobell.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"tgifridaysus","title":"TGI Fridays","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/tjfridays.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"ubereats","title":"Uber Eats","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ubereats.png","available_amounts":[1500,2000,2500,5000,10000,20000]}]},"entertainment":{"title":"Entertainment","brands":[{"brand_code":"amctheatres","title":"AMC Theatres","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/amctheaters.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"itunesus","title":"Apple Gift Card","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/itunes.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"cinemark","title":"Cinemark","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/cinemark.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"fandangous","title":"Fandango","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/fandango.png","available_amounts":[2500,5000,10000]},{"brand_code":"gamestop","title":"Game Stop","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/gamestop.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"googleplay","title":"Google Play","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/googleplay.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"playstationus","title":"Sony Playstation","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/playstation.png","available_amounts":[1000,5000]},{"brand_code":"regal","title":"Regal","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/regal.png","available_amounts":[1000,1500,2000,2500,5000,10000]},{"brand_code":"xbox","title":"Microsoft Xbox","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/xbox.png","available_amounts":[1500,2500,5000]}]},"gifts":{"title":"Gifts","brands":[{"brand_code":"1800flowers","title":"1-800-Flowers.com","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/1800flowers.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"athleta","title":"Athleta","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/athleta.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"autozoneus","title":"AutoZone","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/autozone.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"babygap","title":"Baby Gap","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/babygap.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"barnesandnoble","title":"Barnes and Noble","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/barnesandnoble.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"bassproshops","title":"Bass Pro Shops","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/bassprosshops.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"buildabear","title":"Build-A-Bear Workshop","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/buildabear.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"cabelas","title":"Cabela's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/cabelas.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"callaway","title":"Callaway","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/callaway.png","available_amounts":[5000,10000]},{"brand_code":"cratebarrelus","title":"Crate & Barrel","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/crateandbarrel.png","available_amounts":[2500,5000,10000,20000]},{"brand_code":"cvs","title":"CVS Pharmacy","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/cvs.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"ebay1","title":"eBay","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ebay.png","available_amounts":[500,1000,1500,2000,2500,5000,10000]},{"brand_code":"fanatics","title":"Fanatics","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/fanatics.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"footlocker","title":"Foot Locker","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/footlocker.png","available_amounts":[500,1000,1500,2500,5000,10000]},{"brand_code":"goplaygolf","title":"Go Play Golf","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/goplaygolf.png","available_amounts":[2500,5000,10000,20000]},{"brand_code":"guitarcenterus","title":"Guitar Center","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/guitarcenter.png","available_amounts":[2500,5000,10000,20000]},{"brand_code":"kohls","title":"Kohl's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/kohls.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"landsend","title":"Land's End","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/landsend.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"reius","title":"REI","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/rei.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"sephora","title":"Sephora","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/sephora.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"spaweek","title":"Spa Week","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/spaweek.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]}]},"travel":{"title":"Travel","brands":[{"brand_code":"uber","title":"Uber","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/uberpng.png","available_amounts":[1500,2000,2500,5000,10000,20000]},{"brand_code":"delta","title":"Delta Air Lines","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/delta.png","available_amounts":[5000,10000]},{"brand_code":"hotels","title":"Hotels.com","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/hotels.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"lyftus","title":"Lyft","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/lyft.png","available_amounts":[2500,5000,10000,20000]}]},"big_box":{"title":"Big Box","brands":[{"brand_code":"bestbuy","title":"Best Buy","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/bestbuy.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"homedepot","title":"The Home Depot","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/homedepot.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"target","title":"Target","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/target.png","available_amounts":[500,1000,1500,2000,2500,3000,4000,5000,10000,20000]},{"brand_code":"walmart","title":"Walmart","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/walmart.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]},{"brand_code":"wayfairus","title":"Wayfair","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/wayfair.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000]}]},"other":{"title":"Other","brands":[]}}
+
+                                
                             }
                         }
                     }
                 }
             }
         },
+        "/giftcard-brands-list": {
+            "get": {
+                "tags": [
+                    "Giftcards"
+                ],
+                "operationId": "listGiftcardBrandsAsList",
+                "summary": "List Brands Flat",
+                "description": "List all available Giftcard brands as a flat list.",
+                "security": [
+                    {
+                        "noauthAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200 response",
+                        "headers": {
+                            "Content-Type": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "application/json"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/giftcard-group-list"
+                                    }
+                                },
+                                "example": {"brands":[{"brand_code":"amazonus","title":"Amazon.com","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/amazonus.png","available_amounts":[500,1000,1500,2000,2500,3000,4000,5000,10000,20000],"group":"Featured"},{"brand_code":"starbucksus","title":"Starbucks","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/starbucks.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Featured"},{"brand_code":"applebees","title":"Applebees","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/applebees.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"baskinrobbinsus","title":"Baskin Robbins","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/baskin.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"burgerkingus","title":"Burger King","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/burgerking.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"charthouse","title":"Chart House","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/charthouse.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"chilis","title":"Chili's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/chilis.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"chipotle","title":"Chipotle","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/chipotle.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"coldstonecreameryus","title":"Cold Stone Creamery","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/coldstone.png","available_amounts":[1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"dominos","title":"Domino's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/dominos.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"doordashus","title":"DoorDash","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/doordash.png","available_amounts":[1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"dunkindonuts","title":"Dunkin' Donuts","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/dunkindonts.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"grubhubus","title":"Grubhub","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/grubhub.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"ihop","title":"IHOP","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ihop.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"mortons","title":"Morton's The Steakhouse","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/mortons.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"omahasteaks","title":"Omaha Steaks","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/omahasteaks.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"ontheborder","title":"On The Border","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ontheborder.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"outback","title":"Outback Steakhouse","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/outback.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"panerabreadus","title":"Panera","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/panera.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"papjohns","title":"Papa John's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/papajohns.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"pfchangs","title":"P.F. Chang's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/pfchangs.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"redrobin","title":"Red Robin","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/redrobin.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"sonicus","title":"SONIC","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/sonic.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Food"},{"brand_code":"tacobellus","title":"Taco Bell","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/tacobell.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"tgifridaysus","title":"TGI Fridays","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/tjfridays.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"ubereats","title":"Uber Eats","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ubereats.png","available_amounts":[1500,2000,2500,5000,10000,20000],"group":"Food"},{"brand_code":"amctheatres","title":"AMC Theatres","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/amctheaters.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Entertainment"},{"brand_code":"itunesus","title":"Apple Gift Card","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/itunes.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Entertainment"},{"brand_code":"cinemark","title":"Cinemark","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/cinemark.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Entertainment"},{"brand_code":"fandangous","title":"Fandango","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/fandango.png","available_amounts":[2500,5000,10000],"group":"Entertainment"},{"brand_code":"gamestop","title":"Game Stop","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/gamestop.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Entertainment"},{"brand_code":"googleplay","title":"Google Play","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/googleplay.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Entertainment"},{"brand_code":"playstationus","title":"Sony Playstation","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/playstation.png","available_amounts":[1000,5000],"group":"Entertainment"},{"brand_code":"regal","title":"Regal","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/regal.png","available_amounts":[1000,1500,2000,2500,5000,10000],"group":"Entertainment"},{"brand_code":"xbox","title":"Microsoft Xbox","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/xbox.png","available_amounts":[1500,2500,5000],"group":"Entertainment"},{"brand_code":"1800flowers","title":"1-800-Flowers.com","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/1800flowers.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"athleta","title":"Athleta","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/athleta.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"autozoneus","title":"AutoZone","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/autozone.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"babygap","title":"Baby Gap","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/babygap.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"barnesandnoble","title":"Barnes and Noble","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/barnesandnoble.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"bassproshops","title":"Bass Pro Shops","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/bassprosshops.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"buildabear","title":"Build-A-Bear Workshop","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/buildabear.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"cabelas","title":"Cabela's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/cabelas.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"callaway","title":"Callaway","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/callaway.png","available_amounts":[5000,10000],"group":"Gifts"},{"brand_code":"cratebarrelus","title":"Crate & Barrel","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/crateandbarrel.png","available_amounts":[2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"cvs","title":"CVS Pharmacy","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/cvs.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"ebay1","title":"eBay","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/ebay.png","available_amounts":[500,1000,1500,2000,2500,5000,10000],"group":"Gifts"},{"brand_code":"fanatics","title":"Fanatics","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/fanatics.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"footlocker","title":"Foot Locker","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/footlocker.png","available_amounts":[500,1000,1500,2500,5000,10000],"group":"Gifts"},{"brand_code":"goplaygolf","title":"Go Play Golf","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/goplaygolf.png","available_amounts":[2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"guitarcenterus","title":"Guitar Center","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/guitarcenter.png","available_amounts":[2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"kohls","title":"Kohl's","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/kohls.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"landsend","title":"Land's End","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/landsend.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"reius","title":"REI","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/rei.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"sephora","title":"Sephora","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/sephora.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"spaweek","title":"Spa Week","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/spaweek.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Gifts"},{"brand_code":"uber","title":"Uber","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/uberpng.png","available_amounts":[1500,2000,2500,5000,10000,20000],"group":"Travel"},{"brand_code":"delta","title":"Delta Air Lines","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/delta.png","available_amounts":[5000,10000],"group":"Travel"},{"brand_code":"hotels","title":"Hotels.com","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/hotels.png","available_amounts":[1000,1500,2000,2500,5000,10000,20000],"group":"Travel"},{"brand_code":"lyftus","title":"Lyft","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/lyft.png","available_amounts":[2500,5000,10000,20000],"group":"Travel"},{"brand_code":"bestbuy","title":"Best Buy","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/bestbuy.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Big Box"},{"brand_code":"homedepot","title":"The Home Depot","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/homedepot.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Big Box"},{"brand_code":"target","title":"Target","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/target.png","available_amounts":[500,1000,1500,2000,2500,3000,4000,5000,10000,20000],"group":"Big Box"},{"brand_code":"walmart","title":"Walmart","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/walmart.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Big Box"},{"brand_code":"wayfairus","title":"Wayfair","image":"https:\/\/d2md0c8rpvzmz5.cloudfront.net\/giftcards\/wayfair.png","available_amounts":[500,1000,1500,2000,2500,5000,10000,20000],"group":"Big Box"}]}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+
         "/build/image-template": {
             "get": {
                 "tags": [
