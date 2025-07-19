@@ -98,7 +98,8 @@
               "native-integrations/available/monday-dot-com",
               "native-integrations/available/hubspot",
               "native-integrations/available/integrately",
-              "native-integrations/available/pabbly"
+              "native-integrations/available/pabbly",
+              "native-integrations/available/viasocket"
             ]
           },
           {
