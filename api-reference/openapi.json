@@ -23,6 +23,50 @@
     }
   ],
   "components": {
+    "examples": {
+      "recipient-example": {
+        "summary": "Example Recipient",
+        "value": {
+          "id": 18113288,
+          "mailing_list_id": 1,
+          "name": "Tobias Example",
+          "company": "thanks.io",
+          "address": "12345 Main Street",
+          "address2": "Apartment 1",
+          "city": "Any Town",
+          "province": "NY",
+          "postal_code": "12345",
+          "country": "US",
+          "dob": "1981-04-23",
+          "email": "tobias@example.com",
+          "phone": "845-988-6485",
+          "custom1": "Unique Info",
+          "custom2": "For example a product code or customer ID",
+          "custom3": "",
+          "custom4": "",
+          "created_at": "2025-06-27T14:57:11.000000Z",
+          "updated_at": "2025-06-27T14:57:11.000000Z",
+          "mailing_list": {
+            "id": 1,
+            "user_id": 2,
+            "sub_account_id": null,
+            "type": "manual",
+            "description": "Sphere Contacts Mailing List",
+            "qrcode_url": null,
+            "total_recipients": 1,
+            "processed": true,
+            "is_suppression_list": false,
+            "total_scans": 1,
+            "unique_scans": 1,
+            "last_scan": "2025-07-13T13:57:11.000000Z",
+            "total_sends": 2,
+            "last_send": "2025-07-06T13:57:11.000000Z",
+            "created_at": "6 years ago",
+            "updated_at": "2025-06-27T14:57:11.000000Z"
+          }
+        }
+      }
+    },
     "schemas": {
       "giftcard-group": {
         "type": "object",
@@ -182,7 +226,8 @@
         "properties": {
           "id": {
             "type": "integer",
-            "example": 18113288
+            "example": 18113288,
+            "readOnly": true
           },
           "mailing_list_id": {
             "type": "integer",
@@ -235,29 +280,158 @@
           },
           "custom1": {
             "type": "string",
+            "description": "Custom field for additional information about the recipient",
             "example": "Unique Info"
           },
           "custom2": {
             "type": "string",
+            "description": "Custom field for additional information about the recipient",
             "example": "For example a product code or customer ID"
           },
           "custom3": {
             "type": "string",
-            "example": ""
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
           },
           "custom4": {
             "type": "string",
-            "example": ""
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
           },
           "mailing-list": {
-            "$ref": "#/components/schemas/mailing-list",
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/mailing-list"
+              }
+            ],
             "description": "The mailing list this recipient belongs to"
           },
           "created_at": {
+            "readOnly": true,
             "type": "string",
             "example": "2025-06-27T14:57:11.000000Z"
           },
           "updated_at": {
+            "readOnly": true,
+            "type": "string",
+            "example": "2025-06-27T14:57:11.000000Z"
+          }
+        }
+      },
+      "recipient-create": {
+        "type": "object",
+        "anyOf": [
+          {
+            "title": "Create Recipient by Address",
+            "description": "Create a recipient by providing address details",
+            "summary": "Create Recipient by Address",
+            "required": [
+              "mailing_list_id",
+              "address"
+            ]
+          },
+          {
+            "title": "Create Recipient by Email",
+            "description": "Create a recipient by providing email address",
+            "summary": "Create Recipient by Email",
+            "required": [
+              "mailing_list_id",
+              "email"
+            ]
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 18113288,
+            "readOnly": true
+          },
+          "mailing_list_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Tobias Example"
+          },
+          "company": {
+            "type": "string",
+            "example": "www.thanks.io"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main Street"
+          },
+          "address2": {
+            "type": "string",
+            "example": "Apartment 1"
+          },
+          "city": {
+            "type": "string",
+            "example": "Any Town"
+          },
+          "province": {
+            "type": "string",
+            "example": "KS"
+          },
+          "postal_code": {
+            "type": "string",
+            "example": "12345"
+          },
+          "country": {
+            "type": "string",
+            "example": "US"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "1981-04-23"
+          },
+          "email": {
+            "type": "string",
+            "example": "tobias@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+1 (555) 123-4567"
+          },
+          "custom1": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Unique Info"
+          },
+          "custom2": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "For example a product code or customer ID"
+          },
+          "custom3": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom4": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "mailing-list": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/mailing-list"
+              }
+            ],
+            "description": "The mailing list this recipient belongs to"
+          },
+          "created_at": {
+            "readOnly": true,
+            "type": "string",
+            "example": "2025-06-27T14:57:11.000000Z"
+          },
+          "updated_at": {
+            "readOnly": true,
             "type": "string",
             "example": "2025-06-27T14:57:11.000000Z"
           }
@@ -391,44 +565,10 @@
                 "schema": {
                   "$ref": "#/components/schemas/recipient"
                 },
-                "example": {
-                  "id": 18113288,
-                  "mailing_list_id": 1,
-                  "name": "Tobias Example",
-                  "company": "thanks.io",
-                  "address": "12345 Main Street",
-                  "address2": "Apartment 1",
-                  "city": "Any Town",
-                  "province": "NY",
-                  "postal_code": "12345",
-                  "country": "US",
-                  "dob": "1981-04-23",
-                  "email": "tobias@example.com",
-                  "phone": "845-988-6485",
-                  "custom1": "Unique Info",
-                  "custom2": "For example a product code or customer ID",
-                  "custom3": "",
-                  "custom4": "",
-                  "created_at": "2025-06-27T14:57:11.000000Z",
-                  "updated_at": "2025-06-27T14:57:11.000000Z",
-                  "mailing_list": {
-                    "id": 1,
-                    "user_id": 2,
-                    "sub_account_id": null,
-                    "type": "manual",
-                    "description": "Sphere Contacts Mailing List",
-                    "qrcode_url": null,
-                    "total_recipients": 1,
-                    "processed": true,
-                    "is_suppression_list": false,
-                    "total_scans": 1,
-                    "unique_scans": 1,
-                    "last_scan": "2025-07-13T13:57:11.000000Z",
-                    "total_sends": 2,
-                    "last_send": "2025-07-06T13:57:11.000000Z",
-                    "created_at": "6 years ago",
-                    "updated_at": "2025-06-27T14:57:11.000000Z"
-                  }
+                "examples": {
+                  "recipient": {
+                    "$ref": "#/components/examples/recipient-example"
+                  }            
                 }
               }
             }
@@ -444,6 +584,7 @@
         "operationId": "updateRecipientDetails",
         "description": "Update details of a specific recipient by ID.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -452,16 +593,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -478,44 +609,10 @@
                 "schema": {
                   "$ref": "#/components/schemas/recipient"
                 },
-                "example": {
-                  "id": 18113288,
-                  "mailing_list_id": 1,
-                  "name": "Tobias Example",
-                  "company": "thanks.io",
-                  "address": "12345 Main Street",
-                  "address2": "Apartment 1",
-                  "city": "Any Town",
-                  "province": "NY",
-                  "postal_code": "12345",
-                  "country": "US",
-                  "dob": "1981-04-23",
-                  "email": "tobias@example.com",
-                  "phone": "845-988-6485",
-                  "custom1": "Unique Info",
-                  "custom2": "For example a product code or customer ID",
-                  "custom3": "",
-                  "custom4": "",
-                  "created_at": "2025-06-27T14:57:11.000000Z",
-                  "updated_at": "2025-06-27T14:57:11.000000Z",
-                  "mailing_list": {
-                    "id": 1,
-                    "user_id": 2,
-                    "sub_account_id": null,
-                    "type": "manual",
-                    "description": "Sphere Contacts Mailing List",
-                    "qrcode_url": null,
-                    "total_recipients": 1,
-                    "processed": true,
-                    "is_suppression_list": false,
-                    "total_scans": 1,
-                    "unique_scans": 1,
-                    "last_scan": "2025-07-13T13:57:11.000000Z",
-                    "total_sends": 2,
-                    "last_send": "2025-07-06T13:57:11.000000Z",
-                    "created_at": "6 years ago",
-                    "updated_at": "2025-06-27T14:57:11.000000Z"
-                  }
+                "examples": {
+                  "recipient": {
+                    "$ref": "#/components/examples/recipient-example"
+                  }            
                 }
               }
             }
@@ -561,16 +658,42 @@
     "/recipients": {
       "post": {
         "tags": ["Recipients"],
-        "summary": "Address Append and Recipient Create using/ Email Address",
-        "description": "Add a recipeint using email address. If no/invalid address is specified and a valid email address is, we’ll attempt to look up a valid street address using the email address for a fee.",
+        "operationId": "createRecipient",
+        "summary": "Create Recipient",
+        "description": "Add a recipient. If no/invalid address is specified and a valid email address is, we’ll attempt to look up a valid street address using the email address for a fee.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "example": {
-                  "mailing_list": 1,
-                  "email": "testemail@thanks.io"
+                "$ref": "#/components/schemas/recipient-create"
+              },
+              "examples": {
+                "Adding By Address": {
+                  "value": {
+                    "mailing_list_id": 1,
+                    "name": "Tobias Example",
+                    "company": "thanks.io",
+                    "address": "12345 Main Street",
+                    "address2": "Apartment 1",
+                    "city": "Any Town",
+                    "province": "NY",
+                    "postal_code": "12345",
+                    "country": "US",
+                    "dob": "1981-04-23",
+                    "email": "tobias@example.com",
+                    "phone": "845-988-6485",
+                    "custom1": "Unique Info",
+                    "custom2": "For example a product code or customer ID",
+                    "custom3": "",
+                    "custom4": ""
+                  }
+                },
+                "Adding By Email": {
+                  "value": {
+                    "mailing_list_id": 1,
+                    "email": "tobias@example.com"
+                  }
                 }
               }
             }
@@ -578,7 +701,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful Response",
             "headers": {
               "Content-Type": {
                 "schema": {
@@ -590,108 +713,39 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/recipient"
                 },
-                "example": {
-                  "province": "NY",
-                  "city": "Warwick",
-                  "name": "Example Name",
-                  "company": "",
-                  "dob": "",
-                  "country": "US",
-                  "address": "1 Test Street",
-                  "address2": "",
-                  "email": "testemail@thanks.io",
-                  "phone": "",
-                  "custom1": null,
-                  "custom2": null,
-                  "custom3": null,
-                  "custom4": null,
-                  "postal_code": "10990",
-                  "id": 18092812,
-                  "mailing_list_id": 1
+                "examples": {
+                  "recipient": {
+                    "$ref": "#/components/examples/recipient-example"
+                  }            
                 }
               }
             }
-          }
-        }
-      },
-      "get": {
-        "tags": ["Recipients"],
-        "summary": "Search Recipients By Email",
-        "description": "Search for recipients by email address.",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "current_page": 1,
-                  "data": [
-                    {
-                      "id": 296446,
-                      "mailing_list_id": 514,
-                      "session_id": null,
-                      "name": "Jane Doe",
-                      "address": "123 Main Street",
-                      "address2": null,
-                      "city": "Kansas City",
-                      "province": "MO",
-                      "postal_code": "64105",
-                      "country": "US",
-                      "dob": null,
-                      "custom1": null,
-                      "custom2": null,
-                      "deliverability": null,
-                      "can_deliver": true,
-                      "created_at": "2020-04-06 01:56:48",
-                      "updated_at": "2020-04-06 01:56:48"
-                    }
-                  ],
-                  "first_page_url": "https://develop-dashboard.thanks.io/api/recipients?page=1",
-                  "from": 1,
-                  "last_page": 1,
-                  "last_page_url": "https://develop-dashboard.thanks.io/api/recipients?page=1",
-                  "next_page_url": null,
-                  "path": "https://develop-dashboard.thanks.io/api/recipients",
-                  "per_page": 100,
-                  "prev_page_url": null,
-                  "to": 1,
-                  "total": 1
-                }
-              }
-            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
     },
-    "/recipients_multi": {
+
+
+
+    "/recipients-utils/create-multiple": {
       "post": {
         "tags": ["Recipients"],
+        "operationId": "createMultipleRecipients",
         "summary": "Create Multiple Recipients",
-        "description": "Add multiple recipients at once",
+        "description": "Add multiple recipients at once using a JSON array of recipient objects. If no/invalid address is specified and a valid email address is, we’ll attempt to look up a valid street address using the email address for a fee.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/recipient-create"
+                },
                 "example": [
                   {
                     "mailing_list": 1,
@@ -834,71 +888,6 @@
                 },
                 "example": {
                   "status": "Recipient 297230 Deleted"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/recipients/lookup": {
-      "post": {
-        "tags": ["Recipients"],
-        "summary": "Address Append with Email",
-        "description": "Look up a valid street address using the email address for a fee. This does not save the recipient to a mailing list.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "email": "testemail@thanks.io"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 07 Jan 2025 03:12:21 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "province": "NY",
-                  "city": "Warwick",
-                  "name": "Test Name",
-                  "company": "",
-                  "dob": "",
-                  "country": "US",
-                  "address": "123 Main Street",
-                  "address2": "",
-                  "email": "testemail@thanks.io",
-                  "phone": "1234567890",
-                  "custom1": null,
-                  "custom2": null,
-                  "custom3": null,
-                  "custom4": null,
-                  "postal_code": "10990-2623",
-                  "id": null,
-                  "mailing_list_id": null
                 }
               }
             }
