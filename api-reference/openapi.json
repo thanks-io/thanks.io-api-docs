@@ -255,6 +255,7 @@
           },
           "province": {
             "type": "string",
+            "description": "State or Province",
             "example": "KS"
           },
           "postal_code": {
@@ -319,6 +320,13 @@
           }
         }
       },
+      "recipient-array": {
+        "type": "array",
+        "description": "Array of recipient objects",
+        "items": {
+          "$ref": "#/components/schemas/recipient"
+        }
+      },
       "recipient-create": {
         "type": "object",
         "anyOf": [
@@ -373,6 +381,7 @@
           },
           "province": {
             "type": "string",
+            "description": "State or Province",
             "example": "KS"
           },
           "postal_code": {
@@ -455,6 +464,22 @@
           }
         }
       },
+      "MailingListDoesNotExist": {
+        "description": "The specified mailing list does not exist",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Mailing List Does Not Exist"
+                }
+              }
+            }
+          }
+        }
+      },
       "NotFound": {
         "description": "Resource not found",
         "content": {
@@ -495,18 +520,12 @@
     {
       "name": "Mailing Lists"
     },
-
     {
-      "name": "Order Submit",
-      "description": "Test"
-    },
-    {
-      "name": "Order Proof Previews"
+      "name": "Send Mailer"
     },
     {
       "name": "Orders"
     },
-
     {
       "name": "Message Templates",
       "description": ""
@@ -517,12 +536,10 @@
     {
       "name": "Giftcards"
     },
-
     {
       "name": "Dynamic Images",
       "description": ""
     },
-
     {
       "name": "Image Builder"
     },
@@ -573,6 +590,9 @@
               }
             }
           },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
@@ -617,6 +637,12 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/MailingListDoesNotExist"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
@@ -643,10 +669,13 @@
                   "type": "object"
                 },
                 "example": {
-                  "status": "success"
+                  "message": "success"
                 }
               }
             }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -723,14 +752,15 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/MailingListDoesNotExist"
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
         }
       }
     },
-
-
 
     "/recipients-utils/create-multiple": {
       "post": {
@@ -764,17 +794,7 @@
                   },
                   {
                     "mailing_list": 1,
-                    "name": "Tobias Second",
-                    "address": "654 Main Street",
-                    "address2": null,
-                    "city": "LENEXA",
-                    "province": "KS",
-                    "postal_code": "66216",
-                    "country": "US",
-                    "dob": "04/23/1981",
-                    "custom1": null,
-                    "custom2": null,
-                    "email": "testemail@thanks.io",
+                    "email": "another-testemail@thanks.io",
                     "phone": "1234567890"
                   }
                 ]
@@ -786,12 +806,6 @@
           "200": {
             "description": "OK",
             "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Sun, 16 Oct 2022 14:26:20 GMT"
-                }
-              },
               "Content-Type": {
                 "schema": {
                   "type": "string",
@@ -802,7 +816,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/recipient-array"
                 },
                 "example": [
                   {
@@ -833,7 +847,8 @@
                     "phone": "1234567890",
                     "custom1": null,
                     "custom2": null,
-                    "postal_code": "66216"
+                    "postal_code": "66216",
+                    "error": "This address is already on this mailing list."
                   }
                 ]
               }
@@ -842,23 +857,65 @@
         }
       }
     },
-    "/recipients/delete-by-address": {
+    "/recipients-utils/delete-by-address": {
       "post": {
         "tags": ["Recipients"],
         "summary": "Delete a Recipient By Address",
-        "description": "* **mailing_list** *[Required]* - ID of mailing list to remove recipient from\n\n* **address** *[Required]*\n\n* **postal_code** *[Required]*",
+        "description": "Delete a recipient by using their address or their email address.",
+        "operationId": "deleteRecipientByAddress",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "example": {
-                  "mailing_list": 540,
-                  "address": "123 Main Street",
-                  "city": "LENEXA",
-                  "province": "KS",
-                  "postal_code": "66216",
-                  "country": "US"
+                "anyOf": [
+                  {
+                    "title": "Delete Recipient by Address",
+                    "description": "Delete a recipient by providing address details",
+                    "summary": "Delete Recipient by Address",
+                    "required": ["mailing_list_id", "address", "postal_code"]
+                  },
+                  {
+                    "title": "Delete Recipient by Email",
+                    "description": "Delete a recipient by providing email address",
+                    "summary": "Delete Recipient by Email",
+                    "required": ["mailing_list_id", "email"]
+                  }
+                ],
+                "properties": {
+                  "mailing_list_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main Street"
+                  },
+                  "address2": {
+                    "type": "string",
+                    "example": "Apartment 1"
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": "Any Town"
+                  },
+                  "province": {
+                    "type": "string",
+                    "description": "State or Province",
+                    "example": "KS"
+                  },
+                  "postal_code": {
+                    "type": "string",
+                    "example": "12345"
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": "US"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "tobias@example.com"
+                  }
                 }
               }
             }
@@ -868,12 +925,6 @@
           "200": {
             "description": "OK",
             "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
               "Content-Type": {
                 "schema": {
                   "type": "string",
@@ -891,816 +942,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/MailingListDoesNotExist"
           }
         }
       }
     },
 
-    "/send/postcard": {
-      "post": {
-        "tags": ["Order Submit"],
-        "summary": "4x6 Postcard Preview",
-        "description": "Return Preview images of 4x6 Postcard Send.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "image_template": 6,
-                  "preview": true,
-                  "handwriting_style": 4,
-                  "email_additional": "test@test.com",
-                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  "recipients": [
-                    {
-                      "name": "Current Resident",
-                      "address": "123 Main Street",
-                      "city": "Fake City",
-                      "province": "NY",
-                      "postal_code": "55555",
-                      "country": "US",
-                      "custom1": "Example Custom 1",
-                      "custom2": "Example Custom 2",
-                      "custom3": "Example Custom 3",
-                      "custom4": "Example Custom 4"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 08 Apr 2025 04:57:52 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              },
-              "Transfer-Encoding": {
-                "schema": {
-                  "type": "string",
-                  "example": "chunked"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Cache-Control": {
-                "schema": {
-                  "type": "string",
-                  "example": "no-cache, private"
-                }
-              },
-              "X-RateLimit-Limit": {
-                "schema": {
-                  "type": "integer",
-                  "example": "120"
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer",
-                  "example": "119"
-                }
-              },
-              "cf-cache-status": {
-                "schema": {
-                  "type": "string",
-                  "example": "DYNAMIC"
-                }
-              },
-              "Report-To": {
-                "schema": {
-                  "type": "string",
-                  "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=jxptn%2FqkY7gu7G19%2Bx9gzjCITW89lyGh%2Fs7R9LQLJVwfVDuCQFuUNXTDaoMqQvbMZWxZQvqsd9z4BslvVZSMbpjY1lNwmQgfs91psyJg1bnw%2Bl1QXpGOYu%2FpBUNyZm%2FrgDloYsl8x9ros2JzvQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                }
-              },
-              "NEL": {
-                "schema": {
-                  "type": "string",
-                  "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                }
-              },
-              "Strict-Transport-Security": {
-                "schema": {
-                  "type": "string",
-                  "example": "max-age=31536000; includeSubDomains; preload"
-                }
-              },
-              "X-Content-Type-Options": {
-                "schema": {
-                  "type": "string",
-                  "example": "nosniff"
-                }
-              },
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "cloudflare"
-                }
-              },
-              "CF-RAY": {
-                "schema": {
-                  "type": "string",
-                  "example": "92cf2fa26ef85078-ORD"
-                }
-              },
-              "Content-Encoding": {
-                "schema": {
-                  "type": "string",
-                  "example": "br"
-                }
-              },
-              "server-timing": {
-                "schema": {
-                  "type": "string",
-                  "example": "cfL4;desc=\"?proto=TCP&rtt=29983&min_rtt=28986&rtt_var=11582&sent=7&recv=8&lost=0&retrans=0&sent_bytes=2801&recv_bytes=3580&delivery_rate=99910&cwnd=241&unsent_bytes=0&cid=01952e3d92f4ace6&ts=3830&x=0\""
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "success": true,
-                  "code": 200,
-                  "message": "OK",
-                  "data": {
-                    "previews": [
-                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
-                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/1056d992-b7f8-bf98-5ad5-9d089cd46e62.png"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/send/letter": {
-      "post": {
-        "tags": ["Order Submit"],
-        "summary": "Letter Preview",
-        "description": "Return Preview images of Letter Send.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
-                  "handwriting_style": 5,
-                  "message": "This is a test message",
-                  "mailing_lists": [5166, 514],
-                  "return_name": "Custom Return",
-                  "return_address": "123 Fake Street",
-                  "return_address2": "Unit 1",
-                  "return_city": "Anytown",
-                  "return_state": "NY",
-                  "return_postal_code": "10990",
-                  "preview": true
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 08 Apr 2025 05:03:43 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              },
-              "Transfer-Encoding": {
-                "schema": {
-                  "type": "string",
-                  "example": "chunked"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "success": true,
-                  "code": 200,
-                  "message": "OK",
-                  "data": {
-                    "previews": [
-                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/9e3212b0-fd22-18a6-fd14-630ffbc66ed8.png"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/send/windowlessletter": {
-      "post": {
-        "tags": ["Order Submit"],
-        "summary": "Windowless Letter",
-        "description": "Return Preview images of Windowless Letter Send.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
-                  "handwriting_style": 5,
-                  "message": "This is a test message",
-                  "preview": true,
-                  "recipients": [
-                    {
-                      "name": "Current Resident",
-                      "address": "123 Main Street",
-                      "city": "Fake City",
-                      "province": "NY",
-                      "postal_code": "55555",
-                      "country": "US"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 08 Apr 2025 05:03:22 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "success": true,
-                  "code": 200,
-                  "message": "OK",
-                  "data": {
-                    "previews": [
-                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/59be0dca-e2dc-8d90-ea24-8d4b29cbc7c1.png"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/send/notecard": {
-      "post": {
-        "tags": ["Order Submit"],
-        "summary": "Notecard",
-        "description": "Return Preview images of Notecard Send.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "image_template": 6,
-                  "handwriting_style": 4,
-                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  "preview": true,
-                  "recipients": [
-                    {
-                      "name": "Current Resident",
-                      "address": "123 Main Street",
-                      "city": "Fake City",
-                      "province": "NY",
-                      "postal_code": "55555",
-                      "country": "US"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 08 Apr 2025 05:02:58 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "success": true,
-                  "code": 200,
-                  "message": "OK",
-                  "data": {
-                    "previews": [
-                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
-                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/cdf1281a-aec7-7122-e9ee-f0dbbc4cc7ef.png"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/send/giftcard": {
-      "post": {
-        "tags": ["Order Submit"],
-        "summary": "Giftcard",
-        "description": "Return Preview images of Giftcard Send.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "image_template": 6,
-                  "handwriting_style": 4,
-                  "preview": true,
-                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  "recipients": [
-                    {
-                      "name": "Current Resident",
-                      "address": "1 Main Street",
-                      "city": "Fake City",
-                      "province": "NY",
-                      "postal_code": "55555",
-                      "country": "US"
-                    }
-                  ],
-                  "giftcard_amount_in_cents": 10000,
-                  "giftcard_brand": "amazonus"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 08 Apr 2025 05:02:29 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "success": true,
-                  "code": 200,
-                  "message": "OK",
-                  "data": {
-                    "previews": [
-                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
-                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/f32ca6b3-293c-98d8-62ed-4ca8b6f33ca6.png"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/proof/postcard": {
-      "post": {
-        "tags": ["Proof Previews"],
-        "summary": "Postcard Proof 6x9",
-        "description": "View a proof of front and back of postcard returned as a PDF file.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "to_name": "Sample Recipient",
-                  "to_address": "1 Main Street",
-                  "to_address2": "Apartment 1",
-                  "to_city": "Woodbridge",
-                  "to_state": "NJ",
-                  "to_postal_code": "07095",
-                  "to_country": "US",
-                  "return_name": "6x9 Sample Business Name",
-                  "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645579.png",
-                  "message": "This is an example test postcard message.",
-                  "handwriting_style": "5",
-                  "handwriting_color": "back",
-                  "custom_background_image": "https://s3.amazonaws.com/content.thanks.io/templates/images/c09d39aadfc-3701d4467b8/3c375a60-6de5-11ee-9ea8-7374ba13eca7.png",
-                  "qrcode_url": "https://www.google.com",
-                  "size": "6x9"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Fri, 20 Oct 2023 15:02:38 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "proof_url": "https://s3.amazonaws.com/content.thanks.io/sls-order-proofs/pdfs/b048b2f4-6c0c-7240-e4d1-1211f2619388.pdf"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sub-accounts": {
-      "get": {
-        "tags": ["Sub Accounts"],
-        "summary": "List",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "data": [
-                    {
-                      "id": 7,
-                      "user_id": 2,
-                      "title": "Test Sub Account",
-                      "return_name": "Your Business",
-                      "return_address": "123 Main Street",
-                      "return_address2": "Apartment 1",
-                      "return_city": "Fake City",
-                      "return_state": "NY",
-                      "return_postal_code": "55555",
-                      "default_envelope": null,
-                      "created_at": "2020-03-26 17:44:31",
-                      "updated_at": "2020-03-31 02:12:07"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["Sub Accounts"],
-        "summary": "Create",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "title": "New Sub Account 22",
-                  "return_name": "Your Business",
-                  "return_address": "123 Main Street",
-                  "return_address2": "Apartment 1",
-                  "return_city": "Fake City",
-                  "return_state": "NY",
-                  "return_postal_code": "55555"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "user_id": 2,
-                  "title": "New Sub Account 2",
-                  "return_name": "Your Business",
-                  "return_address": "123 Main Street",
-                  "return_address2": "Apartment 1",
-                  "return_city": "Fake City",
-                  "return_state": "NY",
-                  "return_postal_code": "55555",
-                  "updated_at": "2020-03-31 02:17:53",
-                  "created_at": "2020-03-31 02:17:53",
-                  "id": 9
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sub-accounts/8": {
-      "get": {
-        "tags": ["Sub Accounts"],
-        "summary": "Show",
-        "description": "Show details for a specific Sub Account.",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "id": 8,
-                  "user_id": 2,
-                  "title": "New Sub Account",
-                  "return_name": "Your Business",
-                  "return_address": "123 Main Street",
-                  "return_address2": "Apartment 1",
-                  "return_city": "Fake City",
-                  "return_state": "NY",
-                  "return_postal_code": "55555",
-                  "default_envelope": null,
-                  "created_at": "2020-03-31 02:17:33",
-                  "updated_at": "2020-03-31 02:17:33"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": ["Sub Accounts"],
-        "summary": "Update",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "type": "string",
-                "example": "\"{\\n    \\\"title\\\": \\\"API Update\\\",\\n    \\\"return_name\\\": \\\"Your Business\\\",\\n    \\\"return_address\\\": \\\"123 Main Street\\\",\\n    \\\"return_address2\\\": \\\"Apartment 1\\\",\\n    \\\"return_city\\\": \\\"Fake City\\\",\\n    \\\"return_state\\\": \\\"NY\\\"\\n}\""
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "id": 8,
-                  "user_id": 2,
-                  "title": "API Update",
-                  "return_name": "Your Business",
-                  "return_address": "123 Main Street",
-                  "return_address2": "Apartment 1",
-                  "return_city": "Fake City",
-                  "return_state": "NY",
-                  "return_postal_code": "55555",
-                  "default_envelope": null,
-                  "created_at": "2020-03-31 02:17:33",
-                  "updated_at": "2020-04-06 02:34:02"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sub-accounts/7": {
-      "delete": {
-        "tags": ["Sub Accounts"],
-        "summary": "Delete",
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
+
     "/mailing-lists/": {
       "post": {
         "tags": ["Mailing Lists"],
@@ -2080,6 +1330,743 @@
         }
       }
     },
+
+
+
+    "/send/postcard": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "4x6 Postcard Preview",
+        "description": "Return Preview images of 4x6 Postcard Send.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "image_template": 6,
+                  "preview": true,
+                  "handwriting_style": 4,
+                  "email_additional": "test@test.com",
+                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  "recipients": [
+                    {
+                      "name": "Current Resident",
+                      "address": "123 Main Street",
+                      "city": "Fake City",
+                      "province": "NY",
+                      "postal_code": "55555",
+                      "country": "US",
+                      "custom1": "Example Custom 1",
+                      "custom2": "Example Custom 2",
+                      "custom3": "Example Custom 3",
+                      "custom4": "Example Custom 4"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 08 Apr 2025 04:57:52 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "example": "no-cache, private"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "integer",
+                  "example": "120"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer",
+                  "example": "119"
+                }
+              },
+              "cf-cache-status": {
+                "schema": {
+                  "type": "string",
+                  "example": "DYNAMIC"
+                }
+              },
+              "Report-To": {
+                "schema": {
+                  "type": "string",
+                  "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=jxptn%2FqkY7gu7G19%2Bx9gzjCITW89lyGh%2Fs7R9LQLJVwfVDuCQFuUNXTDaoMqQvbMZWxZQvqsd9z4BslvVZSMbpjY1lNwmQgfs91psyJg1bnw%2Bl1QXpGOYu%2FpBUNyZm%2FrgDloYsl8x9ros2JzvQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+                }
+              },
+              "NEL": {
+                "schema": {
+                  "type": "string",
+                  "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+                }
+              },
+              "Strict-Transport-Security": {
+                "schema": {
+                  "type": "string",
+                  "example": "max-age=31536000; includeSubDomains; preload"
+                }
+              },
+              "X-Content-Type-Options": {
+                "schema": {
+                  "type": "string",
+                  "example": "nosniff"
+                }
+              },
+              "Server": {
+                "schema": {
+                  "type": "string",
+                  "example": "cloudflare"
+                }
+              },
+              "CF-RAY": {
+                "schema": {
+                  "type": "string",
+                  "example": "92cf2fa26ef85078-ORD"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "br"
+                }
+              },
+              "server-timing": {
+                "schema": {
+                  "type": "string",
+                  "example": "cfL4;desc=\"?proto=TCP&rtt=29983&min_rtt=28986&rtt_var=11582&sent=7&recv=8&lost=0&retrans=0&sent_bytes=2801&recv_bytes=3580&delivery_rate=99910&cwnd=241&unsent_bytes=0&cid=01952e3d92f4ace6&ts=3830&x=0\""
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "success": true,
+                  "code": 200,
+                  "message": "OK",
+                  "data": {
+                    "previews": [
+                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/1056d992-b7f8-bf98-5ad5-9d089cd46e62.png"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send/letter": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Letter Preview",
+        "description": "Return Preview images of Letter Send.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                  "handwriting_style": 5,
+                  "message": "This is a test message",
+                  "mailing_lists": [5166, 514],
+                  "return_name": "Custom Return",
+                  "return_address": "123 Fake Street",
+                  "return_address2": "Unit 1",
+                  "return_city": "Anytown",
+                  "return_state": "NY",
+                  "return_postal_code": "10990",
+                  "preview": true
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 08 Apr 2025 05:03:43 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "success": true,
+                  "code": 200,
+                  "message": "OK",
+                  "data": {
+                    "previews": [
+                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/9e3212b0-fd22-18a6-fd14-630ffbc66ed8.png"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send/windowlessletter": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Windowless Letter",
+        "description": "Return Preview images of Windowless Letter Send.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                  "handwriting_style": 5,
+                  "message": "This is a test message",
+                  "preview": true,
+                  "recipients": [
+                    {
+                      "name": "Current Resident",
+                      "address": "123 Main Street",
+                      "city": "Fake City",
+                      "province": "NY",
+                      "postal_code": "55555",
+                      "country": "US"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 08 Apr 2025 05:03:22 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "success": true,
+                  "code": 200,
+                  "message": "OK",
+                  "data": {
+                    "previews": [
+                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/59be0dca-e2dc-8d90-ea24-8d4b29cbc7c1.png"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send/notecard": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Notecard",
+        "description": "Return Preview images of Notecard Send.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "image_template": 6,
+                  "handwriting_style": 4,
+                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  "preview": true,
+                  "recipients": [
+                    {
+                      "name": "Current Resident",
+                      "address": "123 Main Street",
+                      "city": "Fake City",
+                      "province": "NY",
+                      "postal_code": "55555",
+                      "country": "US"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 08 Apr 2025 05:02:58 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "success": true,
+                  "code": 200,
+                  "message": "OK",
+                  "data": {
+                    "previews": [
+                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/cdf1281a-aec7-7122-e9ee-f0dbbc4cc7ef.png"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/send/giftcard": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Giftcard",
+        "description": "Return Preview images of Giftcard Send.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "image_template": 6,
+                  "handwriting_style": 4,
+                  "preview": true,
+                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  "recipients": [
+                    {
+                      "name": "Current Resident",
+                      "address": "1 Main Street",
+                      "city": "Fake City",
+                      "province": "NY",
+                      "postal_code": "55555",
+                      "country": "US"
+                    }
+                  ],
+                  "giftcard_amount_in_cents": 10000,
+                  "giftcard_brand": "amazonus"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 08 Apr 2025 05:02:29 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "success": true,
+                  "code": 200,
+                  "message": "OK",
+                  "data": {
+                    "previews": [
+                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/f32ca6b3-293c-98d8-62ed-4ca8b6f33ca6.png"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sub-accounts": {
+      "get": {
+        "tags": ["Sub Accounts"],
+        "summary": "List",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Server": {
+                "schema": {
+                  "type": "string",
+                  "example": "nginx/1.14.0 (Ubuntu)"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 7,
+                      "user_id": 2,
+                      "title": "Test Sub Account",
+                      "return_name": "Your Business",
+                      "return_address": "123 Main Street",
+                      "return_address2": "Apartment 1",
+                      "return_city": "Fake City",
+                      "return_state": "NY",
+                      "return_postal_code": "55555",
+                      "default_envelope": null,
+                      "created_at": "2020-03-26 17:44:31",
+                      "updated_at": "2020-03-31 02:12:07"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Sub Accounts"],
+        "summary": "Create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "title": "New Sub Account 22",
+                  "return_name": "Your Business",
+                  "return_address": "123 Main Street",
+                  "return_address2": "Apartment 1",
+                  "return_city": "Fake City",
+                  "return_state": "NY",
+                  "return_postal_code": "55555"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Server": {
+                "schema": {
+                  "type": "string",
+                  "example": "nginx/1.14.0 (Ubuntu)"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "user_id": 2,
+                  "title": "New Sub Account 2",
+                  "return_name": "Your Business",
+                  "return_address": "123 Main Street",
+                  "return_address2": "Apartment 1",
+                  "return_city": "Fake City",
+                  "return_state": "NY",
+                  "return_postal_code": "55555",
+                  "updated_at": "2020-03-31 02:17:53",
+                  "created_at": "2020-03-31 02:17:53",
+                  "id": 9
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sub-accounts/8": {
+      "get": {
+        "tags": ["Sub Accounts"],
+        "summary": "Show",
+        "description": "Show details for a specific Sub Account.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Server": {
+                "schema": {
+                  "type": "string",
+                  "example": "nginx/1.14.0 (Ubuntu)"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "id": 8,
+                  "user_id": 2,
+                  "title": "New Sub Account",
+                  "return_name": "Your Business",
+                  "return_address": "123 Main Street",
+                  "return_address2": "Apartment 1",
+                  "return_city": "Fake City",
+                  "return_state": "NY",
+                  "return_postal_code": "55555",
+                  "default_envelope": null,
+                  "created_at": "2020-03-31 02:17:33",
+                  "updated_at": "2020-03-31 02:17:33"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Sub Accounts"],
+        "summary": "Update",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\n    \\\"title\\\": \\\"API Update\\\",\\n    \\\"return_name\\\": \\\"Your Business\\\",\\n    \\\"return_address\\\": \\\"123 Main Street\\\",\\n    \\\"return_address2\\\": \\\"Apartment 1\\\",\\n    \\\"return_city\\\": \\\"Fake City\\\",\\n    \\\"return_state\\\": \\\"NY\\\"\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Server": {
+                "schema": {
+                  "type": "string",
+                  "example": "nginx/1.14.0 (Ubuntu)"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "id": 8,
+                  "user_id": 2,
+                  "title": "API Update",
+                  "return_name": "Your Business",
+                  "return_address": "123 Main Street",
+                  "return_address2": "Apartment 1",
+                  "return_city": "Fake City",
+                  "return_state": "NY",
+                  "return_postal_code": "55555",
+                  "default_envelope": null,
+                  "created_at": "2020-03-31 02:17:33",
+                  "updated_at": "2020-04-06 02:34:02"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sub-accounts/7": {
+      "delete": {
+        "tags": ["Sub Accounts"],
+        "summary": "Delete",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+
     "/image-templates": {
       "get": {
         "tags": ["Image Templates"],
