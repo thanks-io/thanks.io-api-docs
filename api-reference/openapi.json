@@ -1322,7 +1322,6 @@
         }
       }
     },
-
     "/send/postcard": {
       "post": {
         "tags": ["Send Mailer"],
