@@ -950,126 +950,6 @@
 
 
     "/mailing-lists/": {
-      "post": {
-        "tags": ["Mailing Lists"],
-        "summary": "Create",
-        "description": "- qrcode_url - this will be used as the default QR Code URL when placing orders with this mailiing list",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "type": "string",
-                "example": "\"{\\n    \\\"description\\\": \\\"New Mailing List\\\",\\n    \\\"sub_account\\\": 7,\\n    \\\"qrcode_url\\\" : \\\"https://www.google.com\\\"\\n}\""
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created",
-            "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "type": "manual",
-                  "description": "New Mailing List (Created via API 09/07/2021)",
-                  "sub_account_id": 7,
-                  "user_id": 2,
-                  "updated_at": "2021-09-07 02:10:32",
-                  "created_at": "1 second ago",
-                  "id": 610
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/mailing-lists/buy-radius-search": {
-      "post": {
-        "tags": ["Mailing Lists"],
-        "summary": "Append Radius Search ($.05 per record) To Existing List",
-        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05.\n\n- address \\[required\\] - Search Street Address (Example: 123 Main St) to use for center of nearest neighbor search.\n- mailing_list_id \\[requred\\] - Mailing List ID to append radius search leads to.\n- postal_code \\[required\\] = Postal Code to use for center of nearest neighbor search.\n- record_count \\[required\\] - Number of nearest neighbors to search for. Valid numbers are 1-10000\n- record_types \\[optional\\] - Which type of records to search for. Valid options are 'all', 'likelytomove', 'likelytorefi', 'absenteeowner', 'highnetworth', 'majorityhomeequity', 'homefreeclear', 'underwater', 'kidsinhousehold', 'newhomeowner', 'firsttimehomebuyer', 'renters', 'retiring', 'retired', 'pool', 'onlybusinesses', 'newbusiness'. Defaults to 'all'\n- append_data \\[optional\\] - Append phone and email to each record for an additional fee ($.20 per record). Defaults to false.\n- use_property_owner \\[optional\\] - Use Property Owners Address when searching for a commercial record_type. Defaults to false\n- include_condos \\[optional\\] - Include condos in search. Defaults to true",
-        "requestBody": {
-          "content": {
-            "*/*": {
-              "schema": {
-                "type": "string",
-                "example": "\"{\\n    \\\"address\\\": \\\"123 Main Street\\\",\\n    \\\"postal_code\\\": \\\"55555\\\",\\n    \\\"record_types\\\": \\\"all\\\",\\n    \\\"mailing_list_id\\\": \\\"1236\\\",\\n    \\\"record_count\\\": 1,\\n    \\\"include_condos\\\": false,\\n    \\\"append_data\\\": false,\\n    \\\"use_property_owner\\\": false\\n}\""
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Wed, 22 Feb 2023 17:45:20 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                },
-                "example": {
-                  "status": "success",
-                  "mailing_list_id": 1236,
-                  "failure": false
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/mailing-lists": {
       "get": {
         "tags": ["Mailing Lists"],
         "summary": "List",
@@ -1088,12 +968,6 @@
           "200": {
             "description": "OK",
             "headers": {
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "nginx/1.14.0 (Ubuntu)"
-                }
-              },
               "Content-Type": {
                 "schema": {
                   "type": "string",
@@ -1209,8 +1083,70 @@
             }
           }
         }
+      },      
+      "post": {
+        "tags": ["Mailing Lists"],
+        
+        "summary": "Create",
+        "description": "- qrcode_url - this will be used as the default QR Code URL when placing orders with this mailiing list",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\n    \\\"description\\\": \\\"New Mailing List\\\",\\n    \\\"sub_account\\\": 7,\\n    \\\"qrcode_url\\\" : \\\"https://www.google.com\\\"\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Server": {
+                "schema": {
+                  "type": "string",
+                  "example": "nginx/1.14.0 (Ubuntu)"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "type": "manual",
+                  "description": "New Mailing List (Created via API 09/07/2021)",
+                  "sub_account_id": 7,
+                  "user_id": 2,
+                  "updated_at": "2021-09-07 02:10:32",
+                  "created_at": "1 second ago",
+                  "id": 610
+                }
+              }
+            }
+          }
+        }
       }
     },
+
     "/mailing-lists/{mailing_list_id}/recipients": {
       "get": {
         "tags": ["Mailing Lists"],
@@ -1328,8 +1264,64 @@
         }
       }
     },
-
-
+    "/mailing-lists/buy-radius-search": {
+      "post": {
+        "tags": ["Mailing Lists"],
+        "summary": "Append Radius Search ($.05 per record) To Existing List",
+        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05.\n\n- address \\[required\\] - Search Street Address (Example: 123 Main St) to use for center of nearest neighbor search.\n- mailing_list_id \\[requred\\] - Mailing List ID to append radius search leads to.\n- postal_code \\[required\\] = Postal Code to use for center of nearest neighbor search.\n- record_count \\[required\\] - Number of nearest neighbors to search for. Valid numbers are 1-10000\n- record_types \\[optional\\] - Which type of records to search for. Valid options are 'all', 'likelytomove', 'likelytorefi', 'absenteeowner', 'highnetworth', 'majorityhomeequity', 'homefreeclear', 'underwater', 'kidsinhousehold', 'newhomeowner', 'firsttimehomebuyer', 'renters', 'retiring', 'retired', 'pool', 'onlybusinesses', 'newbusiness'. Defaults to 'all'\n- append_data \\[optional\\] - Append phone and email to each record for an additional fee ($.20 per record). Defaults to false.\n- use_property_owner \\[optional\\] - Use Property Owners Address when searching for a commercial record_type. Defaults to false\n- include_condos \\[optional\\] - Include condos in search. Defaults to true",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\n    \\\"address\\\": \\\"123 Main Street\\\",\\n    \\\"postal_code\\\": \\\"55555\\\",\\n    \\\"record_types\\\": \\\"all\\\",\\n    \\\"mailing_list_id\\\": \\\"1236\\\",\\n    \\\"record_count\\\": 1,\\n    \\\"include_condos\\\": false,\\n    \\\"append_data\\\": false,\\n    \\\"use_property_owner\\\": false\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 22 Feb 2023 17:45:20 GMT"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "status": "success",
+                  "mailing_list_id": 1236,
+                  "failure": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
     "/send/postcard": {
       "post": {
