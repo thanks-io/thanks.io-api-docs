@@ -108,7 +108,8 @@
             "pages": [
               "native-integrations/available/highlevel",
               "native-integrations/available/api-nation",
-              "native-integrations/available/api-nation-webhooks"
+              "native-integrations/available/api-nation-webhooks",
+              "native-integrations/available/boldtrail"
             ]
           },
           {
