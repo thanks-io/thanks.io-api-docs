@@ -1419,7 +1419,6 @@
         }
       }
     },
-
     "/mailing-lists-utils/recipients/{mailingListId}": {
       "get": {
         "tags": ["Mailing Lists"],
@@ -1531,38 +1530,112 @@
     "/mailing-lists/buy-radius-search": {
       "post": {
         "tags": ["Mailing Lists"],
-        "summary": "Append Radius Search ($.05 per record) To Existing List",
-        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05.\n\n- address \\[required\\] - Search Street Address (Example: 123 Main St) to use for center of nearest neighbor search.\n- mailing_list_id \\[requred\\] - Mailing List ID to append radius search leads to.\n- postal_code \\[required\\] = Postal Code to use for center of nearest neighbor search.\n- record_count \\[required\\] - Number of nearest neighbors to search for. Valid numbers are 1-10000\n- record_types \\[optional\\] - Which type of records to search for. Valid options are 'all', 'likelytomove', 'likelytorefi', 'absenteeowner', 'highnetworth', 'majorityhomeequity', 'homefreeclear', 'underwater', 'kidsinhousehold', 'newhomeowner', 'firsttimehomebuyer', 'renters', 'retiring', 'retired', 'pool', 'onlybusinesses', 'newbusiness'. Defaults to 'all'\n- append_data \\[optional\\] - Append phone and email to each record for an additional fee ($.20 per record). Defaults to false.\n- use_property_owner \\[optional\\] - Use Property Owners Address when searching for a commercial record_type. Defaults to false\n- include_condos \\[optional\\] - Include condos in search. Defaults to true",
+        "summary": "Radius Search",
+        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05. You can specify the number of records to return (up to 10,000) and the address/postal code to center the search around. You can also specify a mailing_list_id to add the results to an existing mailing list, or leave it blank to create a new mailing list.",
         "requestBody": {
           "content": {
-            "*/*": {
+            "application/json": {
               "schema": {
-                "type": "string",
-                "example": "\"{\\n    \\\"address\\\": \\\"123 Main Street\\\",\\n    \\\"postal_code\\\": \\\"55555\\\",\\n    \\\"record_types\\\": \\\"all\\\",\\n    \\\"mailing_list_id\\\": \\\"1236\\\",\\n    \\\"record_count\\\": 1,\\n    \\\"include_condos\\\": false,\\n    \\\"append_data\\\": false,\\n    \\\"use_property_owner\\\": false\\n}\""
+                "type": "object",
+                "required": [
+                  "address",
+                  "postal_code",
+                  "record_count"
+                ],
+                "properties": {
+                  "mailing_list_id": {
+                    "type": "integer",
+                    "example": 1,
+                    "description": "ID of the mailing list to add the radius search results to.  If not provided, a new mailing list will be created."
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main Street",
+                    "description": "Street address to use for center of nearest neighbor search."
+                  },
+                  "postal_code": {
+                    "type": "string",
+                    "example": "55555",
+                    "description": "Postal code to use for center of nearest neighbor search."
+                  },
+                  "record_count": {
+                    "type": "integer",
+                    "description": "Number of nearest neighbors to search for.",
+                    "minimum": 1,
+                    "maximum": 10000,
+                    "example": 1
+                  },
+                  "record_types": {
+                    "type": "string",
+                    "description": "Which type of records to search for",
+                    "enum": [
+                      "all",
+                      "likelytomove",
+                      "likelytorefi",
+                      "absenteeowner",
+                      "highnetworth",
+                      "majorityhomeequity",
+                      "homefreeclear",
+                      "underwater",
+                      "kidsinhousehold",
+                      "newhomeowner",
+                      "firsttimehomebuyer",
+                      "renters",
+                      "retiring",
+                      "retired",
+                      "pool",
+                      "onlybusinesses",
+                      "newbusiness"
+                    ],
+                    "default": "all"
+                  },
+                  "include_condos": {
+                    "type": "boolean",
+                    "description": "Include condos in search.",
+                    "default": true
+                  },
+                  "append_data": {
+                    "type": "boolean",
+                    "description": "Append phone and email to each record for an additional fee ($.20 per record).",
+                    "default": false
+                  },
+                  "use_property_owner": {
+                    "type": "boolean",
+                    "description": "Use Property Owners Address when searching for a commercial record_type.",
+                    "default": false
+                  }
+                }
+              },
+              "examples": {
+                "Create New List w/ Phone+Email Append": {
+                  "value": {
+                    "address": "123 Main Street",
+                    "postal_code": "55555",
+                    "record_types": "all",
+                    "record_count": 10,
+                    "include_condos": false,
+                    "append_data": true
+                  }
+                },
+                "Append To Existing List w/ Condos": {
+                  "value": {
+                    "address": "123 Main Street",
+                    "postal_code": "55555",
+                    "record_types": "all",
+                    "record_count": 10,
+                    "include_condos": true,
+                    "append_data": false,
+                    "mailing_list_id": 3020
+                  }
+                }
               }
             }
           }
         },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful Response",
             "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Wed, 22 Feb 2023 17:45:20 GMT"
-                }
-              },
               "Content-Type": {
                 "schema": {
                   "type": "string",
@@ -1573,17 +1646,59 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "mailing_list_id": {
+                      "type": "integer",
+                      "example": 1196
+                    },
+                    "failure": {
+                      "type": "boolean",
+                      "example": false
+                   }
+                  }
                 },
                 "example": {
-                  "status": "success",
-                  "mailing_list_id": 1236,
+                  "message": "success",
+                  "mailing_list_id": 1196,
                   "failure": false
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "No neighbors could be found with search parameters."
+                    },
+                    "failure": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
+
+
       }
     },
 
