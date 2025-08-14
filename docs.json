@@ -30,28 +30,6 @@
             "group": "Authentication",
             "icon": "lock",
             "pages": ["authentication/bearer-token", "authentication/oauth"]
-          },
-          {
-            "group": "Common Workflows",
-            "icon": "water",
-            "pages": [
-              "workflows/campaign",
-              "workflows/letter-pdf-order",
-              "workflows/postcard-order",
-              "workflows/giftcard-order"
-            ]
-          },
-          {
-            "group": "FAQs",
-            "icon": "square-question",
-            "pages": [
-              "faqs/quick-implementation",
-              "faqs/images",
-              "faqs/messages",
-              "faqs/previews",
-              "faqs/qrcode",
-              "faqs/return-address"
-            ]
           }
         ]
       },
@@ -68,15 +46,6 @@
             "openapi": {
               "source": "api-reference/openapi.json"
             }
-          },
-          {
-            "group": "Usage Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
           }
         ]
       },
