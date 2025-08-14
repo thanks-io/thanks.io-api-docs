@@ -362,11 +362,75 @@
           }
         }
       },
-      "recipient-array": {
-        "type": "array",
-        "description": "Array of recipient objects",
-        "items": {
-          "$ref": "#/components/schemas/recipient"
+      "recipient-no-mailinglist": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Tobias Example"
+          },
+          "company": {
+            "type": "string",
+            "example": "www.thanks.io"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main Street"
+          },
+          "address2": {
+            "type": "string",
+            "example": "Apartment 1"
+          },
+          "city": {
+            "type": "string",
+            "example": "Any Town"
+          },
+          "province": {
+            "type": "string",
+            "description": "State or Province",
+            "example": "KS"
+          },
+          "postal_code": {
+            "type": "string",
+            "example": "12345"
+          },
+          "country": {
+            "type": "string",
+            "example": "US"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "1981-04-23"
+          },
+          "email": {
+            "type": "string",
+            "example": "tobias@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+1 (555) 123-4567"
+          },
+          "custom1": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Unique Info"
+          },
+          "custom2": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "For example a product code or customer ID"
+          },
+          "custom3": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom4": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          }
         }
       },
       "recipient-create": {
@@ -488,6 +552,166 @@
           }
         }
       },
+      "recipient-create-no-mailinglist": {
+        "type": "object",
+        "anyOf": [
+          {
+            "title": "Create Recipient by Address",
+            "description": "Create a recipient by providing address details",
+            "summary": "Create Recipient by Address",
+            "required": [
+              "mailing_list_id",
+              "address"
+            ]
+          },
+          {
+            "title": "Create Recipient by Email",
+            "description": "Create a recipient by providing email address",
+            "summary": "Create Recipient by Email",
+            "required": [
+              "mailing_list_id",
+              "email"
+            ]
+          }
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Tobias Example"
+          },
+          "company": {
+            "type": "string",
+            "example": "www.thanks.io"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main Street"
+          },
+          "address2": {
+            "type": "string",
+            "example": "Apartment 1"
+          },
+          "city": {
+            "type": "string",
+            "example": "Any Town"
+          },
+          "province": {
+            "type": "string",
+            "description": "State or Province",
+            "example": "KS"
+          },
+          "postal_code": {
+            "type": "string",
+            "example": "12345"
+          },
+          "country": {
+            "type": "string",
+            "example": "US"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "1981-04-23"
+          },
+          "email": {
+            "type": "string",
+            "example": "tobias@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+1 (555) 123-4567"
+          },
+          "custom1": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Unique Info"
+          },
+          "custom2": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "For example a product code or customer ID"
+          },
+          "custom3": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom4": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "mailing-list": {
+            "readOnly": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/mailing-list"
+              }
+            ],
+            "description": "The mailing list this recipient belongs to"
+          },
+          "created_at": {
+            "readOnly": true,
+            "type": "string",
+            "example": "2025-06-27T14:57:11.000000Z"
+          },
+          "updated_at": {
+            "readOnly": true,
+            "type": "string",
+            "example": "2025-06-27T14:57:11.000000Z"
+          }
+        }
+      },
+      "recipient-array": {
+        "type": "array",
+        "description": "Array of recipient objects",
+        "items": {
+          "$ref": "#/components/schemas/recipient"
+        }
+      },
+
+      "sub-account": {
+        "type": "object",
+        "properties" : {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 2
+          },
+          "title": {
+            "type": "string",
+            "example": "My Sub Account"
+          },
+          "return_name": {
+            "type": "string",
+            "example": "John Smith"
+          },
+          "return_address": {
+            "type": "string",
+            "example": "123 Smith Street"
+          },
+          "return_address2": {
+            "type": "string",
+            "example": "Apartment 2"
+          },
+          "return_city": {
+            "type": "string",
+            "example": "Denver"
+          },
+          "return_state": {
+            "type": "string",
+            "example": "CO"
+          },
+          "return_postal_code": {
+            "type": "string",
+            "example": "80220"
+          }
+        }
+      },
+
       "links": {
         "type": "object",
         "properties": {
@@ -615,6 +839,438 @@
             "description": "Total number of items"
           }
         }
+      },
+      "send-mailer-base": {
+        "type": "object",
+        "properties": {
+          "preview": {
+            "type": "boolean",
+            "description": "Set to true to preview the postcard instead of sending it.  This can be used with any send call to get a preview before sending.",
+            "example": true
+          },
+          "mailing_lists": {
+            "type": "array",
+            "description": "ID of mailing list to sent to.  Required if recipients and radius_search is not specified.",
+            "items": {
+              "type": "integer"
+            },
+            "example": [5166, 514]
+          },
+          "recipients": {
+            "type": "array",
+            "description": "Array of recipients to send to.  Required if mailing_lists and radius_search is not specified.",
+            "items": {
+              "$ref": "#/components/schemas/recipient-create-no-mailinglist"
+            }
+          },
+          "radius_search": {
+            "type": "object",
+            "description": "Search for recipients within a radius of a given address.  Required if mailing_lists and recipients are not specified. There is a $.05 lookup fee for each record.",
+            "properties": {
+              "preview": {
+                "type": "boolean",
+                "description": "Return a preview of number of neighbors found and cost.",
+                "default": false
+              },
+              "address": {
+                "type": "string",
+                "example": "123 Main Street",
+                "description": "Street address to use for center of nearest neighbor search."
+              },
+              "postal_code": {
+                "type": "string",
+                "example": "55555",
+                "description": "Postal code to use for center of nearest neighbor search."
+              },
+              "record_count": {
+                "type": "integer",
+                "description": "Number of nearest neighbors to search for.",
+                "minimum": 1,
+                "maximum": 10000,
+                "example": 1
+              },
+              "record_types": {
+                "type": "string",
+                "description": "Which type of records to search for",
+                "enum": [
+                  "all",
+                  "likelytomove",
+                  "likelytorefi",
+                  "absenteeowner",
+                  "highnetworth",
+                  "majorityhomeequity",
+                  "homefreeclear",
+                  "underwater",
+                  "kidsinhousehold",
+                  "newhomeowner",
+                  "firsttimehomebuyer",
+                  "renters",
+                  "retiring",
+                  "retired",
+                  "pool",
+                  "onlybusinesses",
+                  "newbusiness"
+                ],
+                "default": "all"
+              },
+              "include_condos": {
+                "type": "boolean",
+                "description": "Include condos in search.",
+                "default": false
+              },
+              "append_data": {
+                "type": "boolean",
+                "description": "Append phone and email to each record for an additional fee ($.20 per record).",
+                "default": false
+              },
+              "use_property_owner": {
+                "type": "boolean",
+                "description": "Use Property Owners Address when searching for a commercial record_type.",
+                "default": false
+              }
+            }
+          },
+          "handwriting_style": {
+            "type": "integer",
+            "description": "ID of handwriting style to use.",
+            "example": 4
+          },
+          "handwriting_color": {
+            "type": "string",
+            "description": "Handwriting color to use. Options are preset named colors or specified as hex format, such as '#4287f5'",
+            "enum": ["blue", "black", "green", "purple", "red"],
+            "examples": [
+              "blue",
+              "#4287f5"
+            ]
+          },
+          "handwriting_realism": {
+            "type": "boolean",
+            "description": "Boolean, set to true to turn on the realism effect for AI fonts.",
+            "example": true
+          },
+          "sub_account": {
+            "type": "integer",
+            "description": "ID of Sub Account to use for this order.",
+            "example": 7
+          },
+          "email_additional": {
+            "type": "string",
+            "description": "Optional email to send alerts to about order (such as QR scan notifications).",
+            "example": "test@test.com"
+          },
+          "send_standard_mail": {
+            "type": "boolean",
+            "description": "Send Mail as Standard Mail postage class.  If false or not specified, First Class postage will be used.",
+            "default": false
+          }
+        }
+      },
+      "send-mailer-order-response": {
+        "type": "object",
+        "title": "Send Mailer Order Submitted Response",
+        "description": "Response when an Order is successfully submitted to Send Mailer",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for the order",
+            "example": 42664
+          },
+          "user_id": {
+            "type": "integer",
+            "description": "User ID for the order",
+            "example": 2
+          },
+          "sub_account": {
+            "description": "Sub-account Info For Order.  Can be null",
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sub-account"
+              }
+            ]
+          },
+          "sub_account_id": {
+            "type": "integer",
+            "description": "Sub account ID for the order",
+            "nullable": true,
+            "example": 12345
+          },
+
+          "total_estimated_recipients": {
+            "type": "integer",
+            "description": "Total estimated recipients for the order",
+            "example": 1
+          },
+          "authorization_total": {
+            "type": "integer",
+            "description": "Total authorization amount for the order in cents",
+            "example": 58
+          },
+          "leads_fee": {
+            "type": "integer",
+            "description": "Total leads fee for the order in cents",
+            "example": 99
+          },
+
+
+          "mailing_list_ids_used": {
+            "type": "string",
+            "description": "Mailing lists used for the order.  Can be null if recipients or radius search is used.",
+            "example": "3046,3020"
+          },
+          "recipients": {
+            "type": "array",
+            "description": "List of recipients for the order",
+            "items": {
+              "$ref": "#/components/schemas/recipient-no-mailinglist"
+            }
+          },
+
+          "front_image": {
+            "type": "string",
+            "description": "Front image URL for the order",
+            "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png"
+          },
+          "image_template_id": {
+            "type": "integer",
+            "description": "Image template ID for the order",
+            "nullable": true,
+            "example": 6
+          },
+          "custom_background_url": {
+            "type": "string",
+            "description": "Custom background URL for the order",
+            "nullable": true,
+            "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
+          },
+
+          "message": {
+            "type": "string",
+            "description": "Message content for the order",
+            "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          },
+          "message_template_id": {
+            "type": "integer",
+            "description": "Message template ID for the order",
+            "nullable": true,
+            "example": 12345
+          },
+          "handwriting_color": {
+            "type": "string",
+            "description": "Handwriting color to use",
+            "example": "rgba(31,0,113,0.80)"
+          },
+          "font_size": {
+            "type": "string",
+            "description": "Font size for the order",
+            "enum": [
+              "auto",
+              "small",
+              "medium",
+              "large"
+            ],
+            "example": "auto"
+          },
+          "style": {
+            "type": "integer",
+            "description": "Handwriting style ID for the order",
+            "example": 4
+          },
+          "append_or_current_resident": {
+            "type": "boolean",
+            "description": "Appended \"Or Current Resident\" for the order.  This is helpful if you want to ensure delivery.",
+            "example": false
+          },
+
+          "return_name": {
+            "type": "string",
+            "description": "Return name for the order",
+            "nullable": true,
+            "example": "John Doe"
+          },
+          "return_address": {
+            "type": "string",
+            "description": "Return address line 1 for the order",
+            "nullable": true,
+            "example": "123 Main Street"
+          },
+          "return_address2": {
+            "type": "string",
+            "description": "Return address line 2 for the order",
+            "nullable": true,
+            "example": null
+          },
+          "return_city": {
+            "type": "string",
+            "description": "Return city for the order",
+            "nullable": true,
+            "example": "Anytown"
+          },
+          "return_province": {
+            "type": "string",
+            "description": "Return state/province for the order",
+            "nullable": true,
+            "example": "NY"
+          },
+          "return_postal_code": {
+            "type": "string",
+            "description": "Return postal code for the order",
+            "nullable": true,
+            "example": "12345"
+          },
+
+
+          "type": {
+            "type": "string",
+            "description": "Type of the order",
+            "enum": [
+              "postcard",
+              "postcard6x11",
+              "letter",
+              "notecard",
+              "giftcard",
+              "windowlessletter"
+            ],
+            "example": "postcard"
+          },
+          "size": {
+            "type": "string",
+            "description": "Size of the order (valid for postcards only)",
+            "enum": [
+              "4x6",
+              "6x9",
+              "6x11"
+            ],
+            "example": "4x6"
+          },
+          "method": {
+            "type": "string",
+            "description": "Method for the order",
+            "enum": [
+              "api",
+              "cardbuilder",
+              "drip",
+              "email",
+              "zapier"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the order",
+            "enum": [
+              "reviewing",
+              "processing",
+              "fulfilled",
+              "cancelled",
+              "printed",
+              "shipped",
+              "paused",
+              "delivered"
+            ]          },
+          "display_status": {
+            "type": "string",
+            "description": "Display status for the order",
+            "example": "Reviewing"
+          },
+          "display_trigger": {
+            "type": "string",
+            "description": "Display trigger for the order",
+            "example": "API"
+          },
+          "display_type": {
+            "type": "string",
+            "description": "Display type for the order",
+            "example": "Postcard-4x6"
+          },
+
+          "addons": {
+            "type": "object",
+            "description": "Add-ons for the order",
+            "nullable": true,
+            "properties": {
+              "nonprofit": {
+                "type": "string",
+                "description": "Nonprofit add-on status",
+                "enum": [
+                  "on",
+                  "off"
+                ],
+                "example": "on"
+              }
+            }
+          },
+          "qrcode_url": {
+            "type": "string",
+            "description": "QR code URL for the order",
+            "nullable": true,
+            "example": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~"
+          },
+
+          "giftcard_brand": {
+            "type": "string",
+            "description": "Gift card brand for the order (valid for Giftcard orders only)",
+            "nullable": true,
+            "example": null
+          },
+          "giftcard_image": {
+            "type": "string",
+            "description": "Gift card image URL for the order (valid for Giftcard orders only)",
+            "nullable": true,
+            "example": null
+          },
+          "giftcard_amount": {
+            "type": "integer",
+            "description": "Gift card amount for the order in cents (valid for Giftcard orders only)",
+            "nullable": true,
+            "example": null
+          },
+          "giftcard_brand_longname": {
+            "type": "string",
+            "description": "Gift card brand long name for the order (valid for Giftcard orders only)",
+            "example": "Amazon.com"
+          },
+
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last updated timestamp for the order",
+            "example": "2025-08-14 16:42:44"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp for the order",
+            "example": "2025-08-14 16:42:44"
+          }
+        }
+      },
+      "send-mailer-preview-response": {
+        "type": "object",
+        "title": "Send Mailer Preview Response",
+        "description": "Images representing preview of order.  Response when `preview` is set to `true`",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "OK",
+            "description": "Response message"
+          },
+          "data": {
+            "type": "object",
+            "description": "Preview data containing image URLs",
+            "properties": {
+              "previews": {
+                "type": "array",
+                "description": "Array of preview image URLs",
+                "items": {
+                  "type": "string",
+                  "format": "uri",
+                  "example": "https://s3.amazonaws.com/cdn.thanks.io/preview/12345.png"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -628,6 +1284,38 @@
                 "message": {
                   "type": "string",
                   "example": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UserError": {
+        "description": "User error occurred",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Error Submitting Postcard: front_image_url does not exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnknownError": {
+        "description": "An unknown error occurred",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Error Submitting Postcard"
                 }
               }
             }
@@ -1526,7 +2214,6 @@
         }
       }
     },
-
     "/mailing-lists/buy-radius-search": {
       "post": {
         "tags": ["Mailing Lists"],
@@ -1592,7 +2279,7 @@
                   "include_condos": {
                     "type": "boolean",
                     "description": "Include condos in search.",
-                    "default": true
+                    "default": false
                   },
                   "append_data": {
                     "type": "boolean",
@@ -1705,168 +2392,264 @@
     "/send/postcard": {
       "post": {
         "tags": ["Send Mailer"],
-        "summary": "4x6 Postcard Preview",
-        "description": "Return Preview images of 4x6 Postcard Send.",
+        "summary": "Send Postcard",
+        "description": "Send a 4x6, 6x9, or 6x11 postcard.  Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the postcard will be returned in the response.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "example": {
-                  "image_template": 6,
-                  "preview": true,
-                  "handwriting_style": 4,
-                  "email_additional": "test@test.com",
-                  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                  "recipients": [
-                    {
-                      "name": "Current Resident",
-                      "address": "123 Main Street",
-                      "city": "Fake City",
-                      "province": "NY",
-                      "postal_code": "55555",
-                      "country": "US",
-                      "custom1": "Example Custom 1",
-                      "custom2": "Example Custom 2",
-                      "custom3": "Example Custom 3",
-                      "custom4": "Example Custom 4"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template": {
+                        "type": "integer",
+                        "description": "ID of image template to use for front of postcard.  Required if front_image_url is not specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.  Required if image_template is not specified.",
+                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for content on back of postcard. Required if message_template is not specified.",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                      },
+                      "message_template": {
+                        "type": "integer",
+                        "description": "ID of message template to use for content on back of postcard. Required if message is not specified.",
+                        "example": 12
+                      },
+                      "use_custom_background": {
+                        "type": "boolean",
+                        "description": "Use custom background image. This can be used to turn off the default background image.",
+                        "default": false
+                      },
+                      "custom_background_image": {
+                        "type": "string",
+                        "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.",
+                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code on back of postcard. If not specified, account default QR code URL will be used.",
+                        "example": "https://www.google.com"
+                      },
+                      "size": {
+                        "type": "string",
+                        "description": "Size of the postcard.",
+                        "default": "4x6",
+                        "enum": ["4x6", "6x9", "6x11"]
+                      }
                     }
-                  ]
+                  }
+                ]
+              },
+              "examples": {
+                "4x6 w/ Image URL/Recipients": {
+                  "summary": "4x6 Postcard with Custom Image and Recipients",
+                  "description": "Example of sending a 4x6 postcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",   
+                  "value": {
+                    "size": "4x6",
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                },
+                "6x9 w/ Templates/QR Code ": {
+                  "summary": "6x9 Postcard with Templates and QR Code",
+                  "description": "Example of sending a 6x9 postcard using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
+                  "value": {
+                    "size": "6x9",
+                    "image_template": 6,
+                    "message_template": 12,
+                    "qrcode_url": "https://www.google.com",
+                    "mailing_lists": [5166, 514]
+                  }
+                },
+                "6x9 w/ Custom Background/Standard": {
+                  "summary": "6x9 Postcard with Custom Background and Standard Mail",
+                  "description": "Example of sending a 6x9 postcard with a custom background image, specific handwriting style, and using standard mail delivery (lower cost option).",
+                  "value": {
+                    "size": "6x9",
+                    "image_template": 8,
+                    "use_custom_background": true,
+                    "custom_background_image": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/449d24b0-78cb-11f0-a351-bfecbf71caa6.png",
+                    "handwriting_style": 3,
+                    "send_standard_mail": true,
+                    "mailing_lists": [5166, 514]
+                  }
+                },
+                "6x11 w/ Radius Search": {
+                  "summary": "6x11 Postcard with Radius Search Targeting",
+                  "description": "Example of sending a large 6x11 postcard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
+                  "value": {
+                    "size": "6x11",
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "radius_search": {
+                      "address": "123 Main Street",
+                      "postal_code": "55555",
+                      "record_types": "likelytomove",
+                      "record_count": 10,
+                      "include_condos": false,
+                      "append_data": true
+                    }
+                  }
+                },
+                "4x6 Preview": {
+                  "summary": "Preview 4x6 Postcard Before Sending",
+                  "description": "Example of generating a preview of a 4x6 postcard before actually sending it. Use the preview parameter to see how your postcard will look without placing an actual order.",
+                  "value": {
+                    "size": "4x6",
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "preview": true,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
                 }
-              }
+              }              
             }
           }
         },
-        "parameters": [
-          {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "example": "application/json"
-          }
-        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "headers": {
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Tue, 08 Apr 2025 04:57:52 GMT"
-                }
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string",
-                  "example": "application/json"
-                }
-              },
-              "Transfer-Encoding": {
-                "schema": {
-                  "type": "string",
-                  "example": "chunked"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Cache-Control": {
-                "schema": {
-                  "type": "string",
-                  "example": "no-cache, private"
-                }
-              },
-              "X-RateLimit-Limit": {
-                "schema": {
-                  "type": "integer",
-                  "example": "120"
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer",
-                  "example": "119"
-                }
-              },
-              "cf-cache-status": {
-                "schema": {
-                  "type": "string",
-                  "example": "DYNAMIC"
-                }
-              },
-              "Report-To": {
-                "schema": {
-                  "type": "string",
-                  "example": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=jxptn%2FqkY7gu7G19%2Bx9gzjCITW89lyGh%2Fs7R9LQLJVwfVDuCQFuUNXTDaoMqQvbMZWxZQvqsd9z4BslvVZSMbpjY1lNwmQgfs91psyJg1bnw%2Bl1QXpGOYu%2FpBUNyZm%2FrgDloYsl8x9ros2JzvQ%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
-                }
-              },
-              "NEL": {
-                "schema": {
-                  "type": "string",
-                  "example": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
-                }
-              },
-              "Strict-Transport-Security": {
-                "schema": {
-                  "type": "string",
-                  "example": "max-age=31536000; includeSubDomains; preload"
-                }
-              },
-              "X-Content-Type-Options": {
-                "schema": {
-                  "type": "string",
-                  "example": "nosniff"
-                }
-              },
-              "Server": {
-                "schema": {
-                  "type": "string",
-                  "example": "cloudflare"
-                }
-              },
-              "CF-RAY": {
-                "schema": {
-                  "type": "string",
-                  "example": "92cf2fa26ef85078-ORD"
-                }
-              },
-              "Content-Encoding": {
-                "schema": {
-                  "type": "string",
-                  "example": "br"
-                }
-              },
-              "server-timing": {
-                "schema": {
-                  "type": "string",
-                  "example": "cfL4;desc=\"?proto=TCP&rtt=29983&min_rtt=28986&rtt_var=11582&sent=7&recv=8&lost=0&retrans=0&sent_bytes=2801&recv_bytes=3580&delivery_rate=99910&cwnd=241&unsent_bytes=0&cid=01952e3d92f4ace6&ts=3830&x=0\""
-                }
-              }
-            },
+            "description": "Send Mailer Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/send-mailer-order-response"
+                    },
+                    {
+                      "$ref": "#/components/schemas/send-mailer-preview-response"
+                    }
+                  ]
                 },
-                "example": {
-                  "success": true,
-                  "code": 200,
-                  "message": "OK",
-                  "data": {
-                    "previews": [
-                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
-                      "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/1056d992-b7f8-bf98-5ad5-9d089cd46e62.png"
-                    ]
+                "examples": {
+                  "Order Submitted Response": {
+                    "summary": "Order Submitted Response Example",
+                    "value": {
+                      "total_estimated_recipients": 2,
+                      "authorization_total": 116,
+                      "leads_fee": 0,
+                      "mailing_list_ids_used": "3046,3020",
+                      "handwriting_color": "rgba(31,0,113,0.80)",
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                      "append_or_current_resident": true,
+                      "type": "postcard",
+                      "return_name": null,
+                      "return_address": null,
+                      "return_address2": null,
+                      "return_city": null,
+                      "return_province": null,
+                      "return_postal_code": null,
+                      "message_template_id": null,
+                      "image_template_id": 6,
+                      "method": "api",
+                      "sub_account_id": null,
+                      "font_size": "auto",
+                      "qrcode_url": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~",
+                      "size": "4x6",
+                      "custom_background_url": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png",
+                      "giftcard_brand": null,
+                      "giftcard_image": null,
+                      "giftcard_amount": null,
+                      "status": "reviewing",
+                      "addons": {
+                        "nonprofit": "on"
+                      },
+                      "style": 4,
+                      "user_id": 2,
+                      "updated_at": "2025-08-14 16:48:13",
+                      "created_at": "2025-08-14 16:48:13",
+                      "id": 42665,
+                      "display_status": "Reviewing",
+                      "display_trigger": "API",
+                      "display_type": "Postcard-4x6",
+                      "handwriting_image": null,
+                      "giftcard_brand_longname": "",
+                      "sub_account": null
+                    }
+                  },
+                  "Preview Response": {
+                    "summary": "Preview Response Example",
+                    "value": {
+                      "success": true,
+                      "code": 200,
+                      "message": "OK",
+                      "data": {
+                        "previews": [
+                          "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                          "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/1056d992-b7f8-bf98-5ad5-9d089cd46e62.png"
+                        ]
+                      }
+                    }
                   }
                 }
               }
             }
-          }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+           "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+           "500": {
+            "$ref": "#/components/responses/UnknownError"
+           }
         }
       }
     },
