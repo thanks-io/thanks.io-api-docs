@@ -874,13 +874,8 @@
               },
               "address": {
                 "type": "string",
-                "example": "123 Main Street",
-                "description": "Street address to use for center of nearest neighbor search."
-              },
-              "postal_code": {
-                "type": "string",
-                "example": "55555",
-                "description": "Postal code to use for center of nearest neighbor search."
+                "example": "123 Main Street, Fake City, NY, 55555",
+                "description": "Full Street address to use for center of nearest neighbor search."
               },
               "record_count": {
                 "type": "integer",
@@ -1299,7 +1294,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Error Submitting Postcard: front_image_url does not exist"
+                  "example": "Sub Account ID does not exist"
                 }
               }
             }
@@ -1315,7 +1310,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Error Submitting Postcard"
+                  "example": "Error Submitting Mailer"
                 }
               }
             }
@@ -2515,8 +2510,7 @@
                     "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
                     "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     "radius_search": {
-                      "address": "123 Main Street",
-                      "postal_code": "55555",
+                      "address": "123 Main Street, Fake City, NY, 55555",
                       "record_types": "likelytomove",
                       "record_count": 10,
                       "include_condos": false,
@@ -2653,6 +2647,266 @@
         }
       }
     },
+    "/send/letter": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Send Windowed Letter",
+        "description": "Send a letter in a windowed envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for cover letter.",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                      },
+                      "message_template": {
+                        "type": "integer",
+                        "description": "ID of message template to use for cover letter.",
+                        "example": 12
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code on cover letter.",
+                        "example": "https://www.google.com"
+                      },
+                      "additional_pages_url": {
+                        "type": "string",
+                        "description": "URL to additional pages to include with the cover letter.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      },
+                      "pdf_only_url": {
+                        "type": "string",
+                        "description": "URL to PDF file to use for entire mailer.  IF this is specified, no cover letter is generated.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Windowed Letter with Custom Image and Recipients",
+                  "description": "Example of sending a windowed letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                },
+                "PDF File Only": {
+                  "summary": "Windowed Letter with PDF File Only",
+                  "description": "Example of sending a windowed letter with a PDF file attachment, targeting specific mailing lists.",
+                  "value": {
+                    "pdf_only_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    "mailing_lists": [5166, 514]
+                  }
+                },
+                "Templates & QR Code ": {
+                  "summary": "Windowed Letter with Templates, QR Code, and Additional PAages",
+                  "description": "Example of sending a windowed letter using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
+                  "value": {
+                    "image_template": 6,
+                    "message_template": 12,
+                    "qrcode_url": "https://www.google.com",
+                    "mailing_lists": [5166, 514],
+                    "additional_pages_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                  }
+                },
+                "Radius Search": {
+                  "summary": "Windowed Letter with Radius Search Targeting",
+                  "description": "Example of sending a windowed letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
+                  "value": {
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "radius_search": {
+                      "address": "123 Main Street, Fake City, NY, 55555",
+                      "record_types": "likelytomove",
+                      "record_count": 10,
+                      "include_condos": false,
+                      "append_data": true
+                    }
+                  }
+                },
+                "Preview": {
+                  "summary": "Preview Windowed Letter Before Sending",
+                  "description": "Example of generating a preview of a windowed letter before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
+                  "value": {
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "preview": true,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }              
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send Mailer Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/send-mailer-order-response"
+                    },
+                    {
+                      "$ref": "#/components/schemas/send-mailer-preview-response"
+                    }
+                  ]
+                },
+                "examples": {
+                  "Order Submitted Response": {
+                    "summary": "Order Submitted Response Example",
+                    "value": {
+                      "total_estimated_recipients": 1,
+                      "authorization_total": 60,
+                      "leads_fee": 0,
+                      "mailing_list_ids_used": "",
+                      "additional_letter_pages_count": 0,
+                      "handwriting_color": "rgba(31,0,113,0.80)",
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "message": "Test Message",
+                      "append_or_current_resident": true,
+                      "type": "letter",
+                      "return_name": "Custom Return",
+                      "return_address": "1 Main Street",
+                      "return_address2": "Unit 1",
+                      "return_city": "Woodbridge",
+                      "return_province": "NJ",
+                      "return_postal_code": "07095",
+                      "message_template_id": null,
+                      "image_template_id": null,
+                      "method": "api",
+                      "sub_account_id": null,
+                      "font_size": "auto",
+                      "qrcode_url": null,
+                      "custom_background_url": null,
+                      "giftcard_brand": null,
+                      "giftcard_image": null,
+                      "giftcard_amount": null,
+                      "status": "reviewing",
+                      "addons": {
+                          "nonprofit": "on"
+                      },
+                      "style": 5,
+                      "user_id": 2,
+                      "updated_at": "2025-08-15 03:22:20",
+                      "created_at": "2025-08-15 03:22:19",
+                      "id": 42670,
+                      "display_status": "Reviewing",
+                      "display_trigger": "API",
+                      "display_type": "Windowed Letter",
+                      "giftcard_brand_longname": "",
+                      "sub_account": null,
+                      "recipients": [
+                          {
+                              "name": "Current Resident",
+                              "address": "1 Davis Street",
+                              "city": "Beacon",
+                              "province": "NY",
+                              "postal_code": "12508",
+                              "country": "US",
+                              "address2": ""
+                          }
+                      ]
+                    }
+                  },
+                  "Preview Response": {
+                    "summary": "Preview Response Example",
+                    "value": {
+                      "success": true,
+                      "code": 200,
+                      "message": "OK",
+                      "data": {
+                        "previews": [
+                          "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/ae538eb8-1d62-45db-8b9f-2c9b08f8e5b3.png"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+           "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+           "500": {
+            "$ref": "#/components/responses/UnknownError"
+           }
+        }
+      }
+    },
+
+
 
     "/build/image-template": {
       "get": {
