@@ -1184,9 +1184,9 @@
             "description": "Add-ons for the order",
             "nullable": true,
             "properties": {
-              "nonprofit": {
+              "standardmail": {
                 "type": "string",
-                "description": "Nonprofit add-on status",
+                "description": "Standard mail add-on status",
                 "enum": [
                   "on",
                   "off"
@@ -2602,7 +2602,7 @@
                       "giftcard_amount": null,
                       "status": "reviewing",
                       "addons": {
-                        "nonprofit": "on"
+                        "standardmail": "on"
                       },
                       "style": 4,
                       "user_id": 2,
@@ -2743,7 +2743,7 @@
                   }
                 },
                 "Templates & QR Code ": {
-                  "summary": "Windowed Letter with Templates, QR Code, and Additional PAages",
+                  "summary": "Windowed Letter with Templates, QR Code, and Additional Pages",
                   "description": "Example of sending a windowed letter using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
                   "value": {
                     "image_template": 6,
@@ -2851,7 +2851,7 @@
                       "giftcard_amount": null,
                       "status": "reviewing",
                       "addons": {
-                          "nonprofit": "on"
+                          "standardmail": "on"
                       },
                       "style": 5,
                       "user_id": 2,
@@ -2866,10 +2866,10 @@
                       "recipients": [
                           {
                               "name": "Current Resident",
-                              "address": "1 Davis Street",
-                              "city": "Beacon",
+                              "address": "1 Main Street",
+                              "city": "Anytown",
                               "province": "NY",
-                              "postal_code": "12508",
+                              "postal_code": "55555",
                               "country": "US",
                               "address2": ""
                           }
@@ -2905,8 +2905,511 @@
         }
       }
     },
-
-
+    "/send/windowlessletter": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Send Windowless Letter",
+        "description": "Send a letter in a windowless envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for cover letter.",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                      },
+                      "message_template": {
+                        "type": "integer",
+                        "description": "ID of message template to use for cover letter.",
+                        "example": 12
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code on cover letter.",
+                        "example": "https://www.google.com"
+                      },
+                      "additional_pages_url": {
+                        "type": "string",
+                        "description": "URL to additional pages to include with the cover letter.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      },
+                      "pdf_only_url": {
+                        "type": "string",
+                        "description": "URL to PDF file to use for entire mailer.  IF this is specified, no cover letter is generated.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Windowless Letter with Custom Image and Recipients",
+                  "description": "Example of sending a windowless letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                },
+                "PDF File Only": {
+                  "summary": "Windowless Letter with PDF File Only",
+                  "description": "Example of sending a windowless letter with a PDF file attachment, targeting specific mailing lists.",
+                  "value": {
+                    "pdf_only_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    "mailing_lists": [5166, 514]
+                  }
+                },
+                "Templates & QR Code ": {
+                  "summary": "Windowless Letter with Templates, QR Code, and Additional PPages",
+                  "description": "Example of sending a windowless letter using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
+                  "value": {
+                    "image_template": 6,
+                    "message_template": 12,
+                    "qrcode_url": "https://www.google.com",
+                    "mailing_lists": [5166, 514],
+                    "additional_pages_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                  }
+                },
+                "Radius Search": {
+                  "summary": "Windowless Letter with Radius Search Targeting",
+                  "description": "Example of sending a windowless letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
+                  "value": {
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "radius_search": {
+                      "address": "123 Main Street, Fake City, NY, 55555",
+                      "record_types": "likelytomove",
+                      "record_count": 10,
+                      "include_condos": false,
+                      "append_data": true
+                    }
+                  }
+                },
+                "Preview": {
+                  "summary": "Preview windowless Letter Before Sending",
+                  "description": "Example of generating a preview of a windowless letter before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
+                  "value": {
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "preview": true,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }              
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send Mailer Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/send-mailer-order-response"
+                    },
+                    {
+                      "$ref": "#/components/schemas/send-mailer-preview-response"
+                    }
+                  ]
+                },
+                "examples": {
+                  "Order Submitted Response": {
+                    "summary": "Order Submitted Response Example",
+                    "value": {
+                      "total_estimated_recipients": 1,
+                      "authorization_total": 112,
+                      "leads_fee": 0,
+                      "mailing_list_ids_used": "",
+                      "additional_letter_pages_count": 0,
+                      "handwriting_color": "rgba(31,0,113,0.80)",
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "message": "\n\n\n\n\n\n\n\nWhat is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+                      "append_or_current_resident": true,
+                      "type": "windowlessletter",
+                      "return_name": "Custom Return",
+                      "return_address": "1 Main Street",
+                      "return_address2": "Unit 1",
+                      "return_city": "Woodbridge",
+                      "return_province": "NJ",
+                      "return_postal_code": "07095",
+                      "message_template_id": null,
+                      "image_template_id": null,
+                      "method": "api",
+                      "sub_account_id": null,
+                      "font_size": "auto",
+                      "qrcode_url": null,
+                      "custom_background_url": null,
+                      "giftcard_brand": null,
+                      "giftcard_image": null,
+                      "giftcard_amount": null,
+                      "status": "reviewing",
+                      "addons": {
+                          "standardmail": "on"
+                      },
+                      "style": 5,
+                      "user_id": 2,
+                      "updated_at": "2025-08-15 03:50:51",
+                      "created_at": "2025-08-15 03:50:51",
+                      "id": 42676,
+                      "display_status": "Reviewing",
+                      "display_trigger": "API",
+                      "display_type": "Windowless Letter",
+                      "giftcard_brand_longname": "",
+                      "sub_account": null,
+                      "recipients": [
+                          {
+                              "name": "Current Resident",
+                              "address": "1 Main Street",
+                              "city": "Anytown",
+                              "province": "NY",
+                              "postal_code": "55555",
+                              "country": "US",
+                              "address2": ""
+                          }
+                      ]
+                    }
+                  },
+                  "Preview Response": {
+                    "summary": "Preview Response Example",
+                    "value": {
+                      "success": true,
+                      "code": 200,
+                      "message": "OK",
+                      "data": {
+                        "previews": [
+                          "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/9f0bddc8-7dd1-7b1c-8d7e-d9f20084ec5d.png"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+           "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+           "500": {
+            "$ref": "#/components/responses/UnknownError"
+           }
+        }
+      }
+    },
+    "/send/notecard": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Send Notecard",
+        "description": "Send a folded 4.25x5.5 notecard in envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the exterior of the notecard.   Required if not front_image_url is specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the exterior of the notecard.  Required if not image_template is specified.",
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content to use for interior of notecard.",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                      },
+                      "message_template": {
+                        "type": "integer",
+                        "description": "ID of message template to use for interior of notecard.",
+                        "example": 12
+                      },
+                      "use_custom_background": {
+                        "type": "boolean",
+                        "description": "Use custom interior background image. This can be used to turn off the default background image.",
+                        "default": false
+                      },
+                      "custom_background_image": {
+                        "type": "string",
+                        "description": "URL to custom background image to use for interior of notecard.  This image will be placed behind the handwritten message.  Must be 1650px by 2475px.",
+                        "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png"
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code in interior of notecard.",
+                        "example": "https://www.google.com"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Notecard with Custom Image and Recipients",
+                  "description": "Example of sending a notecard letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png", 
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                },
+                "Templates & QR Code": {
+                  "summary": "Notecard with Templates and QR Code",
+                  "description": "Example of sending a notecard letter using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
+                  "value": {
+                    "image_template": 6,
+                    "message_template": 12,
+                    "qrcode_url": "https://www.google.com",
+                    "mailing_lists": [5166, 514]
+                  }
+                },
+                "Radius Search": {
+                  "summary": "Notecard with Radius Search Targeting and Standard Shipping",
+                  "description": "Example of sending a notecard letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
+                  "value": {
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "send_standard_mail": "true",
+                    "radius_search": {
+                      "address": "123 Main Street, Fake City, NY, 55555",
+                      "record_types": "likelytomove",
+                      "record_count": 10,
+                      "include_condos": false,
+                      "append_data": true
+                    }
+                  }
+                },
+                "Preview": {
+                  "summary": "Preview notecard Letter Before Sending",
+                  "description": "Example of generating a preview of a notecard before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
+                  "value": {
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "handwriting_style": 4,
+                    "preview": true,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }              
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send Mailer Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/send-mailer-order-response"
+                    },
+                    {
+                      "$ref": "#/components/schemas/send-mailer-preview-response"
+                    }
+                  ]
+                },
+                "examples": {
+                  "Order Submitted Response": {
+                    "summary": "Order Submitted Response Example",
+                    "value": {
+                      "total_estimated_recipients": 1,
+                      "authorization_total": 200,
+                      "leads_fee": 0,
+                      "mailing_list_ids_used": "",
+                      "handwriting_color": "rgba(31,0,113,0.80)",
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+                      "append_or_current_resident": true,
+                      "type": "notecard",
+                      "return_name": null,
+                      "return_address": null,
+                      "return_address2": null,
+                      "return_city": null,
+                      "return_province": null,
+                      "return_postal_code": null,
+                      "message_template_id": null,
+                      "image_template_id": 6,
+                      "method": "api",
+                      "sub_account_id": null,
+                      "font_size": "auto",
+                      "qrcode_url": null,
+                      "custom_background_url": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png",
+                      "giftcard_brand": null,
+                      "giftcard_image": null,
+                      "giftcard_amount": null,
+                      "status": "reviewing",
+                      "style": 4,
+                      "user_id": 2,
+                      "updated_at": "2025-08-15 04:24:50",
+                      "created_at": "2025-08-15 04:24:50",
+                      "id": 42680,
+                      "display_status": "Reviewing",
+                      "display_trigger": "API",
+                      "display_type": "Notecard",
+                      "giftcard_brand_longname": "",
+                      "sub_account": null,
+                      "recipients": [
+                          {
+                              "name": "Current Resident",
+                              "address": "1 Main Street",
+                              "city": "Anytown",
+                              "province": "NY",
+                              "postal_code": "55555",
+                              "country": "US",
+                              "address2": ""
+                          }
+                      ]
+                    }
+                  },
+                  "Preview Response": {
+                    "summary": "Preview Response Example",
+                    "value": {
+                      "success": true,
+                      "code": 200,
+                      "message": "OK",
+                      "data": {
+                        "previews": [
+                          "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                          "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/64caa2fb-a7bb-2226-da66-0440446fad30.png"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+           "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+           "500": {
+            "$ref": "#/components/responses/UnknownError"
+           }
+        }
+      }
+    },
 
     "/build/image-template": {
       "get": {
