@@ -1,29 +1,19 @@
 ---
-title: "API Reference"
-description: "Example section for showcasing API endpoints"
+title: "REST API Overview"
+description: "Learn about thanks.io's REST API capabilities"
 ---
-
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+The thanks.io API enables developers to integrate direct mail capabilities into their applications. With our API you can send any mailpiece you can imagine or add a recipient to an existing thanks.io automation.
 
-<Card title="Plant Store Endpoints" icon="leaf" href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json">
-  View the OpenAPI specification file
-</Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+### Bearer Token
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+All API endpoints are authenticated using Bearer tokens -  you can use it to authenticate your API requests by including it in the `Authorization` header as follows:
+
+```http
+Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
