@@ -1,0 +1,3 @@
+apis:
+  api-reference/openapi.json:
+    alias: thanks.io-api
