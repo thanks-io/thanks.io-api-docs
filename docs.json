@@ -24,12 +24,7 @@
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": ["index", "quickstart", "api-mode", "creatives", "mcp-server", "rate-limits"]
-          },
-          {
-            "group": "Authentication",
-            "icon": "lock",
-            "pages": ["authentication/bearer-token", "authentication/oauth"]
+            "pages": ["index", "quickstart", "creatives", "mcp-server"]
           }
         ]
       },
@@ -39,7 +34,16 @@
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": ["api-reference/introduction"]
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/api-mode",
+              "api-reference/rate-limits"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "icon": "lock",
+            "pages": ["authentication/bearer-token", "authentication/oauth"]
           },
           {
             "group": "Endpoints",
