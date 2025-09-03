@@ -1351,13 +1351,10 @@
       }
     },
     "securitySchemes": {
-      "noauthAuth": {
-        "type": "http",
-        "scheme": "noauth"
-      },
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "description": "Bearer token authentication using your thanks.io API key"
       }
     }
   },
@@ -1723,13 +1720,11 @@
                   {
                     "title": "Delete Recipient by Address",
                     "description": "Delete a recipient by providing address details",
-                    "summary": "Delete Recipient by Address",
                     "required": ["mailing_list_id", "address", "postal_code"]
                   },
                   {
-                    "title": "Delete Recipient by Email",
+                    "title": "Delete Recipient by Email", 
                     "description": "Delete a recipient by providing email address",
-                    "summary": "Delete Recipient by Email",
                     "required": ["mailing_list_id", "email"]
                   }
                 ],
@@ -1977,8 +1972,7 @@
                       "example": "New Mailing List (Created via API 09/07/2024)"
                     },
                     "sub_account_id": {
-                      "type": "integer",
-                      "nullable": true,
+                      "type": ["integer", "null"],
                       "example": 7
                     },
                     "user_id": {
