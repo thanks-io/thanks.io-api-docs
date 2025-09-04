@@ -144,7 +144,7 @@
       },
       {
         "label": "Postman",
-        "href": "https://api-docs.thanks.io",
+        "href": "https://postman.thanks.io",
         "icon": "rocket"
       }
     ],
@@ -177,7 +177,7 @@
           },
           {
             "label": "Postman",
-            "href": "https://api-docs.thanks.io"
+            "href": "https://postman.thanks.io"
           }
         ]
       },
