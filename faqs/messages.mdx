@@ -3,34 +3,15 @@ title: 'Creative Message'
 description: 'How do I set the creative message for an Order?'
 ---
 
-## Basic
+The message content specifies the content the thanks.io handwriting engine will place on the mailer.  
 
-### Inline Code
+- For postcards this will specify content for back of postcard.  
+- For notecards and giftcards this will specify content for the interior of the card.  
+- For windowed and windowless letters this will specify content for the cover letter. 
 
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
+In all cases the message content is overlayed on top of the image creative if specified.
 
-```
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-```
+The content can be specified in two different ways:
 
-### Code Block
-
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
-
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-
-````md
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-````
+- The `message` field can be used to provide the text content directly.
+- A `message_template` ID can be specified to use a pre-designed thanks.io message template.  Message templates can have QR Codes and handwriting settings associated with them.

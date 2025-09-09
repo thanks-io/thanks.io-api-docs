@@ -1,0 +1,28 @@
+---
+title: "Usage"
+description: "Info on using thanks.io's Recipients endpoints"
+---
+
+# Overview
+
+Recipients represent the individual or entity to whom you are sending mail. They can be created, updated, and managed through these endpoints.
+
+A mailing list ID is required when creating a recipient.
+
+# Naming
+
+A recipient name is not required.  In this case 'Resident' will be used.  You can also just specify a company using the `company` field. 
+
+The `company` field can also be used to add a secondary name (such as a spouse).
+
+# Addressing
+
+The `address` field can be used to specify the recipient's street address or it can also be used to specify the full address (in which case we'll autoparse and split into fields automatically).
+
+# Lookup by Email
+
+If no/invalid address is specified and a valid `email` address is, we’ll attempt to look up a valid street address using the email address for a fee.
+
+# Additional fields
+
+`custom1`, `custom2`, `custom3`, `custom4`, `phone`, and `email` can all be specified to help identify the recipient.  These fields can also be used as replacement variables in messages and QR Code URLs.

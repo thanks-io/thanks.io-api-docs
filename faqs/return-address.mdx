@@ -3,34 +3,14 @@ title: 'Return Address'
 description: 'How is return address set for an order?'
 ---
 
-## Basic
+The Return Address can be set on a per order basis during a [Send Mailer](/api-reference/send-mailer-usage) request.
 
-### Inline Code
+The return fields available are:
 
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-
-```
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-```
-
-### Code Block
-
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
-
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-
-````md
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-````
+- `return_name`
+- `return_address_line1`
+- `return_address_line2`
+- `return_city`
+- `return_state`
+- `return_zip`
+- `return_country`

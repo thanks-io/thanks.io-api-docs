@@ -1,0 +1,20 @@
+---
+title: "Usage"
+description: "Info on using thanks.io's Mailing Lists endpoints"
+---
+
+# Overview
+
+Mailing lists represent a group of recipients that you can manage and send mail to. They can be created and managed through these endpoints.
+
+# Manually Creating
+
+A mailing list can be created using the `create` endpoint and then recipients can be added as JSON data using the endpoints `recipients/create` or `recipients/create-multiple`.
+
+# Radius Search
+
+**thanks.io can generate a mailing list using a radius search to target recipients within a specific geographic area.**
+
+To run a search, simply provide a search address, recipient type, and desired recipient count. The system uses the address as the center point and identifies the nearest recipients within a maximum radius of 5 miles.
+
+Each record added to the mailing list is billed at $0.05.

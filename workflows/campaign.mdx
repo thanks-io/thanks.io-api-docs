@@ -5,34 +5,41 @@ icon: 'address-card'
 tag: "Popular"
 ---
 
-## Basic
+The easiest way to send mailers is to add recipients to an existing campaign.  Campaigns are associated with a mailing list, so adding a recipient to the corresponding mailing list adds them to the campaign.
 
-### Inline Code
 
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
+<Steps>
+  <Step title="User Sets Up Campaign in thanks.io dashboard">
+  Details on setting up a campaign can be found here - https://help.thanks.io/create-a-campaign-send-mailers-automatically
+  </Step>
+  <Step title="List All Mailing Lists">
+    List all mailing lists via the API and allow the user to select the appropriate one.
 
-```
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-```
+    See [mailing lists](/api-reference/endpoint/mailing-lists/list-all) for more info.
 
-### Code Block
+  ```bash
+  curl -X GET "https://api.thanks.io/api/v2/mailing-lists/" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" 
+    ```
+  </Step>
+  <Step title="Add Recipient to Mailing List">
+    Add a recipient to the selected mailing list via the API.
 
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
+    See [recipients](/api-reference/endpoint/recipients/create-recipient) for more info.
 
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
+  ```bash
+  curl -X POST "https://api.thanks.io/api/v2/recipients" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{
+      "name": "John Doe",
+      "address": "123 Main Street, Any Town, NY 12345",
+      "mailing_list_id": "MAILING_LIST_ID_FROM_PREVIOUS_STEP"
+    }'
+  ```
+  </Step>
 
-````md
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-````
+
+  
+</Steps>

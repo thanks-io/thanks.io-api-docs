@@ -1,0 +1,63 @@
+---
+title: "Usage"
+description: "Info on using thanks.io's Send Mailer endpoints"
+---
+
+# Overview
+
+Send Mailer endpoints are used to create and send mailers to recipients.  These create the orders that are processed and fulfilled by thanks.io
+
+# Preview
+
+Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the mailer will be returned in the response.
+
+# Requirements
+
+In general all mailers require recipients to send to, an image to display, and message content.  These requirements vary depending on the type of mailer that is sent.
+
+The major exception to this is letters specified with a PDF file only.  In this case only recipients and `pdf_only_url` needs to be specified.
+
+## _Recipients_
+
+Recipients can be specified in a variety of ways
+
+- Specify an existing mailing list using `mailing_lists` field
+- Provide a list of recipient addresses as JSON data directly in the `recipients` field
+- Buy a list of recipients using a Radius search with the `radius_search` field
+
+## _Front Image_
+
+For postcards, notecards, and giftcards, this will be used for the front of the mailer.  For windowed and windowless letters this will be used for the background of the cover letter.
+
+The creative can be specified in two different ways:
+
+- Using `front_image_url` a URL can be specified to an png or jpeg image. 
+- Using `image_template` a template ID can be specified to use a pre-designed thanks.io image template for the mailer.
+
+## _Back/Interior Image_
+
+- Using `custom_background_image` a URL can be specified to an png or jpeg image.  This will be used for the back of postcards or the interior of notecards.  This is not used for giftcards or letters.
+
+
+## _Message_
+
+The message content specifies the content the thanks.io handwriting engine will place on the mailer.  
+
+For postcards this will specify content for back of postcard.  For notecards and giftcards this will specify content for the interior of the card.  For windowed and windowless letters this will specify content for the cover letter.  In all cases the message content is overlayed on top of the image creative if specified.
+
+The content can be specified in two different ways:
+
+- The `message` field can be used to provide the text content directly.
+- A `message_template` ID can be specified to use a pre-designed thanks.io message template.  Message templates can have QR Codes and handwriting settings associated with them.
+
+# Standard Mail
+
+By default all mail is sent via 1st class.  The `send_standard_mail` field can be used to specify if the mail should be sent via standard mail instead.
+
+# Handwriting
+
+The handwriting style can be customized using the `handwriting_style`, `handwriting_color`, and `handwriting_realism` fields.
+
+# QR Codes
+
+Trackable QR codes can be included in mailers to monitor engagement and response rates with the `qrcode_url` field. thanks.io can notify you of each scan via email or text message. There is also an analytics dashboard available to track which templates generate the most engagement.

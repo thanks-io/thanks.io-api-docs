@@ -1,5 +1,10 @@
 {
   "openapi": "3.1.0",
+  "x-mint": {
+    "mcp": {
+      "enabled": true
+    }
+  },
   "x-mcp": {
     "enabled": true
   },
@@ -1501,7 +1506,7 @@
       "delete": {
         "tags": ["Recipients"],
         "operationId": "deleteRecipient",
-        "summary": "Delete a Recipient",
+        "summary": "Delete Recipient",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1708,7 +1713,7 @@
     "/recipients-utils/delete-by-address": {
       "post": {
         "tags": ["Recipients"],
-        "summary": "Delete a Recipient By Address",
+        "summary": "Delete Recipient By Address",
         "description": "Delete a recipient by using their address or their email address.",
         "operationId": "deleteRecipientByAddress",
         "requestBody": {
@@ -2382,7 +2387,7 @@
       "post": {
         "tags": ["Send Mailer"],
         "summary": "Send Postcard",
-        "description": "Send a 4x6, 6x9, or 6x11 postcard.  Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the postcard will be returned in the response.",
+        "description": "Send a 4x6, 6x9, or 6x11 postcard.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2645,7 +2650,7 @@
       "post": {
         "tags": ["Send Mailer"],
         "summary": "Send Windowed Letter",
-        "description": "Send a letter in a windowed envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "description": "Send a letter in a windowed envelope.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2902,7 +2907,7 @@
       "post": {
         "tags": ["Send Mailer"],
         "summary": "Send Windowless Letter",
-        "description": "Send a letter in a windowless envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "description": "Send a letter in a windowless envelope.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3160,7 +3165,7 @@
       "post": {
         "tags": ["Send Mailer"],
         "summary": "Send Notecard",
-        "description": "Send a folded 4.25x5.5 notecard in envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "description": "Send a folded 4.25x5.5 notecard in envelope.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3407,7 +3412,7 @@
       "post": {
         "tags": ["Send Mailer"],
         "summary": "Send Giftcard",
-        "description": "Send a folded 4.25x5.5 giftcard in envelope. Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the front and back of the letter will be returned in the response.",
+        "description": "Send a folded 4.25x5.5 giftcard in envelope.",
         "requestBody": {
           "content": {
             "application/json": {

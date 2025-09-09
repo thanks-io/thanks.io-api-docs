@@ -4,84 +4,35 @@ description: 'Submit an order using just a PDF via API'
 icon: 'file-pdf'
 ---
 
-The navigation menu is the list of links on every website.
+Windowed and Windowless Letters can be sent by submitting only a PDF URL via the API.
 
-You will likely update `docs.json` every time you add a new page. Pages do not show up automatically.
-
-## Navigation syntax
-
-Our navigation syntax is recursive which means you can make nested navigation groups. You don't need to include `.mdx` in page names.
-
-<CodeGroup>
-
-```json Regular Navigation
-"navigation": {
-  "tabs": [
-    {
-      "tab": "Docs",
-      "groups": [
+```bash
+  curl -X POST "https://api.thanks.io/api/v2/send/windowlessletter" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{ 
+      "pdf_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "recipients": [
         {
-          "group": "Getting Started",
-          "pages": ["quickstart"]
+          "name": "Current Resident",
+          "address": "123 Main Street",
+          "city": "Fake City",
+          "province": "NY",
+          "postal_code": "55555",
+          "country": "US",
+          "custom1": "Example Custom 1",
+          "custom2": "Example Custom 2",
+          "custom3": "Example Custom 3",
+          "custom4": "Example Custom 4"
+        },
+        {
+          "name": "Jane Doe",
+          "address": "456 Another St",
+          "city": "Fake City",
+          "province": "NY",
+          "postal_code": "55555",
+          "country": "US"
         }
       ]
-    }
-  ]
-}
-```
-
-```json Nested Navigation
-"navigation": {
-  "tabs": [
-    {
-      "tab": "Docs",
-      "groups": [
-        {
-          "group": "Getting Started",
-          "pages": [
-            "quickstart",
-            {
-              "group": "Nested Reference Pages",
-              "pages": ["nested-reference-page"]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-</CodeGroup>
-
-## Folders
-
-Simply put your MDX files in folders and update the paths in `docs.json`.
-
-For example, to have a page at `https://yoursite.com/your-folder/your-page` you would make a folder called `your-folder` containing an MDX file called `your-page.mdx`.
-
-<Warning>
-
-You cannot use `api` for the name of a folder unless you nest it inside another folder. Mintlify uses Next.js which reserves the top-level `api` folder for internal server calls. A folder name such as `api-reference` would be accepted.
-
-</Warning>
-
-```json Navigation With Folder
-"navigation": {
-  "tabs": [
-    {
-      "tab": "Docs",
-      "groups": [
-        {
-          "group": "Group Name",
-          "pages": ["your-folder/your-page"]
-        }
-      ]
-    }
-  ]
-}
-```
-
-## Hidden Pages
-
-MDX files not included in `docs.json` will not show up in the sidebar but are accessible through the search bar and by linking directly to them.
+    }'
+  ```

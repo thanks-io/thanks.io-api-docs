@@ -3,34 +3,15 @@ title: 'Creative Images'
 description: 'How do I set the creative image for an Order?'
 ---
 
-## Basic
+# Front Image
 
-### Inline Code
+For postcards, notecards, and giftcards, this will be used for the front of the mailer.  For windowed and windowless letters this will be used for the background of the cover letter.
 
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
+The creative can be specified in two different ways:
 
-```
-To denote a `word` or `phrase` as code, enclose it in backticks (`).
-```
+- Using `front_image_url` a URL can be specified to an png or jpeg image. 
+- Using `image_template` a template ID can be specified to use a pre-designed thanks.io image template for the mailer.
 
-### Code Block
+# Back/Interior Image
 
-Use [fenced code blocks](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) by enclosing code in three backticks and follow the leading ticks with the programming language of your snippet to get syntax highlighting. Optionally, you can also write the name of your code after the programming language.
-
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-
-````md
-```java HelloWorld.java
-class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
-```
-````
+- Using `custom_background_image` a URL can be specified to an png or jpeg image.  This will be used for the back of postcards or the interior of notecards.  This is not used for giftcards or letters.

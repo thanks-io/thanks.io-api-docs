@@ -1,59 +1,41 @@
 ---
 title: 'Postcard Order'
-description: 'Submit an order for a postcard via API'
+description: 'Postcard Orders can be placed directly via the API'
 icon: 'cards'
 ---
 
-<img
-  style={{ borderRadius: '0.5rem' }}
-  src="https://mintlify-assets.b-cdn.net/bigbend.jpg"
-/>
 
-## Image
+Below is just one of many ways the endpoint can be utilized.  There is extensive flexiblity - see the [Send Mailer Usage Page](/api-reference/send-mailer-usage) for details on all options.
 
-### Using Markdown
-
-The [markdown syntax](https://www.markdownguide.org/basic-syntax/#images) lets you add images using the following code
-
-```md
-![title](/path/image.jpg)
-```
-
-Note that the image file size must be less than 5MB. Otherwise, we recommend hosting on a service like [Cloudinary](https://cloudinary.com/) or [S3](https://aws.amazon.com/s3/). You can then use that URL and embed.
-
-### Using Embeds
-
-To get more customizability with images, you can also use [embeds](/writing-content/embed) to add images
-
-```html
-<img height="200" src="/path/image.jpg" />
-```
-
-## Embeds and HTML elements
-
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/4KzFe50RQkQ"
-  title="YouTube video player"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-  style={{ width: '100%', borderRadius: '0.5rem' }}
-></iframe>
-
-<br />
-
-<Tip>
-
-Mintlify supports [HTML tags in Markdown](https://www.markdownguide.org/basic-syntax/#html). This is helpful if you prefer HTML tags to Markdown syntax, and lets you create documentation with infinite flexibility.
-
-</Tip>
-
-### iFrames
-
-Loads another HTML page within the document. Most commonly used for embedding videos.
-
-```html
-<iframe src="https://www.youtube.com/embed/4KzFe50RQkQ"> </iframe>
-```
+```bash
+  curl -X POST "https://api.thanks.io/api/v2/send/postcard" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{ 
+      "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+      "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+      "handwriting_style": 4,
+      "recipients": [
+        {
+          "name": "Current Resident",
+          "address": "123 Main Street",
+          "city": "Fake City",
+          "province": "NY",
+          "postal_code": "55555",
+          "country": "US",
+          "custom1": "Example Custom 1",
+          "custom2": "Example Custom 2",
+          "custom3": "Example Custom 3",
+          "custom4": "Example Custom 4"
+        },
+        {
+          "name": "Jane Doe",
+          "address": "456 Another St",
+          "city": "Fake City",
+          "province": "NY",
+          "postal_code": "55555",
+          "country": "US"
+        }
+      ]
+    }'
+  ```

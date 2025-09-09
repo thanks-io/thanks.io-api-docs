@@ -25,7 +25,30 @@
             "group": "Get Started",
             "icon": "play",
             "pages": ["index", "quickstart", "creatives", "mcp-server"]
+          },
+         {
+            "group": "Common Workflows",
+            "icon": "water",
+            "pages": [
+              "workflows/campaign",
+              "workflows/postcard-order",
+              "workflows/letter-pdf-order",
+              "workflows/giftcard-order"
+            ]
+          },
+          {
+            "group": "FAQs",
+            "icon": "square-question",
+            "pages": [
+              "faqs/quick-implementation",
+              "faqs/images",
+              "faqs/messages",
+              "faqs/previews",
+              "faqs/qrcode",
+              "faqs/return-address"
+            ]
           }
+
         ]
       },
       {
@@ -37,7 +60,8 @@
             "pages": [
               "api-reference/introduction",
               "api-reference/api-mode",
-              "api-reference/rate-limits"
+              "api-reference/rate-limits",
+              "api-reference/openapi-link"
             ]
           },
           {
@@ -47,10 +71,70 @@
           },
           {
             "group": "Endpoints",
-            "openapi": {
-              "source": "api-reference/openapi.json"
-            }
+            "icon": "code",
+            "pages": [
+              {
+                "group": "Recipients",
+                "icon": "user",
+                "pages": [
+                    "api-reference/recipients-usage",
+                    "api-reference/endpoint/recipients/create-recipient",
+                    "api-reference/endpoint/recipients/get-details",
+                    "api-reference/endpoint/recipients/update-recipient",
+                    "api-reference/endpoint/recipients/delete-recipient",
+                    "api-reference/endpoint/recipients/create-multiple-recipients",
+                    "api-reference/endpoint/recipients/delete-recipient-by-address"
+                ]
+              },
+              {
+                "group": "Mailing Lists",
+                "icon": "list",
+                "pages": [
+                    "api-reference/mailing-lists-usage",
+                    "api-reference/endpoint/mailing-lists/list-all",
+                    "api-reference/endpoint/mailing-lists/create-mailing-list",
+                    "api-reference/endpoint/mailing-lists/get-details",
+                    "api-reference/endpoint/mailing-lists/delete-mailing-list",
+
+                    "api-reference/endpoint/mailing-lists/list-recipients",
+                    "api-reference/endpoint/mailing-lists/radius-search"
+                ]
+              },
+              {
+                "group": "Send Mailers",
+                "icon": "envelope",
+                "pages": [
+                    "api-reference/send-mailer-usage",
+                    "api-reference/endpoint/send-mailer/send-postcard",
+                    "api-reference/endpoint/send-mailer/send-windowed-letter",
+                    "api-reference/endpoint/send-mailer/send-windowless-letter",
+                    "api-reference/endpoint/send-mailer/send-notecard",
+                    "api-reference/endpoint/send-mailer/send-giftcard"
+                ]
+              },
+              {
+                "group": "Utilities",
+                "icon": "wrench",
+                "pages": [
+                    "api-reference/endpoint/handwriting-styles/list-styles",
+                    "api-reference/endpoint/giftcards/list-brands-flat",
+                    "api-reference/endpoint/giftcards/list-brands"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Examples",
+            "icon": "lightbulb",
+            "pages": [
+              "workflows/campaign",
+              "workflows/letter-pdf-order",
+              "workflows/postcard-order",
+              "workflows/giftcard-order"
+            ]
           }
+
+
         ]
       },
       {
