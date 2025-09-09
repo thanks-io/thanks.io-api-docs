@@ -963,6 +963,36 @@
             "type": "boolean",
             "description": "Send Mail as Standard Mail postage class.  If false or not specified, First Class postage will be used.",
             "default": false
+          },
+          "return_name": {
+            "type": "string",
+            "description": "Custom return name for the order.",
+            "example": "Custom Return"
+          },
+          "return_address": {
+            "type": "string",
+            "description": "Custom return address for the order.",
+            "example": "1 Main Street"
+          },
+          "return_address2": {
+            "type": "string",
+            "description": "Custom return address line 2 for the order.",
+            "example": "Unit 1"
+          },
+          "return_city": {
+            "type": "string",
+            "description": "Custom return city for the order.",
+            "example": "Woodbridge"
+          },
+          "return_state": {
+            "type": "string",
+            "description": "Custom return state/province for the order.",
+            "example": "NJ"
+          },
+          "return_postal_code": {
+            "type": "string",
+            "description": "Custom return postal code for the order.",
+            "example": "07095"
           }
         }
       },
@@ -2477,11 +2507,16 @@
                     ]
                   }
                 },
-                "6x9 w/ Templates/QR Code ": {
+                "6x9 w/ Templates/QR Code/Custom Return ": {
                   "summary": "6x9 Postcard with Templates and QR Code",
                   "description": "Example of sending a 6x9 postcard using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
                   "value": {
                     "size": "6x9",
+                    "return_name": "Your Company Name",
+                    "return_address": "123 Return St",
+                    "return_city": "Return City",
+                    "return_state": "RC",
+                    "return_postal_code": "12345",
                     "image_template": 6,
                     "message_template": 12,
                     "qrcode_url": "https://www.google.com",
@@ -3248,14 +3283,19 @@
                     ]
                   }
                 },
-                "Templates & QR Code": {
-                  "summary": "Notecard with Templates and QR Code",
-                  "description": "Example of sending a notecard using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
+                "Templates & QR Code & Custom Return Address": {
+                  "summary": "Notecard with Templates, QR Code, and Custom Return Address",
+                  "description": "Example of sending a notecard using predefined image and message templates, targeting specific mailing lists, including a QR code for recipient engagement, and specifying a custom return address.",
                   "value": {
                     "image_template": 6,
                     "message_template": 12,
                     "qrcode_url": "https://www.google.com",
-                    "mailing_lists": [5166, 514]
+                    "mailing_lists": [5166, 514],
+                    "return_name": "Your Company Name",
+                    "return_address": "123 Return St",
+                    "return_city": "Return City",
+                    "return_state": "RC",
+                    "return_postal_code": "12345"
                   }
                 },
                 "Radius Search": {
