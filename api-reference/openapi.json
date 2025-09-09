@@ -93,6 +93,41 @@
           "created_at_diff": "18 minutes ago",
           "updated_at": "2025-08-06T15:57:43.000000Z"
         }
+      },
+      "sub-account-example": {
+        "summary": "Example Sub Account",
+        "value": {                  
+          "id": 1,
+          "user_id": 2,
+          "title": "My New Sub Account",
+          "return_name": "John Smith",
+          "return_address": "123 Smith Street 11",
+          "return_address2": "Apt 1",
+          "return_city": "Denver",
+          "return_state": "CO",
+          "return_postal_code": "12345",
+          "message_background_url": null,
+          "postcard6x9_background_url":null,
+          "notecard_background_url": null,
+          "windowedletter_background_url": null,
+          "windowlessletter_background_url": null,
+          "branding_fields": {
+              "accentColor": "#5f01d1",
+              "symbol": "",
+              "logo": "https://s3.amazonaws.com/content-staging.thanks.io/templates/dynamic-images/5dcb82c0-f258-11ef-9c99-e542d768ea52.png",
+              "disclaimer": null,
+              "headshot": null,
+              "name": "John Gray",
+              "email": "test@test.com",
+              "phone": "1234567890",
+              "company": null,
+              "domain": null,
+              "set": true,
+              "first_name": "John"
+          },
+          "created_at": "2020-02-14 20:50:02",
+          "updated_at": "2025-07-16 19:03:31"          
+        }
       }
     },
     "parameters": {
@@ -208,7 +243,7 @@
           },
           "description": {
             "type": "string",
-            "example": "Walter Test"
+            "example": "Test"
           },
           "qrcode_url": {
             "type": "string",
@@ -712,7 +747,41 @@
           },
           "return_postal_code": {
             "type": "string",
-            "example": "80220"
+            "example": "12345"
+          }
+        }
+      },
+      "sub-account-create": {
+        "type": "object",
+        "required": ["title"],
+        "properties" : {
+          "title": {
+            "type": "string",
+            "example": "My Sub Account"
+          },
+          "return_name": {
+            "type": "string",
+            "example": "John Smith"
+          },
+          "return_address": {
+            "type": "string",
+            "example": "123 Smith Street"
+          },
+          "return_address2": {
+            "type": "string",
+            "example": "Apartment 2"
+          },
+          "return_city": {
+            "type": "string",
+            "example": "Denver"
+          },
+          "return_state": {
+            "type": "string",
+            "example": "CO"
+          },
+          "return_postal_code": {
+            "type": "string",
+            "example": "12345"
           }
         }
       },
@@ -1412,8 +1481,7 @@
       "name": "Orders"
     },
     {
-      "name": "Message Templates",
-      "description": ""
+      "name": "Message Templates"
     },
     {
       "name": "Handwriting Styles"
@@ -5281,6 +5349,247 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+
+    "/sub-accounts/": {
+      "get": {
+        "tags": ["Sub Accounts"],
+        "operationId": "getSubAccounts",
+        "summary": "List All",
+        "description": "List all available sub-accounts.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/sub-account"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "$ref": "#/components/examples/sub-account-example"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Sub Accounts"],
+        "operationId": "createSubAccount",
+        "summary": "Create Sub Account",
+        "description": "Create a new sub-account.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sub-account-create"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sub-account"
+                },
+                "examples": {
+                  "sub-account": {
+                    "value": {
+                      "user_id": 2,
+                      "title": "API Update",
+                      "return_name": "Your Business",
+                      "return_address": "123 Main Street",
+                      "return_address2": "Apartment 1",
+                      "return_city": "Fake City",
+                      "return_state": "NY",
+                      "return_postal_code": null,
+                      "updated_at": "2025-09-09 18:26:51",
+                      "created_at": "2025-09-09 18:26:51",
+                      "id": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/sub-accounts/{subAccountId}": {
+      "parameters": [
+        {
+          "name": "subAccountId",
+          "in": "path",
+          "description": "ID of sub-account",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "example": 56
+          }
+        }
+      ],
+      "get": {
+        "tags": ["Sub Accounts"],
+        "operationId": "getSubAccountDetails",
+        "summary": "Get Details",
+        "description": "Gets a sub-account by ID. Returns a single sub-account object.",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sub-account"
+                },
+                "examples": {
+                  "sub-account": {
+                    "$ref": "#/components/examples/sub-account-example"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Sub Accounts"],
+        "operationId": "updateSubAccount",
+        "summary": "Update Sub Account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sub-account-create"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Updated",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sub-account"
+                },
+                "examples": {
+                  "sub-account": {
+                    "value": {
+                      "user_id": 2,
+                      "title": "API Update",
+                      "return_name": "Your Business",
+                      "return_address": "123 Main Street",
+                      "return_address2": "Apartment 1",
+                      "return_city": "Fake City",
+                      "return_state": "NY",
+                      "return_postal_code": null,
+                      "updated_at": "2025-09-09 18:26:51",
+                      "created_at": "2025-09-09 18:26:51",
+                      "id": 50
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Sub Accounts"],
+        "operationId": "deleteSubAccount",
+        "summary": "Delete Sub Account",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }

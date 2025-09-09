@@ -69,6 +69,7 @@
             "icon": "lock",
             "pages": ["authentication/bearer-token", "authentication/oauth"]
           },
+
           {
             "group": "Endpoints",
             "icon": "code",
@@ -112,6 +113,19 @@
                     "api-reference/endpoint/send-mailer/send-giftcard"
                 ]
               },
+              {
+                "group": "Account",
+                "icon": "gear",
+                "pages": [
+                    "api-reference/endpoint/sub-accounts/create-sub-account",
+                    "api-reference/endpoint/sub-accounts/get-details",
+                    "api-reference/endpoint/sub-accounts/update-sub-account", 
+                    "api-reference/endpoint/sub-accounts/delete-sub-account",
+                    "api-reference/endpoint/sub-accounts/list-all"          
+                ]
+              },
+
+
               {
                 "group": "Utilities",
                 "icon": "wrench",
