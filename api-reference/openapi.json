@@ -69,8 +69,8 @@
             "created_at": "6 years ago",
             "updated_at": "2025-06-27T14:57:11.000000Z"
           }
-          }
-        },
+        }
+      },
       "mailing-list-example": {
         "summary": "Example Mailing List",
         "value": {
@@ -96,7 +96,7 @@
       },
       "sub-account-example": {
         "summary": "Example Sub Account",
-        "value": {                  
+        "value": {
           "id": 1,
           "user_id": 2,
           "title": "My New Sub Account",
@@ -107,26 +107,26 @@
           "return_state": "CO",
           "return_postal_code": "12345",
           "message_background_url": null,
-          "postcard6x9_background_url":null,
+          "postcard6x9_background_url": null,
           "notecard_background_url": null,
           "windowedletter_background_url": null,
           "windowlessletter_background_url": null,
           "branding_fields": {
-              "accentColor": "#5f01d1",
-              "symbol": "",
-              "logo": "https://s3.amazonaws.com/content-staging.thanks.io/templates/dynamic-images/5dcb82c0-f258-11ef-9c99-e542d768ea52.png",
-              "disclaimer": null,
-              "headshot": null,
-              "name": "John Gray",
-              "email": "test@test.com",
-              "phone": "1234567890",
-              "company": null,
-              "domain": null,
-              "set": true,
-              "first_name": "John"
+            "accentColor": "#5f01d1",
+            "symbol": "",
+            "logo": "https://s3.amazonaws.com/content-staging.thanks.io/templates/dynamic-images/5dcb82c0-f258-11ef-9c99-e542d768ea52.png",
+            "disclaimer": null,
+            "headshot": null,
+            "name": "John Gray",
+            "email": "test@test.com",
+            "phone": "1234567890",
+            "company": null,
+            "domain": null,
+            "set": true,
+            "first_name": "John"
           },
           "created_at": "2020-02-14 20:50:02",
-          "updated_at": "2025-07-16 19:03:31"          
+          "updated_at": "2025-07-16 19:03:31"
         }
       }
     },
@@ -349,7 +349,18 @@
           "type": {
             "type": "string",
             "example": "manual",
-            "enum": ["csv","manual","map","friends","retarget","leads","zapier","radius","highlevel","qrscans"]
+            "enum": [
+              "csv",
+              "manual",
+              "map",
+              "friends",
+              "retarget",
+              "leads",
+              "zapier",
+              "radius",
+              "highlevel",
+              "qrscans"
+            ]
           },
           "description": {
             "type": "string",
@@ -414,48 +425,48 @@
         "type": "object",
         "properties": {
           "id": {
-              "type": "integer",
-              "example": 6
+            "type": "integer",
+            "example": 6
           },
           "user_id": {
-              "type": "integer",
-              "example": 2
+            "type": "integer",
+            "example": 2
           },
           "sub_account_id": {
-              "type": "integer",
-              "example": 55
+            "type": "integer",
+            "example": 55
           },
           "type": {
-              "type": "string",
-              "enum": [
-                "postcard",
-                "letter",
-                "notecard",
-                "giftcard",
-                "windowlessletter"
-              ],
-              "example": "postcard"
+            "type": "string",
+            "enum": [
+              "postcard",
+              "letter",
+              "notecard",
+              "giftcard",
+              "windowlessletter"
+            ],
+            "example": "postcard"
           },
           "name": {
-              "type": "string",
-              "example": "Thank You Image"
+            "type": "string",
+            "example": "Thank You Image"
           },
           "image": {
-              "type": "string",
-              "description": "URL of the template image",
-              "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png"
+            "type": "string",
+            "description": "URL of the template image",
+            "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png"
           },
           "canva_id": {
-              "type": "string",
-              "example": "some-canva-id"  
+            "type": "string",
+            "example": "some-canva-id"
           },
           "created_at": {
-              "type": "string",
-              "example": "2018-08-07 00:00:00"
+            "type": "string",
+            "example": "2018-08-07 00:00:00"
           },
           "updated_at": {
-              "type": "string",
-              "example": "2018-08-08 00:00:00"
+            "type": "string",
+            "example": "2018-08-08 00:00:00"
           }
         }
       },
@@ -463,114 +474,114 @@
         "type": "object",
         "properties": {
           "id": {
-              "type": "integer",
-              "example": 2
+            "type": "integer",
+            "example": 2
           },
           "user_id": {
-              "type": "integer",
-              "example": 2
+            "type": "integer",
+            "example": 2
           },
           "sub_account_id": {
             "type": ["integer", "null"]
           },
           "handwriting_style_id": {
-              "type": "integer",
-              "description": "ID of the handwriting style used in the message template",
-              "example": 18
+            "type": "integer",
+            "description": "ID of the handwriting style used in the message template",
+            "example": 18
           },
           "font_size": {
-              "type": "integer",
-              "description": "Font size used in the message template.  Only valid for AI fonts",
-              "enum": ["auto", "large", "medium", "small"]
+            "type": "integer",
+            "description": "Font size used in the message template.  Only valid for AI fonts",
+            "enum": ["auto", "large", "medium", "small"]
           },
           "font_color": {
-              "type": "string",
-              "description": "Font color used in the message template.",
-              "example": "#000000"
+            "type": "string",
+            "description": "Font color used in the message template.",
+            "example": "#000000"
           },
           "realism": {
-              "type": "string",
-              "description": "Realism level used in the message template.  Only valid for AI fonts"
+            "type": "string",
+            "description": "Realism level used in the message template.  Only valid for AI fonts"
           },
           "name": {
-              "type": "string",
-              "example": "Thank You Message"
+            "type": "string",
+            "example": "Thank You Message"
           },
           "content": {
-              "type": "string",
-              "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+            "type": "string",
+            "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
           },
           "additional_pages": {
-              "type": "string",
-              "description": "URL to additional PDFs to attach to cover letter of letters"
+            "type": "string",
+            "description": "URL to additional PDFs to attach to cover letter of letters"
           },
           "skip_creative_generation": {
-              "type": "integer",
-              "description": "Flag to skip creative generation.  Set when message template is PDF file only.",
-              "example": 0
+            "type": "integer",
+            "description": "Flag to skip creative generation.  Set when message template is PDF file only.",
+            "example": 0
           },
           "custom_background_url": {
-              "type": "string",
-              "description": "URL of the custom background image for the message template",
-              "example": "https://example.com/background.png"
+            "type": "string",
+            "description": "URL of the custom background image for the message template",
+            "example": "https://example.com/background.png"
           },
           "qrcode_url": {
-              "type": "string",
-              "description": "URL of the QR code image for the message template",
-              "example": "https://www.thanks.io"
+            "type": "string",
+            "description": "URL of the QR code image for the message template",
+            "example": "https://www.thanks.io"
           },
           "cc_emails": {
-              "type": "array",
-              "description": "List of email addresses to be CC'd on when a QR code is scanned",
-              "items": {
-                  "type": "string",
-                  "format": "email"
-              }
+            "type": "array",
+            "description": "List of email addresses to be CC'd on when a QR code is scanned",
+            "items": {
+              "type": "string",
+              "format": "email"
+            }
           },
           "created_at": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2018-08-08T02:56:59.000000Z"
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-08-08T02:56:59.000000Z"
           },
           "updated_at": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2025-02-12T05:13:15.000000Z"
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-02-12T05:13:15.000000Z"
           },
           "type": {
-              "type": "string",
-              "example": "notecard",
-              "enum": [
-                "postcard",
-                "letter",
-                "notecard",
-                "giftcard",
-                "windowlessletter"
-              ],
-              "description": "Type of the message template"
+            "type": "string",
+            "example": "notecard",
+            "enum": [
+              "postcard",
+              "letter",
+              "notecard",
+              "giftcard",
+              "windowlessletter"
+            ],
+            "description": "Type of the message template"
           },
           "giftcard_brand_code": {
-              "type": "string",
-              "description": "Brand code of the gift card",
-              "example": "amazonus"
+            "type": "string",
+            "description": "Brand code of the gift card",
+            "example": "amazonus"
           },
           "giftcard_brand_image": {
-              "type": "string",
-              "description": "Image URL of the gift card brand",
-              "example": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png"
+            "type": "string",
+            "description": "Image URL of the gift card brand",
+            "example": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png"
           },
           "giftcard_amount": {
-              "type": "integer",
-              "description": "Amount of the gift card in cents",
-              "example": 5000
+            "type": "integer",
+            "description": "Amount of the gift card in cents",
+            "example": 5000
           },
           "landing_page_url": {
-              "type": "string",
-              "description": "URL of the gated landing page"
+            "type": "string",
+            "description": "URL of the gated landing page"
           },
           "share_uuid": {
-              "type": "string",
-              "example": "5J5N-QAD3-6LLL-LSZZ"
+            "type": "string",
+            "example": "5J5N-QAD3-6LLL-LSZZ"
           }
         }
       },
@@ -748,20 +759,14 @@
         "type": "object",
         "anyOf": [
           {
-              "title": "Create Recipient by Address",
-              "description": "Create a recipient by providing address details",
-              "required": [
-              "mailing_list_id",
-              "address"
-            ]
+            "title": "Create Recipient by Address",
+            "description": "Create a recipient by providing address details",
+            "required": ["mailing_list_id", "address"]
           },
           {
-              "title": "Create Recipient by Email",
-              "description": "Create a recipient by providing email address",
-              "required": [
-              "mailing_list_id",
-              "email"
-            ]
+            "title": "Create Recipient by Email",
+            "description": "Create a recipient by providing email address",
+            "required": ["mailing_list_id", "email"]
           }
         ],
         "properties": {
@@ -865,20 +870,14 @@
         "type": "object",
         "anyOf": [
           {
-              "title": "Create Recipient by Address",
-              "description": "Create a recipient by providing address details",
-              "required": [
-              "mailing_list_id",
-              "address"
-            ]
+            "title": "Create Recipient by Address",
+            "description": "Create a recipient by providing address details",
+            "required": ["mailing_list_id", "address"]
           },
           {
-              "title": "Create Recipient by Email",
-              "description": "Create a recipient by providing email address",
-              "required": [
-              "mailing_list_id",
-              "email"
-            ]
+            "title": "Create Recipient by Email",
+            "description": "Create a recipient by providing email address",
+            "required": ["mailing_list_id", "email"]
           }
         ],
         "properties": {
@@ -979,7 +978,7 @@
 
       "sub-account": {
         "type": "object",
-        "properties" : {
+        "properties": {
           "id": {
             "type": "integer",
             "example": 1
@@ -1021,7 +1020,7 @@
       "sub-account-create": {
         "type": "object",
         "required": ["title"],
-        "properties" : {
+        "properties": {
           "title": {
             "type": "string",
             "example": "My Sub Account"
@@ -1057,20 +1056,20 @@
         "type": "object",
         "properties": {
           "first": {
-              "type": ["string", "null"],
-              "description": "URL of the first page of results"
+            "type": ["string", "null"],
+            "description": "URL of the first page of results"
           },
           "last": {
-              "type": ["string", "null"],
-              "description": "URL of the last page of results"
+            "type": ["string", "null"],
+            "description": "URL of the last page of results"
           },
           "prev": {
-              "type": ["string", "null"],
-              "description": "URL of the previous page of results"
+            "type": ["string", "null"],
+            "description": "URL of the previous page of results"
           },
           "next": {
-              "type": ["string", "null"],
-              "description": "URL of the next page of results"
+            "type": ["string", "null"],
+            "description": "URL of the next page of results"
           }
         }
       },
@@ -1083,9 +1082,9 @@
             "description": "Current page number"
           },
           "from": {
-              "type": ["integer", "null"],
-              "example": 1,
-              "description": "Index of the first item on the current page"
+            "type": ["integer", "null"],
+            "example": 1,
+            "description": "Index of the first item on the current page"
           },
           "last_page": {
             "type": "integer",
@@ -1102,9 +1101,9 @@
             "description": "Number of items per page"
           },
           "to": {
-              "type": ["integer", "null"],
-              "example": 1,
-              "description": "Index of the last item on the current page"
+            "type": ["integer", "null"],
+            "example": 1,
+            "description": "Index of the last item on the current page"
           },
           "total": {
             "type": "integer",
@@ -1122,9 +1121,9 @@
             "description": "Current page number"
           },
           "first_page_url": {
-              "type": ["string", "null"],
-              "description": "URL of the first page of results",
-              "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
+            "type": ["string", "null"],
+            "description": "URL of the first page of results",
+            "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
           },
           "from": {
             "type": "integer",
@@ -1137,13 +1136,13 @@
             "description": "Total number of pages"
           },
           "last_page_url": {
-              "type": ["string", "null"],
-              "description": "URL of the last page of results",
-              "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
+            "type": ["string", "null"],
+            "description": "URL of the last page of results",
+            "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
           },
           "next_page_url": {
-              "type": ["string", "null"],
-              "description": "URL of the next page of results"
+            "type": ["string", "null"],
+            "description": "URL of the next page of results"
           },
           "path": {
             "type": "string",
@@ -1156,8 +1155,8 @@
             "description": "Number of items per page"
           },
           "prev_page_url": {
-              "type": ["string", "null"],
-              "description": "URL of the previous page of results"
+            "type": ["string", "null"],
+            "description": "URL of the previous page of results"
           },
           "to": {
             "type": "integer",
@@ -1265,10 +1264,7 @@
             "type": "string",
             "description": "Handwriting color to use. Options are preset named colors or specified as hex format, such as '#4287f5'",
             "enum": ["blue", "black", "green", "purple", "red"],
-            "examples": [
-              "blue",
-              "#4287f5"
-            ]
+            "examples": ["blue", "#4287f5"]
           },
           "handwriting_realism": {
             "type": "boolean",
@@ -1338,18 +1334,18 @@
             "example": 2
           },
           "sub_account": {
-              "description": "Sub-account Info For Order.  Can be null",
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/sub-account"
-                }
-              ],
-              "type": ["object", "null"]
+            "description": "Sub-account Info For Order.  Can be null",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sub-account"
+              }
+            ],
+            "type": ["object", "null"]
           },
           "sub_account_id": {
-              "type": ["integer", "null"],
-              "description": "Sub account ID for the order",
-              "example": 12345
+            "type": ["integer", "null"],
+            "description": "Sub account ID for the order",
+            "example": 12345
           },
 
           "total_estimated_recipients": {
@@ -1367,7 +1363,6 @@
             "description": "Total leads fee for the order in cents",
             "example": 99
           },
-
 
           "mailing_list_ids_used": {
             "type": "string",
@@ -1388,14 +1383,14 @@
             "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png"
           },
           "image_template_id": {
-              "type": ["integer", "null"],
-              "description": "Image template ID for the order",
-              "example": 6
+            "type": ["integer", "null"],
+            "description": "Image template ID for the order",
+            "example": 6
           },
           "custom_background_url": {
-              "type": ["string", "null"],
-              "description": "Custom background URL for the order",
-              "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
+            "type": ["string", "null"],
+            "description": "Custom background URL for the order",
+            "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
           },
 
           "message": {
@@ -1404,9 +1399,9 @@
             "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
           "message_template_id": {
-              "type": ["integer", "null"],
-              "description": "Message template ID for the order",
-              "example": 12345
+            "type": ["integer", "null"],
+            "description": "Message template ID for the order",
+            "example": 12345
           },
           "handwriting_color": {
             "type": "string",
@@ -1416,12 +1411,7 @@
           "font_size": {
             "type": "string",
             "description": "Font size for the order",
-            "enum": [
-              "auto",
-              "small",
-              "medium",
-              "large"
-            ],
+            "enum": ["auto", "small", "medium", "large"],
             "example": "auto"
           },
           "style": {
@@ -1436,36 +1426,35 @@
           },
 
           "return_name": {
-              "type": ["string", "null"],
-              "description": "Return name for the order",
-              "example": "John Doe"
+            "type": ["string", "null"],
+            "description": "Return name for the order",
+            "example": "John Doe"
           },
           "return_address": {
-              "type": ["string", "null"],
-              "description": "Return address line 1 for the order",
-              "example": "123 Main Street"
+            "type": ["string", "null"],
+            "description": "Return address line 1 for the order",
+            "example": "123 Main Street"
           },
           "return_address2": {
-              "type": ["string", "null"],
-              "description": "Return address line 2 for the order",
-              "example": null
+            "type": ["string", "null"],
+            "description": "Return address line 2 for the order",
+            "example": null
           },
           "return_city": {
-              "type": ["string", "null"],
-              "description": "Return city for the order",
-              "example": "Anytown"
+            "type": ["string", "null"],
+            "description": "Return city for the order",
+            "example": "Anytown"
           },
           "return_province": {
-              "type": ["string", "null"],
-              "description": "Return state/province for the order",
-              "example": "NY"
+            "type": ["string", "null"],
+            "description": "Return state/province for the order",
+            "example": "NY"
           },
           "return_postal_code": {
-              "type": ["string", "null"],
-              "description": "Return postal code for the order",
-              "example": "12345"
+            "type": ["string", "null"],
+            "description": "Return postal code for the order",
+            "example": "12345"
           },
-
 
           "type": {
             "type": "string",
@@ -1483,23 +1472,13 @@
           "size": {
             "type": "string",
             "description": "Size of the order (valid for postcards only)",
-            "enum": [
-              "4x6",
-              "6x9",
-              "6x11"
-            ],
+            "enum": ["4x6", "6x9", "6x11"],
             "example": "4x6"
           },
           "method": {
             "type": "string",
             "description": "Method for the order",
-            "enum": [
-              "api",
-              "cardbuilder",
-              "drip",
-              "email",
-              "zapier"
-            ]
+            "enum": ["api", "cardbuilder", "drip", "email", "zapier"]
           },
           "status": {
             "type": "string",
@@ -1513,7 +1492,8 @@
               "shipped",
               "paused",
               "delivered"
-            ]          },
+            ]
+          },
           "display_status": {
             "type": "string",
             "description": "Display status for the order",
@@ -1531,40 +1511,37 @@
           },
 
           "addons": {
-              "type": ["object", "null"],
-              "description": "Add-ons for the order",
-              "properties": {
+            "type": ["object", "null"],
+            "description": "Add-ons for the order",
+            "properties": {
               "standardmail": {
                 "type": "string",
                 "description": "Standard mail add-on status",
-                "enum": [
-                  "on",
-                  "off"
-                ],
+                "enum": ["on", "off"],
                 "example": "on"
               }
             }
           },
           "qrcode_url": {
-              "type": ["string", "null"],
-              "description": "QR code URL for the order",
-              "example": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~"
+            "type": ["string", "null"],
+            "description": "QR code URL for the order",
+            "example": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~"
           },
 
           "giftcard_brand": {
-              "type": ["string", "null"],
-              "description": "Gift card brand for the order (valid for Giftcard orders only)",
-              "example": null
+            "type": ["string", "null"],
+            "description": "Gift card brand for the order (valid for Giftcard orders only)",
+            "example": null
           },
           "giftcard_image": {
-              "type": ["string", "null"],
-              "description": "Gift card image URL for the order (valid for Giftcard orders only)",
-              "example": null
+            "type": ["string", "null"],
+            "description": "Gift card image URL for the order (valid for Giftcard orders only)",
+            "example": null
           },
           "giftcard_amount": {
-              "type": ["integer", "null"],
-              "description": "Gift card amount for the order in cents (valid for Giftcard orders only)",
-              "example": null
+            "type": ["integer", "null"],
+            "description": "Gift card amount for the order in cents (valid for Giftcard orders only)",
+            "example": null
           },
           "giftcard_brand_longname": {
             "type": "string",
@@ -2071,7 +2048,7 @@
                     "required": ["mailing_list_id", "address", "postal_code"]
                   },
                   {
-                    "title": "Delete Recipient by Email", 
+                    "title": "Delete Recipient by Email",
                     "description": "Delete a recipient by providing email address",
                     "required": ["mailing_list_id", "email"]
                   }
@@ -2456,9 +2433,9 @@
             "description": "Number of results to return per page.",
             "schema": {
               "type": "integer",
-                "example": 1000,
-                "maximum": 10000,
-                "minimum": 1
+              "example": 1000,
+              "maximum": 10000,
+              "minimum": 1
             }
           },
           {
@@ -2487,7 +2464,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf" : [
+                  "allOf": [
                     {
                       "type": "object",
                       "properties": {
@@ -2561,11 +2538,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "address",
-                  "postal_code",
-                  "record_count"
-                ],
+                "required": ["address", "postal_code", "record_count"],
                 "properties": {
                   "mailing_list_id": {
                     "type": "integer",
@@ -2683,7 +2656,7 @@
                     "failure": {
                       "type": "boolean",
                       "example": false
-                   }
+                    }
                   }
                 },
                 "example": {
@@ -2721,8 +2694,6 @@
             "$ref": "#/components/responses/NotFound"
           }
         }
-
-
       }
     },
 
@@ -2790,10 +2761,10 @@
               "examples": {
                 "4x6 w/ Image URL/Recipients": {
                   "summary": "4x6 Postcard with Custom Image and Recipients",
-                  "description": "Example of sending a 4x6 postcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",   
+                  "description": "Example of sending a 4x6 postcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
                     "size": "4x6",
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "recipients": [
@@ -2854,8 +2825,8 @@
                   "description": "Example of sending a large 6x11 postcard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
                     "size": "6x11",
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
-                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!", 
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
                       "record_types": "likelytomove",
@@ -2870,7 +2841,7 @@
                   "description": "Example of generating a preview of a 4x6 postcard before actually sending it. Use the preview parameter to see how your postcard will look without placing an actual order.",
                   "value": {
                     "size": "4x6",
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "preview": true,
@@ -2898,7 +2869,7 @@
                     ]
                   }
                 }
-              }              
+              }
             }
           }
         },
@@ -2985,12 +2956,12 @@
           "400": {
             "$ref": "#/components/responses/UserError"
           },
-           "403": {
+          "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
-           "500": {
+          "500": {
             "$ref": "#/components/responses/UnknownError"
-           }
+          }
         }
       }
     },
@@ -3054,7 +3025,7 @@
                   "summary": "Windowed Letter with Custom Image and Recipients",
                   "description": "Example of sending a windowed letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "recipients": [
                       {
@@ -3146,7 +3117,7 @@
                     ]
                   }
                 }
-              }              
+              }
             }
           }
         },
@@ -3197,7 +3168,7 @@
                       "giftcard_amount": null,
                       "status": "reviewing",
                       "addons": {
-                          "standardmail": "on"
+                        "standardmail": "on"
                       },
                       "style": 5,
                       "user_id": 2,
@@ -3210,15 +3181,15 @@
                       "giftcard_brand_longname": "",
                       "sub_account": null,
                       "recipients": [
-                          {
-                              "name": "Current Resident",
-                              "address": "1 Main Street",
-                              "city": "Anytown",
-                              "province": "NY",
-                              "postal_code": "55555",
-                              "country": "US",
-                              "address2": ""
-                          }
+                        {
+                          "name": "Current Resident",
+                          "address": "1 Main Street",
+                          "city": "Anytown",
+                          "province": "NY",
+                          "postal_code": "55555",
+                          "country": "US",
+                          "address2": ""
+                        }
                       ]
                     }
                   },
@@ -3242,12 +3213,12 @@
           "400": {
             "$ref": "#/components/responses/UserError"
           },
-           "403": {
+          "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
-           "500": {
+          "500": {
             "$ref": "#/components/responses/UnknownError"
-           }
+          }
         }
       }
     },
@@ -3311,7 +3282,7 @@
                   "summary": "Windowless Letter with Custom Image and Recipients",
                   "description": "Example of sending a windowless letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png", 
+                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "recipients": [
@@ -3404,7 +3375,7 @@
                     ]
                   }
                 }
-              }              
+              }
             }
           }
         },
@@ -3455,7 +3426,7 @@
                       "giftcard_amount": null,
                       "status": "reviewing",
                       "addons": {
-                          "standardmail": "on"
+                        "standardmail": "on"
                       },
                       "style": 5,
                       "user_id": 2,
@@ -3468,15 +3439,15 @@
                       "giftcard_brand_longname": "",
                       "sub_account": null,
                       "recipients": [
-                          {
-                              "name": "Current Resident",
-                              "address": "1 Main Street",
-                              "city": "Anytown",
-                              "province": "NY",
-                              "postal_code": "55555",
-                              "country": "US",
-                              "address2": ""
-                          }
+                        {
+                          "name": "Current Resident",
+                          "address": "1 Main Street",
+                          "city": "Anytown",
+                          "province": "NY",
+                          "postal_code": "55555",
+                          "country": "US",
+                          "address2": ""
+                        }
                       ]
                     }
                   },
@@ -3500,12 +3471,12 @@
           "400": {
             "$ref": "#/components/responses/UserError"
           },
-           "403": {
+          "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
-           "500": {
+          "500": {
             "$ref": "#/components/responses/UnknownError"
-           }
+          }
         }
       }
     },
@@ -3569,7 +3540,7 @@
                   "summary": "Notecard with Custom Image and Recipients",
                   "description": "Example of sending a notecard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png", 
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "recipients": [
@@ -3659,7 +3630,7 @@
                     ]
                   }
                 }
-              }              
+              }
             }
           }
         },
@@ -3719,15 +3690,15 @@
                       "giftcard_brand_longname": "",
                       "sub_account": null,
                       "recipients": [
-                          {
-                              "name": "Current Resident",
-                              "address": "1 Main Street",
-                              "city": "Anytown",
-                              "province": "NY",
-                              "postal_code": "55555",
-                              "country": "US",
-                              "address2": ""
-                          }
+                        {
+                          "name": "Current Resident",
+                          "address": "1 Main Street",
+                          "city": "Anytown",
+                          "province": "NY",
+                          "postal_code": "55555",
+                          "country": "US",
+                          "address2": ""
+                        }
                       ]
                     }
                   },
@@ -3752,12 +3723,12 @@
           "400": {
             "$ref": "#/components/responses/UserError"
           },
-           "403": {
+          "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
-           "500": {
+          "500": {
             "$ref": "#/components/responses/UnknownError"
-           }
+          }
         }
       }
     },
@@ -3816,7 +3787,7 @@
                   "summary": "Giftcard with Custom Image and Recipients",
                   "description": "Example of sending a giftcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png", 
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "giftcard_brand": "amazonus",
@@ -3908,7 +3879,7 @@
                     ]
                   }
                 }
-              }              
+              }
             }
           }
         },
@@ -3958,7 +3929,7 @@
                       "giftcard_amount": 10000,
                       "status": "reviewing",
                       "addons": {
-                          "standardmail": "on"
+                        "standardmail": "on"
                       },
                       "style": 4,
                       "user_id": 2,
@@ -3971,15 +3942,15 @@
                       "giftcard_brand_longname": "Amazon.com",
                       "sub_account": null,
                       "recipients": [
-                          {
-                              "name": "Current Resident",
-                              "address": "1 Main Street",
-                              "city": "Anytown",
-                              "province": "NY",
-                              "postal_code": "55555",
-                              "country": "US",
-                              "address2": ""
-                          }
+                        {
+                          "name": "Current Resident",
+                          "address": "1 Main Street",
+                          "city": "Anytown",
+                          "province": "NY",
+                          "postal_code": "55555",
+                          "country": "US",
+                          "address2": ""
+                        }
                       ]
                     }
                   },
@@ -4004,16 +3975,15 @@
           "400": {
             "$ref": "#/components/responses/UserError"
           },
-           "403": {
+          "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
-           "500": {
+          "500": {
             "$ref": "#/components/responses/UnknownError"
-           }
+          }
         }
       }
     },
-
 
     "/build/image-template": {
       "get": {
@@ -5916,19 +5886,19 @@
                     }
                   ],
                   "links": {
-                      "first": "https://api.thanks.io/api/v2/image-templates?page=1",
-                      "last": "https://api.thanks.io/api/v2/image-templates?page=214",
-                      "prev": null,
-                      "next": "https://api.thanks.io/api/v2/image-templates?page=2"
+                    "first": "https://api.thanks.io/api/v2/image-templates?page=1",
+                    "last": "https://api.thanks.io/api/v2/image-templates?page=214",
+                    "prev": null,
+                    "next": "https://api.thanks.io/api/v2/image-templates?page=2"
                   },
                   "meta": {
-                      "current_page": 1,
-                      "from": 1,
-                      "last_page": 214,
-                      "path": "https://api.thanks.io/api/v2/image-templates",
-                      "per_page": "2",
-                      "to": 2,
-                      "total": 428
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 214,
+                    "path": "https://api.thanks.io/api/v2/image-templates",
+                    "per_page": "2",
+                    "to": 2,
+                    "total": 428
                   }
                 }
               }
@@ -6111,46 +6081,46 @@
                   }
                 },
                 "example": {
-                "data": [
-        {
-            "id": 42708,
-            "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-            "size": "4x6",
-            "sub_account_id": null,
-            "type": "postcard",
-            "display_type": "Postcard-4x6",
-            "style": 1,
-            "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
-            "high_quality_preview": "",
-            "authorization_total": 73,
-            "grand_total": 73,
-            "order_total": 73,
-            "total_estimated_recipients": 1,
-            "total_recipients": 1,
-            "recipient_count": 1,
-            "status": "Fulfilled",
-            "method": "Campaign",
-            "cancellable": false,
-            "total_scans": 0,
-            "created_at": "2025-09-08T16:05:12.000000Z",
-            "updated_at": "2025-09-08T16:06:08.000000Z"
-        }
-    ],
-    "links": {
-        "first": "https://api.thanks.io/api/v2/orders/list?page=1",
-        "last": "https://api.thanks.io/api/v2/orders/list?page=4992",
-        "prev": null,
-        "next": "https://api.thanks.io/api/v2/orders/list?page=2"
-    },
-    "meta": {
-        "current_page": 1,
-        "from": 1,
-        "last_page": 4992,
-        "path": "https://api.thanks.io/api/v2/orders/list",
-        "per_page": "1",
-        "to": 1,
-        "total": 4992
-    }
+                  "data": [
+                    {
+                      "id": 42708,
+                      "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                      "size": "4x6",
+                      "sub_account_id": null,
+                      "type": "postcard",
+                      "display_type": "Postcard-4x6",
+                      "style": 1,
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "high_quality_preview": "",
+                      "authorization_total": 73,
+                      "grand_total": 73,
+                      "order_total": 73,
+                      "total_estimated_recipients": 1,
+                      "total_recipients": 1,
+                      "recipient_count": 1,
+                      "status": "Fulfilled",
+                      "method": "Campaign",
+                      "cancellable": false,
+                      "total_scans": 0,
+                      "created_at": "2025-09-08T16:05:12.000000Z",
+                      "updated_at": "2025-09-08T16:06:08.000000Z"
+                    }
+                  ],
+                  "links": {
+                    "first": "https://api.thanks.io/api/v2/orders/list?page=1",
+                    "last": "https://api.thanks.io/api/v2/orders/list?page=4992",
+                    "prev": null,
+                    "next": "https://api.thanks.io/api/v2/orders/list?page=2"
+                  },
+                  "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 4992,
+                    "path": "https://api.thanks.io/api/v2/orders/list",
+                    "per_page": "1",
+                    "to": 1,
+                    "total": 4992
+                  }
                 }
               }
             }
@@ -6162,7 +6132,7 @@
       }
     },
 
-  "/orders/{orderId}/track": {
+    "/orders/{orderId}/track": {
       "get": {
         "tags": ["Orders"],
         "summary": "Track Order",
@@ -6201,15 +6171,15 @@
                           "example": 42708
                         },
                         "order": {
-                            "$ref": "#/components/schemas/order"
+                          "$ref": "#/components/schemas/order"
                         },
                         "stats": {
                           "type": "object",
                           "properties": {
                             "delivered": {
-                                "type": "integer",
-                                "description": "Number of items delivered",
-                                "example": 0
+                              "type": "integer",
+                              "description": "Number of items delivered",
+                              "example": 0
                             },
                             "processing": {
                               "type": "integer",
@@ -6264,120 +6234,120 @@
                           }
                         },
                         "errors": {
-                            "type": "array",
-                            "description": "Array of recipients with errors",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "name": {"type": "string"},
-                                "address": {"type": "string"},
-                                "address2": {"type": "string"},
-                                "city": {"type": "string"},
-                                "province": {"type": "string"},
-                                "postal_code": {"type": "string"},
-                                "country": {"type": "string"},
-                                "failure": {"type": "string"}
-                              }
-                            },
-                          "example": [                        {
-                            "name": "Current Resident",
-                            "address": "1 Main Street",
-                            "address2": "",
-                            "city": "Fake City",
-                            "province": "FC",
-                            "postal_code": "12345",
-                            "country": "US",
-                            "failure": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
-                          }]
+                          "type": "array",
+                          "description": "Array of recipients with errors",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": { "type": "string" },
+                              "address": { "type": "string" },
+                              "address2": { "type": "string" },
+                              "city": { "type": "string" },
+                              "province": { "type": "string" },
+                              "postal_code": { "type": "string" },
+                              "country": { "type": "string" },
+                              "failure": { "type": "string" }
+                            }
+                          },
+                          "example": [
+                            {
+                              "name": "Current Resident",
+                              "address": "1 Main Street",
+                              "address2": "",
+                              "city": "Fake City",
+                              "province": "FC",
+                              "postal_code": "12345",
+                              "country": "US",
+                              "failure": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
+                            }
+                          ]
                         },
                         "returned": {
-                            "type": "array",
-                            "description": "Array of recipients whose mailers were returned",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "name": {"type": "string"},
-                                "address": {"type": "string"},
-                                "address2": {"type": "string"},
-                                "city": {"type": "string"},
-                                "province": {"type": "string"},
-                                "postal_code": {"type": "string"},
-                                "country": {"type": "string"}
-                              }
-                            },
-                          "example": [                        {
-                            "name": "Current Resident",
-                            "address": "1 Main Street",
-                            "address2": "",
-                            "city": "Fake City",
-                            "province": "FC",
-                            "postal_code": "12345",
-                            "country": "US"
-                            }]
+                          "type": "array",
+                          "description": "Array of recipients whose mailers were returned",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": { "type": "string" },
+                              "address": { "type": "string" },
+                              "address2": { "type": "string" },
+                              "city": { "type": "string" },
+                              "province": { "type": "string" },
+                              "postal_code": { "type": "string" },
+                              "country": { "type": "string" }
+                            }
+                          },
+                          "example": [
+                            {
+                              "name": "Current Resident",
+                              "address": "1 Main Street",
+                              "address2": "",
+                              "city": "Fake City",
+                              "province": "FC",
+                              "postal_code": "12345",
+                              "country": "US"
+                            }
+                          ]
                         }
-
-
                       }
                     }
                   }
                 },
                 "example": {
-
                   "data": {
-                      "id": 42708,
-                      "order": {
-                          "sub_account_id": null,
-                          "type": "postcard",
-                          "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                          "style": 1,
-                          "size": "4x6",
-                          "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
-                          "high_quality_preview": "",
-                          "total_estimated_recipients": 2,
-                          "authorization_total": 146,
-                          "total_recipients": 1,
-                          "grand_total": 73,
-                          "status": "Fulfilled",
-                          "method": "Campaign",
-                          "created_at": "2025-09-08 16:05:12",
-                          "updated_at": "2025-09-08 16:06:08"
-                      },
-                      "stats": {
-                          "delivered": 0,
-                          "processing": 0,
-                          "printed": 1,
-                          "in_transit": 0,
-                          "in_local_area": 0,
-                          "processed_for_delivery": 0,
-                          "re_routed": 0,
-                          "returned_to_sender": 0,
-                          "failed": 0,
-                          "scans": 0,
-                          "multi_scans": 0
-                      },
-                      "errors": [
-                        {
-                            "name": "Current Resident",
-                            "address": "1 Main Street",
-                            "address2": "",
-                            "city": "Fake City",
-                            "province": "FC",
-                            "postal_code": "12345",
-                            "country": "US",
-                            "failure": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
-                        }
-                      ],
-                      "returned": []
+                    "id": 42708,
+                    "order": {
+                      "sub_account_id": null,
+                      "type": "postcard",
+                      "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                      "style": 1,
+                      "size": "4x6",
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "high_quality_preview": "",
+                      "total_estimated_recipients": 2,
+                      "authorization_total": 146,
+                      "total_recipients": 1,
+                      "grand_total": 73,
+                      "status": "Fulfilled",
+                      "method": "Campaign",
+                      "created_at": "2025-09-08 16:05:12",
+                      "updated_at": "2025-09-08 16:06:08"
+                    },
+                    "stats": {
+                      "delivered": 0,
+                      "processing": 0,
+                      "printed": 1,
+                      "in_transit": 0,
+                      "in_local_area": 0,
+                      "processed_for_delivery": 0,
+                      "re_routed": 0,
+                      "returned_to_sender": 0,
+                      "failed": 0,
+                      "scans": 0,
+                      "multi_scans": 0
+                    },
+                    "errors": [
+                      {
+                        "name": "Current Resident",
+                        "address": "1 Main Street",
+                        "address2": "",
+                        "city": "Fake City",
+                        "province": "FC",
+                        "postal_code": "12345",
+                        "country": "US",
+                        "failure": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
+                      }
+                    ],
+                    "returned": []
                   }
-
                 }
               }
             }
           }
         }
       }
-    },    
-  "/orders/{orderId}/cancel": {
+    },
+    "/orders/{orderId}/cancel": {
       "put": {
         "tags": ["Orders"],
         "summary": "Cancel Order",
@@ -6428,15 +6398,15 @@
                     "realism": 40,
                     "size": "4x6",
                     "addons": {
-                        "standardmail": "on"
+                      "standardmail": "on"
                     },
                     "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
                     "back_image": "",
                     "preview_images": [
-                        "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
                     ],
                     "thumbnail_images": [
-                        "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
                     ],
                     "high_quality_preview": "",
                     "custom_background_url": null,
@@ -6476,7 +6446,5 @@
         }
       }
     }
-
-
   }
 }
