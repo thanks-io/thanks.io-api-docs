@@ -70,6 +70,7 @@
             "pages": ["authentication/bearer-token", "authentication/oauth"]
           },
 
+
           {
             "group": "Endpoints",
             "icon": "code",
@@ -121,7 +122,9 @@
                     "api-reference/endpoint/sub-accounts/get-details",
                     "api-reference/endpoint/sub-accounts/update-sub-account", 
                     "api-reference/endpoint/sub-accounts/delete-sub-account",
-                    "api-reference/endpoint/sub-accounts/list-all"          
+                    "api-reference/endpoint/sub-accounts/list-all",
+                    "api-reference/endpoint/image-templates/list-all-image-templates",
+                    "api-reference/endpoint/message-templates/list-all-message-templates"
                 ]
               },
 

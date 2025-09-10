@@ -303,6 +303,171 @@
           }
         }
       },
+      "image-template": {
+        "type": "object",
+        "properties": {
+          "id": {
+              "type": "integer",
+              "example": 6
+          },
+          "user_id": {
+              "type": "integer",
+              "example": 2
+          },
+          "sub_account_id": {
+              "type": "integer",
+              "example": 55
+          },
+          "type": {
+              "type": "string",
+              "enum": [
+                "postcard",
+                "letter",
+                "notecard",
+                "giftcard",
+                "windowlessletter"
+              ],
+              "example": "postcard"
+          },
+          "name": {
+              "type": "string",
+              "example": "Thank You Image"
+          },
+          "image": {
+              "type": "string",
+              "description": "URL of the template image",
+              "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png"
+          },
+          "canva_id": {
+              "type": "string",
+              "example": "some-canva-id"  
+          },
+          "created_at": {
+              "type": "string",
+              "example": "2018-08-07 00:00:00"
+          },
+          "updated_at": {
+              "type": "string",
+              "example": "2018-08-08 00:00:00"
+          }
+        }
+      },
+      "message-template": {
+        "type": "object",
+        "properties": {
+          "id": {
+              "type": "integer",
+              "example": 2
+          },
+          "user_id": {
+              "type": "integer",
+              "example": 2
+          },
+          "sub_account_id": {
+              "type": "integer",
+              "nullable": true
+          },
+          "handwriting_style_id": {
+              "type": "integer",
+              "description": "ID of the handwriting style used in the message template",
+              "example": 18
+          },
+          "font_size": {
+              "type": "integer",
+              "description": "Font size used in the message template.  Only valid for AI fonts",
+              "enum": ["auto", "large", "medium", "small"]
+          },
+          "font_color": {
+              "type": "string",
+              "description": "Font color used in the message template.",
+              "example": "#000000"
+          },
+          "realism": {
+              "type": "string",
+              "description": "Realism level used in the message template.  Only valid for AI fonts"
+          },
+          "name": {
+              "type": "string",
+              "example": "Thank You Message"
+          },
+          "content": {
+              "type": "string",
+              "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+          },
+          "additional_pages": {
+              "type": "string",
+              "description": "URL to additional PDFs to attach to cover letter of letters"
+          },
+          "skip_creative_generation": {
+              "type": "integer",
+              "description": "Flag to skip creative generation.  Set when message template is PDF file only.",
+              "example": 0
+          },
+          "custom_background_url": {
+              "type": "string",
+              "description": "URL of the custom background image for the message template",
+              "example": "https://example.com/background.png"
+          },
+          "qrcode_url": {
+              "type": "string",
+              "description": "URL of the QR code image for the message template",
+              "example": "https://www.thanks.io"
+          },
+          "cc_emails": {
+              "type": "array",
+              "description": "List of email addresses to be CC'd on when a QR code is scanned",
+              "items": {
+                  "type": "string",
+                  "format": "email"
+              }
+          },
+          "created_at": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2018-08-08T02:56:59.000000Z"
+          },
+          "updated_at": {
+              "type": "string",
+              "format": "date-time",
+              "example": "2025-02-12T05:13:15.000000Z"
+          },
+          "type": {
+              "type": "string",
+              "example": "notecard",
+              "enum": [
+                "postcard",
+                "letter",
+                "notecard",
+                "giftcard",
+                "windowlessletter"
+              ],
+              "description": "Type of the message template"
+          },
+          "giftcard_brand_code": {
+              "type": "string",
+              "description": "Brand code of the gift card",
+              "example": "amazonus"
+          },
+          "giftcard_brand_image": {
+              "type": "string",
+              "description": "Image URL of the gift card brand",
+              "example": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png"
+          },
+          "giftcard_amount": {
+              "type": "integer",
+              "description": "Amount of the gift card in cents",
+              "example": 5000
+          },
+          "landing_page_url": {
+              "type": "string",
+              "description": "URL of the gated landing page"
+          },
+          "share_uuid": {
+              "type": "string",
+              "example": "5J5N-QAD3-6LLL-LSZZ"
+          }
+        }
+      },
       "recipient": {
         "type": "object",
         "properties": {
@@ -1482,6 +1647,9 @@
     },
     {
       "name": "Message Templates"
+    },
+    {
+      "name": "Image Templates"
     },
     {
       "name": "Handwriting Styles"
@@ -5593,6 +5761,228 @@
           }
         }
       }
+    },
+
+    "/image-templates/": {
+      "get": {
+        "tags": ["Image Templates"],
+        "operationId": "getImageTemplates",
+        "summary": "List All Image Templates",
+        "description": "List all available image templates.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/items_per_page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/image-template"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 6,
+                      "user_id": 2,
+                      "sub_account_id": null,
+                      "type": "postcard",
+                      "name": "Test",
+                      "image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "is_dynamic": false,
+                      "dynamic_image_url": null,
+                      "canva_id": null,
+                      "share_uuid": "AQQX-VYXJ-DZM6-XSPD",
+                      "created_at": "2018-08-07T00:00:00.000000Z",
+                      "updated_at": "2022-07-28T00:00:00.000000Z"
+                    },
+                    {
+                      "id": 7,
+                      "user_id": 2,
+                      "sub_account_id": null,
+                      "type": "postcard",
+                      "name": "Test #2",
+                      "image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645579.png",
+                      "is_dynamic": false,
+                      "dynamic_image_url": null,
+                      "canva_id": null,
+                      "share_uuid": "ZLSK-FF7K-CF44-UVJM",
+                      "created_at": "2018-08-07T00:00:00.000000Z",
+                      "updated_at": "2022-07-28T00:00:00.000000Z"
+                    }
+                  ],
+                  "links": {
+                      "first": "https://api.thanks.io/api/v2/image-templates?page=1",
+                      "last": "https://api.thanks.io/api/v2/image-templates?page=214",
+                      "prev": null,
+                      "next": "https://api.thanks.io/api/v2/image-templates?page=2"
+                  },
+                  "meta": {
+                      "current_page": 1,
+                      "from": 1,
+                      "last_page": 214,
+                      "path": "https://api.thanks.io/api/v2/image-templates",
+                      "per_page": "2",
+                      "to": 2,
+                      "total": 428
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message-templates/": {
+      "get": {
+        "tags": ["Message Templates"],
+        "operationId": "getMessageTemplates",
+        "summary": "List All Message Templates",
+        "description": "List all available message templates.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/items_per_page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/message-template"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 2,
+                      "user_id": 2,
+                      "sub_account_id": null,
+                      "handwriting_style_id": 18,
+                      "font_size": null,
+                      "font_color": null,
+                      "realism": null,
+                      "name": "Thank You Message Templates",
+                      "content": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                      "additional_pages": null,
+                      "skip_creative_generation": 0,
+                      "custom_background_url": null,
+                      "qrcode_url": null,
+                      "cc_emails": [],
+                      "created_at": "2018-08-08T02:56:59.000000Z",
+                      "updated_at": "2025-02-12T05:13:15.000000Z",
+                      "type": "notecard",
+                      "giftcard_brand_code": null,
+                      "giftcard_brand_image": null,
+                      "giftcard_amount": null,
+                      "youtube_id": null,
+                      "landing_page_url": null,
+                      "settings": null,
+                      "external_settings": null,
+                      "share_uuid": "5J5N-QAD3-6LLL-LSZZ"
+                    },
+                    {
+                      "id": 116,
+                      "user_id": 2,
+                      "sub_account_id": null,
+                      "handwriting_style_id": 1,
+                      "font_size": null,
+                      "font_color": null,
+                      "realism": null,
+                      "name": "This is another test",
+                      "content": "Dear %FIRST_NAME%\n\nThis is another test message.",
+                      "additional_pages": null,
+                      "skip_creative_generation": 0,
+                      "custom_background_url": null,
+                      "qrcode_url": null,
+                      "cc_emails": [],
+                      "created_at": "2018-11-10T23:10:52.000000Z",
+                      "updated_at": "2024-05-07T15:24:24.000000Z",
+                      "type": "postcard",
+                      "giftcard_brand_code": null,
+                      "giftcard_brand_image": null,
+                      "giftcard_amount": null,
+                      "youtube_id": null,
+                      "landing_page_url": null,
+                      "settings": null,
+                      "external_settings": null,
+                      "share_uuid": "QT74-5VK4-DJ38-M227"
+                    }
+                  ],
+                  "links": {
+                    "first": "https://api.thanks.io/api/v2/message-templates?page=1",
+                    "last": "https://api.thanks.io/api/v2/message-templates?page=71",
+                    "prev": null,
+                    "next": "https://api.thanks.io/api/v2/message-templates?page=2"
+                  },
+                  "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 71,
+                    "path": "https://api.thanks.io/api/v2/message-templates",
+                    "per_page": "2",
+                    "to": 2,
+                    "total": 141
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
     }
+
   }
 }
