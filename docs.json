@@ -69,8 +69,6 @@
             "icon": "lock",
             "pages": ["authentication/bearer-token", "authentication/oauth"]
           },
-
-
           {
             "group": "Endpoints",
             "icon": "code",
@@ -124,7 +122,10 @@
                     "api-reference/endpoint/sub-accounts/delete-sub-account",
                     "api-reference/endpoint/sub-accounts/list-all",
                     "api-reference/endpoint/image-templates/list-all-image-templates",
-                    "api-reference/endpoint/message-templates/list-all-message-templates"
+                    "api-reference/endpoint/message-templates/list-all-message-templates",
+                    "api-reference/endpoint/orders/list-orders",
+                    "api-reference/endpoint/orders/track-order",
+                    "api-reference/endpoint/orders/cancel-order"
                 ]
               },
 

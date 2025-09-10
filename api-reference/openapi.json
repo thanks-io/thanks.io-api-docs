@@ -141,9 +141,120 @@
           "default": 25
         },
         "example": 5
+      },
+      "sub_account_id": {
+        "name": "sub_account_id",
+        "in": "query",
+        "description": "Filter results by Sub Account ID.",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "example": 1
       }
     },
     "schemas": {
+      "order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 42708
+          },
+          "message": {
+            "type": "string",
+            "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+          },
+          "size": {
+            "type": "string",
+            "description": "Only valid for postcards",
+            "example": "4x6"
+          },
+          "sub_account_id": {
+            "type": ["integer", "null"],
+            "example": null
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "postcard",
+              "postcard6x11",
+              "letter",
+              "notecard",
+              "giftcard",
+              "windowlessletter"
+            ],
+            "example": "postcard"
+          },
+          "display_type": {
+            "type": "string",
+            "example": "Postcard-4x6"
+          },
+          "style": {
+            "type": "integer",
+            "description": "Handwriting Style ID used for this order",
+            "example": 1
+          },
+          "front_image": {
+            "type": "string",
+            "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+          },
+          "high_quality_preview": {
+            "type": "string",
+            "description": "PDF of the high quality preview of the order"
+          },
+          "authorization_total": {
+            "type": "integer",
+            "example": 73
+          },
+          "grand_total": {
+            "type": "integer",
+            "example": 73
+          },
+          "order_total": {
+            "type": "integer",
+            "example": 73
+          },
+          "total_estimated_recipients": {
+            "type": "integer",
+            "example": 1
+          },
+          "total_recipients": {
+            "type": "integer",
+            "example": 1
+          },
+          "recipient_count": {
+            "type": "integer",
+            "example": 1
+          },
+          "status": {
+            "type": "string",
+            "example": "Fulfilled"
+          },
+          "method": {
+            "type": "string",
+            "example": "Campaign"
+          },
+          "cancellable": {
+            "type": "boolean",
+            "example": false
+          },
+          "total_scans": {
+            "type": "integer",
+            "example": 0
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-08T16:05:12.000000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-08T16:06:08.000000Z"
+          }
+        }
+      },
       "giftcard-group": {
         "type": "object",
         "properties": {
@@ -4000,7 +4111,7 @@
         "tags": ["Handwriting Styles"],
         "operationId": "listHandwritingStyles",
         "summary": "List Styles",
-        "description": "List All Available Handwriting Styles",
+        "description": "List Available Handwriting Styles",
         "security": [
           {
             "noauthAuth": []
@@ -5733,11 +5844,14 @@
       "get": {
         "tags": ["Image Templates"],
         "operationId": "getImageTemplates",
-        "summary": "List All Image Templates",
+        "summary": "List All",
         "description": "List all available image templates.",
         "parameters": [
           {
             "$ref": "#/components/parameters/items_per_page"
+          },
+          {
+            "$ref": "#/components/parameters/sub_account_id"
           }
         ],
         "responses": {
@@ -5830,11 +5944,14 @@
       "get": {
         "tags": ["Message Templates"],
         "operationId": "getMessageTemplates",
-        "summary": "List All Message Templates",
+        "summary": "List All",
         "description": "List all available message templates.",
         "parameters": [
           {
             "$ref": "#/components/parameters/items_per_page"
+          },
+          {
+            "$ref": "#/components/parameters/sub_account_id"
           }
         ],
         "responses": {
@@ -5948,7 +6065,418 @@
           }
         }
       }
+    },
+
+    "/orders/list": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "List Orders",
+        "description": "Return list of recent orders.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/items_per_page"
+          },
+          {
+            "$ref": "#/components/parameters/sub_account_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/order"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                },
+                "example": {
+                "data": [
+        {
+            "id": 42708,
+            "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+            "size": "4x6",
+            "sub_account_id": null,
+            "type": "postcard",
+            "display_type": "Postcard-4x6",
+            "style": 1,
+            "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+            "high_quality_preview": "",
+            "authorization_total": 73,
+            "grand_total": 73,
+            "order_total": 73,
+            "total_estimated_recipients": 1,
+            "total_recipients": 1,
+            "recipient_count": 1,
+            "status": "Fulfilled",
+            "method": "Campaign",
+            "cancellable": false,
+            "total_scans": 0,
+            "created_at": "2025-09-08T16:05:12.000000Z",
+            "updated_at": "2025-09-08T16:06:08.000000Z"
+        }
+    ],
+    "links": {
+        "first": "https://api.thanks.io/api/v2/orders/list?page=1",
+        "last": "https://api.thanks.io/api/v2/orders/list?page=4992",
+        "prev": null,
+        "next": "https://api.thanks.io/api/v2/orders/list?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 4992,
+        "path": "https://api.thanks.io/api/v2/orders/list",
+        "per_page": "1",
+        "to": 1,
+        "total": 4992
     }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+
+  "/orders/{orderId}/track": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Track Order",
+        "description": "Return Summary of delivery status for the order.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 42708
+                        },
+                        "order": {
+                            "$ref": "#/components/schemas/order"
+                        },
+                        "stats": {
+                          "type": "object",
+                          "properties": {
+                            "delivered": {
+                                "type": "integer",
+                                "description": "Number of items delivered",
+                                "example": 0
+                            },
+                            "processing": {
+                              "type": "integer",
+                              "description": "Number of items currently being processed",
+                              "example": 0
+                            },
+                            "printed": {
+                              "type": "integer",
+                              "description": "Number of items printed",
+                              "example": 1
+                            },
+                            "in_transit": {
+                              "type": "integer",
+                              "description": "Number of items in transit",
+                              "example": 0
+                            },
+                            "in_local_area": {
+                              "type": "integer",
+                              "description": "Number of items in the local delivery area",
+                              "example": 0
+                            },
+                            "processed_for_delivery": {
+                              "type": "integer",
+                              "description": "Number of items processed for delivery",
+                              "example": 0
+                            },
+                            "re_routed": {
+                              "type": "integer",
+                              "description": "Number of items re-routed",
+                              "example": 0
+                            },
+                            "returned_to_sender": {
+                              "type": "integer",
+                              "description": "Number of items returned to sender",
+                              "example": 0
+                            },
+                            "failed": {
+                              "type": "integer",
+                              "description": "Number of items that failed to be delivered",
+                              "example": 0
+                            },
+                            "scans": {
+                              "type": "integer",
+                              "description": "Number of times the item has been scanned",
+                              "example": 0
+                            },
+                            "multi_scans": {
+                              "type": "integer",
+                              "description": "Number of times the item has been scanned multiple times",
+                              "example": 0
+                            }
+                          }
+                        },
+                        "errors": {
+                            "type": "array",
+                            "description": "Array of recipients with errors",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {"type": "string"},
+                                "address": {"type": "string"},
+                                "address2": {"type": "string"},
+                                "city": {"type": "string"},
+                                "province": {"type": "string"},
+                                "postal_code": {"type": "string"},
+                                "country": {"type": "string"},
+                                "failure": {"type": "string"}
+                              }
+                            },
+                          "example": [                        {
+                            "name": "Current Resident",
+                            "address": "1 Main Street",
+                            "address2": "",
+                            "city": "Fake City",
+                            "province": "FC",
+                            "postal_code": "12345",
+                            "country": "US",
+                            "failure": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
+                          }]
+                        },
+                        "returned": {
+                            "type": "array",
+                            "description": "Array of recipients whose mailers were returned",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {"type": "string"},
+                                "address": {"type": "string"},
+                                "address2": {"type": "string"},
+                                "city": {"type": "string"},
+                                "province": {"type": "string"},
+                                "postal_code": {"type": "string"},
+                                "country": {"type": "string"}
+                              }
+                            },
+                          "example": [                        {
+                            "name": "Current Resident",
+                            "address": "1 Main Street",
+                            "address2": "",
+                            "city": "Fake City",
+                            "province": "FC",
+                            "postal_code": "12345",
+                            "country": "US"
+                            }]
+                        }
+
+
+                      }
+                    }
+                  }
+                },
+                "example": {
+
+                  "data": {
+                      "id": 42708,
+                      "order": {
+                          "sub_account_id": null,
+                          "type": "postcard",
+                          "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                          "style": 1,
+                          "size": "4x6",
+                          "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                          "high_quality_preview": "",
+                          "total_estimated_recipients": 2,
+                          "authorization_total": 146,
+                          "total_recipients": 1,
+                          "grand_total": 73,
+                          "status": "Fulfilled",
+                          "method": "Campaign",
+                          "created_at": "2025-09-08 16:05:12",
+                          "updated_at": "2025-09-08 16:06:08"
+                      },
+                      "stats": {
+                          "delivered": 0,
+                          "processing": 0,
+                          "printed": 1,
+                          "in_transit": 0,
+                          "in_local_area": 0,
+                          "processed_for_delivery": 0,
+                          "re_routed": 0,
+                          "returned_to_sender": 0,
+                          "failed": 0,
+                          "scans": 0,
+                          "multi_scans": 0
+                      },
+                      "errors": [
+                        {
+                            "name": "Current Resident",
+                            "address": "1 Main Street",
+                            "address2": "",
+                            "city": "Fake City",
+                            "province": "FC",
+                            "postal_code": "12345",
+                            "country": "US",
+                            "failure": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
+                        }
+                      ],
+                      "returned": []
+                  }
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },    
+  "/orders/{orderId}/cancel": {
+      "put": {
+        "tags": ["Orders"],
+        "summary": "Cancel Order",
+        "description": "If Order is in _Reviewing_ Status, then this will cancel the order and refund the credits for the order back to your account.  If the order can be successfully canceled, the status will be updated to _cancelled_.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "order": {
+                      "$ref": "#/components/schemas/order"
+                    }
+                  }
+                },
+                "example": {
+                  "order": {
+                    "id": 42708,
+                    "user_id": 2,
+                    "sub_account_id": null,
+                    "type": "postcard",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "message_template_id": 116,
+                    "image_template_id": 195091,
+                    "style": 1,
+                    "handwriting_color": "#000001",
+                    "font_size": "auto",
+                    "realism": 40,
+                    "size": "4x6",
+                    "addons": {
+                        "standardmail": "on"
+                    },
+                    "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "back_image": "",
+                    "preview_images": [
+                        "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                    ],
+                    "thumbnail_images": [
+                        "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                    ],
+                    "high_quality_preview": "",
+                    "custom_background_url": null,
+                    "additional_letter_pages": null,
+                    "skip_creative_generation": 0,
+                    "giftcard_brand": null,
+                    "giftcard_image": null,
+                    "giftcard_amount": null,
+                    "qrcode_url": null,
+                    "mailing_list_ids_used": "3047",
+                    "total_estimated_recipients": 1,
+                    "authorization_total": 73,
+                    "total_recipients": 1,
+                    "grand_total": 73,
+                    "status": "fulfilled",
+                    "method": "drip",
+                    "email_cc": null,
+                    "total_scans": 0,
+                    "unique_scans": 0,
+                    "last_scan": null,
+                    "return_name": null,
+                    "return_address": null,
+                    "return_address2": null,
+                    "return_city": null,
+                    "return_province": null,
+                    "return_postal_code": null,
+                    "display_addons": "+Standard Mail",
+                    "display_status": "Fulfilled",
+                    "display_trigger": "Campaign",
+                    "display_type": "Postcard-4x6",
+                    "giftcard_brand_longname": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
 
   }
 }
