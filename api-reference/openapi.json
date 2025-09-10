@@ -69,8 +69,8 @@
             "created_at": "6 years ago",
             "updated_at": "2025-06-27T14:57:11.000000Z"
           }
-        }
-      },
+          }
+        },
       "mailing-list-example": {
         "summary": "Example Mailing List",
         "value": {
@@ -233,8 +233,7 @@
             "example": 2
           },
           "sub_account_id": {
-            "type": "integer",
-            "nullable": true
+            "type": ["integer", "null"]
           },
           "type": {
             "type": "string",
@@ -246,8 +245,7 @@
             "example": "Test"
           },
           "qrcode_url": {
-            "type": "string",
-            "nullable": true
+            "type": ["string", "null"]
           },
           "total_recipients": {
             "type": "integer",
@@ -270,16 +268,14 @@
             "example": 0
           },
           "last_scan": {
-            "type": "string",
-            "nullable": true
+            "type": ["string", "null"]
           },
           "total_sends": {
             "type": "integer",
             "example": 0
           },
           "last_send": {
-            "type": "string",
-            "nullable": true
+            "type": ["string", "null"]
           },
           "api_key": {
             "type": "string",
@@ -364,8 +360,7 @@
               "example": 2
           },
           "sub_account_id": {
-              "type": "integer",
-              "nullable": true
+            "type": ["integer", "null"]
           },
           "handwriting_style_id": {
               "type": "integer",
@@ -642,19 +637,17 @@
         "type": "object",
         "anyOf": [
           {
-            "title": "Create Recipient by Address",
-            "description": "Create a recipient by providing address details",
-            "summary": "Create Recipient by Address",
-            "required": [
+              "title": "Create Recipient by Address",
+              "description": "Create a recipient by providing address details",
+              "required": [
               "mailing_list_id",
               "address"
             ]
           },
           {
-            "title": "Create Recipient by Email",
-            "description": "Create a recipient by providing email address",
-            "summary": "Create Recipient by Email",
-            "required": [
+              "title": "Create Recipient by Email",
+              "description": "Create a recipient by providing email address",
+              "required": [
               "mailing_list_id",
               "email"
             ]
@@ -761,19 +754,17 @@
         "type": "object",
         "anyOf": [
           {
-            "title": "Create Recipient by Address",
-            "description": "Create a recipient by providing address details",
-            "summary": "Create Recipient by Address",
-            "required": [
+              "title": "Create Recipient by Address",
+              "description": "Create a recipient by providing address details",
+              "required": [
               "mailing_list_id",
               "address"
             ]
           },
           {
-            "title": "Create Recipient by Email",
-            "description": "Create a recipient by providing email address",
-            "summary": "Create Recipient by Email",
-            "required": [
+              "title": "Create Recipient by Email",
+              "description": "Create a recipient by providing email address",
+              "required": [
               "mailing_list_id",
               "email"
             ]
@@ -955,24 +946,20 @@
         "type": "object",
         "properties": {
           "first": {
-            "type": "string",
-            "description": "URL of the first page of results",
-            "nullable": true
+              "type": ["string", "null"],
+              "description": "URL of the first page of results"
           },
           "last": {
-            "type": "string",
-            "description": "URL of the last page of results",
-            "nullable": true
+              "type": ["string", "null"],
+              "description": "URL of the last page of results"
           },
           "prev": {
-            "type": "string",
-            "description": "URL of the previous page of results",
-            "nullable": true
+              "type": ["string", "null"],
+              "description": "URL of the previous page of results"
           },
           "next": {
-            "type": "string",
-            "description": "URL of the next page of results",
-            "nullable": true
+              "type": ["string", "null"],
+              "description": "URL of the next page of results"
           }
         }
       },
@@ -985,10 +972,9 @@
             "description": "Current page number"
           },
           "from": {
-            "type": "integer",
-            "nullable": true,
-            "example": 1,
-            "description": "Index of the first item on the current page"
+              "type": ["integer", "null"],
+              "example": 1,
+              "description": "Index of the first item on the current page"
           },
           "last_page": {
             "type": "integer",
@@ -1005,10 +991,9 @@
             "description": "Number of items per page"
           },
           "to": {
-            "type": "integer",
-            "nullable": true,
-            "example": 1,
-            "description": "Index of the last item on the current page"
+              "type": ["integer", "null"],
+              "example": 1,
+              "description": "Index of the last item on the current page"
           },
           "total": {
             "type": "integer",
@@ -1026,10 +1011,9 @@
             "description": "Current page number"
           },
           "first_page_url": {
-            "type": "string",
-            "description": "URL of the first page of results",
-            "nullable": true,
-            "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
+              "type": ["string", "null"],
+              "description": "URL of the first page of results",
+              "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
           },
           "from": {
             "type": "integer",
@@ -1042,15 +1026,13 @@
             "description": "Total number of pages"
           },
           "last_page_url": {
-            "type": "string",
-            "description": "URL of the last page of results",
-            "nullable": true,
-            "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
+              "type": ["string", "null"],
+              "description": "URL of the last page of results",
+              "example": "https://api.thanks.io/api/v2/mailing-lists-utils/recipients/3014?page=1"
           },
           "next_page_url": {
-            "type": "string",
-            "description": "URL of the next page of results",
-            "nullable": true
+              "type": ["string", "null"],
+              "description": "URL of the next page of results"
           },
           "path": {
             "type": "string",
@@ -1063,9 +1045,8 @@
             "description": "Number of items per page"
           },
           "prev_page_url": {
-            "type": "string",
-            "description": "URL of the previous page of results",
-            "nullable": true
+              "type": ["string", "null"],
+              "description": "URL of the previous page of results"
           },
           "to": {
             "type": "integer",
@@ -1246,19 +1227,18 @@
             "example": 2
           },
           "sub_account": {
-            "description": "Sub-account Info For Order.  Can be null",
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/sub-account"
-              }
-            ]
+              "description": "Sub-account Info For Order.  Can be null",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/sub-account"
+                }
+              ],
+              "type": ["object", "null"]
           },
           "sub_account_id": {
-            "type": "integer",
-            "description": "Sub account ID for the order",
-            "nullable": true,
-            "example": 12345
+              "type": ["integer", "null"],
+              "description": "Sub account ID for the order",
+              "example": 12345
           },
 
           "total_estimated_recipients": {
@@ -1297,16 +1277,14 @@
             "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png"
           },
           "image_template_id": {
-            "type": "integer",
-            "description": "Image template ID for the order",
-            "nullable": true,
-            "example": 6
+              "type": ["integer", "null"],
+              "description": "Image template ID for the order",
+              "example": 6
           },
           "custom_background_url": {
-            "type": "string",
-            "description": "Custom background URL for the order",
-            "nullable": true,
-            "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
+              "type": ["string", "null"],
+              "description": "Custom background URL for the order",
+              "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
           },
 
           "message": {
@@ -1315,10 +1293,9 @@
             "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
           },
           "message_template_id": {
-            "type": "integer",
-            "description": "Message template ID for the order",
-            "nullable": true,
-            "example": 12345
+              "type": ["integer", "null"],
+              "description": "Message template ID for the order",
+              "example": 12345
           },
           "handwriting_color": {
             "type": "string",
@@ -1348,40 +1325,34 @@
           },
 
           "return_name": {
-            "type": "string",
-            "description": "Return name for the order",
-            "nullable": true,
-            "example": "John Doe"
+              "type": ["string", "null"],
+              "description": "Return name for the order",
+              "example": "John Doe"
           },
           "return_address": {
-            "type": "string",
-            "description": "Return address line 1 for the order",
-            "nullable": true,
-            "example": "123 Main Street"
+              "type": ["string", "null"],
+              "description": "Return address line 1 for the order",
+              "example": "123 Main Street"
           },
           "return_address2": {
-            "type": "string",
-            "description": "Return address line 2 for the order",
-            "nullable": true,
-            "example": null
+              "type": ["string", "null"],
+              "description": "Return address line 2 for the order",
+              "example": null
           },
           "return_city": {
-            "type": "string",
-            "description": "Return city for the order",
-            "nullable": true,
-            "example": "Anytown"
+              "type": ["string", "null"],
+              "description": "Return city for the order",
+              "example": "Anytown"
           },
           "return_province": {
-            "type": "string",
-            "description": "Return state/province for the order",
-            "nullable": true,
-            "example": "NY"
+              "type": ["string", "null"],
+              "description": "Return state/province for the order",
+              "example": "NY"
           },
           "return_postal_code": {
-            "type": "string",
-            "description": "Return postal code for the order",
-            "nullable": true,
-            "example": "12345"
+              "type": ["string", "null"],
+              "description": "Return postal code for the order",
+              "example": "12345"
           },
 
 
@@ -1449,10 +1420,9 @@
           },
 
           "addons": {
-            "type": "object",
-            "description": "Add-ons for the order",
-            "nullable": true,
-            "properties": {
+              "type": ["object", "null"],
+              "description": "Add-ons for the order",
+              "properties": {
               "standardmail": {
                 "type": "string",
                 "description": "Standard mail add-on status",
@@ -1465,29 +1435,25 @@
             }
           },
           "qrcode_url": {
-            "type": "string",
-            "description": "QR code URL for the order",
-            "nullable": true,
-            "example": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~"
+              "type": ["string", "null"],
+              "description": "QR code URL for the order",
+              "example": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~"
           },
 
           "giftcard_brand": {
-            "type": "string",
-            "description": "Gift card brand for the order (valid for Giftcard orders only)",
-            "nullable": true,
-            "example": null
+              "type": ["string", "null"],
+              "description": "Gift card brand for the order (valid for Giftcard orders only)",
+              "example": null
           },
           "giftcard_image": {
-            "type": "string",
-            "description": "Gift card image URL for the order (valid for Giftcard orders only)",
-            "nullable": true,
-            "example": null
+              "type": ["string", "null"],
+              "description": "Gift card image URL for the order (valid for Giftcard orders only)",
+              "example": null
           },
           "giftcard_amount": {
-            "type": "integer",
-            "description": "Gift card amount for the order in cents (valid for Giftcard orders only)",
-            "nullable": true,
-            "example": null
+              "type": ["integer", "null"],
+              "description": "Gift card amount for the order in cents (valid for Giftcard orders only)",
+              "example": null
           },
           "giftcard_brand_longname": {
             "type": "string",
