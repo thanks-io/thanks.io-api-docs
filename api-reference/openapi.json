@@ -5777,7 +5777,7 @@
       "delete": {
         "tags": ["Sub Accounts"],
         "operationId": "deleteSubAccount",
-        "summary": "Delete Sub Account",
+        "summary": "Delete Sub Account.  All sub account orders and mailing lists are moved to the main account. All image templates, message templates, and campaigns are deleted.",
         "responses": {
           "200": {
             "description": "Successful Response",
