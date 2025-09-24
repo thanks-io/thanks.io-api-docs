@@ -5687,7 +5687,7 @@
         "tags": ["Sub Accounts"],
         "operationId": "getSubAccountDetails",
         "summary": "Get Details",
-        "description": "Gets a sub-account by ID. Returns a single sub-account object.",
+        "description": "Gets a sub-account by ID. Returns a single sub-account object.  branding_fields is an object that contains branding information for the sub-account - it can only be set via the thanks.io dashboard",
         "responses": {
           "200": {
             "description": "Successful Response",
