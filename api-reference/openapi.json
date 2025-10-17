@@ -2528,7 +2528,7 @@
         }
       }
     },
-    "/mailing-lists/buy-radius-search": {
+    "/mailing-lists-utils/buy-radius-search": {
       "post": {
         "tags": ["Mailing Lists"],
         "summary": "Radius Search",
