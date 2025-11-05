@@ -60,6 +60,7 @@
             "pages": [
               "api-reference/introduction",
               "api-reference/api-mode",
+              "api-reference/audit-log",
               "api-reference/rate-limits",
               "api-reference/openapi-link"
             ]
