@@ -117,6 +117,15 @@
                     "creatives/inspirations/postcards-veterinarian",
                     "creatives/inspirations/postcards-windowcleaning"
                 ]
+              },
+              {
+                "group": "Notecards",
+                "icon": "envelope-open-text",
+                "pages": [
+                    "creatives/inspirations/notecards",
+                    "creatives/inspirations/notecards-birthday",
+                    "creatives/inspirations/notecards-work"
+                ]
               }
             ]
           }
