@@ -197,7 +197,7 @@
           },
           "front_image": {
             "type": "string",
-            "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+            "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
           },
           "high_quality_preview": {
             "type": "string",
@@ -2721,7 +2721,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.  Required if image_template is not specified.",
-                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -2741,7 +2741,7 @@
                       "custom_background_image": {
                         "type": "string",
                         "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.",
-                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "qrcode_url": {
                         "type": "string",
@@ -2764,7 +2764,7 @@
                   "description": "Example of sending a 4x6 postcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
                     "size": "4x6",
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "recipients": [
@@ -2825,7 +2825,7 @@
                   "description": "Example of sending a large 6x11 postcard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
                     "size": "6x11",
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
@@ -2841,7 +2841,7 @@
                   "description": "Example of generating a preview of a 4x6 postcard before actually sending it. Use the preview parameter to see how your postcard will look without placing an actual order.",
                   "value": {
                     "size": "4x6",
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "preview": true,
@@ -2989,7 +2989,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
-                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -3025,7 +3025,7 @@
                   "summary": "Windowed Letter with Custom Image and Recipients",
                   "description": "Example of sending a windowed letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "recipients": [
                       {
@@ -3074,7 +3074,7 @@
                   "summary": "Windowed Letter with Radius Search Targeting",
                   "description": "Example of sending a windowed letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
@@ -3089,7 +3089,7 @@
                   "summary": "Preview Windowed Letter Before Sending",
                   "description": "Example of generating a preview of a windowed letter before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "preview": true,
@@ -3146,7 +3146,7 @@
                       "mailing_list_ids_used": "",
                       "additional_letter_pages_count": 0,
                       "handwriting_color": "rgba(31,0,113,0.80)",
-                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                       "message": "Test Message",
                       "append_or_current_resident": true,
                       "type": "letter",
@@ -3246,7 +3246,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
-                        "example": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -3282,7 +3282,7 @@
                   "summary": "Windowless Letter with Custom Image and Recipients",
                   "description": "Example of sending a windowless letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "recipients": [
@@ -3332,7 +3332,7 @@
                   "summary": "Windowless Letter with Radius Search Targeting",
                   "description": "Example of sending a windowless letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
@@ -3347,7 +3347,7 @@
                   "summary": "Preview windowless Letter Before Sending",
                   "description": "Example of generating a preview of a windowless letter before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style": 4,
                     "preview": true,
@@ -3404,7 +3404,7 @@
                       "mailing_list_ids_used": "",
                       "additional_letter_pages_count": 0,
                       "handwriting_color": "rgba(31,0,113,0.80)",
-                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                       "message": "\n\n\n\n\n\n\n\nWhat is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
                       "append_or_current_resident": true,
                       "type": "windowlessletter",
@@ -6090,7 +6090,7 @@
                       "type": "postcard",
                       "display_type": "Postcard-4x6",
                       "style": 1,
-                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                       "high_quality_preview": "",
                       "authorization_total": 73,
                       "grand_total": 73,
@@ -6302,7 +6302,7 @@
                       "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                       "style": 1,
                       "size": "4x6",
-                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                       "high_quality_preview": "",
                       "total_estimated_recipients": 2,
                       "authorization_total": 146,
@@ -6400,13 +6400,13 @@
                     "addons": {
                       "standardmail": "on"
                     },
-                    "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png",
+                    "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "back_image": "",
                     "preview_images": [
-                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                     ],
                     "thumbnail_images": [
-                      "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/gFBaJJJWRp60op3ZOoK7UaO5I7zi33rdKQGgHylR.png"
+                      "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                     ],
                     "high_quality_preview": "",
                     "custom_background_url": null,
