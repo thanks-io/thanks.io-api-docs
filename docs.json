@@ -68,9 +68,10 @@
               "creatives/templates/4x6postcards",
               "creatives/templates/6x9postcards",
               "creatives/templates/6x11postcards",
+              "creatives/templates/magnacards",
+              "creatives/templates/notecards",
               "creatives/templates/windowed-letters",
-              "creatives/templates/windowless-letters",
-              "creatives/templates/notecards"
+              "creatives/templates/windowless-letters"
             ]
           },
          {
