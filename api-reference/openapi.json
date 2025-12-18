@@ -2965,6 +2965,228 @@
         }
       }
     },
+    "/send/magnacard": {
+      "post": {
+        "tags": ["Send Mailer"],
+        "summary": "Send Magnacard",
+        "description": "Send a Magnacard.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template": {
+                        "type": "integer",
+                        "description": "ID of image template to use for front of magnacard. Required if front_image_url is not specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for front of magnacard. Required if image_template is not specified.",
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for content on back of magnacard.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template": {
+                        "type": "integer",
+                        "description": "ID of message template to use for content on back of magnacard.",
+                        "example": 12
+                      },
+                      "use_custom_background": {
+                        "type": "boolean",
+                        "description": "Use custom background image. This can be used to turn off the default background image.",
+                        "default": false
+                      },
+                      "custom_background_image": {
+                        "type": "string",
+                        "description": "URL to custom background image to use for back of magnacard. This image will be placed behind the handwritten message.",
+                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "w/ Image URL/Recipients": {
+                  "summary": "Magnacard with Custom Image and Recipients",
+                  "description": "Example of sending a magnacard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                },
+                "w/ Templates/Custom Return": {
+                  "summary": "Magnacard with Templates",
+                  "description": "Example of sending a magnacard using predefined image and message templates, targeting specific mailing lists.",
+                  "value": {
+                    "return_name": "Your Company Name",
+                    "return_address": "123 Return St",
+                    "return_city": "Return City",
+                    "return_state": "RC",
+                    "return_postal_code": "12345",
+                    "image_template": 6,
+                    "message_template": 12,
+                    "mailing_lists": [5166, 514]
+                  }
+                },
+                "Preview": {
+                  "summary": "Preview Magnacard Before Sending",
+                  "description": "Example of generating a preview of a magnacard before actually sending it. Use the preview parameter to see how it will look without placing an actual order.",
+                  "value": {
+                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style": 4,
+                    "preview": true,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send Mailer Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/send-mailer-order-response"
+                    },
+                    {
+                      "$ref": "#/components/schemas/send-mailer-preview-response"
+                    }
+                  ]
+                },
+                "examples": {
+                  "Order Submitted Response": {
+                    "summary": "Order Submitted Response Example",
+                    "value": {
+                      "total_estimated_recipients": 2,
+                      "authorization_total": 116,
+                      "leads_fee": 0,
+                      "mailing_list_ids_used": "3046,3020",
+                      "handwriting_color": "rgba(31,0,113,0.80)",
+                      "front_image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "message": "Lorem ipsum dolor sit amet",
+                      "append_or_current_resident": true,
+                      "type": "magnacard",
+                      "return_name": null,
+                      "return_address": null,
+                      "return_address2": null,
+                      "return_city": null,
+                      "return_province": null,
+                      "return_postal_code": null,
+                      "message_template_id": null,
+                      "image_template_id": 6,
+                      "method": "api",
+                      "sub_account_id": null,
+                      "font_size": "auto",
+                      "custom_background_url": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png",
+                      "giftcard_brand": null,
+                      "giftcard_image": null,
+                      "giftcard_amount": null,
+                      "status": "reviewing",
+                      "addons": {
+                        "standardmail": "on"
+                      },
+                      "style": 4,
+                      "user_id": 2,
+                      "updated_at": "2025-08-14 16:48:13",
+                      "created_at": "2025-08-14 16:48:13",
+                      "id": 42665,
+                      "display_status": "Reviewing",
+                      "display_trigger": "API",
+                      "display_type": "Magnacard",
+                      "handwriting_image": null,
+                      "giftcard_brand_longname": "",
+                      "sub_account": null
+                    }
+                  },
+                  "Preview Response": {
+                    "summary": "Preview Response Example",
+                    "value": {
+                      "success": true,
+                      "code": 200,
+                      "message": "OK",
+                      "data": {
+                        "previews": [
+                          "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                          "https://s3.amazonaws.com/content.thanks.io/sls-handwriting-engine/images/1056d992-b7f8-bf98-5ad5-9d089cd46e62.png"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/UnknownError"
+          }
+        }
+      }
+    },
     "/send/letter": {
       "post": {
         "tags": ["Send Mailer"],

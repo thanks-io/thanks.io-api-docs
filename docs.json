@@ -191,7 +191,8 @@
                     "api-reference/endpoint/send-mailer/send-windowed-letter",
                     "api-reference/endpoint/send-mailer/send-windowless-letter",
                     "api-reference/endpoint/send-mailer/send-notecard",
-                    "api-reference/endpoint/send-mailer/send-giftcard"
+                    "api-reference/endpoint/send-mailer/send-giftcard",
+                    "api-reference/endpoint/send-mailer/send-magnacard"
                 ]
               },
               {
