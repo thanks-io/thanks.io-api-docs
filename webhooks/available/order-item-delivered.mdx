@@ -1,27 +1,13 @@
 ---
-title: 'Order Item Status Change'
-description: "Event will fire whenever an Recipient's Order Item (Mail Piece) changes status. An order item represents the details of an individual mail piece sent to a recipient."
+title: 'Order Item Delivered'
+description: "Event will fire whenever an Recipient's Order Item (Mail Piece) is delivered"
 ---
-
-## Status Types
-
-- **Processing** : Mail piece is being processed.
-- **Printed** : Mail piece has been printed.
-- **Shipped** : Mail piece has been shipped.
-- **In Transit** : Mail piece is in transit to destination.
-- **In Local Area** : Mail piece is in local area for delivery.
-- **Processed for Delivery** : Mail piece is out for delivery.
-- **Re-routed** : Mail piece has been re-routed.
-- **Returned to Sender** : Mail piece is being returned to sender.
-- **Delivered** : Mail piece has been delivered to recipient.
-- **Failed** : Mail piece was not able to be printed or delivered.
-
 
 ## Example
 
 ```json
 {
-    "event_type": "order_item.status_update",
+    "event_type": "order_item.delivered",
     "event_id": "7199e4e0-516b-11f0-ba5f-f135ea42fb62",
     "data": {
         "order_item.id": 2668662,
@@ -44,8 +30,8 @@ description: "Event will fire whenever an Recipient's Order Item (Mail Piece) ch
         "order.id": 42399,
         "order.status": "Printing",
         "order_item.delivery_date": "2025-07-05",
-        "order_item.previous_status": null,
-        "order_item.current_status": "Processing"
+        "order_item.previous_status": "Shipped",
+        "order_item.current_status": "Delivered"
     },
     "timestamp": 1750818235,
     "date_time": "2025-06-25 02:23:55"

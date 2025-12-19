@@ -298,6 +298,7 @@
             "icon": "list",
             "pages": [
               "webhooks/available/order-item-status-change",
+              "webhooks/available/order-item-delivered",
               "webhooks/available/order-status-change",
               "webhooks/available/qr-code-scans"
             ]
