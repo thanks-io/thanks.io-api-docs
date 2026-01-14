@@ -253,6 +253,7 @@
               "native-integrations/available/zapier",
               "native-integrations/available/make",
               "native-integrations/available/zoho",
+              "native-integrations/available/n8n",
               "native-integrations/available/monday-dot-com",
               "native-integrations/available/hubspot",
               "native-integrations/available/integrately",
