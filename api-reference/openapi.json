@@ -1252,6 +1252,10 @@
                 "type": "boolean",
                 "description": "Use Property Owners Address when searching for a commercial record_type.",
                 "default": false
+              },
+              "include_search_address": {
+                "type": "boolean",
+                "description": "Specifies whether to include the search address in the mailing list created."
               }
             }
           },
@@ -2600,6 +2604,10 @@
                     "type": "boolean",
                     "description": "Use Property Owners Address when searching for a commercial record_type.",
                     "default": false
+                  },
+                  "include_search_address": {
+                    "type": "boolean",
+                    "description": "Specifies whether to include the search address in the mailing list created."
                   }
                 }
               },
