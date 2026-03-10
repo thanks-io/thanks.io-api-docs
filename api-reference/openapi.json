@@ -6267,6 +6267,470 @@
       }
     },
 
+    "/webhooks": {
+      "get": {
+        "tags": ["Webhooks"],
+        "summary": "List Webhooks",
+        "description": "Return a paginated list of configured webhooks. Webhooks are available on paid subscriptions only.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/items_per_page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 11
+                          },
+                          "user_id": {
+                            "type": "integer",
+                            "example": 2
+                          },
+                          "mailing_list_id": {
+                            "type": ["integer", "null"],
+                            "example": 1
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "order_item.status_update"
+                          },
+                          "description": {
+                            "type": ["string", "null"],
+                            "example": "Webhook for order item status updates"
+                          },
+                          "invoke_count": {
+                            "type": "integer",
+                            "example": 0
+                          },
+                          "url": {
+                            "type": "string",
+                            "format": "uri",
+                            "example": "https://example.com/webhooks/thanksio"
+                          },
+                          "verb": {
+                            "type": "string",
+                            "example": "post"
+                          },
+                          "created_at": {
+                            "type": ["string", "null"],
+                            "format": "date-time",
+                            "example": "2026-03-02T02:10:29.000000Z"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-03-10T17:45:02.000000Z"
+                          },
+                          "deleted_at": {
+                            "type": ["string", "null"],
+                            "format": "date-time",
+                            "example": null
+                          }
+                        }
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    },
+                    "can_manage_webhooks": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 11,
+                      "user_id": 2,
+                      "mailing_list_id": 1,
+                      "type": "order_item.status_update",
+                      "description": "Updated webhook destination",
+                      "invoke_count": 0,
+                      "url": "https://example.com/webhooks/thanksio-updated",
+                      "verb": "get",
+                      "created_at": "2026-03-02T02:10:33.000000Z",
+                      "updated_at": "2026-03-02T02:23:27.000000Z",
+                      "deleted_at": null
+                    },
+                    {
+                      "id": 10,
+                      "user_id": 2,
+                      "mailing_list_id": null,
+                      "type": "order.status_update",
+                      "description": "Order status updates",
+                      "invoke_count": 70,
+                      "url": "https://example.com/webhooks/thanksio",
+                      "verb": "post",
+                      "created_at": "2026-03-02T02:10:29.000000Z",
+                      "updated_at": "2026-03-10T17:45:02.000000Z",
+                      "deleted_at": null
+                    }
+                  ],
+                  "links": {
+                    "first": "https://api.thanks.io/api/v2/webhooks?page=1",
+                    "last": "https://api.thanks.io/api/v2/webhooks?page=1",
+                    "prev": null,
+                    "next": null
+                  },
+                  "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 1,
+                    "path": "https://api.thanks.io/api/v2/webhooks",
+                    "per_page": "15",
+                    "to": 2,
+                    "total": 2
+                  },
+                  "can_manage_webhooks": true
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Webhooks"],
+        "operationId": "createWebhook",
+        "summary": "Create Webhook",
+        "description": "Create a webhook destination. Webhooks are available on paid subscriptions only.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "https://example.com/webhooks/thanksio"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "order.status_update"
+                  },
+                  "description": {
+                    "type": ["string", "null"],
+                    "example": "Order status updates"
+                  },
+                  "verb": {
+                    "type": "string",
+                    "example": "post"
+                  },
+                  "mailing_list_id": {
+                    "type": ["integer", "null"],
+                    "example": null
+                  }
+                },
+                "required": ["url", "type", "verb"]
+              },
+              "example": {
+                "url": "https://example.com/webhooks/thanksio",
+                "type": "order.status_update",
+                "description": "Order status updates",
+                "verb": "post",
+                "mailing_list_id": null
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "order.status_update"
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://example.com/webhooks/thanksio"
+                    },
+                    "description": {
+                      "type": ["string", "null"],
+                      "example": "Order status updates"
+                    },
+                    "verb": {
+                      "type": "string",
+                      "example": "post"
+                    },
+                    "mailing_list_id": {
+                      "type": ["integer", "null"],
+                      "example": null
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "invoke_count": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-03-10T18:59:24.000000Z"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-03-10T18:59:24.000000Z"
+                    },
+                    "id": {
+                      "type": "integer",
+                      "example": 13
+                    }
+                  }
+                },
+                "example": {
+                  "type": "order.status_update",
+                  "url": "https://example.com/webhooks/thanksio",
+                  "description": "Order status updates",
+                  "verb": "post",
+                  "mailing_list_id": null,
+                  "user_id": 2,
+                  "invoke_count": 0,
+                  "updated_at": "2026-03-10T18:59:24.000000Z",
+                  "created_at": "2026-03-10T18:59:24.000000Z",
+                  "id": 13
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+
+    "/webhooks/{webhookId}": {
+      "parameters": [
+        {
+          "name": "webhookId",
+          "in": "path",
+          "description": "ID of webhook",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "example": 11
+          }
+        }
+      ],
+      "put": {
+        "tags": ["Webhooks"],
+        "operationId": "updateWebhook",
+        "summary": "Update Webhook",
+        "description": "Update an existing webhook destination. Webhooks are available on paid subscriptions only.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "example": "https://example.com/webhooks/thanksio-updated"
+                  },
+                  "description": {
+                    "type": ["string", "null"],
+                    "example": "Updated webhook destination"
+                  },
+                  "verb": {
+                    "type": "string",
+                    "example": "get"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "order_item.status_update"
+                  }
+                },
+                "required": ["url", "type", "verb"]
+              },
+              "example": {
+                "url": "https://example.com/webhooks/thanksio-updated",
+                "description": "Updated webhook destination",
+                "verb": "get",
+                "type": "order_item.status_update"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 13
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "mailing_list_id": {
+                      "type": ["integer", "null"],
+                      "example": null
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "order_item.status_update"
+                    },
+                    "description": {
+                      "type": ["string", "null"],
+                      "example": "Updated webhook destination"
+                    },
+                    "invoke_count": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://example.com/webhooks/thanksio-updated"
+                    },
+                    "verb": {
+                      "type": "string",
+                      "example": "get"
+                    },
+                    "created_at": {
+                      "type": ["string", "null"],
+                      "format": "date-time",
+                      "example": "2026-03-10T18:59:24.000000Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-03-10T20:54:01.000000Z"
+                    },
+                    "deleted_at": {
+                      "type": ["string", "null"],
+                      "format": "date-time",
+                      "example": null
+                    }
+                  }
+                },
+                "example": {
+                  "id": 13,
+                  "user_id": 2,
+                  "mailing_list_id": null,
+                  "type": "order_item.status_update",
+                  "description": "Updated webhook destination",
+                  "invoke_count": 0,
+                  "url": "https://example.com/webhooks/thanksio-updated",
+                  "verb": "get",
+                  "created_at": "2026-03-10T18:59:24.000000Z",
+                  "updated_at": "2026-03-10T20:54:01.000000Z",
+                  "deleted_at": null
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Webhooks"],
+        "operationId": "deleteWebhook",
+        "summary": "Delete Webhook",
+        "description": "Delete a webhook destination. Webhooks are available on paid subscriptions only.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+
     "/orders/list": {
       "get": {
         "tags": ["Orders"],
