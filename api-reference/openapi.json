@@ -154,6 +154,16 @@
       }
     },
     "schemas": {
+      "webhook-type": {
+        "type": "string",
+        "enum": [
+          "order_item.status_update",
+          "order.status_update",
+          "order_item.delivered",
+          "scans.scan_update"
+        ],
+        "example": "order_item.status_update"
+      },
       "order": {
         "type": "object",
         "properties": {
@@ -6311,8 +6321,7 @@
                             "example": 1
                           },
                           "type": {
-                            "type": "string",
-                            "example": "order_item.status_update"
+                            "$ref": "#/components/schemas/webhook-type"
                           },
                           "description": {
                             "type": ["string", "null"],
@@ -6433,8 +6442,7 @@
                     "example": "https://example.com/webhooks/thanksio"
                   },
                   "type": {
-                    "type": "string",
-                    "example": "order.status_update"
+                    "$ref": "#/components/schemas/webhook-type"
                   },
                   "description": {
                     "type": ["string", "null"],
@@ -6478,8 +6486,7 @@
                   "type": "object",
                   "properties": {
                     "type": {
-                      "type": "string",
-                      "example": "order.status_update"
+                      "$ref": "#/components/schemas/webhook-type"
                     },
                     "url": {
                       "type": "string",
@@ -6583,8 +6590,7 @@
                     "example": "get"
                   },
                   "type": {
-                    "type": "string",
-                    "example": "order_item.status_update"
+                    "$ref": "#/components/schemas/webhook-type"
                   }
                 },
                 "required": ["url", "type", "verb"]
@@ -6627,8 +6633,7 @@
                       "example": null
                     },
                     "type": {
-                      "type": "string",
-                      "example": "order_item.status_update"
+                      "$ref": "#/components/schemas/webhook-type"
                     },
                     "description": {
                       "type": ["string", "null"],
