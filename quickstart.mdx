@@ -4,19 +4,38 @@ description: 'Start sending awesome mailers in under 5 minutes'
 mode: "wide"
 ---
 
-Getting started with thanks.io is easy!  Follow the steps below to create an account, get an API key, and submit your first order.
+Use this quickstart if you want to send mailers directly from your application. If you want your users to manage campaigns and automation inside thanks.io, start with the [campaign workflow](/workflows/campaign) instead.
+
+## Before You Start
+
+You will need:
+
+- A [thanks.io account](https://thanks.io)
+- An API key from [API Settings](https://dashboard.thanks.io/profile/api)
+- API Testing Mode enabled while you validate your integration
+
+## Choose the Right Path
+
+There are two common ways to integrate with thanks.io:
+
+- Automation workflow: add recipients to a mailing list and let thanks.io handle campaign logic. This is usually the best fit for recurring sends and user-managed campaigns.
+- Direct API sends: create orders from your application and send mail immediately. This quickstart covers that path.
+
+Once you know you want direct sends, follow the steps below to submit your first order.
 
 <Steps>
   <Step title="Create Account">
-    Create an accounts at [thanks.io](https://thanks.io) if you haven't already.
+    Create an account at [thanks.io](https://thanks.io) if you have not already.
   </Step>
   <Step title="Create An API Key">
-    Visit https://dashboard.thanks.io/profile/api to create an API key.
+    Visit [API Settings](https://dashboard.thanks.io/profile/api) and create a personal access token for your integration.
   </Step>
   <Step title="Enable Testing Mode">
-    Turn on API/Zapier Test Mode to avoid sending real mail while testing.  See [API Mode](api-reference/api-mode) for more details.
+    Turn on API/Zapier Test Mode to avoid sending real mail while testing. In testing mode, API orders are automatically canceled instead of mailed. See [API Testing Mode](/api-reference/api-mode) for details.
   </Step>
   <Step title="Submit Your First Order">
+  This example sends a postcard directly through the API using an inline recipient, message, and front image URL.
+
   ```bash
   curl -X POST "https://api.thanks.io/api/v2/send/postcard" \
     -H "Content-Type: application/json" \
@@ -32,8 +51,12 @@ Getting started with thanks.io is easy!  Follow the steps below to create an acc
     ```
   </Step>
   <Step title="Check Your Order Status">
-    You can check the status of your order by visiting the [Order History Page](https://dashboard.thanks.io/orders_history).
+    Check the result in the [Order History page](https://dashboard.thanks.io/orders_history). While testing mode is enabled, your order should appear and then be canceled automatically.
   </Step>
-
-  
 </Steps>
+
+## Next Steps
+
+- If you want to send mailpiece types other than postcards, review [Direct Send Orders](/api-reference/send-mailer-usage).
+- If you need authentication guidance, see [Bearer Token](/authentication/bearer-token) and [OAuth](/authentication/oauth).
+- If you decide your users should manage campaigns in thanks.io, switch to the [campaign workflow](/workflows/campaign).

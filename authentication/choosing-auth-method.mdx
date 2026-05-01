@@ -1,0 +1,36 @@
+---
+title: 'Choosing an Authentication Method'
+description: 'Decide whether your integration should use a bearer token or OAuth'
+---
+
+Choose your authentication method based on who owns the thanks.io account and where the integration runs.
+
+## Use a Bearer Token If
+
+- You are building an internal integration for a single thanks.io account.
+- Your server will send API requests on behalf of your own business.
+- You want the fastest path to testing and production.
+
+This is the simplest option and the right default for most direct API integrations.
+
+## Use OAuth If
+
+- You are building a SaaS or partner integration that connects multiple customer accounts.
+- Your users need to authorize your application to access their own thanks.io account.
+- You need to store per-customer access and refresh tokens.
+
+OAuth is the right choice when your application connects many thanks.io accounts and each user must explicitly grant access.
+
+## Quick Decision Guide
+
+| If your integration needs to... | Use |
+| --- | --- |
+| Send mail from one thanks.io account you control | [Bearer Token](/authentication/bearer-token) |
+| Let each customer connect their own thanks.io account | [OAuth](/authentication/oauth) |
+| Get a first request working quickly | [Bearer Token](/authentication/bearer-token) |
+| Support account connection, authorization, and token refresh | [OAuth](/authentication/oauth) |
+
+## Next Steps
+
+- For the fastest first request, continue to [Bearer Token](/authentication/bearer-token) and [Quickstart](/quickstart).
+- For multi-account integrations, continue to [OAuth](/authentication/oauth).

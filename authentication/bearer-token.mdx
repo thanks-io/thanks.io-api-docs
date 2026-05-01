@@ -3,6 +3,10 @@ title: 'Bearer Token'
 description: 'API Authentication'
 ---
 
+Use bearer token authentication when your integration sends requests from a single thanks.io account that you control. This is the simplest authentication method and the best starting point for most direct API integrations.
+
+If you are building a multi-account SaaS integration where each customer connects their own thanks.io account, use [OAuth](/authentication/oauth) instead.
+
 # API Key
 
 All API requests must be authenticated with a bearer token. This token can be created in your [API Settings](https://dashboard.thanks.io/profile/api) under the "Personal Access Tokens (API Key)" section.
@@ -15,9 +19,15 @@ Once you have created a token, you can use it to authenticate your API requests 
 Authorization: Bearer YOUR_ACCESS_TOKEN
 ```
 
+# Best For
+
+- Internal tools and back-office automation
+- Server-to-server integrations
+- Your first API prototype or production integration for a single thanks.io account
+
 # Example Request
 
-Here is an example of how to make an authenticated request using `curl`:
+Here is a minimal example of an authenticated request using `curl`:
 
   ```bash
   curl -X POST "https://api.thanks.io/api/v2/send/postcard" \
@@ -32,3 +42,5 @@ Here is an example of how to make an authenticated request using `curl`:
       "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/inspiration_templates/default10.png"
     }'
     ```
+
+For a full first-request walkthrough, including testing mode, see the [Quickstart](/quickstart).

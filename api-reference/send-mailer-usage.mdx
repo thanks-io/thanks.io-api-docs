@@ -5,54 +5,89 @@ description: "Info on using thanks.io's Send Mailer endpoints"
 
 # Overview
 
-Send Mailer endpoints are used to create and send mailers to recipients.  These create the orders that are processed and fulfilled by thanks.io
+Use the Send Mailer endpoints when your application needs to create direct mail orders on demand. These endpoints create the orders that are processed and fulfilled by thanks.io.
+
+If your users should manage campaign timing, creatives, and automation rules inside thanks.io, start with the [campaign workflow](/workflows/campaign) instead of these direct-send endpoints.
+
+## Before You Start
+
+Before using these endpoints, make sure you have:
+
+- A valid API key or OAuth access token. See [Bearer Token](/authentication/bearer-token) and [OAuth](/authentication/oauth).
+- Enabled [API Testing Mode](/api-reference/api-mode) while validating your integration.
+- Decided whether you are sending to explicit recipients, a saved mailing list, or a radius search audience.
+
+## Which Endpoint Should I Use?
+
+Choose the endpoint that matches the mailpiece you want to create:
+
+| Mailpiece | Use when you need | Endpoint |
+| --- | --- | --- |
+| Postcard | The most common direct-mail format for one-off sends | `POST /send/postcard` |
+| Windowed letter | A cover letter with a windowed envelope | `POST /send/windowed-letter` |
+| Windowless letter | A cover letter with a windowless envelope | `POST /send/windowless-letter` |
+| Notecard | A folded card experience with interior content | `POST /send/notecard` |
+| Gift card | A mailer that includes a gift card selection | `POST /send/giftcard` |
+| Magnacard | A magnet-style direct mail format | `POST /send/magnacard` |
+
+All of these endpoints follow the same core pattern: define the audience, provide creative content, and submit the order.
 
 # Preview
 
-Any order can be previewed by setting the `preview` parameter to true - links to PNG previews of the mailer will be returned in the response.
+Any order can be previewed by setting the `preview` parameter to `true`. The response will return links to PNG previews of the mailer instead of creating a production order.
 
 # Requirements
 
-In general all mailers require recipients to send to, an image to display, and message content.  These requirements vary depending on the type of mailer that is sent.
+In general, all mailers require recipients. Creative content is required unless you provide `message` content or use `pdf_only_url`, and the exact requirements vary by mailpiece type.
 
-The major exception to this is letters specified with a PDF file only.  In this case only recipients and `pdf_only_url` needs to be specified.
+The main exception is a letter created from a PDF only. In that case, you only need recipients and `pdf_only_url`, and you do not need `front_image_url` or `image_template`.
+
+| Requirement | Postcard | Letter | Notecard | Gift Card | Magnacard |
+| --- | --- | --- | --- | --- | --- |
+| Audience (`recipients`, `mailing_lists`, or `radius_search`) | Required | Required | Required | Required | Required |
+| Front creative (`front_image_url` or `image_template`) | Required unless `message` is specified | Required unless `message` is specified or `pdf_only_url` is set | Required unless `message` is specified | Required unless `message` is specified | Required unless `message` is specified |
+| Message (`message` or `message_template`) | Required | Required unless using `pdf_only_url` | Required | Required | Required |
+| Back or interior creative (`custom_background_image`) | Optional | Not used | Optional | Not used | Optional |
+| PDF-only letter (`pdf_only_url`) | Not used | Optional alternative | Not used | Not used | Not used |
 
 ## _Recipients_
 
-Recipients can be specified in a variety of ways
+Recipients can be specified in a variety of ways:
 
-- Specify an existing mailing list using `mailing_lists` field
-- Provide a list of recipient addresses as JSON data directly in the `recipients` field
-- Buy a list of recipients using a Radius search with the `radius_search` field
+- Specify an existing mailing list using the `mailing_lists` field.
+- Provide recipient addresses as JSON data directly in the `recipients` field.
+- Buy a list of recipients using a radius search with the `radius_search` field.
 
 ## _Front Image_
 
-For postcards, notecards, magnacards, and giftcards, this will be used for the front of the mailer.  For windowed and windowless letters this will be used for the background of the cover letter.
+For postcards, notecards, magnacards, and gift cards, this is used for the front of the mailer. For windowed and windowless letters, this is used for the background of the cover letter unless you are sending a PDF-only letter.
 
-The creative can be specified in two different ways:
+The creative can be specified in two ways:
 
-- Using `front_image_url` a URL can be specified to an png or jpeg image. 
-- Using `image_template` a template ID can be specified to use a pre-designed thanks.io image template for the mailer.
+- Use `front_image_url` to provide a PNG or JPEG image URL.
+- Use `image_template` to provide a thanks.io image template ID.
+
+If you provide `image_template`, you typically do not need `front_image_url`. If you provide `message`, a front creative is not required. If you provide `pdf_only_url` for a letter, you do not need either of these fields.
 
 ## _Back/Interior Image_
 
-- Using `custom_background_image` a URL can be specified to an png or jpeg image.  This will be used for the back of postcards/magnacards or the interior of notecards.  This is not used for giftcards or letters.
+- Use `custom_background_image` to provide a PNG or JPEG image URL for the back of postcards or magnacards, or the interior of notecards. This is not used for gift cards or letters.
 
 
 ## _Message_
 
-The message content specifies the content the thanks.io handwriting engine will place on the mailer.  
+The message content specifies the content that the thanks.io handwriting engine places on the mailer.
 
-For postcards this will specify content for back of postcard.  For notecards and giftcards this will specify content for the interior of the card.  For windowed and windowless letters this will specify content for the cover letter.  In all cases the message content is overlayed on top of the image creative if specified.
+For postcards, this specifies the content for the back of the postcard. For notecards and gift cards, this specifies the interior content. For windowed and windowless letters, this specifies the cover letter content. In all cases, the message content is overlaid on top of the creative when applicable.
 
-The content can be specified in two different ways:
+The content can be specified in two ways:
 
-- The `message` field can be used to provide the text content directly.
-- A `message_template` ID can be specified to use a pre-designed thanks.io message template.  Message templates can have QR Codes and handwriting settings associated with them.
+- Use `message` to provide the text directly.
+- Use `message_template` to reference a thanks.io message template. Message templates can include QR codes and handwriting settings.
 
 # Standard Mail
 
-By default all mail is sent via 1st class.  The `send_standard_mail` field can be used to specify if the mail should be sent via standard mail instead.
+By default, mail is sent via first class. Use the `send_standard_mail` field if you want to send the order via standard mail instead.
 
 # Handwriting
 
@@ -60,4 +95,4 @@ The handwriting style can be customized using the `handwriting_style`, `handwrit
 
 # QR Codes
 
-Trackable QR codes can be included in mailers to monitor engagement and response rates with the `qrcode_url` field. thanks.io can notify you of each scan via email or text message. There is also an analytics dashboard available to track which templates generate the most engagement.
+Trackable QR codes can be included in mailers with the `qrcode_url` field to monitor engagement and response rates. thanks.io can notify you of each scan by email or text message, and an analytics dashboard is available to help you track template performance.

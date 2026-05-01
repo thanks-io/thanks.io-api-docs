@@ -3,6 +3,27 @@ title: API Testing Mode
 mode: "wide"
 ---
 
-Testing mode automatically cancels all orders submitted through the API. This is useful when you are testing your integration and don't want to accidentally send out real mail.   Otherwise you have 1 hour to cancel an order.
+API Testing Mode automatically cancels all orders submitted through the API. Use it while developing or validating your integration so you can inspect requests safely without sending real mail.
 
-Visit https://dashboard.thanks.io/profile/api to turn on testing mode.
+## What Testing Mode Does
+
+- Accepts API orders normally so you can validate your payloads and workflow.
+- Automatically cancels those orders instead of mailing them.
+- Prevents accidental production sends during development.
+
+If testing mode is off, you have one hour to cancel an order manually before it moves further into fulfillment.
+
+## When to Use It
+
+Keep testing mode enabled until you have verified:
+
+- Authentication is working
+- Your recipient payloads are correct
+- Your creative and message fields render as expected
+- Your application is ready to send production mail intentionally
+
+## How to Enable It
+
+Visit [API Settings](https://dashboard.thanks.io/profile/api) and turn on API/Zapier Test Mode.
+
+Before going live, return to the same page and disable testing mode so real orders can be fulfilled.

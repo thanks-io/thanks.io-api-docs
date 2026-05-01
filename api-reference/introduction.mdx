@@ -5,8 +5,28 @@ description: "Learn about thanks.io's REST API capabilities"
 
 ## Welcome
 
-The thanks.io API enables developers to integrate direct mail capabilities into their applications. With our API you can send any mailpiece you can imagine or add a recipient to an existing thanks.io automation.
+The thanks.io API enables developers to integrate direct mail capabilities into their applications. With the API, you can either send mailpieces directly from your application or add recipients to an existing thanks.io automation workflow.
+
+## Start Here
+
+If you are new to the platform, use this sequence:
+
+1. Choose how you want to authenticate in [Choosing an Authentication Method](/authentication/choosing-auth-method).
+2. If you want to send orders directly from your app, follow the [Quickstart](/quickstart).
+3. If you want thanks.io to handle automation logic, start with the [campaign workflow](/workflows/campaign).
+
+## Core Concepts
+
+These concepts will make the generated endpoint pages much easier to understand:
+
+- Recipients: the people or addresses you want to mail.
+- Mailing lists: saved recipient groups managed inside thanks.io.
+- Direct send orders: one-off API-created mailers such as postcards, letters, notecards, gift cards, and magnacards.
+- Automation workflows: rules or campaigns that run inside thanks.io after you add recipients or trigger events.
+- Templates: reusable image and message assets that can be referenced instead of inlining creative content on every request.
 
 ## OpenAPI Specification
 
 The complete OpenAPI specification for the thanks.io API can be found [here](https://raw.githubusercontent.com/thanks-io/thanks.io-api-docs/refs/heads/main/api-reference/openapi.json).
+
+Use the generated endpoint pages in this documentation when you want interactive reference docs. Use the raw OpenAPI file when you want to generate an SDK, import the API into Postman, or inspect the entire schema at once.

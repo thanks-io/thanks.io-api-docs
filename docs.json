@@ -149,10 +149,10 @@
           {
             "group": "Authentication",
             "icon": "lock",
-            "pages": ["authentication/bearer-token", "authentication/oauth"]
+            "pages": ["authentication/choosing-auth-method", "authentication/bearer-token", "authentication/oauth"]
           },
           {
-            "group": "Endpoints",
+            "group": "API Endpoints",
             "icon": "code",
             "pages": [
               {
@@ -183,7 +183,7 @@
                 ]
               },
               {
-                "group": "Send Mailers",
+                "group": "Direct Send Orders",
                 "icon": "envelope",
                 "pages": [
                     "api-reference/send-mailer-usage",

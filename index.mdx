@@ -4,22 +4,49 @@ description: "Welcome to thanks.io"
 og:title: "thanks.io - Direct Mail Automation"
 ---
 
-thanks.io provides everything you need for direct mail success: AI Realistic Handwritten postcards, letters & notecards, QR tracking, delivery notifcations, automation, and texting all at super competitive pricing.
+thanks.io provides everything you need for direct mail success: AI realistic handwritten postcards, letters, and notecards, plus QR tracking, delivery notifications, automation, and texting.
 
-The thanks.io API enables developers to integrate direct mail capabilities into their applications. With our API you can send any mailpiece you can imagine or add a recipient to an existing thanks.io automation.  
+The thanks.io API gives you two main ways to integrate direct mail into your product:
+
+- Send individual mailers directly from your application.
+- Add recipients to a thanks.io mailing list and let your customers manage automation inside thanks.io.
 
 ## Easy Implementation Path
 
-The most straightforward way to integrate with thanks.io is to add recipients to your customers thanks.io Mailing List. Then your client can set up automations within the thanks.io platform. All creatives, billing, and scheduling is handled by us.
+For most integrations, the fastest path is to add recipients to a customer's thanks.io mailing list and let them manage automation in thanks.io. This keeps creatives, billing, scheduling, and campaign logic inside the thanks.io platform.
 
 <Card title="Check Out This Workflow Now" icon="arrow-up-right-from-square" href="/workflows/campaign">
-  In most cases this is best way to integrate with thanks.io
+  See the recommended automation workflow
 </Card>
+
+## Choose Your Integration Path
+
+Use this decision rule before you start building:
+
+- Choose automation if your users already work inside thanks.io and you want them to control campaign timing, creatives, and business rules there.
+- Choose direct API sends if your application needs to create one-off mailers on demand and control the order payload itself.
+
+<CardGroup cols={2}>
+  <Card
+    title="Recommended: Automation"
+    icon="list"
+    href="/workflows/campaign"
+  >
+    Add recipients to a mailing list and let thanks.io handle campaign execution.
+  </Card>
+  <Card
+    title="Direct API Sends"
+    icon="paper-plane"
+    href="/quickstart"
+  >
+    Submit postcard, letter, notecard, gift card, or magnacard orders directly from your app.
+  </Card>
+</CardGroup>
 
 
 ## Setting up
 
-If you’re new to thanks.io, start here to learn the essentials and make your first API call.
+If you're new to thanks.io, start here to learn the essentials, choose the right integration path, and make your first API call.
 
 <CardGroup cols={2}>
   <Card
@@ -27,35 +54,35 @@ If you’re new to thanks.io, start here to learn the essentials and make your f
     icon="bolt-lightning"
     href="/quickstart"
   >
-    Get up and running with the thanks.io API in minutes
+    Send your first direct API order in minutes
   </Card>
   <Card
     title="Common Workflows"
     icon="water"
     href="workflows/campaign"
   >
-    Check out common workflows our customers are using with the thanks.io API
+    Start with the most common automation-based implementations
   </Card>
   <Card
     title="FAQs"
     icon="square-question"
     href="faqs/quick-implementation"
   >
-    Check out common questions our customers have about the thanks.io API
+    Understand the fastest way to integrate and common setup questions
   </Card>
   <Card
     title="API Reference"
     icon="code"
     href="api-reference"
   >
-    Explore, interact, and create with the thanks.io API.
+    Explore authentication, concepts, and generated endpoint reference docs
   </Card>
 
 </CardGroup>
 
 ## thanks.io Features
 
-Explore all thanks.io has to offer
+Explore the rest of the platform
 
 <CardGroup cols={2}>
   <Card
@@ -77,7 +104,7 @@ Explore all thanks.io has to offer
     icon="webhook"
     href="webhooks/introduction"
   >
-    Recieve notifcations about thanks.io events in real-time.
+    Receive notifications about thanks.io events in real time.
   </Card>
   <Card
     title="Product Info"

@@ -3,7 +3,11 @@ title: 'OAuth'
 description: 'OAuth Authentication integrating thanks.io with your application'
 ---
 
-# introduction
+Use OAuth when your application needs users to connect their own thanks.io accounts. This is the right choice for SaaS platforms, partner integrations, and any multi-account workflow where each user must grant access explicitly.
+
+If your integration only needs to send requests from a single thanks.io account you control, use a [Bearer Token](/authentication/bearer-token) instead.
+
+# Introduction
 
 Thanks.io supports OAuth 2.0 for secure authentication and authorization. This allows users to grant your application access to their thanks.io account without sharing their credentials.
 
@@ -11,19 +15,25 @@ Thanks.io supports OAuth 2.0 for secure authentication and authorization. This a
 
 To integrate OAuth 2.0 with your application, follow these steps:
 
-1.  **Create an account on thanks.io**: Create account [HERE](https://dashboard.thanks.io/register) if you haven't already.
+1. **Create an account on thanks.io**: Create an account [here](https://dashboard.thanks.io/register) if you have not already.
 
 2. **Register your OAuth Client**: Go to the [thanks.io API Settings](https://dashboard.thanks.io/developer) and register your application in the "OAuth Clients" section to obtain your client ID and client secret.  
 
+# Best For
+
+- Multi-tenant SaaS integrations
+- Customer account connections
+- Any workflow where the user authorizes access to their own thanks.io account
+
 # Implementation
 
-1.  **Redirect user to authorize your application**: When a user wants to connect their thanks.io account to your application, redirect them to the thanks.io authorization endpoint with the following parameters:
+1. **Redirect the user to authorize your application**: When a user wants to connect their thanks.io account to your application, redirect them to the thanks.io authorization endpoint with the following parameters:
 
 ```http
 GET https://dashboard.thanks.io/oauth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI
 ```
 
-2.  **Request your client's access token**: After the user authorizes your application, they will be redirected back to your specified redirect URI with an authorization code.  You'll use this AUTHORIZATION_CODE to request an access token:
+2. **Exchange the authorization code for tokens**: After the user authorizes your application, they will be redirected back to your specified redirect URI with an authorization code. Use that `AUTHORIZATION_CODE` to request an access token:
 
 ```http
 POST https://dashboard.thanks.io/oauth/token
@@ -32,11 +42,11 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=authorization_code&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&redirect_uri=YOUR_REDIRECT_URI&code=AUTHORIZATION_CODE
 ```
 
-3.  **Store the tokens securely**: The response will include an access token, refresh token, and expiration time. Store these tokens securely.
+3. **Store the tokens securely**: The response includes an access token, refresh token, and expiration time. Store these tokens securely.
 
-4.  **Use the access token**: You can now use the access token to make authenticated requests to the thanks.io API as a [bearer token in the Authorization header](/authentication/bearer-token).
+4. **Use the access token**: You can now use the access token to make authenticated requests to the thanks.io API as a bearer token in the `Authorization` header.
 
-4. **Handle Token Expiration**: Access tokens have a limited lifespan. Implement token refresh logic to obtain new tokens using the refresh token flow.
+5. **Handle token expiration**: Access tokens have a limited lifespan. Implement token refresh logic to obtain new tokens using the refresh token flow.
 
 ```http
 POST https://dashboard.thanks.io/oauth/token
@@ -44,3 +54,11 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=refresh_token&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&refresh_token=YOUR_REFRESH_TOKEN
 ```
+
+# Operational Notes
+
+- Store access tokens and refresh tokens server-side.
+- Refresh tokens before access token expiry interrupts user workflows.
+- Use the resulting access token exactly like any other bearer token when calling the API.
+
+After OAuth is configured, continue to the [API Reference](/api-reference/introduction) or [Quickstart](/quickstart) for request examples.
