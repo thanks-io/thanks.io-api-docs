@@ -10,7 +10,7 @@
   },
   "info": {
     "title": "thanks.io API",
-    "description": "Use thanks.io to send postcards, letters, notecards, windowless letters, and giftcards through our API.",
+    "description": "Use the thanks.io API to send postcards, letters, notecards, windowless letters, and gift cards.",
     "contact": {
       "url": "https://www.thanks.io",
       "email": "support@thanks.io"
@@ -18,7 +18,7 @@
     "version": "1.0.0"
   },
   "externalDocs": {
-    "description": "Find out more about thanks.io",
+    "description": "Learn more about thanks.io",
     "url": "https://docs.thanks.io"
   },
   "servers": [
@@ -422,7 +422,7 @@
           "created_at_diff": {
             "type": "string",
             "example": "6 years ago",
-            "description": "Human friendly time since created"
+            "description": "Human-friendly relative time since creation"
           },
           "updated_at": {
             "type": "string",
@@ -1185,12 +1185,12 @@
         "properties": {
           "preview": {
             "type": "boolean",
-            "description": "Set to true to preview the postcard instead of sending it.  This can be used with any send call to get a preview before sending.",
+            "description": "Set to true to return a preview instead of sending the mail piece. You can use this with any send call to inspect the output before submitting the order.",
             "example": true
           },
           "mailing_lists": {
             "type": "array",
-            "description": "ID of mailing list to sent to.  Required if recipients and radius_search is not specified.",
+            "description": "Mailing list IDs to send to. Required if `recipients` and `radius_search` are not provided.",
             "items": {
               "type": "integer"
             },
@@ -1198,35 +1198,35 @@
           },
           "recipients": {
             "type": "array",
-            "description": "Array of recipients to send to.  Required if mailing_lists and radius_search is not specified.",
+            "description": "Recipients to send to. Required if `mailing_lists` and `radius_search` are not provided.",
             "items": {
               "$ref": "#/components/schemas/recipient-create-no-mailinglist"
             }
           },
           "radius_search": {
             "type": "object",
-            "description": "Search for recipients within a radius of a given address.  Required if mailing_lists and recipients are not specified. There is a $.05 lookup fee for each record.",
+            "description": "Use a radius search to find recipients near an address. Required if `mailing_lists` and `recipients` are not provided. Lookup fees are $0.05 per record.",
             "properties": {
               "preview": {
                 "type": "boolean",
-                "description": "Return a preview of number of neighbors found and cost.",
+                "description": "Return a preview of the number of matching recipients and the estimated cost.",
                 "default": false
               },
               "address": {
                 "type": "string",
                 "example": "123 Main Street, Fake City, NY, 55555",
-                "description": "Full Street address to use for center of nearest neighbor search."
+                "description": "Full street address to use as the center point of the nearest-neighbor search."
               },
               "record_count": {
                 "type": "integer",
-                "description": "Number of nearest neighbors to search for.",
+                "description": "Number of nearby records to return.",
                 "minimum": 1,
                 "maximum": 10000,
                 "example": 1
               },
               "record_types": {
                 "type": "string",
-                "description": "Which type of records to search for",
+                "description": "Record type to search for",
                 "enum": [
                   "all",
                   "likelytomove",
@@ -1260,12 +1260,12 @@
               },
               "use_property_owner": {
                 "type": "boolean",
-                "description": "Use Property Owners Address when searching for a commercial record_type.",
+                "description": "Use the property owner's address when searching commercial records.",
                 "default": false
               },
               "include_search_address": {
                 "type": "boolean",
-                "description": "Specifies whether to include the search address in the mailing list created."
+                "description": "Set to true to include the search address in the generated mailing list."
               }
             }
           },
@@ -1282,12 +1282,12 @@
           },
           "handwriting_realism": {
             "type": "boolean",
-            "description": "Boolean, set to true to turn on the realism effect for AI fonts.",
+            "description": "Set to true to enable the realism effect for AI fonts.",
             "example": true
           },
           "sub_account": {
             "type": "integer",
-            "description": "ID of Sub Account to use for this order.",
+            "description": "Sub-account ID to use for this order.",
             "example": 7
           },
           "email_additional": {
@@ -1297,7 +1297,7 @@
           },
           "send_standard_mail": {
             "type": "boolean",
-            "description": "Send Mail as Standard Mail postage class.  If false or not specified, First Class postage will be used.",
+            "description": "Set to true to use Standard Mail postage. If false or omitted, First Class postage is used.",
             "default": false
           },
           "return_name": {
@@ -1580,7 +1580,7 @@
       "send-mailer-preview-response": {
         "type": "object",
         "title": "Send Mailer Preview Response",
-        "description": "Images representing preview of order.  Response when `preview` is set to `true`",
+        "description": "Preview image URLs returned when `preview` is set to `true`.",
         "properties": {
           "message": {
             "type": "string",
@@ -1742,7 +1742,7 @@
         {
           "name": "recipientId",
           "in": "path",
-          "description": "ID of recipient",
+          "description": "Recipient ID",
           "required": true,
           "schema": {
             "type": "integer",
@@ -1753,8 +1753,8 @@
       "get": {
         "tags": ["Recipients"],
         "operationId": "getRecipientsDetails",
-        "summary": "Get Details",
-        "description": "Gets a recipient by ID. Returns a single recipient object.",
+        "summary": "Get Recipient",
+        "description": "Get a recipient by ID.",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -1877,7 +1877,7 @@
         "tags": ["Recipients"],
         "operationId": "createRecipient",
         "summary": "Create Recipient",
-        "description": "Add a recipient. If no/invalid address is specified and a valid email address is, we’ll attempt to look up a valid street address using the email address for a fee.",
+        "description": "Add a recipient. If you do not provide a valid mailing address but do provide a valid email address, thanks.io can attempt to look up a street address for an additional fee.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1954,7 +1954,7 @@
         "tags": ["Recipients"],
         "operationId": "createMultipleRecipients",
         "summary": "Create Multiple Recipients",
-        "description": "Add multiple recipients at once using a JSON array of recipient objects. If no/invalid address is specified and a valid email address is, we’ll attempt to look up a valid street address using the email address for a fee.",
+        "description": "Add multiple recipients at once using a JSON array of recipient objects. If a recipient does not include a valid mailing address but does include a valid email address, thanks.io can attempt to look up a street address for an additional fee.",
         "requestBody": {
           "content": {
             "application/json": {
