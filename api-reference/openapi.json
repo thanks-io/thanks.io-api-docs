@@ -1188,7 +1188,7 @@
             "description": "Set to true to return a preview instead of sending the mail piece. You can use this with any send call to inspect the output before submitting the order.",
             "example": true
           },
-          "mailing_lists": {
+          "mailing_list_ids": {
             "type": "array",
             "description": "Mailing list IDs to send to. Required if `recipients` and `radius_search` are not provided.",
             "items": {
@@ -1198,14 +1198,14 @@
           },
           "recipients": {
             "type": "array",
-            "description": "Recipients to send to. Required if `mailing_lists` and `radius_search` are not provided.",
+            "description": "Recipients to send to. Required if `mailing_list_ids` and `radius_search` are not provided.",
             "items": {
               "$ref": "#/components/schemas/recipient-create-no-mailinglist"
             }
           },
           "radius_search": {
             "type": "object",
-            "description": "Use a radius search to find recipients near an address. Required if `mailing_lists` and `recipients` are not provided. Lookup fees are $0.05 per record.",
+            "description": "Use a radius search to find recipients near an address. Required if `mailing_list_ids` and `recipients` are not provided. Lookup fees are $0.05 per record.",
             "properties": {
               "preview": {
                 "type": "boolean",
@@ -1269,7 +1269,7 @@
               }
             }
           },
-          "handwriting_style": {
+          "handwriting_style_id": {
             "type": "integer",
             "description": "ID of handwriting style to use.",
             "example": 4
@@ -1290,10 +1290,10 @@
             "description": "Sub-account ID to use for this order.",
             "example": 7
           },
-          "email_additional": {
+          "notification_emails": {
             "type": "string",
-            "description": "Optional email to send alerts to about order (such as QR scan notifications).",
-            "example": "test@test.com"
+            "description": "Optional comma-separated list of email addresses to notify about order events such as QR scan notifications.",
+            "example": "ops@example.com,sales@example.com"
           },
           "send_standard_mail": {
             "type": "boolean",
@@ -2731,14 +2731,14 @@
                   {
                     "type": "object",
                     "properties": {
-                      "image_template": {
+                      "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for front of postcard.  Required if front_image_url is not specified.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.  Required if image_template is not specified.",
+                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards. Required if image_template_id is not specified.",
                         "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
@@ -2746,7 +2746,7 @@
                         "description": "Handwritten message content used for content on back of postcard.",
                         "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
                       },
-                      "message_template": {
+                      "message_template_id": {
                         "type": "integer",
                         "description": "ID of message template to use for content on back of postcard.",
                         "example": 12
@@ -2784,7 +2784,7 @@
                     "size": "4x6",
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "recipients": [
                       {
                         "name": "Current Resident",
@@ -2819,10 +2819,10 @@
                     "return_city": "Return City",
                     "return_state": "RC",
                     "return_postal_code": "12345",
-                    "image_template": 6,
-                    "message_template": 12,
+                    "image_template_id": 6,
+                    "message_template_id": 12,
                     "qrcode_url": "https://www.google.com",
-                    "mailing_lists": [5166, 514]
+                    "mailing_list_ids": [5166, 514]
                   }
                 },
                 "6x9 w/ Custom Background/Standard": {
@@ -2830,12 +2830,12 @@
                   "description": "Example of sending a 6x9 postcard with a custom background image, specific handwriting style, and using standard mail delivery (lower cost option).",
                   "value": {
                     "size": "6x9",
-                    "image_template": 8,
+                    "image_template_id": 8,
                     "use_custom_background": true,
                     "custom_background_image": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/449d24b0-78cb-11f0-a351-bfecbf71caa6.png",
-                    "handwriting_style": 3,
+                    "handwriting_style_id": 3,
                     "send_standard_mail": true,
-                    "mailing_lists": [5166, 514]
+                    "mailing_list_ids": [5166, 514]
                   }
                 },
                 "6x11 w/ Radius Search": {
@@ -2861,7 +2861,7 @@
                     "size": "4x6",
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "preview": true,
                     "recipients": [
                       {
@@ -2999,14 +2999,14 @@
                   {
                     "type": "object",
                     "properties": {
-                      "image_template": {
+                      "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for front of magnacard. Required if front_image_url is not specified.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for front of magnacard. Required if image_template is not specified.",
+                        "description": "URL to image to use for front of magnacard. Required if image_template_id is not specified.",
                         "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
@@ -3014,7 +3014,7 @@
                         "description": "Handwritten message content used for content on back of magnacard.",
                         "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
                       },
-                      "message_template": {
+                      "message_template_id": {
                         "type": "integer",
                         "description": "ID of message template to use for content on back of magnacard.",
                         "example": 12
@@ -3040,7 +3040,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "recipients": [
                       {
                         "name": "Current Resident",
@@ -3074,9 +3074,9 @@
                     "return_city": "Return City",
                     "return_state": "RC",
                     "return_postal_code": "12345",
-                    "image_template": 6,
-                    "message_template": 12,
-                    "mailing_lists": [5166, 514]
+                    "image_template_id": 6,
+                    "message_template_id": 12,
+                    "mailing_list_ids": [5166, 514]
                   }
                 },
                 "Preview": {
@@ -3085,7 +3085,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "preview": true,
                     "recipients": [
                       {
@@ -3221,14 +3221,14 @@
                   {
                     "type": "object",
                     "properties": {
-                      "image_template": {
+                      "image_template_id": {
                         "type": "integer",
-                        "description": "ID of image template to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "description": "URL to image to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
                         "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
@@ -3236,7 +3236,7 @@
                         "description": "Handwritten message content used for cover letter.",
                         "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
                       },
-                      "message_template": {
+                      "message_template_id": {
                         "type": "integer",
                         "description": "ID of message template to use for cover letter.",
                         "example": 12
@@ -3296,17 +3296,17 @@
                   "description": "Example of sending a windowed letter with a PDF file attachment, targeting specific mailing lists.",
                   "value": {
                     "pdf_only_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                    "mailing_lists": [5166, 514]
+                    "mailing_list_ids": [5166, 514]
                   }
                 },
                 "Templates & QR Code ": {
                   "summary": "Windowed Letter with Templates, QR Code, and Additional Pages",
                   "description": "Example of sending a windowed letter using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
                   "value": {
-                    "image_template": 6,
-                    "message_template": 12,
+                    "image_template_id": 6,
+                    "message_template_id": 12,
                     "qrcode_url": "https://www.google.com",
-                    "mailing_lists": [5166, 514],
+                    "mailing_list_ids": [5166, 514],
                     "additional_pages_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
                   }
                 },
@@ -3331,7 +3331,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "preview": true,
                     "recipients": [
                       {
@@ -3478,14 +3478,14 @@
                   {
                     "type": "object",
                     "properties": {
-                      "image_template": {
+                      "image_template_id": {
                         "type": "integer",
-                        "description": "ID of image template to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for the background of the cover letter.  If no image_template & front_image_url is specified a blank background will be used.",
+                        "description": "URL to image to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
                         "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
                       },
                       "message": {
@@ -3493,7 +3493,7 @@
                         "description": "Handwritten message content used for cover letter.",
                         "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
                       },
-                      "message_template": {
+                      "message_template_id": {
                         "type": "integer",
                         "description": "ID of message template to use for cover letter.",
                         "example": 12
@@ -3524,7 +3524,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "recipients": [
                       {
                         "name": "Current Resident",
@@ -3554,17 +3554,17 @@
                   "description": "Example of sending a windowless letter with a PDF file attachment, targeting specific mailing lists.",
                   "value": {
                     "pdf_only_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                    "mailing_lists": [5166, 514]
+                    "mailing_list_ids": [5166, 514]
                   }
                 },
                 "Templates & QR Code ": {
                   "summary": "Windowless Letter with Templates, QR Code, and Additional PPages",
                   "description": "Example of sending a windowless letter using predefined image and message templates, targeting specific mailing lists, and including a QR code for recipient engagement.",
                   "value": {
-                    "image_template": 6,
-                    "message_template": 12,
+                    "image_template_id": 6,
+                    "message_template_id": 12,
                     "qrcode_url": "https://www.google.com",
-                    "mailing_lists": [5166, 514],
+                    "mailing_list_ids": [5166, 514],
                     "additional_pages_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
                   }
                 },
@@ -3589,7 +3589,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "preview": true,
                     "recipients": [
                       {
@@ -3736,14 +3736,14 @@
                   {
                     "type": "object",
                     "properties": {
-                      "image_template": {
+                      "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the exterior of the notecard.   Required if not front_image_url is specified.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for the exterior of the notecard.  Required if not image_template is specified.",
+                        "description": "URL to image to use for the exterior of the notecard. Required if image_template_id is not specified.",
                         "example": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png"
                       },
                       "message": {
@@ -3751,7 +3751,7 @@
                         "description": "Handwritten message content to use for interior of notecard.",
                         "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
                       },
-                      "message_template": {
+                      "message_template_id": {
                         "type": "integer",
                         "description": "ID of message template to use for interior of notecard.",
                         "example": 12
@@ -3782,7 +3782,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "recipients": [
                       {
                         "name": "Current Resident",
@@ -3811,10 +3811,10 @@
                   "summary": "Notecard with Templates, QR Code, and Custom Return Address",
                   "description": "Example of sending a notecard using predefined image and message templates, targeting specific mailing lists, including a QR code for recipient engagement, and specifying a custom return address.",
                   "value": {
-                    "image_template": 6,
-                    "message_template": 12,
+                    "image_template_id": 6,
+                    "message_template_id": 12,
                     "qrcode_url": "https://www.google.com",
-                    "mailing_lists": [5166, 514],
+                    "mailing_list_ids": [5166, 514],
                     "return_name": "Your Company Name",
                     "return_address": "123 Return St",
                     "return_city": "Return City",
@@ -3844,7 +3844,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "preview": true,
                     "recipients": [
                       {
@@ -3988,14 +3988,14 @@
                   {
                     "type": "object",
                     "properties": {
-                      "image_template": {
+                      "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the exterior of the giftcard.   Required if not front_image_url is specified.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for the exterior of the giftcard.  Required if not image_template is specified.",
+                        "description": "URL to image to use for the exterior of the giftcard. Required if image_template_id is not specified.",
                         "example": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png"
                       },
                       "message": {
@@ -4003,7 +4003,7 @@
                         "description": "Handwritten message content to use for interior of giftcard.",
                         "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
                       },
-                      "message_template": {
+                      "message_template_id": {
                         "type": "integer",
                         "description": "ID of message template to use for interior of giftcard.",
                         "example": 12
@@ -4029,7 +4029,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "giftcard_brand": "amazonus",
                     "giftcard_amount_in_cents": 10000,
                     "recipients": [
@@ -4060,9 +4060,9 @@
                   "summary": "Giftcard with Templates",
                   "description": "Example of sending a giftcard using predefined image and message templates & targeting specific mailing lists.",
                   "value": {
-                    "image_template": 6,
-                    "message_template": 12,
-                    "mailing_lists": [5166, 514],
+                    "image_template_id": 6,
+                    "message_template_id": 12,
+                    "mailing_list_ids": [5166, 514],
                     "giftcard_brand": "amazonus",
                     "giftcard_amount_in_cents": 10000
                   }
@@ -4091,7 +4091,7 @@
                   "value": {
                     "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "handwriting_style": 4,
+                    "handwriting_style_id": 4,
                     "preview": true,
                     "giftcard_brand": "amazonus",
                     "giftcard_amount_in_cents": 10000,
