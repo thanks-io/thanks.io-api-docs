@@ -43,6 +43,7 @@
           "postal_code": "12345",
           "country": "US",
           "dob": "1981-04-23",
+          "anniversary": "2025-07-21",
           "email": "tobias@example.com",
           "phone": "845-988-6485",
           "custom1": "Unique Info",
@@ -645,6 +646,11 @@
             "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
             "example": "1981-04-23"
           },
+          "anniversary": {
+            "type": "string",
+            "description": "Can be used for house purchase anniversaries, move-in dates, or any recurring annual milestone.  Anniversary date in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "2025-07-21"
+          },
           "email": {
             "type": "string",
             "example": "tobias@example.com"
@@ -734,6 +740,11 @@
             "type": "string",
             "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
             "example": "1981-04-23"
+          },
+          "anniversary": {
+            "type": "string",
+            "description": "Can be used for house purchase anniversaries, move-in dates, or any recurring annual milestone.  Anniversary date in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "2025-07-21"
           },
           "email": {
             "type": "string",
@@ -826,6 +837,11 @@
             "type": "string",
             "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
             "example": "1981-04-23"
+          },
+          "anniversary": {
+            "type": "string",
+            "description": "Can be used for house purchase anniversaries, move-in dates, or any recurring annual milestone.  Anniversary date in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "2025-07-21"
           },
           "email": {
             "type": "string",
@@ -928,6 +944,11 @@
             "type": "string",
             "description": "Date of Birth in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
             "example": "1981-04-23"
+          },
+          "anniversary": {
+            "type": "string",
+            "description": "Can be used for house purchase anniversaries, move-in dates, or any recurring annual milestone.  Anniversary date in ISO 8601 format (YYYY-MM-DD) or null if not set. If provided as MM/DD/YYYY in requests, it will be converted to ISO 8601 format.",
+            "example": "2025-07-21"
           },
           "email": {
             "type": "string",
@@ -1898,6 +1919,7 @@
                     "postal_code": "12345",
                     "country": "US",
                     "dob": "1981-04-23",
+                    "anniversary": "2025-07-21",
                     "email": "tobias@example.com",
                     "phone": "845-988-6485",
                     "custom1": "Unique Info",
@@ -1974,6 +1996,7 @@
                     "postal_code": "66216",
                     "country": "US",
                     "dob": "04/23/1981",
+                    "anniversary": "04/23/2025",
                     "custom1": null,
                     "custom2": null,
                     "email": "testemail@thanks.io",
@@ -2012,6 +2035,7 @@
                     "name": "Tobias First",
                     "company": null,
                     "dob": "04/23/1981",
+                    "anniversary": "04/23/2025",
                     "country": "US",
                     "address": "987 Main Street",
                     "address2": "",
@@ -2027,6 +2051,7 @@
                     "name": "Tobias Second",
                     "company": null,
                     "dob": "04/23/1981",
+                    "anniversary": "04/23/2025",
                     "country": "US",
                     "address": "654 Main Street",
                     "address2": "",
@@ -2511,6 +2536,7 @@
                       "postal_code": "78703",
                       "country": "US",
                       "dob": null,
+                      "anniversary": null,
                       "custom1": null,
                       "custom2": null,
                       "deliverability": null,
