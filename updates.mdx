@@ -8,6 +8,40 @@ mode: "wide"
 
 <Update label="June 5" tags={["New Feature"]} >
 
+## Auto-Recharge Disable Toggle
+
+You now have full control over auto-recharge directly from **Billing settings**.
+
+Turn it off when you want tighter spend control, then turn it back on anytime with your preferred settings ready to go.
+
+### What's new
+
+- A clear on/off toggle for auto-recharge
+- Prominent Billing warnings before and after disabling
+- Your saved recharge amount is kept for when you turn it back on
+
+### How it works
+
+1. Auto-recharge on: sending continues as usual, with automatic charging if your balance would go below $0.
+2. Auto-recharge off: sends that would push your balance below $0 are paused.
+3. You’ll see a clear message and can add credits manually or re-enable auto-recharge.
+
+### Important impact
+
+- Outbound mail can pause if your balance is too low
+- Keep a positive balance or top up manually to avoid delivery interruptions
+- Manual **Add Credits** always works
+
+### Heads up
+
+Disabling auto-recharge means mailers can stop once your balance goes below $0. Keep credits available or add funds manually to avoid delivery interruptions.
+
+
+</Update>
+
+
+<Update label="June 5" tags={["New Feature"]} >
+
 ## Dynamic Image Fields Now Support Custom Field Image URLs
 
 You can now use recipient custom field tokens in dynamic image URL fields, including **Background Image**, **Logo Image URL**, and **Overlay Graphic**.
