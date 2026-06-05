@@ -6,6 +6,46 @@ mode: "wide"
 ---
 
 
+<Update label="June 5" tags={["New Feature"]} >
+
+## Dynamic Image Fields Now Support Custom Field Image URLs
+
+You can now use recipient custom field tokens in dynamic image URL fields, including **Background Image**, **Logo Image URL**, and **Overlay Graphic**.
+
+Supported tokens:
+
+- `~CUSTOM1~` through `~CUSTOM10~`
+
+At send time, each token resolves to the recipient's custom field value, allowing that value to point to a PNG or JPG URL and render in the final generated image.
+
+### What this enables
+
+- Recipient-specific background images
+- Recipient-specific logos or brand images
+- Recipient-specific overlay graphics
+- Flexible templates that source image assets from recipient data instead of hardcoded URLs
+
+### How it works
+
+- The dynamic image editor recognizes custom field tokens in image URL fields
+- Preview rendering shows placeholder images when a custom field token is used as an image source
+- At send time, the system resolves the recipient's custom field value into the final image URL
+- If the custom field is missing or not a valid image URL, that recipient is skipped and the order is flagged with an error instead of printing a broken card
+
+### Important behavior
+
+- If a custom field value does not include `http://` or `https://`, the system automatically prepends `https://`
+- This applies to dynamic image fields only, not ordinary text personalization
+
+### Why this matters
+
+- More personalized creative
+- Fewer manual template variations
+- Safer production handling when image data is missing or invalid
+
+</Update>
+
+
 <Update label="June 4" tags={["New Feature"]} >
 
 ## Custom Fields Expanded to custom1–custom10
