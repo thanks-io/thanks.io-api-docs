@@ -3231,7 +3231,7 @@
         }
       }
     },
-    "/send/letter": {
+    "/send/windowedletter": {
       "post": {
         "tags": ["Send Mailer"],
         "summary": "Send Windowed Letter",
