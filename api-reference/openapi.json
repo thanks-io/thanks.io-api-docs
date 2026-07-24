@@ -1318,7 +1318,7 @@
           },
           "send_standard_mail": {
             "type": "boolean",
-            "description": "Set to true to use Standard Mail postage. If false or omitted, First Class postage is used.",
+            "description": "Set to true to use Standard Mail postage. If false or omitted, account default is used.",
             "default": false
           },
           "return_name": {
