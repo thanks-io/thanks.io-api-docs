@@ -208,7 +208,7 @@
           },
           "front_image": {
             "type": "string",
-            "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+            "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
           },
           "high_quality_preview": {
             "type": "string",
@@ -579,7 +579,7 @@
           "giftcard_brand_image": {
             "type": "string",
             "description": "Image URL of the gift card brand",
-            "example": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png"
+            "example": "https://cdn.thanks.io/giftcards/amazonus.png"
           },
           "giftcard_amount": {
             "type": "integer",
@@ -2765,7 +2765,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards. Required if image_template_id is not specified.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -2785,7 +2785,7 @@
                       "custom_background_image": {
                         "type": "string",
                         "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "qrcode_url": {
                         "type": "string",
@@ -2808,7 +2808,7 @@
                   "description": "Example of sending a 4x6 postcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
                     "size": "4x6",
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "recipients": [
@@ -2869,7 +2869,7 @@
                   "description": "Example of sending a large 6x11 postcard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
                     "size": "6x11",
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
@@ -2885,7 +2885,7 @@
                   "description": "Example of generating a preview of a 4x6 postcard before actually sending it. Use the preview parameter to see how your postcard will look without placing an actual order.",
                   "value": {
                     "size": "4x6",
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "preview": true,
@@ -3033,7 +3033,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for front of magnacard. Required if image_template_id is not specified.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -3053,7 +3053,7 @@
                       "custom_background_image": {
                         "type": "string",
                         "description": "URL to custom background image to use for back of magnacard. This image will be placed behind the handwritten message.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       }
                     }
                   }
@@ -3064,7 +3064,7 @@
                   "summary": "Magnacard with Custom Image and Recipients",
                   "description": "Example of sending a magnacard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "recipients": [
@@ -3109,7 +3109,7 @@
                   "summary": "Preview Magnacard Before Sending",
                   "description": "Example of generating a preview of a magnacard before actually sending it. Use the preview parameter to see how it will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "preview": true,
@@ -3255,7 +3255,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -3291,7 +3291,7 @@
                   "summary": "Windowed Letter with Custom Image and Recipients",
                   "description": "Example of sending a windowed letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "recipients": [
                       {
@@ -3340,7 +3340,7 @@
                   "summary": "Windowed Letter with Radius Search Targeting",
                   "description": "Example of sending a windowed letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
@@ -3355,7 +3355,7 @@
                   "summary": "Preview Windowed Letter Before Sending",
                   "description": "Example of generating a preview of a windowed letter before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "preview": true,
@@ -3412,7 +3412,7 @@
                       "mailing_list_ids_used": "",
                       "additional_letter_pages_count": 0,
                       "handwriting_color": "rgba(31,0,113,0.80)",
-                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                      "front_image": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                       "message": "Test Message",
                       "append_or_current_resident": true,
                       "type": "letter",
@@ -3512,7 +3512,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "message": {
                         "type": "string",
@@ -3548,7 +3548,7 @@
                   "summary": "Windowless Letter with Custom Image and Recipients",
                   "description": "Example of sending a windowless letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "recipients": [
@@ -3598,7 +3598,7 @@
                   "summary": "Windowless Letter with Radius Search Targeting",
                   "description": "Example of sending a windowless letter using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
@@ -3613,7 +3613,7 @@
                   "summary": "Preview windowless Letter Before Sending",
                   "description": "Example of generating a preview of a windowless letter before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "preview": true,
@@ -3670,7 +3670,7 @@
                       "mailing_list_ids_used": "",
                       "additional_letter_pages_count": 0,
                       "handwriting_color": "rgba(31,0,113,0.80)",
-                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                      "front_image": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                       "message": "\n\n\n\n\n\n\n\nWhat is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it? It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
                       "append_or_current_resident": true,
                       "type": "windowlessletter",
@@ -3770,7 +3770,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for the exterior of the notecard. Required if image_template_id is not specified.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png"
+                        "example": "https://cdn.thanks.io/notecard-inspirations/note1.png"
                       },
                       "message": {
                         "type": "string",
@@ -3806,7 +3806,7 @@
                   "summary": "Notecard with Custom Image and Recipients",
                   "description": "Example of sending a notecard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "recipients": [
@@ -3852,7 +3852,7 @@
                   "summary": "Notecard with Radius Search Targeting and Standard Shipping",
                   "description": "Example of sending a notecard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "send_standard_mail": "true",
                     "radius_search": {
@@ -3868,7 +3868,7 @@
                   "summary": "Preview notecard Letter Before Sending",
                   "description": "Example of generating a preview of a notecard before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "preview": true,
@@ -4022,7 +4022,7 @@
                       "front_image_url": {
                         "type": "string",
                         "description": "URL to image to use for the exterior of the giftcard. Required if image_template_id is not specified.",
-                        "example": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png"
+                        "example": "https://cdn.thanks.io/notecard-inspirations/note1.png"
                       },
                       "message": {
                         "type": "string",
@@ -4053,7 +4053,7 @@
                   "summary": "Giftcard with Custom Image and Recipients",
                   "description": "Example of sending a giftcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "giftcard_brand": "amazonus",
@@ -4097,7 +4097,7 @@
                   "summary": "Giftcard with Radius Search Targeting and Standard Shipping",
                   "description": "Example of sending a giftcard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "send_standard_mail": "true",
                     "giftcard_brand": "amazonus",
@@ -4115,7 +4115,7 @@
                   "summary": "Preview Giftcard Before Sending",
                   "description": "Example of generating a preview of a giftcard before actually sending it. Use the preview parameter to see how your letter will look without placing an actual order.",
                   "value": {
-                    "front_image_url": "https://d2md0c8rpvzmz5.cloudfront.net/notecard-inspirations/note1.png",
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                     "handwriting_style_id": 4,
                     "preview": true,
@@ -4191,7 +4191,7 @@
                       "qrcode_url": null,
                       "custom_background_url": null,
                       "giftcard_brand": "amazonus",
-                      "giftcard_image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png",
+                      "giftcard_image": "https://cdn.thanks.io/giftcards/amazonus.png",
                       "giftcard_amount": 10000,
                       "status": "reviewing",
                       "addons": {
@@ -4312,7 +4312,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "example": "https://d2md0c8rpvzmz5.cloudfront.net/assets/brand/logo%402x.png"
+              "example": "https://cdn.thanks.io/assets/brand/logo%402x.png"
             },
             "description": "Image Logo to use.  Can be one of the following\n- `~YOUR_LOGO~` for your branding logo\n- `~YOUR_SYMBOL~`for your branding symbol\n- Valid HTTP png or jpg URL"
           },
@@ -4387,7 +4387,7 @@
                           "sample": {
                             "type": "string",
                             "description": "Sample image URL of the handwriting style",
-                            "example": "ttps://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/1.png"
+                            "example": "https://cdn.thanks.io/handwriting_examples/1.png"
                           },
                           "type": {
                             "type": "string",
@@ -4404,217 +4404,217 @@
                   "data": [
                     {
                       "handwriting_style_id": 1,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/1.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/1.png",
                       "name": "Hi Clarice",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 2,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/2.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/2.png",
                       "name": "Practiced Sharpie",
                       "type": "Bold"
                     },
                     {
                       "handwriting_style_id": 3,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/3.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/3.png",
                       "name": "Bold Note",
                       "type": "Bold"
                     },
                     {
                       "handwriting_style_id": 4,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/4.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/4.png",
                       "name": "Foxy Lady",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 5,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/5.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/5.png",
                       "name": "That Dude",
                       "type": "Bold"
                     },
                     {
                       "handwriting_style_id": 6,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/6.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/6.png",
                       "name": "Normal Print",
                       "type": "Bold"
                     },
                     {
                       "handwriting_style_id": 7,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/7.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/7.png",
                       "name": "Shopping List",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 8,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/8.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/8.png",
                       "name": "Lazy Note",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 9,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/9.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/9.png",
                       "name": "Blurred Lines",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 10,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/10.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/10.png",
                       "name": "Birthday Card",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 11,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/11.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/11.png",
                       "name": "Scully, Not Molder",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 12,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/12.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/12.png",
                       "name": "Wow! Signal",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 13,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/13.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/13.png",
                       "name": "Arabic",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 14,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/14.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/14.png",
                       "name": "Chinese",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 15,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/15.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/15.png",
                       "name": "Cyrillic",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 16,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/16.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/16.png",
                       "name": "Hebrew",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 17,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/17.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/17.png",
                       "name": "Japanese",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 18,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/18.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/18.png",
                       "name": "Korean",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 19,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/19.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/19.png",
                       "name": "Vietnamese",
                       "type": "International"
                     },
                     {
                       "handwriting_style_id": 20,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/20.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/20.png",
                       "name": "Notey",
                       "type": "Realistic"
                     },
                     {
                       "handwriting_style_id": 101,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/101.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/101.png",
                       "name": "Optimus Prime",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 102,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/102.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/102.png",
                       "name": "Binary Bard",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 103,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/103.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/103.png",
                       "name": "Quantum Quip",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 104,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/104.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/104.png",
                       "name": "Analytic Atom",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 106,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/106.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/106.png",
                       "name": "Cerebral Circuit",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 107,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/107.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/107.png",
                       "name": "Reflective Relay 2",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 109,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/109.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/109.png",
                       "name": "Thoughtful Transistor",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 110,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/110.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/110.png",
                       "name": "Bright Byte",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 112,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/112.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/112.png",
                       "name": "Pensive Pixel",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 113,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/113.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/113.png",
                       "name": "Judicious Jolt",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 114,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/114.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/114.png",
                       "name": "Astute Actuator",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 115,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/115.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/115.png",
                       "name": "Insightful Interface",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 118,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/118.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/118.png",
                       "name": "Prudent Processor",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 119,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/119.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/119.png",
                       "name": "Wise Wire",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 120,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/120.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/120.png",
                       "name": "Neura Nomad",
                       "type": "AI"
                     },
                     {
                       "handwriting_style_id": 121,
-                      "sample": "https://d2md0c8rpvzmz5.cloudfront.net/handwriting_examples/121.png",
+                      "sample": "https://cdn.thanks.io/handwriting_examples/121.png",
                       "name": "Rosario Type",
                       "type": "AI"
                     }
@@ -4691,7 +4691,7 @@
                       {
                         "brand_code": "amazonus",
                         "title": "Amazon.com",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png",
+                        "image": "https://cdn.thanks.io/giftcards/amazonus.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000,
                           20000
@@ -4700,7 +4700,7 @@
                       {
                         "brand_code": "starbucksus",
                         "title": "Starbucks",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/starbucks.png",
+                        "image": "https://cdn.thanks.io/giftcards/starbucks.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4713,7 +4713,7 @@
                       {
                         "brand_code": "applebees",
                         "title": "Applebees",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/applebees.png",
+                        "image": "https://cdn.thanks.io/giftcards/applebees.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4721,7 +4721,7 @@
                       {
                         "brand_code": "baskinrobbinsus",
                         "title": "Baskin Robbins",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/baskin.png",
+                        "image": "https://cdn.thanks.io/giftcards/baskin.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4729,7 +4729,7 @@
                       {
                         "brand_code": "burgerkingus",
                         "title": "Burger King",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/burgerking.png",
+                        "image": "https://cdn.thanks.io/giftcards/burgerking.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4737,7 +4737,7 @@
                       {
                         "brand_code": "charthouse",
                         "title": "Chart House",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/charthouse.png",
+                        "image": "https://cdn.thanks.io/giftcards/charthouse.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4745,7 +4745,7 @@
                       {
                         "brand_code": "chilis",
                         "title": "Chili's",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/chilis.png",
+                        "image": "https://cdn.thanks.io/giftcards/chilis.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4753,7 +4753,7 @@
                       {
                         "brand_code": "chipotle",
                         "title": "Chipotle",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/chipotle.png",
+                        "image": "https://cdn.thanks.io/giftcards/chipotle.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4761,7 +4761,7 @@
                       {
                         "brand_code": "coldstonecreameryus",
                         "title": "Cold Stone Creamery",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/coldstone.png",
+                        "image": "https://cdn.thanks.io/giftcards/coldstone.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4769,7 +4769,7 @@
                       {
                         "brand_code": "dominos",
                         "title": "Domino's",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/dominos.png",
+                        "image": "https://cdn.thanks.io/giftcards/dominos.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4777,7 +4777,7 @@
                       {
                         "brand_code": "doordashus",
                         "title": "DoorDash",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/doordash.png",
+                        "image": "https://cdn.thanks.io/giftcards/doordash.png",
                         "available_amounts": [
                           1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4785,7 +4785,7 @@
                       {
                         "brand_code": "dunkindonuts",
                         "title": "Dunkin' Donuts",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/dunkindonts.png",
+                        "image": "https://cdn.thanks.io/giftcards/dunkindonts.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4793,7 +4793,7 @@
                       {
                         "brand_code": "grubhubus",
                         "title": "Grubhub",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/grubhub.png",
+                        "image": "https://cdn.thanks.io/giftcards/grubhub.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4801,7 +4801,7 @@
                       {
                         "brand_code": "ihop",
                         "title": "IHOP",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ihop.png",
+                        "image": "https://cdn.thanks.io/giftcards/ihop.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4809,7 +4809,7 @@
                       {
                         "brand_code": "mortons",
                         "title": "Morton's The Steakhouse",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/mortons.png",
+                        "image": "https://cdn.thanks.io/giftcards/mortons.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4817,7 +4817,7 @@
                       {
                         "brand_code": "omahasteaks",
                         "title": "Omaha Steaks",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/omahasteaks.png",
+                        "image": "https://cdn.thanks.io/giftcards/omahasteaks.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4825,7 +4825,7 @@
                       {
                         "brand_code": "ontheborder",
                         "title": "On The Border",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ontheborder.png",
+                        "image": "https://cdn.thanks.io/giftcards/ontheborder.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4833,7 +4833,7 @@
                       {
                         "brand_code": "outback",
                         "title": "Outback Steakhouse",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/outback.png",
+                        "image": "https://cdn.thanks.io/giftcards/outback.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4841,7 +4841,7 @@
                       {
                         "brand_code": "panerabreadus",
                         "title": "Panera",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/panera.png",
+                        "image": "https://cdn.thanks.io/giftcards/panera.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4849,7 +4849,7 @@
                       {
                         "brand_code": "papjohns",
                         "title": "Papa John's",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/papajohns.png",
+                        "image": "https://cdn.thanks.io/giftcards/papajohns.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4857,7 +4857,7 @@
                       {
                         "brand_code": "pfchangs",
                         "title": "P.F. Chang's",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/pfchangs.png",
+                        "image": "https://cdn.thanks.io/giftcards/pfchangs.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4865,7 +4865,7 @@
                       {
                         "brand_code": "redrobin",
                         "title": "Red Robin",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/redrobin.png",
+                        "image": "https://cdn.thanks.io/giftcards/redrobin.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4873,7 +4873,7 @@
                       {
                         "brand_code": "sonicus",
                         "title": "SONIC",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/sonic.png",
+                        "image": "https://cdn.thanks.io/giftcards/sonic.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4881,7 +4881,7 @@
                       {
                         "brand_code": "tacobellus",
                         "title": "Taco Bell",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/tacobell.png",
+                        "image": "https://cdn.thanks.io/giftcards/tacobell.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4889,7 +4889,7 @@
                       {
                         "brand_code": "tgifridaysus",
                         "title": "TGI Fridays",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/tjfridays.png",
+                        "image": "https://cdn.thanks.io/giftcards/tjfridays.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4897,7 +4897,7 @@
                       {
                         "brand_code": "ubereats",
                         "title": "Uber Eats",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ubereats.png",
+                        "image": "https://cdn.thanks.io/giftcards/ubereats.png",
                         "available_amounts": [
                           1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4910,7 +4910,7 @@
                       {
                         "brand_code": "amctheatres",
                         "title": "AMC Theatres",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amctheaters.png",
+                        "image": "https://cdn.thanks.io/giftcards/amctheaters.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4918,7 +4918,7 @@
                       {
                         "brand_code": "itunesus",
                         "title": "Apple Gift Card",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/itunes.png",
+                        "image": "https://cdn.thanks.io/giftcards/itunes.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4926,7 +4926,7 @@
                       {
                         "brand_code": "cinemark",
                         "title": "Cinemark",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/cinemark.png",
+                        "image": "https://cdn.thanks.io/giftcards/cinemark.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4934,13 +4934,13 @@
                       {
                         "brand_code": "fandangous",
                         "title": "Fandango",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/fandango.png",
+                        "image": "https://cdn.thanks.io/giftcards/fandango.png",
                         "available_amounts": [2500, 5000, 10000]
                       },
                       {
                         "brand_code": "gamestop",
                         "title": "Game Stop",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/gamestop.png",
+                        "image": "https://cdn.thanks.io/giftcards/gamestop.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4948,7 +4948,7 @@
                       {
                         "brand_code": "googleplay",
                         "title": "Google Play",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/googleplay.png",
+                        "image": "https://cdn.thanks.io/giftcards/googleplay.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4956,13 +4956,13 @@
                       {
                         "brand_code": "playstationus",
                         "title": "Sony Playstation",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/playstation.png",
+                        "image": "https://cdn.thanks.io/giftcards/playstation.png",
                         "available_amounts": [1000, 5000]
                       },
                       {
                         "brand_code": "regal",
                         "title": "Regal",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/regal.png",
+                        "image": "https://cdn.thanks.io/giftcards/regal.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -4970,7 +4970,7 @@
                       {
                         "brand_code": "xbox",
                         "title": "Microsoft Xbox",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/xbox.png",
+                        "image": "https://cdn.thanks.io/giftcards/xbox.png",
                         "available_amounts": [1500, 2500, 5000]
                       }
                     ]
@@ -4981,7 +4981,7 @@
                       {
                         "brand_code": "1800flowers",
                         "title": "1-800-Flowers.com",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/1800flowers.png",
+                        "image": "https://cdn.thanks.io/giftcards/1800flowers.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4989,7 +4989,7 @@
                       {
                         "brand_code": "athleta",
                         "title": "Athleta",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/athleta.png",
+                        "image": "https://cdn.thanks.io/giftcards/athleta.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -4997,7 +4997,7 @@
                       {
                         "brand_code": "autozoneus",
                         "title": "AutoZone",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/autozone.png",
+                        "image": "https://cdn.thanks.io/giftcards/autozone.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5005,7 +5005,7 @@
                       {
                         "brand_code": "babygap",
                         "title": "Baby Gap",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/babygap.png",
+                        "image": "https://cdn.thanks.io/giftcards/babygap.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5013,7 +5013,7 @@
                       {
                         "brand_code": "barnesandnoble",
                         "title": "Barnes and Noble",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/barnesandnoble.png",
+                        "image": "https://cdn.thanks.io/giftcards/barnesandnoble.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5021,7 +5021,7 @@
                       {
                         "brand_code": "bassproshops",
                         "title": "Bass Pro Shops",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/bassprosshops.png",
+                        "image": "https://cdn.thanks.io/giftcards/bassprosshops.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5029,7 +5029,7 @@
                       {
                         "brand_code": "buildabear",
                         "title": "Build-A-Bear Workshop",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/buildabear.png",
+                        "image": "https://cdn.thanks.io/giftcards/buildabear.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5037,7 +5037,7 @@
                       {
                         "brand_code": "cabelas",
                         "title": "Cabela's",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/cabelas.png",
+                        "image": "https://cdn.thanks.io/giftcards/cabelas.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5045,19 +5045,19 @@
                       {
                         "brand_code": "callaway",
                         "title": "Callaway",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/callaway.png",
+                        "image": "https://cdn.thanks.io/giftcards/callaway.png",
                         "available_amounts": [5000, 10000]
                       },
                       {
                         "brand_code": "cratebarrelus",
                         "title": "Crate & Barrel",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/crateandbarrel.png",
+                        "image": "https://cdn.thanks.io/giftcards/crateandbarrel.png",
                         "available_amounts": [2500, 5000, 10000, 20000]
                       },
                       {
                         "brand_code": "cvs",
                         "title": "CVS Pharmacy",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/cvs.png",
+                        "image": "https://cdn.thanks.io/giftcards/cvs.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5065,7 +5065,7 @@
                       {
                         "brand_code": "ebay1",
                         "title": "eBay",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ebay.png",
+                        "image": "https://cdn.thanks.io/giftcards/ebay.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000
                         ]
@@ -5073,7 +5073,7 @@
                       {
                         "brand_code": "fanatics",
                         "title": "Fanatics",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/fanatics.png",
+                        "image": "https://cdn.thanks.io/giftcards/fanatics.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5081,7 +5081,7 @@
                       {
                         "brand_code": "footlocker",
                         "title": "Foot Locker",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/footlocker.png",
+                        "image": "https://cdn.thanks.io/giftcards/footlocker.png",
                         "available_amounts": [
                           500, 1000, 1500, 2500, 5000, 10000
                         ]
@@ -5089,19 +5089,19 @@
                       {
                         "brand_code": "goplaygolf",
                         "title": "Go Play Golf",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/goplaygolf.png",
+                        "image": "https://cdn.thanks.io/giftcards/goplaygolf.png",
                         "available_amounts": [2500, 5000, 10000, 20000]
                       },
                       {
                         "brand_code": "guitarcenterus",
                         "title": "Guitar Center",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/guitarcenter.png",
+                        "image": "https://cdn.thanks.io/giftcards/guitarcenter.png",
                         "available_amounts": [2500, 5000, 10000, 20000]
                       },
                       {
                         "brand_code": "kohls",
                         "title": "Kohl's",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/kohls.png",
+                        "image": "https://cdn.thanks.io/giftcards/kohls.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5109,7 +5109,7 @@
                       {
                         "brand_code": "landsend",
                         "title": "Land's End",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/landsend.png",
+                        "image": "https://cdn.thanks.io/giftcards/landsend.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5117,7 +5117,7 @@
                       {
                         "brand_code": "reius",
                         "title": "REI",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/rei.png",
+                        "image": "https://cdn.thanks.io/giftcards/rei.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5125,7 +5125,7 @@
                       {
                         "brand_code": "sephora",
                         "title": "Sephora",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/sephora.png",
+                        "image": "https://cdn.thanks.io/giftcards/sephora.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5133,7 +5133,7 @@
                       {
                         "brand_code": "spaweek",
                         "title": "Spa Week",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/spaweek.png",
+                        "image": "https://cdn.thanks.io/giftcards/spaweek.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5146,7 +5146,7 @@
                       {
                         "brand_code": "uber",
                         "title": "Uber",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/uberpng.png",
+                        "image": "https://cdn.thanks.io/giftcards/uberpng.png",
                         "available_amounts": [
                           1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5154,13 +5154,13 @@
                       {
                         "brand_code": "delta",
                         "title": "Delta Air Lines",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/delta.png",
+                        "image": "https://cdn.thanks.io/giftcards/delta.png",
                         "available_amounts": [5000, 10000]
                       },
                       {
                         "brand_code": "hotels",
                         "title": "Hotels.com",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/hotels.png",
+                        "image": "https://cdn.thanks.io/giftcards/hotels.png",
                         "available_amounts": [
                           1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5168,7 +5168,7 @@
                       {
                         "brand_code": "lyftus",
                         "title": "Lyft",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/lyft.png",
+                        "image": "https://cdn.thanks.io/giftcards/lyft.png",
                         "available_amounts": [2500, 5000, 10000, 20000]
                       }
                     ]
@@ -5179,7 +5179,7 @@
                       {
                         "brand_code": "bestbuy",
                         "title": "Best Buy",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/bestbuy.png",
+                        "image": "https://cdn.thanks.io/giftcards/bestbuy.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5187,7 +5187,7 @@
                       {
                         "brand_code": "homedepot",
                         "title": "The Home Depot",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/homedepot.png",
+                        "image": "https://cdn.thanks.io/giftcards/homedepot.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5195,7 +5195,7 @@
                       {
                         "brand_code": "target",
                         "title": "Target",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/target.png",
+                        "image": "https://cdn.thanks.io/giftcards/target.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000,
                           20000
@@ -5204,7 +5204,7 @@
                       {
                         "brand_code": "walmart",
                         "title": "Walmart",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/walmart.png",
+                        "image": "https://cdn.thanks.io/giftcards/walmart.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5212,7 +5212,7 @@
                       {
                         "brand_code": "wayfairus",
                         "title": "Wayfair",
-                        "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/wayfair.png",
+                        "image": "https://cdn.thanks.io/giftcards/wayfair.png",
                         "available_amounts": [
                           500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                         ]
@@ -5262,7 +5262,7 @@
                     {
                       "brand_code": "amazonus",
                       "title": "Amazon.com",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amazonus.png",
+                      "image": "https://cdn.thanks.io/giftcards/amazonus.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000,
                         20000
@@ -5272,7 +5272,7 @@
                     {
                       "brand_code": "starbucksus",
                       "title": "Starbucks",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/starbucks.png",
+                      "image": "https://cdn.thanks.io/giftcards/starbucks.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5281,7 +5281,7 @@
                     {
                       "brand_code": "applebees",
                       "title": "Applebees",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/applebees.png",
+                      "image": "https://cdn.thanks.io/giftcards/applebees.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5290,7 +5290,7 @@
                     {
                       "brand_code": "baskinrobbinsus",
                       "title": "Baskin Robbins",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/baskin.png",
+                      "image": "https://cdn.thanks.io/giftcards/baskin.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5299,7 +5299,7 @@
                     {
                       "brand_code": "burgerkingus",
                       "title": "Burger King",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/burgerking.png",
+                      "image": "https://cdn.thanks.io/giftcards/burgerking.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5308,7 +5308,7 @@
                     {
                       "brand_code": "charthouse",
                       "title": "Chart House",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/charthouse.png",
+                      "image": "https://cdn.thanks.io/giftcards/charthouse.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5317,7 +5317,7 @@
                     {
                       "brand_code": "chilis",
                       "title": "Chili's",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/chilis.png",
+                      "image": "https://cdn.thanks.io/giftcards/chilis.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5326,7 +5326,7 @@
                     {
                       "brand_code": "chipotle",
                       "title": "Chipotle",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/chipotle.png",
+                      "image": "https://cdn.thanks.io/giftcards/chipotle.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5335,7 +5335,7 @@
                     {
                       "brand_code": "coldstonecreameryus",
                       "title": "Cold Stone Creamery",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/coldstone.png",
+                      "image": "https://cdn.thanks.io/giftcards/coldstone.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5344,7 +5344,7 @@
                     {
                       "brand_code": "dominos",
                       "title": "Domino's",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/dominos.png",
+                      "image": "https://cdn.thanks.io/giftcards/dominos.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5353,7 +5353,7 @@
                     {
                       "brand_code": "doordashus",
                       "title": "DoorDash",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/doordash.png",
+                      "image": "https://cdn.thanks.io/giftcards/doordash.png",
                       "available_amounts": [
                         1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5362,7 +5362,7 @@
                     {
                       "brand_code": "dunkindonuts",
                       "title": "Dunkin' Donuts",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/dunkindonts.png",
+                      "image": "https://cdn.thanks.io/giftcards/dunkindonts.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5371,7 +5371,7 @@
                     {
                       "brand_code": "grubhubus",
                       "title": "Grubhub",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/grubhub.png",
+                      "image": "https://cdn.thanks.io/giftcards/grubhub.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5380,7 +5380,7 @@
                     {
                       "brand_code": "ihop",
                       "title": "IHOP",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ihop.png",
+                      "image": "https://cdn.thanks.io/giftcards/ihop.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5389,7 +5389,7 @@
                     {
                       "brand_code": "mortons",
                       "title": "Morton's The Steakhouse",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/mortons.png",
+                      "image": "https://cdn.thanks.io/giftcards/mortons.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5398,7 +5398,7 @@
                     {
                       "brand_code": "omahasteaks",
                       "title": "Omaha Steaks",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/omahasteaks.png",
+                      "image": "https://cdn.thanks.io/giftcards/omahasteaks.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5407,7 +5407,7 @@
                     {
                       "brand_code": "ontheborder",
                       "title": "On The Border",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ontheborder.png",
+                      "image": "https://cdn.thanks.io/giftcards/ontheborder.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5416,7 +5416,7 @@
                     {
                       "brand_code": "outback",
                       "title": "Outback Steakhouse",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/outback.png",
+                      "image": "https://cdn.thanks.io/giftcards/outback.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5425,7 +5425,7 @@
                     {
                       "brand_code": "panerabreadus",
                       "title": "Panera",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/panera.png",
+                      "image": "https://cdn.thanks.io/giftcards/panera.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5434,7 +5434,7 @@
                     {
                       "brand_code": "papjohns",
                       "title": "Papa John's",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/papajohns.png",
+                      "image": "https://cdn.thanks.io/giftcards/papajohns.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5443,7 +5443,7 @@
                     {
                       "brand_code": "pfchangs",
                       "title": "P.F. Chang's",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/pfchangs.png",
+                      "image": "https://cdn.thanks.io/giftcards/pfchangs.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5452,7 +5452,7 @@
                     {
                       "brand_code": "redrobin",
                       "title": "Red Robin",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/redrobin.png",
+                      "image": "https://cdn.thanks.io/giftcards/redrobin.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5461,7 +5461,7 @@
                     {
                       "brand_code": "sonicus",
                       "title": "SONIC",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/sonic.png",
+                      "image": "https://cdn.thanks.io/giftcards/sonic.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5470,7 +5470,7 @@
                     {
                       "brand_code": "tacobellus",
                       "title": "Taco Bell",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/tacobell.png",
+                      "image": "https://cdn.thanks.io/giftcards/tacobell.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5479,7 +5479,7 @@
                     {
                       "brand_code": "tgifridaysus",
                       "title": "TGI Fridays",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/tjfridays.png",
+                      "image": "https://cdn.thanks.io/giftcards/tjfridays.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5488,7 +5488,7 @@
                     {
                       "brand_code": "ubereats",
                       "title": "Uber Eats",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ubereats.png",
+                      "image": "https://cdn.thanks.io/giftcards/ubereats.png",
                       "available_amounts": [
                         1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5497,7 +5497,7 @@
                     {
                       "brand_code": "amctheatres",
                       "title": "AMC Theatres",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/amctheaters.png",
+                      "image": "https://cdn.thanks.io/giftcards/amctheaters.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5506,7 +5506,7 @@
                     {
                       "brand_code": "itunesus",
                       "title": "Apple Gift Card",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/itunes.png",
+                      "image": "https://cdn.thanks.io/giftcards/itunes.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5515,7 +5515,7 @@
                     {
                       "brand_code": "cinemark",
                       "title": "Cinemark",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/cinemark.png",
+                      "image": "https://cdn.thanks.io/giftcards/cinemark.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5524,14 +5524,14 @@
                     {
                       "brand_code": "fandangous",
                       "title": "Fandango",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/fandango.png",
+                      "image": "https://cdn.thanks.io/giftcards/fandango.png",
                       "available_amounts": [2500, 5000, 10000],
                       "group": "Entertainment"
                     },
                     {
                       "brand_code": "gamestop",
                       "title": "Game Stop",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/gamestop.png",
+                      "image": "https://cdn.thanks.io/giftcards/gamestop.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5540,7 +5540,7 @@
                     {
                       "brand_code": "googleplay",
                       "title": "Google Play",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/googleplay.png",
+                      "image": "https://cdn.thanks.io/giftcards/googleplay.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5549,14 +5549,14 @@
                     {
                       "brand_code": "playstationus",
                       "title": "Sony Playstation",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/playstation.png",
+                      "image": "https://cdn.thanks.io/giftcards/playstation.png",
                       "available_amounts": [1000, 5000],
                       "group": "Entertainment"
                     },
                     {
                       "brand_code": "regal",
                       "title": "Regal",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/regal.png",
+                      "image": "https://cdn.thanks.io/giftcards/regal.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5565,14 +5565,14 @@
                     {
                       "brand_code": "xbox",
                       "title": "Microsoft Xbox",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/xbox.png",
+                      "image": "https://cdn.thanks.io/giftcards/xbox.png",
                       "available_amounts": [1500, 2500, 5000],
                       "group": "Entertainment"
                     },
                     {
                       "brand_code": "1800flowers",
                       "title": "1-800-Flowers.com",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/1800flowers.png",
+                      "image": "https://cdn.thanks.io/giftcards/1800flowers.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5581,7 +5581,7 @@
                     {
                       "brand_code": "athleta",
                       "title": "Athleta",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/athleta.png",
+                      "image": "https://cdn.thanks.io/giftcards/athleta.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5590,7 +5590,7 @@
                     {
                       "brand_code": "autozoneus",
                       "title": "AutoZone",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/autozone.png",
+                      "image": "https://cdn.thanks.io/giftcards/autozone.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5599,7 +5599,7 @@
                     {
                       "brand_code": "babygap",
                       "title": "Baby Gap",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/babygap.png",
+                      "image": "https://cdn.thanks.io/giftcards/babygap.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5608,7 +5608,7 @@
                     {
                       "brand_code": "barnesandnoble",
                       "title": "Barnes and Noble",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/barnesandnoble.png",
+                      "image": "https://cdn.thanks.io/giftcards/barnesandnoble.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5617,7 +5617,7 @@
                     {
                       "brand_code": "bassproshops",
                       "title": "Bass Pro Shops",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/bassprosshops.png",
+                      "image": "https://cdn.thanks.io/giftcards/bassprosshops.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5626,7 +5626,7 @@
                     {
                       "brand_code": "buildabear",
                       "title": "Build-A-Bear Workshop",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/buildabear.png",
+                      "image": "https://cdn.thanks.io/giftcards/buildabear.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5635,7 +5635,7 @@
                     {
                       "brand_code": "cabelas",
                       "title": "Cabela's",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/cabelas.png",
+                      "image": "https://cdn.thanks.io/giftcards/cabelas.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5644,21 +5644,21 @@
                     {
                       "brand_code": "callaway",
                       "title": "Callaway",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/callaway.png",
+                      "image": "https://cdn.thanks.io/giftcards/callaway.png",
                       "available_amounts": [5000, 10000],
                       "group": "Gifts"
                     },
                     {
                       "brand_code": "cratebarrelus",
                       "title": "Crate & Barrel",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/crateandbarrel.png",
+                      "image": "https://cdn.thanks.io/giftcards/crateandbarrel.png",
                       "available_amounts": [2500, 5000, 10000, 20000],
                       "group": "Gifts"
                     },
                     {
                       "brand_code": "cvs",
                       "title": "CVS Pharmacy",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/cvs.png",
+                      "image": "https://cdn.thanks.io/giftcards/cvs.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5667,7 +5667,7 @@
                     {
                       "brand_code": "ebay1",
                       "title": "eBay",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/ebay.png",
+                      "image": "https://cdn.thanks.io/giftcards/ebay.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000
                       ],
@@ -5676,7 +5676,7 @@
                     {
                       "brand_code": "fanatics",
                       "title": "Fanatics",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/fanatics.png",
+                      "image": "https://cdn.thanks.io/giftcards/fanatics.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5685,28 +5685,28 @@
                     {
                       "brand_code": "footlocker",
                       "title": "Foot Locker",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/footlocker.png",
+                      "image": "https://cdn.thanks.io/giftcards/footlocker.png",
                       "available_amounts": [500, 1000, 1500, 2500, 5000, 10000],
                       "group": "Gifts"
                     },
                     {
                       "brand_code": "goplaygolf",
                       "title": "Go Play Golf",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/goplaygolf.png",
+                      "image": "https://cdn.thanks.io/giftcards/goplaygolf.png",
                       "available_amounts": [2500, 5000, 10000, 20000],
                       "group": "Gifts"
                     },
                     {
                       "brand_code": "guitarcenterus",
                       "title": "Guitar Center",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/guitarcenter.png",
+                      "image": "https://cdn.thanks.io/giftcards/guitarcenter.png",
                       "available_amounts": [2500, 5000, 10000, 20000],
                       "group": "Gifts"
                     },
                     {
                       "brand_code": "kohls",
                       "title": "Kohl's",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/kohls.png",
+                      "image": "https://cdn.thanks.io/giftcards/kohls.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5715,7 +5715,7 @@
                     {
                       "brand_code": "landsend",
                       "title": "Land's End",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/landsend.png",
+                      "image": "https://cdn.thanks.io/giftcards/landsend.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5724,7 +5724,7 @@
                     {
                       "brand_code": "reius",
                       "title": "REI",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/rei.png",
+                      "image": "https://cdn.thanks.io/giftcards/rei.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5733,7 +5733,7 @@
                     {
                       "brand_code": "sephora",
                       "title": "Sephora",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/sephora.png",
+                      "image": "https://cdn.thanks.io/giftcards/sephora.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5742,7 +5742,7 @@
                     {
                       "brand_code": "spaweek",
                       "title": "Spa Week",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/spaweek.png",
+                      "image": "https://cdn.thanks.io/giftcards/spaweek.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5751,7 +5751,7 @@
                     {
                       "brand_code": "uber",
                       "title": "Uber",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/uberpng.png",
+                      "image": "https://cdn.thanks.io/giftcards/uberpng.png",
                       "available_amounts": [
                         1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5760,14 +5760,14 @@
                     {
                       "brand_code": "delta",
                       "title": "Delta Air Lines",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/delta.png",
+                      "image": "https://cdn.thanks.io/giftcards/delta.png",
                       "available_amounts": [5000, 10000],
                       "group": "Travel"
                     },
                     {
                       "brand_code": "hotels",
                       "title": "Hotels.com",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/hotels.png",
+                      "image": "https://cdn.thanks.io/giftcards/hotels.png",
                       "available_amounts": [
                         1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5776,14 +5776,14 @@
                     {
                       "brand_code": "lyftus",
                       "title": "Lyft",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/lyft.png",
+                      "image": "https://cdn.thanks.io/giftcards/lyft.png",
                       "available_amounts": [2500, 5000, 10000, 20000],
                       "group": "Travel"
                     },
                     {
                       "brand_code": "bestbuy",
                       "title": "Best Buy",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/bestbuy.png",
+                      "image": "https://cdn.thanks.io/giftcards/bestbuy.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5792,7 +5792,7 @@
                     {
                       "brand_code": "homedepot",
                       "title": "The Home Depot",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/homedepot.png",
+                      "image": "https://cdn.thanks.io/giftcards/homedepot.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5801,7 +5801,7 @@
                     {
                       "brand_code": "target",
                       "title": "Target",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/target.png",
+                      "image": "https://cdn.thanks.io/giftcards/target.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000,
                         20000
@@ -5811,7 +5811,7 @@
                     {
                       "brand_code": "walmart",
                       "title": "Walmart",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/walmart.png",
+                      "image": "https://cdn.thanks.io/giftcards/walmart.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -5820,7 +5820,7 @@
                     {
                       "brand_code": "wayfairus",
                       "title": "Wayfair",
-                      "image": "https://d2md0c8rpvzmz5.cloudfront.net/giftcards/wayfair.png",
+                      "image": "https://cdn.thanks.io/giftcards/wayfair.png",
                       "available_amounts": [
                         500, 1000, 1500, 2000, 2500, 5000, 10000, 20000
                       ],
@@ -6815,7 +6815,7 @@
                       "type": "postcard",
                       "display_type": "Postcard-4x6",
                       "style": 1,
-                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                      "front_image": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                       "high_quality_preview": "",
                       "authorization_total": 73,
                       "grand_total": 73,
@@ -7027,7 +7027,7 @@
                       "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
                       "style": 1,
                       "size": "4x6",
-                      "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                      "front_image": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                       "high_quality_preview": "",
                       "total_estimated_recipients": 2,
                       "authorization_total": 146,
@@ -7125,13 +7125,13 @@
                     "addons": {
                       "standardmail": "on"
                     },
-                    "front_image": "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png",
+                    "front_image": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
                     "back_image": "",
                     "preview_images": [
-                      "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                      "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                     ],
                     "thumbnail_images": [
-                      "https://d2md0c8rpvzmz5.cloudfront.net/letter-backgrounds/bg0.png"
+                      "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                     ],
                     "high_quality_preview": "",
                     "custom_background_url": null,
