@@ -1,0 +1,35 @@
+---
+title: "Usage"
+description: "Info on using thanks.io's Message Templates endpoints"
+---
+
+# Overview
+
+A message template is a reusable template for the message content of your mailer — the handwritten-style text body, replacement variables, QR code configuration, and font and style settings. Depending on the mail type, this content appears in a different location:
+
+- **Postcard** — the back side
+- **Letter** — the cover letter text
+- **Notecard** — the interior
+
+Every time you send a mailer or trigger a campaign, you attach a message template. The template renders per recipient, filling in replacement variables (such as `%FIRST_NAME%`) with real data. Because templates are reusable, you can attach the same template to multiple campaigns, and changes take effect on the next send.
+
+Message templates are created and managed through these endpoints.
+
+# What a Message Template Contains
+
+| Field | Description |
+| --- | --- |
+| Message body | The handwritten-style text |
+| Replacement variables | `%FIRST_NAME%`, `%YOUR_COMPANY%`, `%CUSTOM1%`, etc. |
+| QR code Url | QR Code Destination URL |
+| QR code CC emails | Additional email addresses to notify on QR scans |
+| Background/stationery | Custom message background image |
+| Handwriting style | Chosen from the available fonts |
+| Realism Mode | Adds crossouts and imperfections |
+| Additional pages | Extra pages (letters only) |
+| Gift card brand + amount | The gift card to include (gift card mailer type only) |
+| Gift card gating URL/YouTube | URL or YouTube video the recipient must view to unlock the gift card |
+
+# Gift Cards & Additional Pages
+
+Templates can carry gift card details (`giftcard_brand_code`, `giftcard_amount`) and, for letter templates, an `additional_pages` PDF URL to attach extra pages.

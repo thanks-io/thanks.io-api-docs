@@ -510,9 +510,9 @@
             "description": "Font color used in the message template.",
             "example": "#000000"
           },
-          "realism": {
-            "type": "string",
-            "description": "Realism level used in the message template.  Only valid for AI fonts"
+          "handwriting_realism": {
+            "type": "boolean",
+            "description": "Handwriting realism level used in the message template. Only valid for AI fonts"
           },
           "name": {
             "type": "string",
@@ -524,7 +524,8 @@
           },
           "additional_pages": {
             "type": "string",
-            "description": "URL to additional PDFs to attach to cover letter of letters"
+            "format": "uri",
+            "description": "URL to additional pages to include with the cover letter. Only valid for letter templates."
           },
           "skip_creative_generation": {
             "type": "integer",
@@ -533,7 +534,7 @@
           },
           "custom_background_url": {
             "type": "string",
-            "description": "URL of the custom background image for the message template",
+            "description": "URL of the custom background image for the message template. Only valid for postcard backs and the interior background of notecards and giftcards.",
             "example": "https://example.com/background.png"
           },
           "qrcode_url": {
@@ -564,10 +565,12 @@
             "example": "notecard",
             "enum": [
               "postcard",
+              "postcard6x11",
               "letter",
+              "windowlessletter",
               "notecard",
               "giftcard",
-              "windowlessletter"
+              "magnacard"
             ],
             "description": "Type of the message template"
           },
@@ -588,11 +591,206 @@
           },
           "landing_page_url": {
             "type": "string",
-            "description": "URL of the gated landing page"
+            "format": "uri",
+            "description": "URL of the gated landing page (also known as a gating URL). Recipients must visit this page before they can redeem the gift card, letting you gate redemption behind an action such as booking a demo or completing a form. Only valid for giftcards."
           },
           "share_uuid": {
             "type": "string",
             "example": "5J5N-QAD3-6LLL-LSZZ"
+          }
+        }
+      },
+      "message-template-create": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "notecard",
+            "enum": [
+              "postcard",
+              "postcard6x11",
+              "letter",
+              "windowlessletter",
+              "notecard",
+              "giftcard",
+              "magnacard"
+            ],
+            "description": "Type of the message template"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the message template",
+            "example": "Thank You Message"
+          },
+          "handwriting_style_id": {
+            "type": "integer",
+            "description": "Handwriting style ID for the message template",
+            "example": 4
+          },
+          "font_color": {
+            "type": "string",
+            "description": "Handwriting color to use",
+            "example": "rgba(31,0,113,0.80)"
+          },
+          "handwriting_realism": {
+            "type": "boolean",
+            "description": "Set to true to enable the realism effect for AI fonts.",
+            "example": true
+          },
+          "content": {
+            "type": "string",
+            "description": "Template body content.",
+            "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+          },
+          "sub_account_id": {
+            "type": ["integer", "null"],
+            "description": "ID of the sub-account to associate with this template.",
+            "example": 7
+          },
+          "additional_pages": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to additional pages to include with the cover letter. Only valid for letter templates.",
+            "example": "https://example.com/additional-pages.pdf"
+          },
+          "pdf_only_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to PDF file to use for entire mailer. If this is specified, no cover letter is generated.  Valid for letter templates only. Providing this URL automatically sets skip_creative_generation to true.",
+            "example": "https://example.com/mailer.pdf"
+          },
+          "custom_background_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of a custom background image for the template. Only valid for postcard backs and the interior background of notecards and giftcards.",
+            "example": "https://example.com/background.png"
+          },
+          "qrcode_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the QR code image to use for the template.",
+            "example": "https://www.thanks.io"
+          },
+          "cc_emails": {
+            "type": "array",
+            "description": "List of email addresses to CC when a QR code is scanned",
+            "items": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          "giftcard_brand_code": {
+            "type": "string",
+            "description": "Brand code of the gift card. Required when type is giftcard.",
+            "example": "amazonus"
+          },
+          "giftcard_amount": {
+            "type": "integer",
+            "description": "Amount of the gift card in cents. Required when type is giftcard. Use this field for public v2 requests instead of giftcard_amount_in_cents.",
+            "example": 5000
+          },
+          "landing_page_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the gated landing page (also known as a gating URL). Recipients must visit this page before they can redeem the gift card, letting you gate redemption behind an action such as booking a demo or completing a form. Only valid for giftcards.",
+            "example": "https://example.com/landing"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": { "type": { "const": "giftcard" } },
+              "required": ["type"]
+            },
+            "then": {
+              "required": ["giftcard_brand_code", "giftcard_amount"]
+            }
+          }
+        ]
+      },
+      "message-template-update": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Updated name of the message template"
+          },
+          "handwriting_style_id": {
+            "type": "integer",
+            "description": "Handwriting style ID for the message template",
+            "example": 4
+          },
+          "font_color": {
+            "type": "string",
+            "description": "Handwriting color to use",
+            "example": "rgba(31,0,113,0.80)"
+          },
+          "handwriting_realism": {
+            "type": "boolean",
+            "description": "Set to true to enable the realism effect for AI fonts.",
+            "example": true
+          },
+          "content": {
+            "type": "string",
+            "description": "Updated template body content"
+          },
+          "type": {
+            "type": "string",
+            "example": "notecard",
+            "enum": [
+              "postcard",
+              "postcard6x11",
+              "letter",
+              "windowlessletter",
+              "notecard",
+              "giftcard",
+              "magnacard"
+            ],
+            "description": "Type of the message template"
+          },
+          "sub_account_id": {
+            "type": ["integer", "null"],
+            "description": "ID of the sub-account to associate with this template."
+          },
+          "additional_pages": {
+            "type": "string",
+            "format": "uri",
+            "description": "Updated additional PDF URL for the template"
+          },
+          "pdf_only_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to PDF file to use for entire mailer. If this is specified, no cover letter is generated.  Valid for letter templates only. Providing this URL automatically sets skip_creative_generation to true."
+          },
+          "custom_background_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Updated custom background image URL. Only valid for postcard backs and the interior background of notecards and giftcards."
+          },
+          "qrcode_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Updated QR code image URL"
+          },
+          "cc_emails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          "giftcard_brand_code": {
+            "type": "string",
+            "description": "Updated gift card brand code. Required when type is giftcard."
+          },
+          "giftcard_amount": {
+            "type": "integer",
+            "description": "Updated gift card amount in cents. Required when type is giftcard."
+          },
+          "landing_page_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Updated gated landing page URL (also known as a gating URL). Recipients must visit this page before they can redeem the gift card, letting you gate redemption behind an action such as booking a demo or completing a form. Only valid for giftcards."
           }
         }
       },
@@ -1424,7 +1622,7 @@
           },
           "custom_background_url": {
             "type": ["string", "null"],
-            "description": "Custom background URL for the order",
+            "description": "Custom background URL for the order. Only valid for postcard backs and the interior background of notecards and giftcards.",
             "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
           },
 
@@ -3279,7 +3477,7 @@
                       },
                       "pdf_only_url": {
                         "type": "string",
-                        "description": "URL to PDF file to use for entire mailer.  IF this is specified, no cover letter is generated.",
+                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated.",
                         "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
                       }
                     }
@@ -3536,7 +3734,7 @@
                       },
                       "pdf_only_url": {
                         "type": "string",
-                        "description": "URL to PDF file to use for entire mailer.  IF this is specified, no cover letter is generated.",
+                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated.",
                         "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
                       }
                     }
@@ -6223,58 +6421,85 @@
                 "example": {
                   "data": [
                     {
-                      "id": 2,
+                      "id": 1912,
                       "user_id": 2,
                       "sub_account_id": null,
-                      "handwriting_style_id": 18,
-                      "font_size": null,
-                      "font_color": null,
-                      "realism": null,
+                      "handwriting_style_id": 102,
+                      "font_size": "small",
+                      "font_color": "#000000",
                       "name": "Thank You Message Templates",
-                      "content": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                      "content": "Dear %FIRST_NAME%\\n\\nThis is another test message.",
                       "additional_pages": null,
                       "skip_creative_generation": 0,
                       "custom_background_url": null,
-                      "qrcode_url": null,
+                      "qrcode_url": "https://www.google.com",
                       "cc_emails": [],
-                      "created_at": "2018-08-08T02:56:59.000000Z",
-                      "updated_at": "2025-02-12T05:13:15.000000Z",
-                      "type": "notecard",
-                      "giftcard_brand_code": null,
+                      "created_at": "2026-08-05T02:38:44.000000Z",
+                      "updated_at": "2026-08-05T02:39:04.000000Z",
+                      "type": "postcard",
+                      "giftcard_brand_code": "",
                       "giftcard_brand_image": null,
-                      "giftcard_amount": null,
-                      "youtube_id": null,
-                      "landing_page_url": null,
-                      "settings": null,
-                      "external_settings": null,
-                      "share_uuid": "5J5N-QAD3-6LLL-LSZZ"
+                      "giftcard_amount": "",
+                      "youtube_id": "",
+                      "landing_page_url": "",
+                      "share_uuid": "TL9C-UUBP-SNT2-SX5Q",
+                      "brand_data": {
+                        "brand_code": "amazonus",
+                        "title": "Amazon.com",
+                        "image": "https://cdn.thanks.io/giftcards/amazonus.png",
+                        "available_amounts": [
+                          500,
+                          1000,
+                          1500,
+                          2000,
+                          2500,
+                          3000,
+                          4000,
+                          5000,
+                          10000,
+                          20000
+                        ]
+                      },
+                      "handwriting_realism": false
                     },
                     {
-                      "id": 116,
+                      "id": 1913,
                       "user_id": 2,
                       "sub_account_id": null,
-                      "handwriting_style_id": 1,
-                      "font_size": null,
-                      "font_color": null,
-                      "realism": null,
-                      "name": "This is another test",
-                      "content": "Dear %FIRST_NAME%\n\nThis is another test message.",
+                      "handwriting_style_id": 110,
+                      "font_size": "auto",
+                      "font_color": "rgba(31,0,113,0.80)",
+                      "name": "Birthday Card",
+                      "content": "Hey %FIRST_NAME%!, \n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!  \n\nHappy Birthday!",
                       "additional_pages": null,
                       "skip_creative_generation": 0,
                       "custom_background_url": null,
-                      "qrcode_url": null,
+                      "qrcode_url": "",
                       "cc_emails": [],
-                      "created_at": "2018-11-10T23:10:52.000000Z",
-                      "updated_at": "2024-05-07T15:24:24.000000Z",
-                      "type": "postcard",
-                      "giftcard_brand_code": null,
-                      "giftcard_brand_image": null,
-                      "giftcard_amount": null,
-                      "youtube_id": null,
-                      "landing_page_url": null,
-                      "settings": null,
-                      "external_settings": null,
-                      "share_uuid": "QT74-5VK4-DJ38-M227"
+                      "created_at": "2026-08-05T02:41:28.000000Z",
+                      "updated_at": "2026-08-05T02:41:32.000000Z",
+                      "type": "giftcard",
+                      "giftcard_brand_code": "starbucksus",
+                      "giftcard_brand_image": "https://cdn.thanks.io/giftcards/starbucks.png",
+                      "giftcard_amount": "2000",
+                      "youtube_id": "",
+                      "landing_page_url": "",
+                      "share_uuid": "PKE4-QGHH-CHZ9-QV6G",
+                      "brand_data": {
+                        "brand_code": "starbucksus",
+                        "title": "Starbucks",
+                        "image": "https://cdn.thanks.io/giftcards/starbucks.png",
+                        "available_amounts": [
+                          500,
+                          1000,
+                          1500,
+                          2000,
+                          2500,
+                          5000,
+                          10000
+                        ]
+                      },
+                      "handwriting_realism": false
                     }
                   ],
                   "links": {
@@ -6298,6 +6523,244 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Message Templates"],
+        "operationId": "createMessageTemplate",
+        "summary": "Create Message Template",
+        "description": "Create a message template for the authenticated user using the public v2 request shape.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/message-template-create"
+              },
+              "example": {
+                "name": "Thank You Message",
+                "type": "postcard",
+                "content": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message-template"
+                },
+                "example": {
+                  "id": 1912,
+                  "user_id": 2,
+                  "sub_account_id": null,
+                  "handwriting_style_id": 102,
+                  "font_size": "small",
+                  "font_color": "#000000",
+                  "name": "Thank You Message Templates",
+                  "content": "Dear %FIRST_NAME%\\n\\nThis is another test message.",
+                  "additional_pages": null,
+                  "skip_creative_generation": 0,
+                  "custom_background_url": null,
+                  "qrcode_url": "https://www.google.com",
+                  "cc_emails": [],
+                  "created_at": "2026-08-05T02:38:44.000000Z",
+                  "updated_at": "2026-08-05T02:39:04.000000Z",
+                  "type": "postcard",
+                  "giftcard_brand_code": "",
+                  "giftcard_brand_image": null,
+                  "giftcard_amount": "",
+                  "youtube_id": "",
+                  "landing_page_url": "",
+                  "share_uuid": "TL9C-UUBP-SNT2-SX5Q",
+                  "brand_data": {
+                    "brand_code": "amazonus",
+                    "title": "Amazon.com",
+                    "image": "https://cdn.thanks.io/giftcards/amazonus.png",
+                    "available_amounts": [500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000, 20000]
+                  },
+                  "handwriting_realism": false
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/message-templates/{messageTemplateId}": {
+      "parameters": [
+        {
+          "name": "messageTemplateId",
+          "in": "path",
+          "description": "ID of the message template",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "example": 2
+          }
+        }
+      ],
+      "get": {
+        "tags": ["Message Templates"],
+        "operationId": "getMessageTemplate",
+        "summary": "Get Message Template",
+        "description": "Fetch a single message template by ID.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message-template"
+                },
+                "example": {
+                  "id": 1912,
+                  "user_id": 2,
+                  "sub_account_id": null,
+                  "handwriting_style_id": 102,
+                  "font_size": "small",
+                  "font_color": "#000000",
+                  "name": "Thank You Message Templates",
+                  "content": "Dear %FIRST_NAME%\\n\\nThis is another test message.",
+                  "additional_pages": null,
+                  "skip_creative_generation": 0,
+                  "custom_background_url": null,
+                  "qrcode_url": "https://www.google.com",
+                  "cc_emails": [],
+                  "created_at": "2026-08-05T02:38:44.000000Z",
+                  "updated_at": "2026-08-05T02:39:04.000000Z",
+                  "type": "postcard",
+                  "giftcard_brand_code": "",
+                  "giftcard_brand_image": null,
+                  "giftcard_amount": "",
+                  "youtube_id": "",
+                  "landing_page_url": "",
+                  "share_uuid": "TL9C-UUBP-SNT2-SX5Q",
+                  "brand_data": {
+                    "brand_code": "amazonus",
+                    "title": "Amazon.com",
+                    "image": "https://cdn.thanks.io/giftcards/amazonus.png",
+                    "available_amounts": [500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 10000, 20000]
+                  },
+                  "handwriting_realism": false
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Message Templates"],
+        "operationId": "updateMessageTemplate",
+        "summary": "Update Message Template",
+        "description": "Update a message template using the public v2 request shape.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/message-template-update"
+              },
+              "example": {
+                "content": "Updated message body",
+                "additional_pages": "https://example.com/additional-pages.pdf"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message-template"
+                },
+                "example": {
+                  "id": 1913,
+                  "user_id": 2,
+                  "sub_account_id": null,
+                  "handwriting_style_id": 110,
+                  "font_size": "auto",
+                  "font_color": "rgba(31,0,113,0.80)",
+                  "name": "Birthday Card",
+                  "content": "Hey %FIRST_NAME%!, \n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!  \n\nHappy Birthday!",
+                  "additional_pages": null,
+                  "skip_creative_generation": 0,
+                  "custom_background_url": null,
+                  "qrcode_url": "",
+                  "cc_emails": [],
+                  "created_at": "2026-08-05T02:41:28.000000Z",
+                  "updated_at": "2026-08-05T02:41:32.000000Z",
+                  "type": "giftcard",
+                  "giftcard_brand_code": "starbucksus",
+                  "giftcard_brand_image": "https://cdn.thanks.io/giftcards/starbucks.png",
+                  "giftcard_amount": "2000",
+                  "youtube_id": "",
+                  "landing_page_url": "",
+                  "share_uuid": "PKE4-QGHH-CHZ9-QV6G",
+                  "brand_data": {
+                    "brand_code": "starbucksus",
+                    "title": "Starbucks",
+                    "image": "https://cdn.thanks.io/giftcards/starbucks.png",
+                    "available_amounts": [500, 1000, 1500, 2000, 2500, 5000, 10000]
+                  },
+                  "handwriting_realism": false
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Message Templates"],
+        "operationId": "deleteMessageTemplate",
+        "summary": "Delete Message Template",
+        "description": "Delete a message template.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "success"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }
@@ -7120,7 +7583,7 @@
                     "style": 1,
                     "handwriting_color": "#000001",
                     "font_size": "auto",
-                    "realism": 40,
+                    "handwriting_realism": true,
                     "size": "4x6",
                     "addons": {
                       "standardmail": "on"

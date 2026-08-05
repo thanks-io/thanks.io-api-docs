@@ -196,6 +196,18 @@
                 ]
               },
               {
+                "group": "Message Templates",
+                "icon": "message",
+                "pages": [
+                    "api-reference/message-templates-usage",
+                    "api-reference/endpoint/message-templates/list-all-message-templates",
+                    "api-reference/endpoint/message-templates/create-message-template",
+                    "api-reference/endpoint/message-templates/get-message-template",
+                    "api-reference/endpoint/message-templates/update-message-template",
+                    "api-reference/endpoint/message-templates/delete-message-template"
+                ]
+              },
+              {
                 "group": "Account",
                 "icon": "gear",
                 "pages": [
@@ -205,7 +217,6 @@
                     "api-reference/endpoint/sub-accounts/delete-sub-account",
                     "api-reference/endpoint/sub-accounts/list-all",
                     "api-reference/endpoint/image-templates/list-all-image-templates",
-                    "api-reference/endpoint/message-templates/list-all-message-templates",
                     "api-reference/endpoint/orders/list-orders",
                     "api-reference/endpoint/orders/track-order",
                     "api-reference/endpoint/orders/cancel-order"
