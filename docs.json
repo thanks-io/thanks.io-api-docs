@@ -222,7 +222,6 @@
                     "api-reference/endpoint/orders/cancel-order"
                 ]
               },
-
               {
                 "group": "Webhooks",
                 "icon": "list",
@@ -233,8 +232,16 @@
                     "api-reference/endpoint/webhooks/delete-webhook"
                 ]
               },
-
-
+              {
+                "group": "Webhook Events",
+                "icon": "sparkles",
+                "pages": [
+                    "api-reference/endpoint/webhook-events/order-item-status-change",
+                    "api-reference/endpoint/webhook-events/order-status-change",
+                    "api-reference/endpoint/webhook-events/order-item-delivered",
+                    "api-reference/endpoint/webhook-events/qr-code-scans"
+                ]
+              },
               {
                 "group": "Utilities",
                 "icon": "wrench",

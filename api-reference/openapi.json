@@ -165,6 +165,157 @@
         ],
         "example": "order_item.status_update"
       },
+      "webhook-data-flat": {
+        "type": "object",
+        "description": "Flat payload object used by webhook events. Each property is a dotted key matching the published webhook payload structure.",
+        "properties": {
+          "order_item.id": {
+            "type": ["integer", "null"],
+            "example": 2668662
+          },
+          "order_item.scans": {
+            "type": ["integer", "null"],
+            "example": null
+          },
+          "order_item.failure": {
+            "type": ["string", "null"],
+            "example": null
+          },
+          "recipient.name": {
+            "type": ["string", "null"],
+            "example": "John Doe"
+          },
+          "recipient.company": {
+            "type": ["string", "null"],
+            "example": null
+          },
+          "recipient.address": {
+            "type": ["string", "null"],
+            "example": "123 Fake St"
+          },
+          "recipient.address2": {
+            "type": ["string", "null"],
+            "example": null
+          },
+          "recipient.city": {
+            "type": ["string", "null"],
+            "example": "Any Town"
+          },
+          "recipient.province": {
+            "type": ["string", "null"],
+            "example": "NY"
+          },
+          "recipient.postal_code": {
+            "type": ["string", "null"],
+            "example": "12345"
+          },
+          "recipient.country": {
+            "type": ["string", "null"],
+            "example": "US"
+          },
+          "recipient.email": {
+            "type": ["string", "null"],
+            "example": null
+          },
+          "recipient.phone": {
+            "type": ["string", "null"],
+            "example": null
+          },
+          "recipient.custom_1": {
+            "type": ["string", "null"],
+            "example": "Example Custom 1"
+          },
+          "recipient.custom_2": {
+            "type": ["string", "null"],
+            "example": "Example Custom 2"
+          },
+          "recipient.custom_3": {
+            "type": ["string", "null"],
+            "example": "Example Custom 3"
+          },
+          "recipient.custom_4": {
+            "type": ["string", "null"],
+            "example": "Example Custom 4"
+          },
+          "recipient.custom_5": {
+            "type": ["string", "null"],
+            "example": "Example Custom 5"
+          },
+          "recipient.custom_6": {
+            "type": ["string", "null"],
+            "example": "Example Custom 6"
+          },
+          "recipient.custom_7": {
+            "type": ["string", "null"],
+            "example": "Example Custom 7"
+          },
+          "recipient.custom_8": {
+            "type": ["string", "null"],
+            "example": "Example Custom 8"
+          },
+          "recipient.custom_9": {
+            "type": ["string", "null"],
+            "example": "Example Custom 9"
+          },
+          "recipient.custom_10": {
+            "type": ["string", "null"],
+            "example": "Example Custom 10"
+          },
+          "order.id": {
+            "type": ["integer", "null"],
+            "example": 42399
+          },
+          "order.sub_account_id": {
+            "type": ["integer", "null"],
+            "example": 5
+          },
+          "order.status": {
+            "type": ["string", "null"],
+            "example": "Printing"
+          },
+          "order_item.delivery_date": {
+            "type": ["string", "null"],
+            "example": "2025-07-05"
+          },
+          "order_item.previous_status": {
+            "type": ["string", "null"],
+            "example": null
+          },
+          "order_item.current_status": {
+            "type": ["string", "null"],
+            "example": "Processing"
+          },
+          "qrcode.url": {
+            "type": ["string", "null"],
+            "format": "uri",
+            "example": "https://www.google.com"
+          }
+        },
+        "additionalProperties": false
+      },
+      "webhook-order-status-update-payload": {
+        "type": "object",
+        "properties": {
+          "order.id": {
+            "type": "integer",
+            "example": 42401
+          },
+          "order.status": {
+            "type": "string",
+            "example": "Printing"
+          }
+        },
+        "additionalProperties": false
+      },
+      "webhook-order-item-status-update-payload": {
+        "$ref": "#/components/schemas/webhook-data-flat"
+      },
+      "webhook-order-item-delivered-payload": {
+        "$ref": "#/components/schemas/webhook-data-flat"
+      },
+      "webhook-scan-update-payload": {
+        "$ref": "#/components/schemas/webhook-data-flat"
+      },
       "order": {
         "type": "object",
         "properties": {
@@ -1953,8 +2104,317 @@
     },
     {
       "name": "Sub Accounts"
+    },
+    {
+      "name": "Webhooks"
+    },
+    {
+      "name": "Webhook Events"
     }
   ],
+  "webhooks": {
+    "orderItemStatusUpdate": {
+      "post": {
+        "tags": ["Webhook Events"],
+        "summary": "Order Item Status Change Webhook",
+        "description": "Sent when an order item changes status. The payload includes the recipient, order, and order item context for the affected mail piece.",
+        "operationId": "orderItemStatusUpdateWebhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_type": {
+                    "type": "string",
+                    "example": "order_item.status_update"
+                  },
+                  "event_id": {
+                    "type": "string",
+                    "example": "7199e4e0-516b-11f0-ba5f-f135ea42fb62"
+                  },
+                  "data": {
+                    "$ref": "#/components/schemas/webhook-order-item-status-update-payload"
+                  },
+                  "timestamp": {
+                    "type": "integer",
+                    "example": 1750818235
+                  },
+                  "date_time": {
+                    "type": "string",
+                    "example": "2025-06-25 02:23:55"
+                  }
+                },
+                "required": ["event_type", "event_id", "data", "timestamp", "date_time"]
+              },
+              "example": {
+                "event_type": "order_item.status_update",
+                "event_id": "7199e4e0-516b-11f0-ba5f-f135ea42fb62",
+                "data": {
+                  "order_item.id": 2668662,
+                  "order_item.scans": null,
+                  "order_item.failure": null,
+                  "recipient.name": "John Doe",
+                  "recipient.company": null,
+                  "recipient.address": "123 Fake St",
+                  "recipient.address2": null,
+                  "recipient.city": "Any Town",
+                  "recipient.province": "NY",
+                  "recipient.postal_code": "12345",
+                  "recipient.country": "US",
+                  "recipient.email": null,
+                  "recipient.phone": null,
+                  "recipient.custom_1": "Example Custom 1",
+                  "recipient.custom_2": "Example Custom 2",
+                  "recipient.custom_3": "Example Custom 3",
+                  "recipient.custom_4": "Example Custom 4",
+                  "recipient.custom_5": "Example Custom 5",
+                  "recipient.custom_6": "Example Custom 6",
+                  "recipient.custom_7": "Example Custom 7",
+                  "recipient.custom_8": "Example Custom 8",
+                  "recipient.custom_9": "Example Custom 9",
+                  "recipient.custom_10": "Example Custom 10",
+                  "order.id": 42399,
+                  "order.sub_account_id": 5,
+                  "order.status": "Printing",
+                  "order_item.delivery_date": "2025-07-05",
+                  "order_item.previous_status": null,
+                  "order_item.current_status": "Processing"
+                },
+                "timestamp": 1750818235,
+                "date_time": "2025-06-25 02:23:55"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received"
+          }
+        }
+      }
+    },
+    "orderStatusUpdate": {
+      "post": {
+        "tags": ["Webhook Events"],
+        "summary": "Order Status Change Webhook",
+        "description": "Sent when an order changes status. The payload includes the affected order identifier and its updated status.",
+        "operationId": "orderStatusUpdateWebhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_type": {
+                    "type": "string",
+                    "example": "order.status_update"
+                  },
+                  "event_id": {
+                    "type": "string",
+                    "example": "a8a59df0-516d-11f0-9ca2-31daad0e4f7f"
+                  },
+                  "data": {
+                    "$ref": "#/components/schemas/webhook-order-status-update-payload"
+                  },
+                  "timestamp": {
+                    "type": "integer",
+                    "example": 1750819187
+                  },
+                  "date_time": {
+                    "type": "string",
+                    "example": "2025-06-25 02:39:47"
+                  }
+                },
+                "required": ["event_type", "event_id", "data", "timestamp", "date_time"]
+              },
+              "example": {
+                "event_type": "order.status_update",
+                "event_id": "a8a59df0-516d-11f0-9ca2-31daad0e4f7f",
+                "data": {
+                  "order.id": 42401,
+                  "order.status": "Printing"
+                },
+                "timestamp": 1750819187,
+                "date_time": "2025-06-25 02:39:47"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received"
+          }
+        }
+      }
+    },
+    "orderItemDelivered": {
+      "post": {
+        "tags": ["Webhook Events"],
+        "summary": "Order Item Delivered Webhook",
+        "description": "Sent when a mail piece is delivered. The payload includes the recipient, order, and order item state at delivery.",
+        "operationId": "orderItemDeliveredWebhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_type": {
+                    "type": "string",
+                    "example": "order_item.delivered"
+                  },
+                  "event_id": {
+                    "type": "string",
+                    "example": "7199e4e0-516b-11f0-ba5f-f135ea42fb62"
+                  },
+                  "data": {
+                    "$ref": "#/components/schemas/webhook-order-item-delivered-payload"
+                  },
+                  "timestamp": {
+                    "type": "integer",
+                    "example": 1750818235
+                  },
+                  "date_time": {
+                    "type": "string",
+                    "example": "2025-06-25 02:23:55"
+                  }
+                },
+                "required": ["event_type", "event_id", "data", "timestamp", "date_time"]
+              },
+              "example": {
+                "event_type": "order_item.delivered",
+                "event_id": "7199e4e0-516b-11f0-ba5f-f135ea42fb62",
+                "data": {
+                  "order_item.id": 2668662,
+                  "order_item.scans": null,
+                  "order_item.failure": null,
+                  "recipient.name": "John Doe",
+                  "recipient.company": null,
+                  "recipient.address": "123 Fake St",
+                  "recipient.address2": null,
+                  "recipient.city": "Any Town",
+                  "recipient.province": "NY",
+                  "recipient.postal_code": "12345",
+                  "recipient.country": "US",
+                  "recipient.email": null,
+                  "recipient.phone": null,
+                  "recipient.custom_1": "Example Custom 1",
+                  "recipient.custom_2": "Example Custom 2",
+                  "recipient.custom_3": "Example Custom 3",
+                  "recipient.custom_4": "Example Custom 4",
+                  "recipient.custom_5": "Example Custom 5",
+                  "recipient.custom_6": "Example Custom 6",
+                  "recipient.custom_7": "Example Custom 7",
+                  "recipient.custom_8": "Example Custom 8",
+                  "recipient.custom_9": "Example Custom 9",
+                  "recipient.custom_10": "Example Custom 10",
+                  "order.id": 42399,
+                  "order.sub_account_id": 5,
+                  "order.status": "Printing",
+                  "order_item.delivery_date": "2025-07-05",
+                  "order_item.previous_status": "Shipped",
+                  "order_item.current_status": "Delivered"
+                },
+                "timestamp": 1750818235,
+                "date_time": "2025-06-25 02:23:55"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received"
+          }
+        }
+      }
+    },
+    "qrCodeScanUpdate": {
+      "post": {
+        "tags": ["Webhook Events"],
+        "summary": "QR Code Scan Webhook",
+        "description": "Sent when a recipient scans a thanks.io QR code on a mailer. The payload includes the scan context plus the QR code destination URL.",
+        "operationId": "qrCodeScanUpdateWebhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_type": {
+                    "type": "string",
+                    "example": "scans.scan_update"
+                  },
+                  "event_id": {
+                    "type": "string",
+                    "example": "c4e1aa40-516a-11f0-94e9-4b4494619f64"
+                  },
+                  "data": {
+                    "$ref": "#/components/schemas/webhook-scan-update-payload"
+                  },
+                  "timestamp": {
+                    "type": "integer",
+                    "example": 1750817946
+                  },
+                  "date_time": {
+                    "type": "string",
+                    "example": "2025-06-25 02:19:06"
+                  }
+                },
+                "required": ["event_type", "event_id", "data", "timestamp", "date_time"]
+              },
+              "example": {
+                "event_type": "scans.scan_update",
+                "event_id": "c4e1aa40-516a-11f0-94e9-4b4494619f64",
+                "data": {
+                  "order_item.id": 2668661,
+                  "order_item.scans": 4,
+                  "order_item.failure": null,
+                  "recipient.name": "John Doe",
+                  "recipient.company": null,
+                  "recipient.address": "123 Fake St",
+                  "recipient.address2": null,
+                  "recipient.city": "Any Town",
+                  "recipient.province": "NY",
+                  "recipient.postal_code": "12345",
+                  "recipient.country": "US",
+                  "recipient.email": null,
+                  "recipient.phone": null,
+                  "recipient.custom_1": "Example Custom 1",
+                  "recipient.custom_2": "Example Custom 2",
+                  "recipient.custom_3": "Example Custom 3",
+                  "recipient.custom_4": "Example Custom 4",
+                  "recipient.custom_5": "Example Custom 5",
+                  "recipient.custom_6": "Example Custom 6",
+                  "recipient.custom_7": "Example Custom 7",
+                  "recipient.custom_8": "Example Custom 8",
+                  "recipient.custom_9": "Example Custom 9",
+                  "recipient.custom_10": "Example Custom 10",
+                  "order.id": 42398,
+                  "order.sub_account_id": 5,
+                  "order.status": "Fulfilled",
+                  "order_item.delivery_date": "2025-06-05",
+                  "order_item.current_status": "Processing",
+                  "qrcode.url": "https://www.google.com"
+                },
+                "timestamp": 1750817946,
+                "date_time": "2025-06-25 02:19:06"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received"
+          }
+        }
+      }
+    }
+  },
   "paths": {
     "/recipients/{recipientId}": {
       "parameters": [
