@@ -197,6 +197,10 @@
             "type": ["string", "null"],
             "example": null
           },
+          "recipient.absentee_address": {
+            "type": ["string", "null"],
+            "example": null
+          },
           "recipient.city": {
             "type": ["string", "null"],
             "example": "Any Town"
@@ -2159,6 +2163,7 @@
                   "recipient.company": null,
                   "recipient.address": "123 Fake St",
                   "recipient.address2": null,
+                  "recipient.absentee_address": null,
                   "recipient.city": "Any Town",
                   "recipient.province": "NY",
                   "recipient.postal_code": "12345",
@@ -2296,6 +2301,7 @@
                   "recipient.company": null,
                   "recipient.address": "123 Fake St",
                   "recipient.address2": null,
+                  "recipient.absentee_address": null,
                   "recipient.city": "Any Town",
                   "recipient.province": "NY",
                   "recipient.postal_code": "12345",
@@ -2378,6 +2384,7 @@
                   "recipient.company": null,
                   "recipient.address": "123 Fake St",
                   "recipient.address2": null,
+                  "recipient.absentee_address": null,
                   "recipient.city": "Any Town",
                   "recipient.province": "NY",
                   "recipient.postal_code": "12345",
