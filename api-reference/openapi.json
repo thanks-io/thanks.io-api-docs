@@ -115,7 +115,7 @@
           "branding_fields": {
             "accentColor": "#5f01d1",
             "symbol": "",
-            "logo": "https://s3.amazonaws.com/content-staging.thanks.io/templates/dynamic-images/5dcb82c0-f258-11ef-9c99-e542d768ea52.png",
+            "logo": "https://s3.amazonaws.com/content.thanks.io/templates/dynamic-images/5dcb82c0-f258-11ef-9c99-e542d768ea52.png",
             "disclaimer": null,
             "headshot": null,
             "name": "John Gray",
@@ -1778,7 +1778,7 @@
           "custom_background_url": {
             "type": ["string", "null"],
             "description": "Custom background URL for the order. Only valid for postcard backs and the interior background of notecards and giftcards.",
-            "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
+            "example": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png"
           },
 
           "message": {
@@ -3523,7 +3523,7 @@
                     "size": "6x9",
                     "image_template_id": 8,
                     "use_custom_background": true,
-                    "custom_background_image": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/449d24b0-78cb-11f0-a351-bfecbf71caa6.png",
+                    "custom_background_image": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/449d24b0-78cb-11f0-a351-bfecbf71caa6.png",
                     "handwriting_style_id": 3,
                     "send_standard_mail": true,
                     "mailing_list_ids": [5166, 514]
@@ -3623,7 +3623,7 @@
                       "font_size": "auto",
                       "qrcode_url": "https://www.google.com?name=~FULL_NAME~&custom_field_1=~CUSTOM1~&custom_field2=~CUSTOM2~",
                       "size": "4x6",
-                      "custom_background_url": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png",
+                      "custom_background_url": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png",
                       "giftcard_brand": null,
                       "giftcard_image": null,
                       "giftcard_amount": null,
@@ -3845,7 +3845,7 @@
                       "method": "api",
                       "sub_account_id": null,
                       "font_size": "auto",
-                      "custom_background_url": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png",
+                      "custom_background_url": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/4524cce0-78cb-11f0-b937-17570cbedaf4.png",
                       "giftcard_brand": null,
                       "giftcard_image": null,
                       "giftcard_amount": null,
@@ -4455,7 +4455,7 @@
                       "custom_background_image": {
                         "type": "string",
                         "description": "URL to custom background image to use for interior of notecard.  This image will be placed behind the handwritten message.  Must be 1650px by 2475px.",
-                        "example": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png"
+                        "example": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png"
                       },
                       "qrcode_url": {
                         "type": "string",
@@ -4605,7 +4605,7 @@
                       "sub_account_id": null,
                       "font_size": "auto",
                       "qrcode_url": null,
-                      "custom_background_url": "https://s3.amazonaws.com/content-staging.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png",
+                      "custom_background_url": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png",
                       "giftcard_brand": null,
                       "giftcard_image": null,
                       "giftcard_amount": null,
