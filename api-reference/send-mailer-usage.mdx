@@ -96,3 +96,36 @@ The handwriting style can be customized using the `handwriting_style`, `handwrit
 # QR Codes
 
 Trackable QR codes can be included in mailers with the `qrcode_url` field to monitor engagement and response rates. thanks.io can notify you of each scan by email or text message, and an analytics dashboard is available to help you track template performance.
+
+# Order Metadata
+
+Use the optional `metadata` field to attach your own data to an order. thanks.io stores the object with the order and hands it back unchanged — it is never printed on the mailpiece and does not affect how the order is produced.
+
+```json
+{
+  "metadata": {
+    "crm_deal_id": "D-1042",
+    "campaign": "spring-winback",
+    "source": "hubspot"
+  }
+}
+```
+
+The same object comes back in three places:
+
+- In the response to the send call that created the order.
+- On the order read endpoints — [List Orders](/api-reference/endpoint/orders/list-orders), [Track Order](/api-reference/endpoint/orders/track-order), and [Cancel Order](/api-reference/endpoint/orders/cancel-order).
+- On every [webhook](/webhooks/introduction) event for the order, as `order.metadata`.
+
+That means you can correlate an order and its delivery events back to a record in your own system without storing thanks.io order IDs.
+
+Two rules apply to the value you send:
+
+- It must be a JSON object of key/value pairs, not an array. Values themselves can be nested objects or arrays.
+- It must be no larger than 8,192 bytes once encoded as JSON.
+
+Anything else is rejected with a validation error, and no order is created. Orders created without `metadata` — including orders created from the dashboard — return `null`.
+
+<Note>
+  Metadata is passthrough data for your own systems. It is not used for personalization — to vary content per recipient, use replacement variables backed by recipient custom fields.
+</Note>

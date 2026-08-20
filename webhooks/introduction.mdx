@@ -14,6 +14,12 @@ In the context of thanks.io, webhooks provide an efficient way to receive proact
 - Getting notified when mailpieces fails to send
 - Triggering workflows upon final delivery confirmation
 
+## Order Metadata
+
+Every event payload includes `order.metadata`: the JSON object you submitted with the order in the `metadata` field of a [Send Mailer](/api-reference/send-mailer-usage) request, returned exactly as you sent it. Use it to match an event back to a record in your own system without having to store thanks.io order IDs.
+
+`order.metadata` is `null` for orders created without metadata, including orders created from the dashboard.
+
 ## Webhooks Management
 
 You can add any number of webhooks from the **Webhooks Management** page:
