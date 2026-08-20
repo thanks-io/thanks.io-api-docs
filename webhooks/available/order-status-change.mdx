@@ -14,7 +14,15 @@ description: 'Event will fire whenever an Order changes status.'
 - **Cancelled** : Order was cancelled by client.
 - **Error** : All items in order were not able to be printed.
 
+## Status Fields
 
+The payload reports the change with three fields:
+
+- `order.status` — the order's status after the change, using the display names listed above. This is the same value the order endpoints return.
+- `order.previous_status` — the status the order moved from, using the stored lower case values: `reviewing`, `paused`, `processing`, `printed`, `shipped`, `delivered`, `fulfilled`, and `cancelled`.
+- `order.current_status` — the status the order moved to, using those same stored values.
+
+The stored values are not always identical to the display names, so switch on `order.status` if you want to work with the names shown above.
 
 ## Example
 
@@ -25,6 +33,8 @@ description: 'Event will fire whenever an Order changes status.'
     "data": {
         "order.id": 42401,
         "order.status": "Printing",
+        "order.previous_status": "reviewing",
+        "order.current_status": "processing",
         "order.metadata": {
             "crm_deal_id": "D-1042"
         }

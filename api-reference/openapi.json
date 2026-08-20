@@ -314,7 +314,18 @@
           },
           "order.status": {
             "type": "string",
+            "description": "The order's status after the change, in the same display form used throughout the dashboard and the order endpoints.",
             "example": "Printing"
+          },
+          "order.previous_status": {
+            "type": ["string", "null"],
+            "description": "The status the order moved from, in lower case. Null if the order had no status before the change.",
+            "example": "reviewing"
+          },
+          "order.current_status": {
+            "type": "string",
+            "description": "The status the order moved to, in lower case. This is the same change reported by `order.status`, which gives the display form of the value.",
+            "example": "processing"
           },
           "order.metadata": {
             "type": ["object", "null"],
@@ -2288,6 +2299,8 @@
                 "data": {
                   "order.id": 42401,
                   "order.status": "Printing",
+                  "order.previous_status": "reviewing",
+                  "order.current_status": "processing",
                   "order.metadata": {
                     "crm_deal_id": "D-1042"
                   }
