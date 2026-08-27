@@ -219,7 +219,8 @@
                     "api-reference/endpoint/image-templates/list-all-image-templates",
                     "api-reference/endpoint/orders/list-orders",
                     "api-reference/endpoint/orders/track-order",
-                    "api-reference/endpoint/orders/cancel-order"
+                    "api-reference/endpoint/orders/cancel-order",
+                    "api-reference/endpoint/orders/replay-order"
                 ]
               },
               {

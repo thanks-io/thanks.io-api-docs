@@ -8186,6 +8186,199 @@
           }
         }
       }
+    },
+    "/orders/{orderId}/replay": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Replay Order",
+        "description": "Submit a copy of a previously placed order as a brand-new order. The same creative is charged and mailed again, and the original order is left untouched. By default the replay is sent to the recipients the original actually reached (failed items are excluded). Supply a `recipients` array to send the same creative to a different audience instead.\n\nOnly settled, non-cancelled orders can be replayed. The replay is a fresh order that runs through the normal fulfillment pipeline, including Address Verification, Duplicate Prevention and suppression lists.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID of the order to replay."
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "recipients": {
+                    "type": "array",
+                    "description": "Optional override. When supplied, the replay mails the original's creative to these recipients instead of the ones the original reached. Each recipient requires an `address`; unlike the send endpoints, an address-less recipient is not accepted.",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["address"],
+                      "properties": {
+                        "name": { "type": "string", "example": "Tobias Example" },
+                        "company": { "type": "string", "example": "www.thanks.io" },
+                        "address": { "type": "string", "example": "123 Main Street" },
+                        "address2": { "type": "string", "example": "Apartment 1" },
+                        "city": { "type": "string", "example": "Any Town" },
+                        "province": { "type": "string", "description": "State or Province", "example": "KS" },
+                        "postal_code": { "type": "string", "example": "12345" },
+                        "country": { "type": "string", "example": "US" }
+                      }
+                    }
+                  },
+                  "schedule_for": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Optional send date for the replay. Any format Carbon can parse is accepted; the date-only portion is stored.",
+                    "example": "2025-09-15"
+                  },
+                  "metadata": {
+                    "type": ["object", "null"],
+                    "description": "Optional metadata for the replay. Same shape and limits as the send endpoints — returned unchanged by the order endpoints and included in every webhook event for the order as `order.metadata`. When omitted, the original order's metadata is carried over.",
+                    "additionalProperties": true,
+                    "example": {
+                      "crm_deal_id": "D-1042",
+                      "campaign": "spring-winback"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Replay to Original Recipients": {
+                  "summary": "Replay with no body",
+                  "description": "Submit a copy of the order and mail it to the same recipients the original reached. Failed recipients are excluded.",
+                  "value": {}
+                },
+                "Replay to New Recipients": {
+                  "summary": "Send the same creative to a different audience",
+                  "description": "Reuse the original order's creative but supply a fresh recipient list.",
+                  "value": {
+                    "recipients": [
+                      {
+                        "name": "Grace Hopper",
+                        "address": "1 Navy Yard",
+                        "city": "Phoenix",
+                        "province": "AZ",
+                        "postal_code": "85001",
+                        "country": "US"
+                      },
+                      {
+                        "name": "Alan Turing",
+                        "address": "2 Bletchley Park",
+                        "city": "Phoenix",
+                        "province": "AZ",
+                        "postal_code": "85001",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                },
+                "Replay Scheduled with Metadata": {
+                  "summary": "Schedule the replay and attach metadata",
+                  "description": "Schedule the replay for a future send date and attach your own key/value data.",
+                  "value": {
+                    "schedule_for": "2025-09-15",
+                    "metadata": {
+                      "crm_deal_id": "D-1042",
+                      "campaign": "spring-winback"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Replay submitted. The response body mirrors the send endpoints' order-submitted shape, with an added `replayed_from_order_id` pointing back to the source order.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/send-mailer-order-response"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "replayed_from_order_id": {
+                          "type": "integer",
+                          "description": "ID of the source order this replay was copied from.",
+                          "example": 42708
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "id": 42709,
+                  "user_id": 2,
+                  "replayed_from_order_id": 42708,
+                  "type": "postcard",
+                  "size": "4x6",
+                  "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                  "front_image": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
+                  "total_estimated_recipients": 1,
+                  "authorization_total": 73,
+                  "status": "reviewing",
+                  "method": "api",
+                  "display_status": "Reviewing",
+                  "display_trigger": "API",
+                  "display_type": "Postcard-4x6",
+                  "metadata": {
+                    "crm_deal_id": "D-1042"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The order cannot be replayed. This includes a cancelled order, an order that has not settled yet, an order with no successfully mailed recipients (when `recipients` is not supplied), a charge failure, or a concurrent replay of the same order.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Not Settled": {
+                    "summary": "Order Still Fulfilling",
+                    "value": {
+                      "status": "Order #42708 is still being fulfilled and cannot be replayed until it has settled.",
+                      "message": "Order #42708 is still being fulfilled and cannot be replayed until it has settled.",
+                      "failure": true
+                    }
+                  },
+                  "Charge Failed": {
+                    "summary": "Charge Failed During Replay",
+                    "value": {
+                      "status": "Charge failed during order replay - Please verify your payment information in your thanks.io dashboard",
+                      "message": "Charge failed during order replay - Please verify your payment information in your thanks.io dashboard"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The authenticated account does not own this order."
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "message": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "code": "api_disabled_payment_failures"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body — most commonly a recipient without an `address`, or an empty `recipients` array."
+          }
+        }
+      }
     }
   }
 }
