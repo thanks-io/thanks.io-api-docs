@@ -5,6 +5,18 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="September 4" tags={["New Feature", "API"]} >
+
+## List the Individual Mail Pieces in an Order
+
+You can now list every mail piece in an order through the API, instead of only order-level totals. Each item returns its delivery status, delivery date, QR scan count, any delivery failure reason, and the recipient's details including all ten custom fields, and results are paginated with `per_page` and `page`.
+
+Gift card orders also include each card's brand and amount. Useful for reconciling a mailing piece by piece or syncing per-recipient delivery status into your CRM.
+
+See the [List Order Items API reference](/api-reference/endpoint/orders/list-order-items) to get started.
+
+</Update>
+
 <Update label="September 3" tags={["New Feature"]} >
 
 ## AI House Effects: Put the Recipient's Own Home on the Mail

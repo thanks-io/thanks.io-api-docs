@@ -456,6 +456,157 @@
           }
         }
       },
+      "order-item": {
+        "type": "object",
+        "description": "A single mail piece within an order — one recipient's postcard, letter, notecard, magnacard or gift card.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the order item. This is the same identifier carried by order item webhook events.",
+            "example": 2668662
+          },
+          "status": {
+            "type": "string",
+            "description": "Current delivery status of this piece.",
+            "enum": ["Processing", "Printed", "In Transit", "In Local Area", "Processed for Delivery", "Delivered", "Re-routed", "Returned to Sender", "Failed"],
+            "example": "In Transit"
+          },
+          "delivery_date": {
+            "type": ["string", "null"],
+            "format": "date",
+            "description": "Date the piece was delivered, or `null` if it has not been delivered yet.",
+            "example": "2025-09-15"
+          },
+          "scans": {
+            "type": "integer",
+            "description": "Number of times this piece's QR code has been scanned.",
+            "example": 0
+          },
+          "failure": {
+            "type": ["string", "null"],
+            "description": "Reason the piece could not be mailed or delivered, or `null` if there was no failure.",
+            "example": "USPS lists address as 'no-stat' - address is unlikely to receive mail."
+          },
+          "recipient": {
+            "type": "object",
+            "description": "Recipient details as submitted with the order \u2014 the mailing address plus the ten custom fields.",
+            "properties": {
+              "name": {
+                "type": ["string", "null"],
+                "example": "Tobias Example"
+              },
+              "company": {
+                "type": ["string", "null"],
+                "example": "thanks.io"
+              },
+              "address": {
+                "type": ["string", "null"],
+                "example": "12345 Main Street"
+              },
+              "address2": {
+                "type": ["string", "null"],
+                "example": "Apartment 1"
+              },
+              "city": {
+                "type": ["string", "null"],
+                "example": "Any Town"
+              },
+              "province": {
+                "type": ["string", "null"],
+                "description": "State or Province",
+                "example": "KS"
+              },
+              "postal_code": {
+                "type": ["string", "null"],
+                "example": "12345"
+              },
+              "country": {
+                "type": ["string", "null"],
+                "example": "US"
+              },
+              "email": {
+                "type": ["string", "null"],
+                "example": "tobias@example.com"
+              },
+              "phone": {
+                "type": ["string", "null"],
+                "example": "5555555555"
+              },
+              "custom1": {
+                "type": ["string", "null"],
+                "description": "Custom field 1 as submitted with the order.",
+                "example": "Unique Info"
+              },
+              "custom2": {
+                "type": ["string", "null"],
+                "description": "Custom field 2 as submitted with the order.",
+                "example": "For example a product code or customer ID"
+              },
+              "custom3": {
+                "type": ["string", "null"],
+                "description": "Custom field 3 as submitted with the order.",
+                "example": ""
+              },
+              "custom4": {
+                "type": ["string", "null"],
+                "description": "Custom field 4 as submitted with the order.",
+                "example": ""
+              },
+              "custom5": {
+                "type": ["string", "null"],
+                "description": "Custom field 5 as submitted with the order.",
+                "example": ""
+              },
+              "custom6": {
+                "type": ["string", "null"],
+                "description": "Custom field 6 as submitted with the order.",
+                "example": ""
+              },
+              "custom7": {
+                "type": ["string", "null"],
+                "description": "Custom field 7 as submitted with the order.",
+                "example": ""
+              },
+              "custom8": {
+                "type": ["string", "null"],
+                "description": "Custom field 8 as submitted with the order.",
+                "example": ""
+              },
+              "custom9": {
+                "type": ["string", "null"],
+                "description": "Custom field 9 as submitted with the order.",
+                "example": ""
+              },
+              "custom10": {
+                "type": ["string", "null"],
+                "description": "Custom field 10 as submitted with the order.",
+                "example": ""
+              }
+            }
+          },
+          "giftcard": {
+            "type": ["object", "null"],
+            "description": "Present only on gift card orders. `null` when the gift card for this piece has not been issued yet. The redemption code, claim link and rendered card image are never returned.",
+            "properties": {
+              "brand": {
+                "type": "string",
+                "description": "Brand code of the gift card.",
+                "example": "amazonus"
+              },
+              "amount": {
+                "type": "integer",
+                "description": "Face value of the gift card in cents.",
+                "example": 2500
+              }
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-08T16:05:12.000000Z"
+          }
+        }
+      },
       "giftcard-group": {
         "type": "object",
         "properties": {
@@ -8077,6 +8228,214 @@
                       }
                     ],
                     "returned": []
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{orderId}/items": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "List Order Items",
+        "description": "Return the individual mail pieces that make up an order, one entry per recipient, with that piece's delivery status, delivery date, QR scan count, failure reason and recipient address. Use this when you need per-piece detail; Track Order returns the same order as aggregate counts instead.\n\nResults are paginated and ordered by item ID, ascending. The order must belong to the authenticated account.\n\nFor gift card orders each item also carries the gift card's `brand` and `amount`.\n\nThe recipient's ten custom fields come back alongside the address, so the data you merged into the piece is available with it. Message content, creative and preview images, and per-item pricing are not part of this response; read those from the order itself.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "ID of the order whose items you want to list."
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "description": "Number of items to return per page. Must be between 1 and 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            },
+            "example": 25
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page of results to return.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/order-item"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 2668662,
+                      "status": "In Transit",
+                      "delivery_date": null,
+                      "scans": 0,
+                      "failure": null,
+                      "recipient": {
+                        "name": "Tobias Example",
+                        "company": "thanks.io",
+                        "address": "12345 Main Street",
+                        "address2": "Apartment 1",
+                        "city": "Any Town",
+                        "province": "KS",
+                        "postal_code": "12345",
+                        "country": "US",
+                        "email": "tobias@example.com",
+                        "phone": "5555555555",
+                        "custom1": "Unique Info",
+                        "custom2": "For example a product code or customer ID",
+                        "custom3": "",
+                        "custom4": "",
+                        "custom5": "",
+                        "custom6": "",
+                        "custom7": "",
+                        "custom8": "",
+                        "custom9": "",
+                        "custom10": ""
+                      },
+                      "created_at": "2025-09-08T16:05:12.000000Z"
+                    },
+                    {
+                      "id": 2668663,
+                      "status": "Delivered",
+                      "delivery_date": "2025-09-15",
+                      "scans": 2,
+                      "failure": null,
+                      "recipient": {
+                        "name": "Current Resident",
+                        "company": null,
+                        "address": "1 Main Street",
+                        "address2": "",
+                        "city": "Fake City",
+                        "province": "FC",
+                        "postal_code": "12345",
+                        "country": "US",
+                        "email": null,
+                        "phone": null,
+                        "custom1": null,
+                        "custom2": null,
+                        "custom3": null,
+                        "custom4": null,
+                        "custom5": null,
+                        "custom6": null,
+                        "custom7": null,
+                        "custom8": null,
+                        "custom9": null,
+                        "custom10": null
+                      },
+                      "created_at": "2025-09-08T16:05:12.000000Z"
+                    }
+                  ],
+                  "links": {
+                    "first": "https://api.thanks.io/api/v2/orders/42708/items?page=1",
+                    "last": "https://api.thanks.io/api/v2/orders/42708/items?page=1",
+                    "prev": null,
+                    "next": null
+                  },
+                  "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 1,
+                    "path": "https://api.thanks.io/api/v2/orders/42708/items",
+                    "per_page": 50,
+                    "to": 2,
+                    "total": 2
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The access token is missing or invalid, or the order belongs to another account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["Unauthorized"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "description": "Validation failed on the query string — most commonly a `per_page` outside 1-100.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "errors": {
+                    "per_page": ["The per page field must be between 1 and 100."]
                   }
                 }
               }
