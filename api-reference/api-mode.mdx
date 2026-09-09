@@ -1,5 +1,6 @@
 ---
 title: API Testing Mode
+description: "Cancel API orders automatically while you build, and understand the 5-record Radius Search limit that applies while it is on."
 mode: "wide"
 ---
 
@@ -10,8 +11,32 @@ API Testing Mode automatically cancels all orders submitted through the API. Use
 - Accepts API orders normally so you can validate your payloads and workflow.
 - Automatically cancels those orders instead of mailing them.
 - Prevents accidental production sends during development.
+- Limits a [Radius Search](/api-reference/endpoint/mailing-lists/radius-search) bought through the API or Zapier to 5 records per purchase.
 
 If testing mode is off, you have one hour to cancel an order manually before it moves further into fulfillment.
+
+## Buying Leads Is Not an Order
+
+Cancellation covers orders. Buying a Radius Search is not an order — the records are charged for at $0.05 each the moment they are bought, and there is nothing to cancel afterwards. Testing mode does not make that free, so it caps the purchase instead.
+
+While testing mode is on, a Radius Search bought through the API or Zapier is limited to **5 records per purchase**. A larger `record_count` is refused with a `422` before anything is bought:
+
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "record_count": [
+      "Test mode is enabled on this account, so a radius search bought via API or Zapier is limited to 5 records per purchase. Nothing was purchased and the account was not charged. Send record_count of 5 or fewer, or turn test mode off in the dashboard under API Settings to buy a full list."
+    ]
+  }
+}
+```
+
+The request is refused during validation, so no leads are bought and the account is not charged. Buying a Radius Search from the dashboard is not affected and keeps the full 2,500 record limit.
+
+<Note>
+  Five records is enough to see the shape of a real response and wire up your handling. Turn testing mode off when you are ready to buy a full list.
+</Note>
 
 ## When to Use It
 

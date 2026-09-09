@@ -3457,7 +3457,7 @@
       "post": {
         "tags": ["Mailing Lists"],
         "summary": "Radius Search",
-        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05. You can specify the number of records to return (up to 2,500) and the address/postal code to center the search around. You can also specify a mailing_list_id to add the results to an existing mailing list, or leave it blank to create a new mailing list.",
+        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05. You can specify the number of records to return (up to 2,500) and the address/postal code to center the search around. You can also specify a mailing_list_id to add the results to an existing mailing list, or leave it blank to create a new mailing list. While API/Zapier Test Mode is enabled on the account, this endpoint is limited to 5 records per purchase \u2014 test mode cancels orders, but buying a radius search is not an order and is charged in full, so the limit is what keeps an integration under development from buying a full list by accident.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3482,7 +3482,7 @@
                   },
                   "record_count": {
                     "type": "integer",
-                    "description": "Number of nearest neighbors to search for.",
+                    "description": "Number of nearest neighbors to search for. While API/Zapier Test Mode is enabled on the account, a purchase through this endpoint is limited to 5 records; a larger value is refused with a 422 and nothing is bought or charged. Buying from the dashboard is not affected and keeps the full 2,500.",
                     "minimum": 1,
                     "maximum": 2500,
                     "example": 1
@@ -3648,6 +3648,38 @@
                       "nullable": true,
                       "description": "The order the original purchase was bought for, when the search was bought as part of a send.",
                       "example": null
+                    },
+                    "failure": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Record count above the API/Zapier Test Mode limit. While test mode is enabled on the account, a purchase through this endpoint is limited to 5 records. The request is refused during validation, so no leads are bought, the account is not charged, and the 24 hour duplicate purchase window is not used up. Send a record_count of 5 or fewer, or turn off API/Zapier Test Mode in API Settings to buy a full list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The given data was invalid."
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "record_count": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": ["Test mode is enabled on this account, so a radius search bought via API or Zapier is limited to 5 records per purchase. Nothing was purchased and the account was not charged. Send record_count of 5 or fewer, or turn test mode off in the dashboard under API Settings to buy a full list."]
+                        }
+                      }
                     },
                     "failure": {
                       "type": "boolean",
