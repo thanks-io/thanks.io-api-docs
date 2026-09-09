@@ -3457,7 +3457,7 @@
       "post": {
         "tags": ["Mailing Lists"],
         "summary": "Radius Search",
-        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05. You can specify the number of records to return (up to 10,000) and the address/postal code to center the search around. You can also specify a mailing_list_id to add the results to an existing mailing list, or leave it blank to create a new mailing list.",
+        "description": "This call will purchase a radius search mailing listing and add it to your account. Each record added to the mailing list costs $.05. You can specify the number of records to return (up to 2,500) and the address/postal code to center the search around. You can also specify a mailing_list_id to add the results to an existing mailing list, or leave it blank to create a new mailing list.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3484,7 +3484,7 @@
                     "type": "integer",
                     "description": "Number of nearest neighbors to search for.",
                     "minimum": 1,
-                    "maximum": 10000,
+                    "maximum": 2500,
                     "example": 1
                   },
                   "record_types": {
@@ -3621,6 +3621,42 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "description": "Duplicate radius search purchase. An identical purchase was already made from this account within the last 24 hours and was refused so the records are not bought twice. The response carries the identifiers the original purchase produced, so use those instead of retrying. Change any search parameter, or wait for the window to pass, to buy again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "An identical radius search purchase was already made from this account within the last 24 hours. Change the search parameters, or wait 24 hours, to buy these leads again."
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "duplicate_radius_search"
+                    },
+                    "mailing_list_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "The mailing list the original purchase created, when it produced one.",
+                      "example": 1196
+                    },
+                    "order_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "The order the original purchase was bought for, when the search was bought as part of a send.",
+                      "example": null
+                    },
+                    "failure": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
