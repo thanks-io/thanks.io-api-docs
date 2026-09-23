@@ -5,6 +5,22 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="September 23" tags={["New Feature", "HubSpot"]} >
+
+## Add HubSpot Records to a Mailing List from Workflows
+
+HubSpot's workflow builder now has a seventh thanks.io action: **Add to Mailing List**. Instead of mailing anything, it adds each enrolled contact or company to the thanks.io mailing list you pick in the step. The dropdown shows your own lists, and a list you create in thanks.io or from the record's **Add to a mailing list** card appears there right away.
+
+Recipient fields default to the record's own name, company, address, and email, and each can be mapped to a different HubSpot property, just like the send actions. Ten **Custom field 1-10** inputs map any HubSpot property onto the recipient's custom fields, ready to use as merge variables in later mail. A custom field left blank keeps whatever value is already stored.
+
+- Enrolling the same record again updates it in place rather than adding a duplicate, and it's the same recipient as one added from the record card.
+- A record missing its street address or postal code is looked up from its email by **Email to Address lookup**, billed only for each address it finds. The lookup is on by default; set it to **Off** and an address-less record fails its enrollment instead of being looked up. A record that already has an address, or is already on the list, is never looked up.
+- The step outputs a **Result** (added, updated, or already on list), the list and recipient IDs, and where the address came from, so later workflow steps can branch on it.
+
+Pair the list with an automated campaign and every record your workflow adds gets mailed. [Read more](https://help.thanks.io/integrations/hubspot).
+
+</Update>
+
 <Update label="September 22" tags={["New Feature"]} >
 
 ## See How Your Referral Links Are Performing
