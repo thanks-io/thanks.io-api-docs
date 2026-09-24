@@ -6,6 +6,15 @@ icon: 'file-pdf'
 
 Windowed and Windowless Letters can be sent by submitting only a PDF URL via the API.
 
+Send each recipient's address in the `recipients` array, not in the PDF. thanks.io prints the address for you:
+
+- **Windowed letters** (`/send/windowedletter`): the recipient's name and address are printed in the upper-left area of page 1, where they show through the envelope window.
+- **Windowless letters** (`/send/windowlessletter`): the address is printed on the envelope, so your PDF can use the full page.
+
+<Warning>
+For windowed letters, leave the upper-left address area of page 1 blank. Do not put a recipient address in your PDF. An address already in the PDF is printed over, and the recipient receives a letter with two overlapping addresses.
+</Warning>
+
 ```bash
   curl -X POST "https://api.thanks.io/api/v2/send/windowlessletter" \
     -H "Content-Type: application/json" \

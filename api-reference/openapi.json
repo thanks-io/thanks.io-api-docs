@@ -997,7 +997,7 @@
           "pdf_only_url": {
             "type": "string",
             "format": "uri",
-            "description": "URL to PDF file to use for entire mailer. If this is specified, no cover letter is generated.  Valid for letter templates only. Providing this URL automatically sets skip_creative_generation to true.",
+            "description": "URL to PDF file to use for entire mailer. If this is specified, no cover letter is generated.  Valid for letter templates only. Providing this URL automatically sets skip_creative_generation to true. For windowed letter templates, leave the upper-left address area of page 1 blank and do not include a recipient address in the PDF; thanks.io prints each recipient's address there.",
             "example": "https://example.com/mailer.pdf"
           },
           "custom_background_url": {
@@ -1101,7 +1101,7 @@
           "pdf_only_url": {
             "type": "string",
             "format": "uri",
-            "description": "URL to PDF file to use for entire mailer. If this is specified, no cover letter is generated.  Valid for letter templates only. Providing this URL automatically sets skip_creative_generation to true."
+            "description": "URL to PDF file to use for entire mailer. If this is specified, no cover letter is generated.  Valid for letter templates only. Providing this URL automatically sets skip_creative_generation to true. For windowed letter templates, leave the upper-left address area of page 1 blank and do not include a recipient address in the PDF; thanks.io prints each recipient's address there."
           },
           "custom_background_url": {
             "type": "string",
@@ -4396,7 +4396,7 @@
                       },
                       "pdf_only_url": {
                         "type": "string",
-                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated.",
+                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated. Do not include the recipient's address in your PDF: thanks.io prints each recipient's name and address in the upper-left area of page 1, where it shows through the envelope window. Leave that area blank; an address already in the PDF is printed over.",
                         "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
                       }
                     }
@@ -4436,7 +4436,7 @@
                 },
                 "PDF File Only": {
                   "summary": "Windowed Letter with PDF File Only",
-                  "description": "Example of sending a windowed letter with a PDF file attachment, targeting specific mailing lists.",
+                  "description": "Example of sending a windowed letter with a PDF file attachment, targeting specific mailing lists. Leave the upper-left address area of page 1 blank in your PDF; thanks.io prints each recipient's address there.",
                   "value": {
                     "pdf_only_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                     "mailing_list_ids": [5166, 514]
@@ -4653,7 +4653,7 @@
                       },
                       "pdf_only_url": {
                         "type": "string",
-                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated.",
+                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated. The recipient's address is printed on the envelope, so do not include it in your PDF; the full page is available for your content.",
                         "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
                       }
                     }
