@@ -3493,6 +3493,8 @@
                     "enum": [
                       "all",
                       "likelytomove",
+                      "apartmentcomplex",
+                      "likelytodownsize",
                       "likelytorefi",
                       "absenteeowner",
                       "highnetworth",
@@ -3514,7 +3516,7 @@
                   "include_condos": {
                     "type": "boolean",
                     "description": "Include condos in search.",
-                    "default": false
+                    "default": true
                   },
                   "append_data": {
                     "type": "boolean",
@@ -3678,6 +3680,160 @@
                             "type": "string"
                           },
                           "example": ["Test mode is enabled on this account, so a radius search bought via API or Zapier is limited to 5 records per purchase. Nothing was purchased and the account was not charged. Send record_count of 5 or fewer, or turn test mode off in the dashboard under API Settings to buy a full list."]
+                        }
+                      }
+                    },
+                    "failure": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/mailing-lists-utils/count-radius-search": {
+      "post": {
+        "tags": ["Mailing Lists"],
+        "summary": "Radius Search Count",
+        "description": "This call reports how many records a radius search would find, without buying them. Nothing is charged, no mailing list is created, and the call can be repeated freely, so use it to preview a search before purchasing it with the Radius Search endpoint. It accepts the same search parameters with the same defaults, so sending the same payload to both counts exactly what would be bought. Because counting is free, record_count may go up to 10,000 and the API/Zapier Test Mode purchase limit does not apply.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["address", "postal_code", "record_count"],
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "example": "123 Main Street",
+                    "description": "Street address to use for center of nearest neighbor search."
+                  },
+                  "postal_code": {
+                    "type": "string",
+                    "example": "55555",
+                    "description": "Postal code to use for center of nearest neighbor search."
+                  },
+                  "record_count": {
+                    "type": "integer",
+                    "description": "Maximum number of nearest neighbors to count. The response reports how many records the search actually finds, up to this number.",
+                    "minimum": 1,
+                    "maximum": 10000,
+                    "example": 100
+                  },
+                  "record_types": {
+                    "type": "string",
+                    "description": "Which type of records to search for",
+                    "enum": [
+                      "all",
+                      "likelytomove",
+                      "apartmentcomplex",
+                      "likelytodownsize",
+                      "likelytorefi",
+                      "absenteeowner",
+                      "highnetworth",
+                      "majorityhomeequity",
+                      "homefreeclear",
+                      "underwater",
+                      "kidsinhousehold",
+                      "newhomeowner",
+                      "firsttimehomebuyer",
+                      "renters",
+                      "retiring",
+                      "retired",
+                      "pool",
+                      "onlybusinesses",
+                      "newbusiness"
+                    ],
+                    "default": "all"
+                  },
+                  "include_condos": {
+                    "type": "boolean",
+                    "description": "Include condos in search.",
+                    "default": true
+                  }
+                }
+              },
+              "examples": {
+                "Count Before Buying": {
+                  "value": {
+                    "address": "123 Main Street",
+                    "postal_code": "55555",
+                    "record_types": "all",
+                    "record_count": 100,
+                    "include_condos": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "description": "Number of records the search found, up to record_count.",
+                      "example": 42
+                    },
+                    "failure": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "count": 42,
+                  "failure": false
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "description": "Validation error. The request was refused before the search ran, so no count was performed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The given data was invalid."
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "record_count": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": ["The record count field must not be greater than 10000."]
                         }
                       }
                     },

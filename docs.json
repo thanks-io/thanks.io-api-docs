@@ -179,6 +179,7 @@
                     "api-reference/endpoint/mailing-lists/delete-mailing-list",
 
                     "api-reference/endpoint/mailing-lists/list-recipients",
+                    "api-reference/endpoint/mailing-lists/radius-search-count",
                     "api-reference/endpoint/mailing-lists/radius-search"
                 ]
               },
