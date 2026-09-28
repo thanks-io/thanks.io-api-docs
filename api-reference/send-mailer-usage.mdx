@@ -36,6 +36,10 @@ All of these endpoints follow the same core pattern: define the audience, provid
 
 Any order can be previewed by setting the `preview` parameter to `true`. The response will return links to PNG previews of the mailer instead of creating a production order.
 
+# Estimate
+
+To see what an order will cost before you send it, post the same request body to the matching [Order Estimates](/api-reference/endpoint/estimate/estimate-postcard) endpoint, such as `/api/v2/estimate/postcard`. The response returns the total, a cost breakdown, and whether your account balance covers it. Nothing is charged and no order is created.
+
 # Requirements
 
 In general, all mailers require recipients. Creative content is required unless you provide `message` content or use `pdf_only_url`, and the exact requirements vary by mailpiece type.

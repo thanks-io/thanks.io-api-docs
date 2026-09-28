@@ -197,6 +197,18 @@
                 ]
               },
               {
+                "group": "Order Estimates",
+                "icon": "calculator",
+                "pages": [
+                    "api-reference/endpoint/estimate/estimate-postcard",
+                    "api-reference/endpoint/estimate/estimate-windowed-letter",
+                    "api-reference/endpoint/estimate/estimate-windowless-letter",
+                    "api-reference/endpoint/estimate/estimate-notecard",
+                    "api-reference/endpoint/estimate/estimate-giftcard",
+                    "api-reference/endpoint/estimate/estimate-magnacard"
+                ]
+              },
+              {
                 "group": "Message Templates",
                 "icon": "message",
                 "pages": [
@@ -222,7 +234,8 @@
                     "api-reference/endpoint/orders/track-order",
                     "api-reference/endpoint/orders/list-order-items",
                     "api-reference/endpoint/orders/cancel-order",
-                    "api-reference/endpoint/orders/replay-order"
+                    "api-reference/endpoint/orders/replay-order",
+                    "api-reference/endpoint/orders/invalidate-giftcard"
                 ]
               },
               {

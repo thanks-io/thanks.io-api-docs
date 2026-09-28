@@ -597,6 +597,18 @@
                 "type": "integer",
                 "description": "Face value of the gift card in cents.",
                 "example": 2500
+              },
+              "redeemed_at": {
+                "type": ["string", "null"],
+                "format": "date-time",
+                "description": "When the recipient redeemed the gift card, or `null` if it has not been redeemed.",
+                "example": null
+              },
+              "invalidated_at": {
+                "type": ["string", "null"],
+                "format": "date-time",
+                "description": "When the gift card was invalidated, or `null` if it has not been. An invalidated gift card can no longer be redeemed.",
+                "example": null
               }
             }
           },
@@ -1740,6 +1752,131 @@
           }
         }
       },
+      "estimate-response": {
+        "type": "object",
+        "title": "Estimate Response",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "OK"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Mailer type that was priced. A 6x11 postcard is reported as `postcard6x11`.",
+                "enum": [
+                  "postcard",
+                  "postcard6x11",
+                  "letter",
+                  "windowlessletter",
+                  "notecard",
+                  "magnacard",
+                  "giftcard"
+                ],
+                "example": "postcard"
+              },
+              "size": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Postcard size that was priced. `null` for other mailer types.",
+                "example": "4x6"
+              },
+              "total_recipients": {
+                "type": "integer",
+                "description": "Number of pieces the order would mail.",
+                "example": 2
+              },
+              "recipients": {
+                "type": "object",
+                "description": "`total_recipients` split by destination.",
+                "properties": {
+                  "united_states": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "international": {
+                    "type": "integer",
+                    "example": 0
+                  }
+                }
+              },
+              "pending_email_lookups": {
+                "type": "integer",
+                "description": "Recipients sent with an email address but no mailing address. The estimate does not run the email-to-address lookup, so they are priced as if an address is found. Any whose address can't be found when you send are not mailed or charged.",
+                "example": 0
+              },
+              "costs_in_cents": {
+                "type": "object",
+                "description": "Breakdown of the total, in cents.",
+                "properties": {
+                  "united_states": {
+                    "type": "integer",
+                    "description": "Printing and postage for US pieces.",
+                    "example": 236
+                  },
+                  "international": {
+                    "type": "integer",
+                    "description": "Printing and postage for international pieces.",
+                    "example": 0
+                  },
+                  "additional_pages": {
+                    "type": "integer",
+                    "description": "Additional letter pages, priced per page. `0` for other mailer types.",
+                    "example": 0
+                  },
+                  "giftcard_face_value": {
+                    "type": "integer",
+                    "description": "Combined face value of every gift card in the order. `0` for other mailer types.",
+                    "example": 0
+                  },
+                  "grand_total": {
+                    "type": "integer",
+                    "description": "Everything except gift card face value. This can include fees not broken out above, such as radius search records.",
+                    "example": 236
+                  }
+                }
+              },
+              "total_cost_in_cents": {
+                "type": "integer",
+                "description": "The order total: `grand_total` plus `giftcard_face_value`. For every mailer type except gift cards, this is what the same request is charged when you send it. See Estimate Giftcard for how gift card face value is billed.",
+                "example": 236
+              },
+              "total_cost": {
+                "type": "string",
+                "description": "`total_cost_in_cents` formatted in dollars.",
+                "example": "$2.36"
+              },
+              "current_balance_in_cents": {
+                "type": "integer",
+                "description": "Your account's credit balance right now.",
+                "example": 5000
+              },
+              "covered_by_balance": {
+                "type": "boolean",
+                "description": "`true` if `current_balance_in_cents` covers `total_cost_in_cents`.",
+                "example": true
+              },
+              "test_mode": {
+                "type": "boolean",
+                "description": "`true` if API Test Mode is on for your account. The estimate always quotes your real rates, while a send in test mode is not charged.",
+                "example": false
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Plain-language caveats about anything that could make the real charge differ, such as email-only recipients or a PDF whose pages could not be counted. Empty when there are none.",
+                "example": []
+              }
+            }
+          }
+        }
+      },
       "send-mailer-base": {
         "type": "object",
         "properties": {
@@ -2289,6 +2426,9 @@
     },
     {
       "name": "Send Mailer"
+    },
+    {
+      "name": "Order Estimates"
     },
     {
       "name": "Orders"
@@ -5368,6 +5508,937 @@
       }
     },
 
+    "/estimate/postcard": {
+      "post": {
+        "tags": [
+          "Order Estimates"
+        ],
+        "summary": "Estimate Postcard",
+        "description": "Price a postcard order without placing it. Send the same request body you would send to Send Postcard: nothing is charged, nothing is printed or mailed, and no order is created.\n\nThe request is validated exactly as the send is, so a payload the send would reject is rejected here too. Recipients with only an email address are priced as if the email-to-address lookup finds them, and counted in `pending_email_lookups`. A `radius_search` is counted and priced, but no records are purchased.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template_id": {
+                        "type": "integer",
+                        "description": "ID of image template to use for front of postcard.  Required if front_image_url is not specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards. Required if image_template_id is not specified.",
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for content on back of postcard.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template_id": {
+                        "type": "integer",
+                        "description": "ID of message template to use for content on back of postcard.",
+                        "example": 12
+                      },
+                      "use_custom_background": {
+                        "type": "boolean",
+                        "description": "Use custom background image. This can be used to turn off the default background image.",
+                        "default": false
+                      },
+                      "custom_background_image": {
+                        "type": "string",
+                        "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.",
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code on back of postcard. If not specified, account default QR code URL will be used.",
+                        "example": "https://www.google.com"
+                      },
+                      "size": {
+                        "type": "string",
+                        "description": "Size of the postcard.",
+                        "default": "4x6",
+                        "enum": [
+                          "4x6",
+                          "6x9",
+                          "6x11"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "4x6 w/ Image URL/Recipients": {
+                  "summary": "4x6 Postcard with Custom Image and Recipients",
+                  "description": "Example of sending a 4x6 postcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "size": "4x6",
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style_id": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The order was priced. Nothing was charged and no order was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimate-response"
+                },
+                "example": {
+                  "message": "OK",
+                  "data": {
+                    "type": "postcard",
+                    "size": "4x6",
+                    "total_recipients": 2,
+                    "recipients": {
+                      "united_states": 2,
+                      "international": 0
+                    },
+                    "pending_email_lookups": 0,
+                    "costs_in_cents": {
+                      "united_states": 236,
+                      "international": 0,
+                      "additional_pages": 0,
+                      "giftcard_face_value": 0,
+                      "grand_total": 236
+                    },
+                    "total_cost_in_cents": 236,
+                    "total_cost": "$2.36",
+                    "current_balance_in_cents": 5000,
+                    "covered_by_balance": true,
+                    "test_mode": false,
+                    "notes": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "message": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "code": "api_disabled_payment_failures"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body, exactly as it would on the matching send."
+          }
+        }
+      }
+    },
+    "/estimate/windowedletter": {
+      "post": {
+        "tags": [
+          "Order Estimates"
+        ],
+        "summary": "Estimate Windowed Letter",
+        "description": "Price a windowed letter order without placing it. Send the same request body you would send to Send Windowed Letter: nothing is charged, nothing is printed or mailed, and no order is created.\n\nThe request is validated exactly as the send is, so a payload the send would reject is rejected here too. Recipients with only an email address are priced as if the email-to-address lookup finds them, and counted in `pending_email_lookups`. A `radius_search` is counted and priced, but no records are purchased.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template_id": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for cover letter.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template_id": {
+                        "type": "integer",
+                        "description": "ID of message template to use for cover letter.",
+                        "example": 12
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code on cover letter.",
+                        "example": "https://www.google.com"
+                      },
+                      "additional_pages_url": {
+                        "type": "string",
+                        "description": "URL to additional pages to include with the cover letter.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      },
+                      "pdf_only_url": {
+                        "type": "string",
+                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated. Do not include the recipient's address in your PDF: thanks.io prints each recipient's name and address in the upper-left area of page 1, where it shows through the envelope window. Leave that area blank; an address already in the PDF is printed over.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Windowed Letter with Custom Image and Recipients",
+                  "description": "Example of sending a windowed letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The order was priced. Nothing was charged and no order was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimate-response"
+                },
+                "example": {
+                  "message": "OK",
+                  "data": {
+                    "type": "letter",
+                    "size": null,
+                    "total_recipients": 2,
+                    "recipients": {
+                      "united_states": 2,
+                      "international": 0
+                    },
+                    "pending_email_lookups": 0,
+                    "costs_in_cents": {
+                      "united_states": 236,
+                      "international": 0,
+                      "additional_pages": 0,
+                      "giftcard_face_value": 0,
+                      "grand_total": 236
+                    },
+                    "total_cost_in_cents": 236,
+                    "total_cost": "$2.36",
+                    "current_balance_in_cents": 5000,
+                    "covered_by_balance": true,
+                    "test_mode": false,
+                    "notes": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "message": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "code": "api_disabled_payment_failures"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body, exactly as it would on the matching send."
+          }
+        }
+      }
+    },
+    "/estimate/windowlessletter": {
+      "post": {
+        "tags": [
+          "Order Estimates"
+        ],
+        "summary": "Estimate Windowless Letter",
+        "description": "Price a windowless letter order without placing it. Send the same request body you would send to Send Windowless Letter: nothing is charged, nothing is printed or mailed, and no order is created.\n\nThe request is validated exactly as the send is, so a payload the send would reject is rejected here too. Recipients with only an email address are priced as if the email-to-address lookup finds them, and counted in `pending_email_lookups`. A `radius_search` is counted and priced, but no records are purchased.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template_id": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for cover letter.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template_id": {
+                        "type": "integer",
+                        "description": "ID of message template to use for cover letter.",
+                        "example": 12
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code on cover letter.",
+                        "example": "https://www.google.com"
+                      },
+                      "additional_pages_url": {
+                        "type": "string",
+                        "description": "URL to additional pages to include with the cover letter.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      },
+                      "pdf_only_url": {
+                        "type": "string",
+                        "description": "URL to PDF file to use for entire mailer.  If this is specified, no cover letter is generated. The recipient's address is printed on the envelope, so do not include it in your PDF; the full page is available for your content.",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Windowless Letter with Custom Image and Recipients",
+                  "description": "Example of sending a windowless letter using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style_id": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The order was priced. Nothing was charged and no order was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimate-response"
+                },
+                "example": {
+                  "message": "OK",
+                  "data": {
+                    "type": "windowlessletter",
+                    "size": null,
+                    "total_recipients": 2,
+                    "recipients": {
+                      "united_states": 2,
+                      "international": 0
+                    },
+                    "pending_email_lookups": 0,
+                    "costs_in_cents": {
+                      "united_states": 236,
+                      "international": 0,
+                      "additional_pages": 0,
+                      "giftcard_face_value": 0,
+                      "grand_total": 236
+                    },
+                    "total_cost_in_cents": 236,
+                    "total_cost": "$2.36",
+                    "current_balance_in_cents": 5000,
+                    "covered_by_balance": true,
+                    "test_mode": false,
+                    "notes": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "message": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "code": "api_disabled_payment_failures"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body, exactly as it would on the matching send."
+          }
+        }
+      }
+    },
+    "/estimate/notecard": {
+      "post": {
+        "tags": [
+          "Order Estimates"
+        ],
+        "summary": "Estimate Notecard",
+        "description": "Price a notecard order without placing it. Send the same request body you would send to Send Notecard: nothing is charged, nothing is printed or mailed, and no order is created.\n\nThe request is validated exactly as the send is, so a payload the send would reject is rejected here too. Recipients with only an email address are priced as if the email-to-address lookup finds them, and counted in `pending_email_lookups`. A `radius_search` is counted and priced, but no records are purchased.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template_id": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the exterior of the notecard.   Required if not front_image_url is specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the exterior of the notecard. Required if image_template_id is not specified.",
+                        "example": "https://cdn.thanks.io/notecard-inspirations/note1.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content to use for interior of notecard.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template_id": {
+                        "type": "integer",
+                        "description": "ID of message template to use for interior of notecard.",
+                        "example": 12
+                      },
+                      "use_custom_background": {
+                        "type": "boolean",
+                        "description": "Use custom interior background image. This can be used to turn off the default background image.",
+                        "default": false
+                      },
+                      "custom_background_image": {
+                        "type": "string",
+                        "description": "URL to custom background image to use for interior of notecard.  This image will be placed behind the handwritten message.  Must be 1650px by 2475px.",
+                        "example": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/44e9a510-78cb-11f0-a77d-dd13e72edce5.png"
+                      },
+                      "qrcode_url": {
+                        "type": "string",
+                        "description": "URL to Autogenerate QR Code in interior of notecard.",
+                        "example": "https://www.google.com"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Notecard with Custom Image and Recipients",
+                  "description": "Example of sending a notecard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style_id": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The order was priced. Nothing was charged and no order was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimate-response"
+                },
+                "example": {
+                  "message": "OK",
+                  "data": {
+                    "type": "notecard",
+                    "size": null,
+                    "total_recipients": 2,
+                    "recipients": {
+                      "united_states": 2,
+                      "international": 0
+                    },
+                    "pending_email_lookups": 0,
+                    "costs_in_cents": {
+                      "united_states": 236,
+                      "international": 0,
+                      "additional_pages": 0,
+                      "giftcard_face_value": 0,
+                      "grand_total": 236
+                    },
+                    "total_cost_in_cents": 236,
+                    "total_cost": "$2.36",
+                    "current_balance_in_cents": 5000,
+                    "covered_by_balance": true,
+                    "test_mode": false,
+                    "notes": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "message": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "code": "api_disabled_payment_failures"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body, exactly as it would on the matching send."
+          }
+        }
+      }
+    },
+    "/estimate/magnacard": {
+      "post": {
+        "tags": [
+          "Order Estimates"
+        ],
+        "summary": "Estimate Magnacard",
+        "description": "Price a magnacard order without placing it. Send the same request body you would send to Send Magnacard: nothing is charged, nothing is printed or mailed, and no order is created.\n\nThe request is validated exactly as the send is, so a payload the send would reject is rejected here too. Recipients with only an email address are priced as if the email-to-address lookup finds them, and counted in `pending_email_lookups`. A `radius_search` is counted and priced, but no records are purchased.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template_id": {
+                        "type": "integer",
+                        "description": "ID of image template to use for front of magnacard. Required if front_image_url is not specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for front of magnacard. Required if image_template_id is not specified.",
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content used for content on back of magnacard.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template_id": {
+                        "type": "integer",
+                        "description": "ID of message template to use for content on back of magnacard.",
+                        "example": 12
+                      },
+                      "use_custom_background": {
+                        "type": "boolean",
+                        "description": "Use custom background image. This can be used to turn off the default background image.",
+                        "default": false
+                      },
+                      "custom_background_image": {
+                        "type": "string",
+                        "description": "URL to custom background image to use for back of magnacard. This image will be placed behind the handwritten message.",
+                        "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "w/ Image URL/Recipients": {
+                  "summary": "Magnacard with Custom Image and Recipients",
+                  "description": "Example of sending a magnacard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://cdn.thanks.io/letter-backgrounds/bg0.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style_id": 4,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The order was priced. Nothing was charged and no order was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimate-response"
+                },
+                "example": {
+                  "message": "OK",
+                  "data": {
+                    "type": "magnacard",
+                    "size": null,
+                    "total_recipients": 2,
+                    "recipients": {
+                      "united_states": 2,
+                      "international": 0
+                    },
+                    "pending_email_lookups": 0,
+                    "costs_in_cents": {
+                      "united_states": 236,
+                      "international": 0,
+                      "additional_pages": 0,
+                      "giftcard_face_value": 0,
+                      "grand_total": 236
+                    },
+                    "total_cost_in_cents": 236,
+                    "total_cost": "$2.36",
+                    "current_balance_in_cents": 5000,
+                    "covered_by_balance": true,
+                    "test_mode": false,
+                    "notes": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "message": "API access has been temporarily disabled due to repeated payment failures. Please update your payment method.",
+                  "code": "api_disabled_payment_failures"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body, exactly as it would on the matching send."
+          }
+        }
+      }
+    },
+    "/estimate/giftcard": {
+      "post": {
+        "tags": [
+          "Order Estimates"
+        ],
+        "summary": "Estimate Giftcard",
+        "description": "Price a giftcard order without placing it. Send the same request body you would send to Send Giftcard: nothing is charged, nothing is printed or mailed, and no order is created.\n\nThe request is validated exactly as the send is, so a payload the send would reject is rejected here too. Recipients with only an email address are priced as if the email-to-address lookup finds them, and counted in `pending_email_lookups`. A `radius_search` is counted and priced, but no records are purchased.\n\nGift card face value is included in `costs_in_cents.giftcard_face_value` and in `total_cost_in_cents`. On paid plans, a card's face value is charged only when the recipient redeems it, so for a gift card order `total_cost_in_cents` is the most the order can cost, and `costs_in_cents.grand_total` is what is charged when you send. Accounts that can't send gift cards receive a `402` with the code `giftcards_require_paid_plan`, the same response the send returns.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/send-mailer-base"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "image_template_id": {
+                        "type": "integer",
+                        "description": "ID of image template to use for the exterior of the giftcard.   Required if not front_image_url is specified.",
+                        "example": 6
+                      },
+                      "front_image_url": {
+                        "type": "string",
+                        "description": "URL to image to use for the exterior of the giftcard. Required if image_template_id is not specified.",
+                        "example": "https://cdn.thanks.io/notecard-inspirations/note1.png"
+                      },
+                      "message": {
+                        "type": "string",
+                        "description": "Handwritten message content to use for interior of giftcard.",
+                        "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
+                      },
+                      "message_template_id": {
+                        "type": "integer",
+                        "description": "ID of message template to use for interior of giftcard.",
+                        "example": 12
+                      },
+                      "giftcard_brand": {
+                        "type": "string",
+                        "description": "Brand of giftcard to use.  Must be one of the supported brands. The `/giftcard-brands` endpoint can be used to retrieve a list of supported brands.",
+                        "example": "amazonus"
+                      },
+                      "giftcard_amount_in_cents": {
+                        "type": "integer",
+                        "description": "Amount of giftcard in cents.  The `/giftcard-brands` endpoint can be used to retrieve a list of supported amounts by brand.",
+                        "example": 10000
+                      }
+                    }
+                  }
+                ]
+              },
+              "examples": {
+                "Image URL & Recipients": {
+                  "summary": "Giftcard with Custom Image and Recipients",
+                  "description": "Example of sending a giftcard using a custom front image URL, handwritten message, and an array of recipients with custom fields.",
+                  "value": {
+                    "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
+                    "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
+                    "handwriting_style_id": 4,
+                    "giftcard_brand": "amazonus",
+                    "giftcard_amount_in_cents": 10000,
+                    "recipients": [
+                      {
+                        "name": "Current Resident",
+                        "address": "123 Main Street",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US",
+                        "custom1": "Example Custom 1",
+                        "custom2": "Example Custom 2",
+                        "custom3": "Example Custom 3",
+                        "custom4": "Example Custom 4"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "address": "456 Another St",
+                        "city": "Fake City",
+                        "province": "NY",
+                        "postal_code": "55555",
+                        "country": "US"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The order was priced. Nothing was charged and no order was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimate-response"
+                },
+                "example": {
+                  "message": "OK",
+                  "data": {
+                    "type": "giftcard",
+                    "size": null,
+                    "total_recipients": 2,
+                    "recipients": {
+                      "united_states": 2,
+                      "international": 0
+                    },
+                    "pending_email_lookups": 0,
+                    "costs_in_cents": {
+                      "united_states": 236,
+                      "international": 0,
+                      "additional_pages": 0,
+                      "giftcard_face_value": 20000,
+                      "grand_total": 236
+                    },
+                    "total_cost_in_cents": 20236,
+                    "total_cost": "$202.36",
+                    "current_balance_in_cents": 5000,
+                    "covered_by_balance": false,
+                    "test_mode": false,
+                    "notes": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/UserError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "402": {
+            "description": "API access has been temporarily disabled due to repeated payment failures, or the account can't send gift cards.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Gift card sends require a paid plan. This account is on the free plan — upgrade in the thanks.io dashboard, or send a postcard, letter, notecard or magnacard instead.",
+                  "message": "Gift card sends require a paid plan. This account is on the free plan — upgrade in the thanks.io dashboard, or send a postcard, letter, notecard or magnacard instead.",
+                  "error": "Gift card sends require a paid plan. This account is on the free plan — upgrade in the thanks.io dashboard, or send a postcard, letter, notecard or magnacard instead.",
+                  "errors": [
+                    "Gift card sends require a paid plan. This account is on the free plan — upgrade in the thanks.io dashboard, or send a postcard, letter, notecard or magnacard instead."
+                  ],
+                  "failure": true,
+                  "code": "giftcards_require_paid_plan"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed on the request body, exactly as it would on the matching send."
+          }
+        }
+      }
+    },
     "/build/image-template": {
       "get": {
         "tags": ["Dynamic Images"],
@@ -8464,7 +9535,7 @@
       "get": {
         "tags": ["Orders"],
         "summary": "List Order Items",
-        "description": "Return the individual mail pieces that make up an order, one entry per recipient, with that piece's delivery status, delivery date, QR scan count, failure reason and recipient address. Use this when you need per-piece detail; Track Order returns the same order as aggregate counts instead.\n\nResults are paginated and ordered by item ID, ascending. The order must belong to the authenticated account.\n\nFor gift card orders each item also carries the gift card's `brand` and `amount`.\n\nThe recipient's ten custom fields come back alongside the address, so the data you merged into the piece is available with it. Message content, creative and preview images, and per-item pricing are not part of this response; read those from the order itself.",
+        "description": "Return the individual mail pieces that make up an order, one entry per recipient, with that piece's delivery status, delivery date, QR scan count, failure reason and recipient address. Use this when you need per-piece detail; Track Order returns the same order as aggregate counts instead.\n\nResults are paginated and ordered by item ID, ascending. The order must belong to the authenticated account.\n\nFor gift card orders each item also carries the gift card's `brand` and `amount`, plus `redeemed_at` and `invalidated_at` so you can see which cards have been claimed. To stop an unredeemed card from being redeemed, use Invalidate Gift Card.\n\nThe recipient's ten custom fields come back alongside the address, so the data you merged into the piece is available with it. Message content, creative and preview images, and per-item pricing are not part of this response; read those from the order itself.",
         "parameters": [
           {
             "name": "orderId",
@@ -8959,6 +10030,160 @@
           },
           "422": {
             "description": "Validation failed on the request body — most commonly a recipient without an `address`, or an empty `recipients` array."
+          }
+        }
+      }
+    },
+    "/order-items/{orderItemId}/invalidate-giftcard": {
+      "parameters": [
+        {
+          "name": "orderItemId",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "required": true,
+          "description": "ID of the order item whose gift card you want to invalidate. This is the `id` returned by List Order Items and carried by order item webhook events."
+        }
+      ],
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Invalidate Gift Card",
+        "description": "Invalidate the gift card on a mailed piece so it can no longer be redeemed, for example when a card was sent by mistake. This does the same as the **Invalidate** button on the Order Details page, and it can't be undone. `PATCH` is accepted as well as `PUT`.\n\nOnly an unredeemed card that hasn't already been invalidated can be invalidated. The order must belong to the authenticated account.\n\nThe response is the updated order item, in the same shape as List Order Items. The redemption code, claim link and rendered card image are never returned.",
+        "responses": {
+          "200": {
+            "description": "The gift card was invalidated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/order-item"
+                    }
+                  }
+                },
+                "example": {
+                  "data": {
+                    "id": 2668662,
+                    "status": "Delivered",
+                    "delivery_date": "2025-09-15",
+                    "scans": 0,
+                    "failure": null,
+                    "recipient": {
+                      "name": "Jane Doe",
+                      "company": null,
+                      "address": "456 Another St",
+                      "address2": "",
+                      "city": "Fake City",
+                      "province": "NY",
+                      "postal_code": "55555",
+                      "country": "US",
+                      "email": null,
+                      "phone": null,
+                      "custom1": null,
+                      "custom2": null,
+                      "custom3": null,
+                      "custom4": null,
+                      "custom5": null,
+                      "custom6": null,
+                      "custom7": null,
+                      "custom8": null,
+                      "custom9": null,
+                      "custom10": null
+                    },
+                    "giftcard": {
+                      "brand": "amazonus",
+                      "amount": 2500,
+                      "redeemed_at": null,
+                      "invalidated_at": "2025-09-20T14:02:11.000000Z"
+                    },
+                    "created_at": "2025-09-08T16:05:12.000000Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The access token is missing or invalid, or the order belongs to another account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "Unauthorized"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "description": "The gift card can't be invalidated: it was already redeemed or invalidated, the item isn't on a gift card order, or the item has no gift card.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "failed"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "Giftcard has already been redeemed."
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "Already Redeemed": {
+                    "value": {
+                      "status": "failed",
+                      "errors": [
+                        "Giftcard has already been redeemed."
+                      ]
+                    }
+                  },
+                  "Already Invalidated": {
+                    "value": {
+                      "status": "failed",
+                      "errors": [
+                        "Giftcard has already been invalidated."
+                      ]
+                    }
+                  },
+                  "Not a Gift Card Order": {
+                    "value": {
+                      "status": "failed",
+                      "errors": [
+                        "Order is not a giftcard order."
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

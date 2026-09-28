@@ -5,6 +5,31 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="September 27" tags={["New Feature", "API"]} >
+
+## Estimate an Order's Cost Before You Send It
+
+You can now price a mailing through the API without placing it. Post the same request body you'd send to a Send Mailer endpoint to its estimate counterpart, such as [`/api/v2/estimate/postcard`](/api-reference/endpoint/estimate/estimate-postcard), and get back the order's total cost in `total_cost_in_cents`. Nothing is charged and no order is created.
+
+- `costs_in_cents` breaks the total down into US recipients, international recipients, additional letter pages, and gift card face value. On paid plans, gift card face value is charged only when a recipient redeems the card, so for gift cards the total is the most the order can cost.
+- `covered_by_balance` tells you whether your current account balance covers the order.
+- Recipients with only an email address are priced as if their address is found, and counted in `pending_email_lookups`. Any whose address can't be found when you send aren't mailed or charged.
+- The request is validated exactly like the send, so you catch errors before you commit.
+
+Estimates are available for postcards, letters, windowless letters, notecards, magnacards, and gift cards.
+
+</Update>
+
+<Update label="September 27" tags={["New Feature", "API"]} >
+
+## Track and Invalidate Gift Cards Through the API
+
+Gift card items from the [List Order Items](/api-reference/endpoint/orders/list-order-items) endpoint now include `redeemed_at` and `invalidated_at`, so your integration can see which cards recipients have claimed.
+
+You can also invalidate an unredeemed gift card with [`PUT /api/v2/order-items/{id}/invalidate-giftcard`](/api-reference/endpoint/orders/invalidate-giftcard), just like invalidating it from the **Order Details** page. Once invalidated, the card can no longer be redeemed.
+
+</Update>
+
 <Update label="September 23" tags={["New Feature", "HubSpot"]} >
 
 ## Add HubSpot Records to a Mailing List from Workflows
