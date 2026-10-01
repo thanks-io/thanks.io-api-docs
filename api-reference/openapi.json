@@ -371,6 +371,7 @@
             "type": "string",
             "enum": [
               "postcard",
+              "postcard6x9",
               "postcard6x11",
               "letter",
               "notecard",
@@ -918,6 +919,7 @@
             "example": "notecard",
             "enum": [
               "postcard",
+              "postcard6x9",
               "postcard6x11",
               "letter",
               "windowlessletter",
@@ -961,6 +963,7 @@
             "example": "notecard",
             "enum": [
               "postcard",
+              "postcard6x9",
               "postcard6x11",
               "letter",
               "windowlessletter",
@@ -1092,6 +1095,7 @@
             "example": "notecard",
             "enum": [
               "postcard",
+              "postcard6x9",
               "postcard6x11",
               "letter",
               "windowlessletter",
@@ -1765,9 +1769,10 @@
             "properties": {
               "type": {
                 "type": "string",
-                "description": "Mailer type that was priced. A 6x11 postcard is reported as `postcard6x11`.",
+                "description": "Mailer type that was priced. A 6x9 postcard is reported as `postcard6x9` and a 6x11 postcard as `postcard6x11`; `postcard` means 4x6.",
                 "enum": [
                   "postcard",
+                  "postcard6x9",
                   "postcard6x11",
                   "letter",
                   "windowlessletter",
@@ -2182,6 +2187,7 @@
             "description": "Type of the order",
             "enum": [
               "postcard",
+              "postcard6x9",
               "postcard6x11",
               "letter",
               "notecard",
@@ -4008,12 +4014,12 @@
                     "properties": {
                       "image_template_id": {
                         "type": "integer",
-                        "description": "ID of image template to use for front of postcard.  Required if front_image_url is not specified.",
+                        "description": "ID of image template to use for front of postcard. Use a template of the matching type: `postcard` for 4x6, `postcard6x9` for 6x9, `postcard6x11` for 6x11. A 6x9 send also accepts a `postcard` template. Required if front_image_url is not specified.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards. Required if image_template_id is not specified.",
+                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6 postcards, 2738px by 1838px for 6x9 postcards, or 3337px by 1777px for 6x11 postcards. Required if image_template_id is not specified.",
                         "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "message": {
@@ -4023,7 +4029,7 @@
                       },
                       "message_template_id": {
                         "type": "integer",
-                        "description": "ID of message template to use for content on back of postcard.",
+                        "description": "ID of message template to use for content on back of postcard. Use a template of the matching type: `postcard` for 4x6, `postcard6x9` for 6x9, `postcard6x11` for 6x11. A 6x9 send also accepts a `postcard` template.",
                         "example": 12
                       },
                       "use_custom_background": {
@@ -4033,7 +4039,7 @@
                       },
                       "custom_background_image": {
                         "type": "string",
-                        "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.",
+                        "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6 postcards, 2738px by 1838px for 6x9 postcards, or 3337px by 1777px for 6x11 postcards.",
                         "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "qrcode_url": {
@@ -4043,7 +4049,7 @@
                       },
                       "size": {
                         "type": "string",
-                        "description": "Size of the postcard.",
+                        "description": "Size of the postcard. A 6x9 postcard is placed as a `postcard6x9` order and a 6x11 postcard as a `postcard6x11` order.",
                         "default": "4x6",
                         "enum": ["4x6", "6x9", "6x11"]
                       }
@@ -5528,12 +5534,12 @@
                     "properties": {
                       "image_template_id": {
                         "type": "integer",
-                        "description": "ID of image template to use for front of postcard.  Required if front_image_url is not specified.",
+                        "description": "ID of image template to use for front of postcard. Use a template of the matching type: `postcard` for 4x6, `postcard6x9` for 6x9, `postcard6x11` for 6x11. A 6x9 send also accepts a `postcard` template. Required if front_image_url is not specified.",
                         "example": 6
                       },
                       "front_image_url": {
                         "type": "string",
-                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards. Required if image_template_id is not specified.",
+                        "description": "URL to image to use for front of postcard. Must be 1875px by 1275px for 4x6 postcards, 2738px by 1838px for 6x9 postcards, or 3337px by 1777px for 6x11 postcards. Required if image_template_id is not specified.",
                         "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "message": {
@@ -5543,7 +5549,7 @@
                       },
                       "message_template_id": {
                         "type": "integer",
-                        "description": "ID of message template to use for content on back of postcard.",
+                        "description": "ID of message template to use for content on back of postcard. Use a template of the matching type: `postcard` for 4x6, `postcard6x9` for 6x9, `postcard6x11` for 6x11. A 6x9 send also accepts a `postcard` template.",
                         "example": 12
                       },
                       "use_custom_background": {
@@ -5553,7 +5559,7 @@
                       },
                       "custom_background_image": {
                         "type": "string",
-                        "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6/6x9 postcards or 3337px x 1777px for 6x11 Postcards.",
+                        "description": "URL to custom background image to use for back of postcard.  This image will be placed behind the handwritten message.  Must be 1875px by 1275px for 4x6 postcards, 2738px by 1838px for 6x9 postcards, or 3337px by 1777px for 6x11 postcards.",
                         "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
                       },
                       "qrcode_url": {
@@ -5563,7 +5569,7 @@
                       },
                       "size": {
                         "type": "string",
-                        "description": "Size of the postcard.",
+                        "description": "Size of the postcard. A 6x9 postcard is placed as a `postcard6x9` order and a 6x11 postcard as a `postcard6x11` order.",
                         "default": "4x6",
                         "enum": [
                           "4x6",
@@ -6511,7 +6517,18 @@
               "type": "string",
               "example": "https://s3.amazonaws.com/content.thanks.io/templates/dynamic-images/b96a8260-34ce-11f0-b5f2-81d9e83ce1aa.png"
             },
-            "description": "Overlay Image URL sits in front of the generated dynamic image.   Must be 1875x1275 png or jpg."
+            "description": "Overlay Image URL sits in front of the generated dynamic image.   Must be 1875x1275 png or jpg, or 2738x1838 when `size` is `6x9`."
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["4x6", "6x9"],
+              "default": "4x6",
+              "example": "6x9"
+            },
+            "description": "Canvas to render the image at. `4x6` renders 1875x1275 for 4x6 postcards; `6x9` renders 2738x1838 for 6x9 postcards."
           }
         ],
         "responses": {
@@ -8276,6 +8293,15 @@
           },
           {
             "$ref": "#/components/parameters/sub_account_id"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["postcard", "postcard6x9", "postcard6x11", "letter", "windowlessletter", "notecard", "giftcard", "magnacard"]
+            },
+            "description": "Only return templates of this type. `postcard` is 4x6."
           }
         ],
         "responses": {
@@ -8376,6 +8402,15 @@
           },
           {
             "$ref": "#/components/parameters/sub_account_id"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["postcard", "postcard6x9", "postcard6x11", "letter", "windowlessletter", "notecard", "giftcard", "magnacard"]
+            },
+            "description": "Only return templates of this type. `postcard` is 4x6."
           }
         ],
         "responses": {

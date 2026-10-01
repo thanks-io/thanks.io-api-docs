@@ -5,6 +5,27 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="September 29" tags={["Improvement", "API"]} >
+
+## 6x9 Postcards Get Their Own Designs and Message Templates
+
+6x9 postcards are now their own mail type, `postcard6x9`, alongside 4x6 (`postcard`) and 6x11 (`postcard6x11`). Until now, 6x9 shared your 4x6 designs and message templates. Now you can build for the full 6x9 canvas: upload designs at 2738 × 1838 px (9.125in × 6.125in with bleed), exactly what prints, and keep separate 6x9 message templates, a separate custom handwriting background, and 6x9 designs from ThanksAI Studio. [See the upload specs](/creatives/templates/6x9postcards).
+
+To give you a head start, every existing postcard design and message template in your account has a 6x9 copy, resized to the new canvas. Your originals are unchanged, and 6x9 sends still accept your 4x6 designs and message templates, so current campaigns and integrations keep working.
+
+### What changed in the API
+
+- [`POST /api/v2/send/postcard`](/api-reference/endpoint/send-mailer/send-postcard) with `size: "6x9"` works as before. `message_template_id` accepts a `postcard6x9` or a `postcard` message template. An omitted or `"default"` `size` uses your account's default postcard size.
+- `dynamic_image_url` accepts images at 2738 × 1838 or 1875 × 1275.
+- [Message templates](/api-reference/endpoint/message-templates/create-message-template) can be created, updated, and listed with `type: "postcard6x9"`, and [image templates](/api-reference/endpoint/image-templates/list-all-image-templates) can be listed with `type=postcard6x9`.
+- The image template builder (`GET /api/v2/build/image-template`) takes a `size` parameter, `4x6` or `6x9`, to render the design on the 6x9 canvas.
+
+<Note>
+**If your integration checks `type == "postcard"`:** orders and estimates for 6x9 postcards now report `type: "postcard6x9"`, and `postcard` means 4x6 only, including when you filter orders by type. Update any code that identifies 6x9 orders by `type: "postcard"` to also match `postcard6x9`.
+</Note>
+
+</Update>
+
 <Update label="September 27" tags={["New Feature", "API"]} >
 
 ## Estimate an Order's Cost Before You Send It
