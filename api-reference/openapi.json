@@ -805,10 +805,13 @@
             "type": "string",
             "enum": [
               "postcard",
+              "postcard6x9",
+              "postcard6x11",
               "letter",
               "notecard",
               "giftcard",
-              "windowlessletter"
+              "windowlessletter",
+              "magnacard"
             ],
             "example": "postcard"
           },
@@ -9261,6 +9264,15 @@
           },
           {
             "$ref": "#/components/parameters/sub_account_id"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["postcard", "postcard6x9", "postcard6x11", "letter", "windowlessletter", "notecard", "giftcard", "magnacard", "4x6-postcard", "6x9-postcard"]
+            },
+            "description": "Only return orders of this mailer type. `postcard` returns 4x6 postcards only; `postcard6x9` returns all 6x9 postcards, including 6x9 orders placed before 6x9 had its own type. `4x6-postcard` and `6x9-postcard` are accepted as aliases for `postcard` and `postcard6x9`."
           }
         ],
         "responses": {
