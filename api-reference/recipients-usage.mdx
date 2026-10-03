@@ -29,7 +29,7 @@ If no/invalid address is specified and a valid `email` address is, we’ll attem
 
 # Absentee (property) address
 
-Use `absentee_street` when the property a mailer is about is not where the recipient gets mail — for example, an absentee owner who lives elsewhere. Set `address` to where the mail should go and `absentee_street` to the property:
+Use `absentee_address` when the property a mailer is about is not where the recipient gets mail — for example, an absentee owner who lives elsewhere. Set `address` to where the mail should go and `absentee_address` to the property:
 
 ```json
 {
@@ -39,9 +39,14 @@ Use `absentee_street` when the property a mailer is about is not where the recip
   "city": "Chicago",
   "province": "IL",
   "postal_code": "60601",
-  "absentee_street": "742 Evergreen Terrace, Springfield, IL 62704"
+  "absentee_address": "742 Evergreen Terrace",
+  "absentee_city": "Springfield",
+  "absentee_province": "IL",
+  "absentee_postal_code": "62704"
 }
 ```
+
+You can also pass the whole property address in `absentee_address` on its own, for example `"742 Evergreen Terrace, Springfield, IL 62704"`. `absentee_city`, `absentee_province`, and `absentee_postal_code` are optional, and only work alongside `absentee_address`.
 
 These variables then use the property address instead of the mailing address:
 
@@ -52,12 +57,12 @@ These variables then use the property address instead of the mailing address:
 | `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` | Image templates | The full property address |
 | `%ABSENTEE_STREET%` | Messages | The property's street line |
 
-`absentee_street` works the same way when creating a recipient, when [creating multiple recipients](/api-reference/endpoint/recipients/create-multiple-recipients), and on each entry in `recipients` on the [Send Mailer](/api-reference/send-mailer-usage) endpoints.
+The absentee fields work the same way when creating a recipient, when [creating multiple recipients](/api-reference/endpoint/recipients/create-multiple-recipients), and on each entry in `recipients` on the [Send Mailer](/api-reference/send-mailer-usage) endpoints.
 
 Things to know:
 
-- **The mailer is still delivered to `address`.** `absentee_street` only changes what the variables above show.
-- **Send the full address.** Street View looks the property up from this value, so a street line alone (`742 Evergreen Terrace`) can land on the wrong town. Include the city, state, and ZIP.
-- **It uses `custom1` and `custom2`.** The property address is stored as `custom1` = `absentee` and `custom2` = the address, and that is how the recipient comes back in API responses and webhooks (where it is also reported as `recipient.absentee_address`). There is no separate `absentee_street` field to read back.
-- **It can't be combined with `custom1` or `custom2`.** A recipient that sets `absentee_street` and either of those fields is rejected with a `400`, rather than one silently overwriting the other. Use `custom3` through `custom10` for your own data. Setting `custom1` to `absentee` and `custom2` to the property address yourself has the same effect as `absentee_street`.
+- **The mailer is still delivered to `address`.** The absentee fields only change what the variables above show.
+- **Send the full address.** Street View looks the property up from it, so a street line alone (`742 Evergreen Terrace`) can land on the wrong town. Include the city, state, and ZIP, either in `absentee_address` or in the separate fields.
+- **It uses `custom1` and `custom2`.** The property address is stored as `custom1` = `absentee` and `custom2` = the full address, and that is how the recipient comes back in API responses. Webhooks also report it as `recipient.absentee_address`.
+- **It can't be combined with `custom1` or `custom2`.** A recipient that sets `absentee_address` and either of those fields is rejected with a `400`, rather than one silently overwriting the other. Use `custom3` through `custom10` for your own data. Setting `custom1` to `absentee` and `custom2` to the property address yourself has the same effect as `absentee_address`.
 - **Without it, the variables fall back to the mailing address.** `~STREET_VIEW~` and `~ABSENTEE_STREET~` show the recipient's own `address` when no absentee address is set.

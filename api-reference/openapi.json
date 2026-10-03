@@ -1519,10 +1519,25 @@
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
           },
-          "absentee_street": {
+          "absentee_address": {
             "type": "string",
-            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Give the full address (street, city, state, ZIP) so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = this address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
-            "example": "742 Evergreen Terrace, Springfield, IL 62704"
+            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. Give either the whole address here, or the street line here with `absentee_city`, `absentee_province` and `absentee_postal_code`. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Include the city, state and ZIP so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = the full address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
+            "example": "742 Evergreen Terrace"
+          },
+          "absentee_city": {
+            "type": "string",
+            "description": "City of the absentee (property) address. Requires `absentee_address`.",
+            "example": "Springfield"
+          },
+          "absentee_province": {
+            "type": "string",
+            "description": "State or province of the absentee (property) address. Requires `absentee_address`.",
+            "example": "IL"
+          },
+          "absentee_postal_code": {
+            "type": "string",
+            "description": "ZIP or postal code of the absentee (property) address. Requires `absentee_address`.",
+            "example": "62704"
           },
           "mailing-list": {
             "readOnly": true,
@@ -1661,10 +1676,25 @@
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
           },
-          "absentee_street": {
+          "absentee_address": {
             "type": "string",
-            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Give the full address (street, city, state, ZIP) so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = this address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
-            "example": "742 Evergreen Terrace, Springfield, IL 62704"
+            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. Give either the whole address here, or the street line here with `absentee_city`, `absentee_province` and `absentee_postal_code`. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Include the city, state and ZIP so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = the full address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
+            "example": "742 Evergreen Terrace"
+          },
+          "absentee_city": {
+            "type": "string",
+            "description": "City of the absentee (property) address. Requires `absentee_address`.",
+            "example": "Springfield"
+          },
+          "absentee_province": {
+            "type": "string",
+            "description": "State or province of the absentee (property) address. Requires `absentee_address`.",
+            "example": "IL"
+          },
+          "absentee_postal_code": {
+            "type": "string",
+            "description": "ZIP or postal code of the absentee (property) address. Requires `absentee_address`.",
+            "example": "62704"
           },
           "mailing-list": {
             "readOnly": true,
