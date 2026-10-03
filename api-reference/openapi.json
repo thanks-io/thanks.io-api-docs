@@ -1237,6 +1237,36 @@
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
           },
+          "custom5": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom6": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom7": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom8": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom9": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom10": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
           "mailing-list": {
             "readOnly": true,
             "allOf": [
@@ -1328,6 +1358,36 @@
             "example": "Any Extra Info"
           },
           "custom4": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom5": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom6": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom7": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom8": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom9": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom10": {
             "type": "string",
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
@@ -1428,6 +1488,41 @@
             "type": "string",
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
+          },
+          "custom5": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom6": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom7": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom8": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom9": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom10": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "absentee_street": {
+            "type": "string",
+            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Give the full address (street, city, state, ZIP) so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = this address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
+            "example": "742 Evergreen Terrace, Springfield, IL 62704"
           },
           "mailing-list": {
             "readOnly": true,
@@ -1535,6 +1630,41 @@
             "type": "string",
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
+          },
+          "custom5": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom6": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom7": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom8": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom9": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "custom10": {
+            "type": "string",
+            "description": "Custom field for additional information about the recipient",
+            "example": "Any Extra Info"
+          },
+          "absentee_street": {
+            "type": "string",
+            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Give the full address (street, city, state, ZIP) so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = this address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
+            "example": "742 Evergreen Terrace, Springfield, IL 62704"
           },
           "mailing-list": {
             "readOnly": true,

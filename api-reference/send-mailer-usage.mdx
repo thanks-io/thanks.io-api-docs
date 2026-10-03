@@ -62,6 +62,8 @@ Recipients can be specified in a variety of ways:
 - Provide recipient addresses as JSON data directly in the `recipients` field.
 - Buy a list of recipients using a radius search with the `radius_search` field.
 
+Each entry in `recipients` takes the same fields as a [recipient](/api-reference/recipients-usage): the address fields, `name`, `company`, `email`, `phone`, and `custom1` through `custom10`. Set `absentee_street` to a property address when the mailer is about a property the recipient doesn't live at, so `~STREET_VIEW~` and `~ABSENTEE_STREET~` show that property while the mail still goes to `address`. See [Absentee (property) address](/api-reference/recipients-usage#absentee-property-address) for the details. It can't be combined with `custom1` or `custom2`.
+
 ## _Front Image_
 
 For postcards, notecards, magnacards, and gift cards, this is used for the front of the mailer. For windowed and windowless letters, this is used for the background of the cover letter unless you are sending a PDF-only letter.
