@@ -375,15 +375,15 @@
         "icon": "headset"
       },
       {
-        "label": "Postman",
-        "href": "https://postman.thanks.io",
-        "icon": "rocket"
+        "label": "Dashboard",
+        "href": "https://dashboard.thanks.io",
+        "icon": "gauge"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.thanks.io"
+      "label": "Create Free Account w/ $10 in Credits",
+      "href": "https://dashboard.thanks.io/register?signup_source=api_docs"
     }
   },
   "footer": {
