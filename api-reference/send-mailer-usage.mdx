@@ -40,6 +40,30 @@ Any order can be previewed by setting the `preview` parameter to `true`. The res
 
 To see what an order will cost before you send it, post the same request body to the matching [Order Estimates](/api-reference/endpoint/estimate/estimate-postcard) endpoint, such as `/api/v2/estimate/postcard`. The response returns the total, a cost breakdown, and whether your account balance covers it. Nothing is charged and no order is created.
 
+# Send a Creative
+
+A creative from your Creatives library pairs a front design (image template) with a message template. Pass the creative's ID as `creative_id` and thanks.io sends it exactly as saved: the design, the message, its handwriting and its background all come from the creative.
+
+```json
+{
+  "creative_id": 501,
+  "recipients": [
+    { "name": "Jane Doe", "address": "123 Main St", "city": "Austin", "province": "TX", "postal_code": "78701" }
+  ]
+}
+```
+
+Find creative IDs with [List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives) (`GET /creatives`), or copy one from the creative's menu or preview in your dashboard. The order records which creative it was sent as.
+
+A send with `creative_id` is rejected with a `422` and an error on `creative_id` when:
+
+- It also sets a parameter that would change what the creative prints: `image_template_id`, `message_template_id` (or their `image_template` / `message_template` spellings), `front_image_url`, `message`, the handwriting parameters (`handwriting_style`, `handwriting_color`, `handwriting_size`, `realism`), the custom background parameters (`use_custom_background`, `custom_background_image`), `pdf_only_url` or `skip_creative_generation`. To send a variation, save it as its own creative.
+- The creative isn't in your account, or was deleted.
+- The creative is a different mailer type from the endpoint. For postcards, the size counts too: a 6x9 send needs a `postcard6x9` creative. Filter the list with `mailer_type` to find the right ones.
+- The creative is incomplete (`is_complete: false`): missing its front image or its message. Letters need only a message.
+
+Two parameters can be added to a creative send: `qrcode_url`, to track the send with its own QR code, and, for letters, `additional_pages_url`.
+
 # Requirements
 
 In general, all mailers require recipients. Creative content is required unless you provide `message` content or use `pdf_only_url`, and the exact requirements vary by mailpiece type.
@@ -49,8 +73,8 @@ The main exception is a letter created from a PDF only. In that case, you only n
 | Requirement | Postcard | Letter | Notecard | Gift Card | Magnacard |
 | --- | --- | --- | --- | --- | --- |
 | Audience (`recipients`, `mailing_lists`, or `radius_search`) | Required | Required | Required | Required | Required |
-| Front creative (`front_image_url` or `image_template`) | Required unless `message` is specified | Required unless `message` is specified or `pdf_only_url` is set | Required unless `message` is specified | Required unless `message` is specified | Required unless `message` is specified |
-| Message (`message` or `message_template`) | Required | Required unless using `pdf_only_url` | Required | Required | Required |
+| Front creative (`front_image_url`, `image_template`, or `creative_id`) | Required unless `message` is specified | Required unless `message` is specified or `pdf_only_url` is set | Required unless `message` is specified | Required unless `message` is specified | Required unless `message` is specified |
+| Message (`message`, `message_template`, or `creative_id`) | Required | Required unless using `pdf_only_url` | Required | Required | Required |
 | Back or interior creative (`custom_background_image`) | Optional | Not used | Optional | Not used | Optional |
 | PDF-only letter (`pdf_only_url`) | Not used | Optional alternative | Not used | Not used | Not used |
 

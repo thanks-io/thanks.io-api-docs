@@ -209,6 +209,14 @@
                 ]
               },
               {
+                "group": "Creatives Library",
+                "icon": "palette",
+                "pages": [
+                    "api-reference/endpoint/creatives-library/list-all-creatives",
+                    "api-reference/endpoint/creatives-library/get-creative"
+                ]
+              },
+              {
                 "group": "Message Templates",
                 "icon": "message",
                 "pages": [

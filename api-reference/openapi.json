@@ -838,6 +838,108 @@
           }
         }
       },
+      "creative": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Pass this as `creative_id` to send the creative."
+          },
+          "name": {
+            "type": "string"
+          },
+          "mailer_type": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The type the creative sends as. `postcard` is 4x6."
+          },
+          "postcard_size": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sub_account_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hidden": {
+            "type": "boolean"
+          },
+          "default": {
+            "type": "boolean"
+          },
+          "preview_image_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "thumbnail_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "share_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "is_complete": {
+            "type": "boolean",
+            "description": "Whether the creative can be sent: both sides present and not deleted (letters need only a message)."
+          },
+          "needs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "front",
+                "message"
+              ]
+            },
+            "description": "The sides an incomplete creative is missing."
+          },
+          "image_template": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The front. `deleted` is true when the template was deleted after the creative was made."
+          },
+          "message_template": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The message. `deleted` is true when the template was deleted after the creative was made."
+          },
+          "back_background": {
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
       "message-template": {
         "type": "object",
         "properties": {
@@ -2609,6 +2711,9 @@
       "name": "Image Templates"
     },
     {
+      "name": "Creatives Library"
+    },
+    {
       "name": "Handwriting Styles"
     },
     {
@@ -4175,6 +4280,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for front of postcard. Use a template of the matching type: `postcard` for 4x6, `postcard6x9` for 6x9, `postcard6x11` for 6x11. A 6x9 send also accepts a `postcard` template. Required if front_image_url is not specified.",
@@ -4451,6 +4561,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for front of magnacard. Required if front_image_url is not specified.",
@@ -4673,6 +4788,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
@@ -4930,6 +5050,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
@@ -5188,6 +5313,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the exterior of the notecard.   Required if not front_image_url is specified.",
@@ -5440,6 +5570,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the exterior of the giftcard.   Required if not front_image_url is specified.",
@@ -5695,6 +5830,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for front of postcard. Use a template of the matching type: `postcard` for 4x6, `postcard6x9` for 6x9, `postcard6x11` for 6x11. A 6x9 send also accepts a `postcard` template. Required if front_image_url is not specified.",
@@ -5860,6 +6000,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
@@ -6013,6 +6158,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the background of the cover letter. If neither image_template_id nor front_image_url is specified, a blank background will be used.",
@@ -6167,6 +6317,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the exterior of the notecard.   Required if not front_image_url is specified.",
@@ -6321,6 +6476,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for front of magnacard. Required if front_image_url is not specified.",
@@ -6470,6 +6630,11 @@
                   {
                     "type": "object",
                     "properties": {
+                      "creative_id": {
+                        "type": "integer",
+                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "example": 501
+                      },
                       "image_template_id": {
                         "type": "integer",
                         "description": "ID of image template to use for the exterior of the giftcard.   Required if not front_image_url is specified.",
@@ -8542,6 +8707,244 @@
                     "per_page": "2",
                     "to": 2,
                     "total": 428
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/creatives/": {
+      "get": {
+        "tags": [
+          "Creatives Library"
+        ],
+        "operationId": "getCreatives",
+        "summary": "List All",
+        "description": "List the creatives in your Creatives library, 24 per page: the default creative of each type first, then most recently updated. A creative pairs an image template with a message template; send one by passing its `id` as `creative_id` to any send or estimate endpoint.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sub_account_id"
+          },
+          {
+            "name": "mailer_type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "postcard",
+                "postcard6x9",
+                "postcard6x11",
+                "letter",
+                "windowlessletter",
+                "notecard",
+                "giftcard",
+                "magnacard"
+              ]
+            },
+            "description": "Only return creatives of this type. `postcard` is 4x6. Use the type you will send: a 6x9 postcard send takes a `postcard6x9` creative."
+          },
+          {
+            "name": "complete_only",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Only return creatives with both sides present (letters need only a message). Only complete creatives can be sent."
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Only return creatives whose name contains this text."
+          },
+          {
+            "name": "include_hidden",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Include creatives hidden from the library."
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/creative"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                },
+                "example": {
+                  "data": [
+                    {
+                      "id": 501,
+                      "name": "Spring open house",
+                      "mailer_type": "postcard",
+                      "postcard_size": "4x6",
+                      "sub_account_id": null,
+                      "source": "user",
+                      "hidden": false,
+                      "default": true,
+                      "preview_image_url": null,
+                      "thumbnail_url": "https://cdn.thanks.io/creative-thumbnails/501.png",
+                      "share_url": "https://dashboard.thanks.io/creatives/share/6f1c2e9a-8a7d-4b8e-9d37-1c2b3a4d5e6f",
+                      "is_complete": true,
+                      "needs": [],
+                      "image_template": {
+                        "id": 6,
+                        "name": "Spring open house",
+                        "type": "postcard",
+                        "image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                        "is_dynamic": false,
+                        "dynamic_image_url": null,
+                        "canva_id": null,
+                        "default": false,
+                        "created_from_creative_generation_id": null,
+                        "deleted": false
+                      },
+                      "message_template": {
+                        "id": 12,
+                        "name": "Spring open house",
+                        "type": "postcard",
+                        "content": "Hi %FIRST_NAME%, spring is here!",
+                        "handwriting_style_id": 7,
+                        "custom_background_url": null,
+                        "skip_creative_generation": false,
+                        "default": false,
+                        "deleted": false
+                      },
+                      "back_background": null,
+                      "created_at": "2026-09-27T00:00:00.000000Z",
+                      "updated_at": "2026-10-01T00:00:00.000000Z"
+                    }
+                  ],
+                  "links": {
+                    "first": "https://api.thanks.io/api/v2/creatives?page=1",
+                    "last": "https://api.thanks.io/api/v2/creatives?page=1",
+                    "prev": null,
+                    "next": null
+                  },
+                  "meta": {
+                    "current_page": 1,
+                    "from": 1,
+                    "last_page": 1,
+                    "path": "https://api.thanks.io/api/v2/creatives",
+                    "per_page": 24,
+                    "to": 1,
+                    "total": 1
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/creatives/{creativeId}": {
+      "get": {
+        "tags": [
+          "Creatives Library"
+        ],
+        "operationId": "getCreative",
+        "summary": "Get",
+        "description": "Get one creative from your Creatives library, with the image and message templates it pairs.",
+        "parameters": [
+          {
+            "name": "creativeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The creative's ID."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/creative"
+                    }
+                  }
+                },
+                "example": {
+                  "data": {
+                    "id": 501,
+                    "name": "Spring open house",
+                    "mailer_type": "postcard",
+                    "postcard_size": "4x6",
+                    "sub_account_id": null,
+                    "source": "user",
+                    "hidden": false,
+                    "default": true,
+                    "preview_image_url": null,
+                    "thumbnail_url": "https://cdn.thanks.io/creative-thumbnails/501.png",
+                    "share_url": "https://dashboard.thanks.io/creatives/share/6f1c2e9a-8a7d-4b8e-9d37-1c2b3a4d5e6f",
+                    "is_complete": true,
+                    "needs": [],
+                    "image_template": {
+                      "id": 6,
+                      "name": "Spring open house",
+                      "type": "postcard",
+                      "image": "https://s3.amazonaws.com/cdn.thanks.io/user_image_library/1533645532.png",
+                      "is_dynamic": false,
+                      "dynamic_image_url": null,
+                      "canva_id": null,
+                      "default": false,
+                      "created_from_creative_generation_id": null,
+                      "deleted": false
+                    },
+                    "message_template": {
+                      "id": 12,
+                      "name": "Spring open house",
+                      "type": "postcard",
+                      "content": "Hi %FIRST_NAME%, spring is here!",
+                      "handwriting_style_id": 7,
+                      "custom_background_url": null,
+                      "skip_creative_generation": false,
+                      "default": false,
+                      "deleted": false
+                    },
+                    "back_background": null,
+                    "created_at": "2026-09-27T00:00:00.000000Z",
+                    "updated_at": "2026-10-01T00:00:00.000000Z"
                   }
                 }
               }
