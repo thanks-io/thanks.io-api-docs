@@ -49,6 +49,10 @@ Once you know you want direct sends, follow the steps below to submit your first
       "front_image_url": "https://cdn.thanks.io/inspiration_templates/default10.png"
     }'
     ```
+
+    <Note>
+      For a production integration, we recommend sending a creative instead: design and save it once in your dashboard, then send it with a single `creative_id` in place of the image and message parameters. See [Send a Creative](/api-reference/send-mailer-usage#send-a-creative).
+    </Note>
   </Step>
   <Step title="Check Your Order Status">
     Check the result in the [Order History page](https://dashboard.thanks.io/orders_history). While testing mode is enabled, your order should appear and then be canceled automatically.
@@ -57,6 +61,7 @@ Once you know you want direct sends, follow the steps below to submit your first
 
 ## Next Steps
 
+- Design a creative in your dashboard and send it by ID — the recommended path for production sends. See [Send a Creative](/api-reference/send-mailer-usage#send-a-creative) and [List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives).
 - If you want to send mailpiece types other than postcards, review [Direct Send Orders](/api-reference/send-mailer-usage).
 - If you need authentication guidance, see [Bearer Token](/authentication/bearer-token) and [OAuth](/authentication/oauth).
 - If you decide your users should manage campaigns in thanks.io, switch to the [campaign workflow](/workflows/campaign).

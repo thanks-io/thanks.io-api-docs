@@ -52,26 +52,26 @@
         ]
       },
       {
-        "tab": "Creatives",
+        "tab": "Design Gallery",
         "groups": [
           {
             "group": "Get Started",
             "icon": "play",
             "pages": [
-              "creatives/introduction"
+              "design-gallery/introduction"
             ]
           },
           {
             "group": "Templates",
             "icon": "file",
             "pages": [
-              "creatives/templates/4x6postcards",
-              "creatives/templates/6x9postcards",
-              "creatives/templates/6x11postcards",
-              "creatives/templates/magnacards",
-              "creatives/templates/notecards",
-              "creatives/templates/windowed-letters",
-              "creatives/templates/windowless-letters"
+              "design-gallery/templates/4x6postcards",
+              "design-gallery/templates/6x9postcards",
+              "design-gallery/templates/6x11postcards",
+              "design-gallery/templates/magnacards",
+              "design-gallery/templates/notecards",
+              "design-gallery/templates/windowed-letters",
+              "design-gallery/templates/windowless-letters"
             ]
           },
          {
@@ -82,50 +82,50 @@
                 "group": "Postcards",
                 "icon": "image-landscape",
                 "pages": [
-                    "creatives/inspirations/postcards",
-                    "creatives/inspirations/postcards-4thofjuly",
-                    "creatives/inspirations/postcards-anniversary",
-                    "creatives/inspirations/postcards-aprilfools",
-                    "creatives/inspirations/postcards-birthday",
-                    "creatives/inspirations/postcards-campaigns",
-                    "creatives/inspirations/postcards-cardealership",
-                    "creatives/inspirations/postcards-chiropractor",
-                    "creatives/inspirations/postcards-christmas",
-                    "creatives/inspirations/postcards-church",
-                    "creatives/inspirations/postcards-contractors",
-                    "creatives/inspirations/postcards-dentist",
-                    "creatives/inspirations/postcards-earthday",
-                    "creatives/inspirations/postcards-easter",
-                    "creatives/inspirations/postcards-ecommerce",
-                    "creatives/inspirations/postcards-fathersday",
-                    "creatives/inspirations/postcards-funny",
-                    "creatives/inspirations/postcards-halloween",
-                    "creatives/inspirations/postcards-hanukkah",
-                    "creatives/inspirations/postcards-holiday",
-                    "creatives/inspirations/postcards-houseaversary",
-                    "creatives/inspirations/postcards-laborday",
-                    "creatives/inspirations/postcards-lawyer",
-                    "creatives/inspirations/postcards-memorialday",
-                    "creatives/inspirations/postcards-motherday",
-                    "creatives/inspirations/postcards-newyear",
-                    "creatives/inspirations/postcards-politics",
-                    "creatives/inspirations/postcards-realestate",
-                    "creatives/inspirations/postcards-stpatricks",
-                    "creatives/inspirations/postcards-thanksgiving",
-                    "creatives/inspirations/postcards-thankyou",
-                    "creatives/inspirations/postcards-valentinesday",
-                    "creatives/inspirations/postcards-veterans",
-                    "creatives/inspirations/postcards-veterinarian",
-                    "creatives/inspirations/postcards-windowcleaning"
+                    "design-gallery/inspirations/postcards",
+                    "design-gallery/inspirations/postcards-4thofjuly",
+                    "design-gallery/inspirations/postcards-anniversary",
+                    "design-gallery/inspirations/postcards-aprilfools",
+                    "design-gallery/inspirations/postcards-birthday",
+                    "design-gallery/inspirations/postcards-campaigns",
+                    "design-gallery/inspirations/postcards-cardealership",
+                    "design-gallery/inspirations/postcards-chiropractor",
+                    "design-gallery/inspirations/postcards-christmas",
+                    "design-gallery/inspirations/postcards-church",
+                    "design-gallery/inspirations/postcards-contractors",
+                    "design-gallery/inspirations/postcards-dentist",
+                    "design-gallery/inspirations/postcards-earthday",
+                    "design-gallery/inspirations/postcards-easter",
+                    "design-gallery/inspirations/postcards-ecommerce",
+                    "design-gallery/inspirations/postcards-fathersday",
+                    "design-gallery/inspirations/postcards-funny",
+                    "design-gallery/inspirations/postcards-halloween",
+                    "design-gallery/inspirations/postcards-hanukkah",
+                    "design-gallery/inspirations/postcards-holiday",
+                    "design-gallery/inspirations/postcards-houseaversary",
+                    "design-gallery/inspirations/postcards-laborday",
+                    "design-gallery/inspirations/postcards-lawyer",
+                    "design-gallery/inspirations/postcards-memorialday",
+                    "design-gallery/inspirations/postcards-motherday",
+                    "design-gallery/inspirations/postcards-newyear",
+                    "design-gallery/inspirations/postcards-politics",
+                    "design-gallery/inspirations/postcards-realestate",
+                    "design-gallery/inspirations/postcards-stpatricks",
+                    "design-gallery/inspirations/postcards-thanksgiving",
+                    "design-gallery/inspirations/postcards-thankyou",
+                    "design-gallery/inspirations/postcards-valentinesday",
+                    "design-gallery/inspirations/postcards-veterans",
+                    "design-gallery/inspirations/postcards-veterinarian",
+                    "design-gallery/inspirations/postcards-windowcleaning"
                 ]
               },
               {
                 "group": "Notecards",
                 "icon": "envelope-open-text",
                 "pages": [
-                    "creatives/inspirations/notecards",
-                    "creatives/inspirations/notecards-birthday",
-                    "creatives/inspirations/notecards-work"
+                    "design-gallery/inspirations/notecards",
+                    "design-gallery/inspirations/notecards-birthday",
+                    "design-gallery/inspirations/notecards-work"
                 ]
               }
             ]
@@ -212,6 +212,7 @@
                 "group": "Creatives Library",
                 "icon": "palette",
                 "pages": [
+                    "api-reference/creatives-library-usage",
                     "api-reference/endpoint/creatives-library/list-all-creatives",
                     "api-reference/endpoint/creatives-library/get-creative"
                 ]
@@ -361,6 +362,13 @@
       }
     ]
   },
+
+  "redirects": [
+    {
+      "source": "/creatives/:slug*",
+      "destination": "/design-gallery/:slug*"
+    }
+  ],
 
   "api": {
     "playground": {

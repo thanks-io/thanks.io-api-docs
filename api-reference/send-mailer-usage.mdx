@@ -7,7 +7,9 @@ description: "Info on using thanks.io's Send Mailer endpoints"
 
 Use the Send Mailer endpoints when your application needs to create direct mail orders on demand. These endpoints create the orders that are processed and fulfilled by thanks.io.
 
-If your users should manage campaign timing, creatives, and automation rules inside thanks.io, start with the [campaign workflow](/workflows/campaign) instead of these direct-send endpoints.
+The recommended way to send is a complete [creative](/api-reference/creatives-library-usage) from your Creatives library: design it once in your dashboard, then send it from your code with a single `creative_id`. See [Send a Creative](#send-a-creative) below. The per-request image and message parameters remain fully supported for dynamic content and custom pipelines.
+
+If your users should manage campaign timing, designs, and automation rules inside thanks.io, start with the [campaign workflow](/workflows/campaign) instead of these direct-send endpoints.
 
 ## Before You Start
 
@@ -30,19 +32,11 @@ Choose the endpoint that matches the mailpiece you want to create:
 | Gift card | A mailer that includes a gift card selection | `POST /send/giftcard` |
 | Magnacard | A magnet-style direct mail format | `POST /send/magnacard` |
 
-All of these endpoints follow the same core pattern: define the audience, provide creative content, and submit the order.
-
-# Preview
-
-Any order can be previewed by setting the `preview` parameter to `true`. The response will return links to PNG previews of the mailer instead of creating a production order.
-
-# Estimate
-
-To see what an order will cost before you send it, post the same request body to the matching [Order Estimates](/api-reference/endpoint/estimate/estimate-postcard) endpoint, such as `/api/v2/estimate/postcard`. The response returns the total, a cost breakdown, and whether your account balance covers it. Nothing is charged and no order is created.
+All of these endpoints follow the same core pattern: define the audience, choose what prints, and submit the order.
 
 # Send a Creative
 
-A creative from your Creatives library pairs a front design (image template) with a message template. Pass the creative's ID as `creative_id` and thanks.io sends it exactly as saved: the design, the message, its handwriting and its background all come from the creative.
+The recommended way to choose what prints is a creative from your Creatives library: a saved pairing of a front design (image template) and a message template. Pass the creative's ID as `creative_id` and thanks.io sends it exactly as saved: the design, the message, its handwriting and its background all come from the creative.
 
 ```json
 {
@@ -53,7 +47,7 @@ A creative from your Creatives library pairs a front design (image template) wit
 }
 ```
 
-Find creative IDs with [List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives) (`GET /creatives`), or copy one from the creative's menu or preview in your dashboard. The order records which creative it was sent as.
+Find creative IDs with [List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives) (`GET /creatives`), or copy one from the creative's menu or preview in your dashboard. The order records which creative it was sent as. See [Creatives Library](/api-reference/creatives-library-usage) for how creatives work.
 
 A send with `creative_id` is rejected with a `422` and an error on `creative_id` when:
 
@@ -64,18 +58,26 @@ A send with `creative_id` is rejected with a `422` and an error on `creative_id`
 
 Two parameters can be added to a creative send: `qrcode_url`, to track the send with its own QR code, and, for letters, `additional_pages_url`.
 
+# Preview
+
+Any order can be previewed by setting the `preview` parameter to `true`. The response will return links to PNG previews of the mailer instead of creating a production order.
+
+# Estimate
+
+To see what an order will cost before you send it, post the same request body to the matching [Order Estimates](/api-reference/endpoint/estimate/estimate-postcard) endpoint, such as `/api/v2/estimate/postcard`. The response returns the total, a cost breakdown, and whether your account balance covers it. Nothing is charged and no order is created.
+
 # Requirements
 
-In general, all mailers require recipients. Creative content is required unless you provide `message` content or use `pdf_only_url`, and the exact requirements vary by mailpiece type.
+In general, all mailers require recipients. A `creative_id` satisfies both the front image and the message at once; otherwise a front image is required unless you provide `message` content or use `pdf_only_url`, and the exact requirements vary by mailpiece type.
 
 The main exception is a letter created from a PDF only. In that case, you only need recipients and `pdf_only_url`, and you do not need `front_image_url` or `image_template`.
 
 | Requirement | Postcard | Letter | Notecard | Gift Card | Magnacard |
 | --- | --- | --- | --- | --- | --- |
 | Audience (`recipients`, `mailing_lists`, or `radius_search`) | Required | Required | Required | Required | Required |
-| Front creative (`front_image_url`, `image_template`, or `creative_id`) | Required unless `message` is specified | Required unless `message` is specified or `pdf_only_url` is set | Required unless `message` is specified | Required unless `message` is specified | Required unless `message` is specified |
-| Message (`message`, `message_template`, or `creative_id`) | Required | Required unless using `pdf_only_url` | Required | Required | Required |
-| Back or interior creative (`custom_background_image`) | Optional | Not used | Optional | Not used | Optional |
+| Front image (`creative_id`, `front_image_url`, or `image_template`) | Required unless `message` is specified | Required unless `message` is specified or `pdf_only_url` is set | Required unless `message` is specified | Required unless `message` is specified | Required unless `message` is specified |
+| Message (`creative_id`, `message`, or `message_template`) | Required | Required unless using `pdf_only_url` | Required | Required | Required |
+| Back or interior image (`custom_background_image`) | Optional | Not used | Optional | Not used | Optional |
 | PDF-only letter (`pdf_only_url`) | Not used | Optional alternative | Not used | Not used | Not used |
 
 ## _Recipients_
@@ -90,14 +92,16 @@ Each entry in `recipients` takes the same fields as a [recipient](/api-reference
 
 ## _Front Image_
 
+If you send with `creative_id`, skip this section — the creative supplies the front design.
+
 For postcards, notecards, magnacards, and gift cards, this is used for the front of the mailer. For windowed and windowless letters, this is used for the background of the cover letter unless you are sending a PDF-only letter.
 
-The creative can be specified in two ways:
+The front image can be specified in two ways:
 
 - Use `front_image_url` to provide a PNG or JPEG image URL.
 - Use `image_template` to provide a thanks.io image template ID.
 
-If you provide `image_template`, you typically do not need `front_image_url`. If you provide `message`, a front creative is not required. If you provide `pdf_only_url` for a letter, you do not need either of these fields.
+If you provide `image_template`, you typically do not need `front_image_url`. If you provide `message`, a front image is not required. If you provide `pdf_only_url` for a letter, you do not need either of these fields.
 
 ## _Back/Interior Image_
 
@@ -106,9 +110,11 @@ If you provide `image_template`, you typically do not need `front_image_url`. If
 
 ## _Message_
 
+If you send with `creative_id`, skip this section — the creative supplies the message.
+
 The message content specifies the content that the thanks.io handwriting engine places on the mailer.
 
-For postcards, this specifies the content for the back of the postcard. For notecards and gift cards, this specifies the interior content. For windowed and windowless letters, this specifies the cover letter content. In all cases, the message content is overlaid on top of the creative when applicable.
+For postcards, this specifies the content for the back of the postcard. For notecards and gift cards, this specifies the interior content. For windowed and windowless letters, this specifies the cover letter content. In all cases, the message content is overlaid on top of the front image when applicable.
 
 The content can be specified in two ways:
 
@@ -121,7 +127,7 @@ By default, mail is sent via first class. Use the `send_standard_mail` field if 
 
 # Handwriting
 
-The handwriting style can be customized using the `handwriting_style`, `handwriting_color`, and `handwriting_realism` fields.
+The handwriting style can be customized using the `handwriting_style`, `handwriting_color`, `handwriting_size`, and `handwriting_realism` fields.
 
 # QR Codes
 

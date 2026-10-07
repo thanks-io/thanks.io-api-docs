@@ -1,0 +1,42 @@
+---
+title: "Usage"
+description: "Info on using thanks.io's Creatives Library endpoints"
+---
+
+# Overview
+
+A creative is a saved pairing of a front design (an image template) and a message template in your Creatives library. It is the recommended way to send: instead of assembling an image, a message, and handwriting settings on every request, you pass one `creative_id` and thanks.io sends the creative exactly as saved — its design, message, handwriting, and background all come from the creative.
+
+Creatives are designed and managed in your [dashboard](https://dashboard.thanks.io). Designs you upload to Image Templates, message templates you save, and designs you build with ThanksAI Studio all appear in the library. The API lists and reads your library so your integration can find the right `creative_id`; it does not create creatives.
+
+# Sending a Creative
+
+Pass the creative's `id` as `creative_id` to any [send](/api-reference/send-mailer-usage) or estimate endpoint, with your audience:
+
+```json
+{
+  "creative_id": 501,
+  "recipients": [
+    { "name": "Jane Doe", "address": "123 Main St", "city": "Austin", "province": "TX", "postal_code": "78701" }
+  ]
+}
+```
+
+A creative sends exactly as saved, so it cannot be combined with parameters that would change what it prints — see [Send a Creative](/api-reference/send-mailer-usage#send-a-creative) for the exact rules. Only `qrcode_url` and, for letters, `additional_pages_url` can be added.
+
+# Finding the Right Creative
+
+[List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives) returns your library 24 per page, default creatives first. Three filters matter most for sending:
+
+- `mailer_type` — a creative can only be sent through the endpoint matching its type. For postcards, size counts: a 6x9 send needs a `postcard6x9` creative, while `postcard` is 4x6.
+- `complete_only=true` — return only creatives that are ready to send.
+- `search` — match creatives by name.
+
+# Complete and Incomplete Creatives
+
+A creative can only be sent when it is complete: both the front design and the message are present (letters need only a message). Each creative in the API response carries:
+
+- `is_complete` — whether it can be sent.
+- `needs` — which sides an incomplete creative is missing (`front`, `message`).
+
+To complete a creative, open it in your dashboard's Creatives library and add the missing side. Sending an incomplete creative returns a `422`.

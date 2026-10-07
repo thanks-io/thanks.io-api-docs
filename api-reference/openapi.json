@@ -840,6 +840,7 @@
       },
       "creative": {
         "type": "object",
+        "description": "A creative from your Creatives library: a saved pairing of an image template and a message template, sent exactly as saved by passing its `id` as `creative_id` to any send or estimate endpoint.",
         "properties": {
           "id": {
             "type": "integer",
@@ -2711,7 +2712,8 @@
       "name": "Image Templates"
     },
     {
-      "name": "Creatives Library"
+      "name": "Creatives Library",
+      "description": "Your Creatives library: saved pairings of an image template and a message template. Sending one by `creative_id` is the recommended way to send. Creatives are designed in your dashboard; these endpoints list and read them so your integration can find the right `creative_id`."
     },
     {
       "name": "Handwriting Styles"
@@ -4282,7 +4284,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -4563,7 +4565,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -4790,7 +4792,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -5052,7 +5054,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -5315,7 +5317,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -5572,7 +5574,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -5832,7 +5834,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6002,7 +6004,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6160,7 +6162,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6319,7 +6321,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6478,7 +6480,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6632,7 +6634,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
                         "example": 501
                       },
                       "image_template_id": {

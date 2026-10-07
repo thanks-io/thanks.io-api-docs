@@ -1,7 +1,11 @@
 ---
-title: 'Creative Message'
-description: 'How do I set the creative message for an Order?'
+title: 'Message Content'
+description: 'How do I set the message content for an Order?'
 ---
+
+<Note>
+  The recommended way to set both the message and the front image is to send a complete creative with `creative_id` — see [Send a Creative](/api-reference/send-mailer-usage#send-a-creative). The options below set the message per request instead.
+</Note>
 
 The message content specifies the content the thanks.io handwriting engine will place on the mailer.  
 
@@ -9,7 +13,7 @@ The message content specifies the content the thanks.io handwriting engine will 
 - For notecards and giftcards this will specify content for the interior of the card.  
 - For windowed and windowless letters this will specify content for the cover letter. 
 
-In all cases the message content is overlayed on top of the image creative if specified.
+In all cases the message content is overlayed on top of the front image if specified.
 
 The content can be specified in two different ways:
 

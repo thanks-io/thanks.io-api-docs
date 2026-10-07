@@ -1,13 +1,17 @@
 ---
-title: 'Creative Images'
-description: 'How do I set the creative image for an Order?'
+title: 'Front Images'
+description: 'How do I set the front image for an Order?'
 ---
+
+<Note>
+  The recommended way to set both the front image and the message is to send a complete creative with `creative_id` — see [Send a Creative](/api-reference/send-mailer-usage#send-a-creative). The options below set the image per request instead.
+</Note>
 
 # Front Image
 
 For postcards, notecards, magnacards, and giftcards, this will be used for the front of the mailer.  For windowed and windowless letters this will be used for the background of the cover letter.
 
-The creative can be specified in two different ways:
+The front image can be specified in two different ways:
 
 - Using `front_image_url` a URL can be specified to an png or jpeg image. 
 - Using `image_template` a template ID can be specified to use a pre-designed thanks.io image template for the mailer.
