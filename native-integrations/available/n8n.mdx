@@ -28,7 +28,7 @@ Connect thanks.io to your n8n automations. The thanks.io node is available direc
 
 Use your thanks.io API key as a Bearer Token credential in n8n.
 
-1. Create or copy your API key in the thanks.io dashboard.
+1. Create or copy your API key in your thanks.io dashboard under **Settings → [API Access](https://dashboard.thanks.io/app/settings/api-access)**.
 2. In n8n, add new credentials for the Thanks.io nodes and paste the key.
 
 Learn more: [Authentication → Bearer Token](/authentication/bearer-token)
@@ -36,6 +36,7 @@ Learn more: [Authentication → Bearer Token](/authentication/bearer-token)
 ## What you can do
 
 -  Add recipient to an existing Mailing List.  This allows you to easily hook into all thanks.io automations.
+-  Send a creative from your Creatives library. Every mailer send operation has a **Creative** field: pick a creative from the list, which shows your complete creatives of the selected mailer type, or enter its creative ID. With a Creative set, leave the image, message, handwriting, and background fields empty; the creative sends exactly as saved. You can still add a QR Code URL, and Additional Pages URL for letters. Image Template ID or Front Image URL is only required when no Creative is set. If you don't see the field, update the thanks.io node to the latest version. See [Send a Creative](/api-reference/send-mailer-usage#send-a-creative).
 
 Refer to the node descriptions in n8n for exact inputs/outputs and available fields.
 

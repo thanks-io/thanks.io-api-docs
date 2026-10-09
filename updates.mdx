@@ -5,6 +5,47 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="October 10" tags={["New Feature", "API"]} >
+
+## Creatives: Save a Design Once, Send It from Anywhere
+
+Your designs now live in one **Creatives** library. A creative pairs a front design with a message, including its handwriting, QR code and background, and is saved for one mail type. Your existing designs and message templates are already in it.
+
+Each card shows whether it's **Ready to send** or what it still needs, and lets you **Make default**, duplicate it, share a copy with a link, or copy its creative ID. Use that ID to send the creative from anywhere you mail:
+
+- **n8n:** every send operation has a **Creative** field. Update the thanks.io node to get it.
+- **HubSpot:** the record tab shows **Your creatives** above the design picker, and the workflow send actions have a creative dropdown.
+- **AI assistants** connected to the thanks.io MCP server can list, read, create and update creatives, and send with `creative_id`.
+
+[Learn about Creatives](https://help.thanks.io/templates-and-design/creatives).
+
+### What changed in the API
+
+- Every [Send Mailer](/api-reference/send-mailer-usage#send-a-creative) and Estimate endpoint accepts `creative_id` and sends that complete creative exactly as saved. Only `qrcode_url` and, for letters, `additional_pages_url` can be added; other design or message parameters return a `422`.
+- [`GET /api/v2/creatives`](/api-reference/endpoint/creatives-library/list-all-creatives) and [`GET /api/v2/creatives/{id}`](/api-reference/endpoint/creatives-library/get-creative) read your library, filtered by `mailer_type`, `complete_only` or `search`. [See how creatives work](/api-reference/creatives-library-usage).
+
+<Note>
+**If you use ThanksAI Studio through an AI assistant:** the Studio tools are now `create-studio-design`, `get-studio-design`, `list-studio-designs`, `refine-studio-design`, `update-studio-design` and `save-studio-design-templates`, and take a `design_id`, which is not a creative ID. `create-creative`, `get-creative`, `list-creatives` and `update-creative` now work with your Creatives library instead, so update any saved prompts that use them for Studio.
+</Note>
+
+</Update>
+
+<Update label="October 10" tags={["Improvement"]} >
+
+## A Redesigned Dashboard
+
+The thanks.io dashboard has a new look and a simpler layout. The sidebar is organized around what you do: **Send**, **Audience**, **Creatives** and **Reports**.
+
+- **Creatives** is the home for every design, with ThanksAI Studio built in.
+- **Send Mail** starts from a creative, a separate front and message, or a creative you make on the spot. Previews show the print zones, and one **Add Recipients** dialog combines manual entry, CSV or Excel upload, your mailing lists and radius search.
+- **Campaigns** are organized by mailing list, each with its stats, a 12-month projected sends chart, and **Start all** and **Pause all**. New campaigns take four steps: Who, What, When and Review.
+- **Branding** pairs the Brand builder with **Branded designs**, where you see and replace the default design each mail piece uses.
+- **Settings** and billing are redesigned, and every charge asks you to confirm first.
+
+Your lists, campaigns, orders and API integrations carry on unchanged, and old bookmarks redirect to the new pages automatically. [Take the dashboard tour](https://help.thanks.io/getting-started/dashboard-tour).
+
+</Update>
+
 <Update label="October 9" tags={["New Feature"]} >
 
 ## Sign In with Google

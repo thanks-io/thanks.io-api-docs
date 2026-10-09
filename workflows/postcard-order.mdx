@@ -5,7 +5,53 @@ icon: 'cards'
 ---
 
 
-Below is just one of many ways the endpoint can be utilized.  There is extensive flexiblity - see the [Send Mailer Usage Page](/api-reference/send-mailer-usage) for details on all options.
+Below are two of the many ways the endpoint can be used. There is extensive flexibility - see the [Send Mailer Usage Page](/api-reference/send-mailer-usage) for details on all options.
+
+## Send a Creative (Recommended)
+
+Design the postcard once as a creative in your [dashboard](https://dashboard.thanks.io/app/creatives), then send it by ID. The creative supplies the front design, the message, the handwriting, and the background, so the request only needs your audience.
+
+<Steps>
+  <Step title="Find the Creative">
+    List your complete 4x6 postcard creatives and note the `id` of the one you want to send. You can also copy the ID from the creative's card menu (**Copy creative ID**) in the dashboard.
+
+    See [List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives) for more info.
+
+  ```bash
+  curl -X GET "https://api.thanks.io/api/v2/creatives?mailer_type=postcard&complete_only=1" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY"
+  ```
+  </Step>
+  <Step title="Send the Creative">
+    Pass the ID as `creative_id` with your recipients.
+
+  ```bash
+  curl -X POST "https://api.thanks.io/api/v2/send/postcard" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{
+      "creative_id": "CREATIVE_ID_FROM_PREVIOUS_STEP",
+      "recipients": [
+        {
+          "name": "Jane Doe",
+          "address": "456 Another St",
+          "city": "Fake City",
+          "province": "NY",
+          "postal_code": "55555",
+          "country": "US"
+        }
+      ]
+    }'
+  ```
+  </Step>
+</Steps>
+
+A creative sends exactly as saved, so leave out the image, message, handwriting, and background parameters. You can still add `qrcode_url`. For a 6x9 or 6x11 creative, list with `mailer_type=postcard6x9` or `postcard6x11` and send with the matching `size` (`6x9` or `6x11`); when you leave `size` out, the send uses your account's default postcard size. See [Send a Creative](/api-reference/send-mailer-usage#send-a-creative) for the full rules.
+
+## Send an Image and Message
+
+To build the postcard in the request instead, pass the front image and the message directly:
 
 ```bash
   curl -X POST "https://api.thanks.io/api/v2/send/postcard" \

@@ -12,7 +12,7 @@
     "title": "thanks.io API",
     "description": "Use the thanks.io API to send postcards, letters, notecards, windowless letters, and gift cards.",
     "contact": {
-      "url": "https://www.thanks.io",
+      "url": "https://thanks.io",
       "email": "support@thanks.io"
     },
     "version": "1.0.0"
@@ -1000,7 +1000,7 @@
           "qrcode_url": {
             "type": "string",
             "description": "URL of the QR code image for the message template",
-            "example": "https://www.thanks.io"
+            "example": "https://thanks.io"
           },
           "cc_emails": {
             "type": "array",
@@ -1131,7 +1131,7 @@
             "type": "string",
             "format": "uri",
             "description": "URL of the QR code image to use for the template.",
-            "example": "https://www.thanks.io"
+            "example": "https://thanks.io"
           },
           "cc_emails": {
             "type": "array",
@@ -1275,7 +1275,7 @@
           },
           "company": {
             "type": "string",
-            "example": "www.thanks.io"
+            "example": "thanks.io"
           },
           "address": {
             "type": "string",
@@ -1400,7 +1400,7 @@
           },
           "company": {
             "type": "string",
-            "example": "www.thanks.io"
+            "example": "thanks.io"
           },
           "address": {
             "type": "string",
@@ -1527,7 +1527,7 @@
           },
           "company": {
             "type": "string",
-            "example": "www.thanks.io"
+            "example": "thanks.io"
           },
           "address": {
             "type": "string",
@@ -1684,7 +1684,7 @@
           },
           "company": {
             "type": "string",
-            "example": "www.thanks.io"
+            "example": "thanks.io"
           },
           "address": {
             "type": "string",
@@ -5574,7 +5574,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`). A gift card creative's message carries its gift card brand and amount, so `giftcard_brand` and `giftcard_amount_in_cents` can be left out.",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6634,7 +6634,7 @@
                     "properties": {
                       "creative_id": {
                         "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`). A gift card creative's message carries its gift card brand and amount, so `giftcard_brand` and `giftcard_amount_in_cents` can be left out.",
                         "example": 501
                       },
                       "image_template_id": {
@@ -6827,7 +6827,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "example": "https://www.thanks.io"
+              "example": "https://thanks.io"
             },
             "description": "Location to redirect recipeint to on QR Code Scan. Can be one of the following\n- `~MESSAGE_QR~` for Message Template QR Code\n- Valid http URL"
           },
@@ -8756,7 +8756,7 @@
             "schema": {
               "type": "boolean"
             },
-            "description": "Only return creatives with both sides present (letters need only a message). Only complete creatives can be sent."
+            "description": "Only return creatives with both sides present (letters need only a message). Only complete creatives can be sent. Pass `1` to turn the filter on."
           },
           {
             "name": "search",
@@ -8772,7 +8772,7 @@
             "schema": {
               "type": "boolean"
             },
-            "description": "Include creatives hidden from the library."
+            "description": "Include creatives hidden from the library. Pass `1` to turn it on."
           },
           {
             "name": "page",
@@ -9838,6 +9838,22 @@
               "enum": ["postcard", "postcard6x9", "postcard6x11", "letter", "windowlessletter", "notecard", "giftcard", "magnacard", "4x6-postcard", "6x9-postcard"]
             },
             "description": "Only return orders of this mailer type. `postcard` returns 4x6 postcards only; `postcard6x9` returns all 6x9 postcards, including 6x9 orders placed before 6x9 had its own type. `4x6-postcard` and `6x9-postcard` are accepted as aliases for `postcard` and `postcard6x9`."
+          },
+          {
+            "name": "creative_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Only return orders sent as this creative from your Creatives library. Use an `id` from [List Creatives](/api-reference/endpoint/creatives-library/list-all-creatives)."
+          },
+          {
+            "name": "campaign",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Only return orders sent by a campaign. Pass the ID of the campaign's mailing list: every order sent by that list's campaign actions is returned, including actions that have since been deleted."
           }
         ],
         "responses": {
@@ -10485,7 +10501,7 @@
                       "required": ["address"],
                       "properties": {
                         "name": { "type": "string", "example": "Tobias Example" },
-                        "company": { "type": "string", "example": "www.thanks.io" },
+                        "company": { "type": "string", "example": "thanks.io" },
                         "address": { "type": "string", "example": "123 Main Street" },
                         "address2": { "type": "string", "example": "Apartment 1" },
                         "city": { "type": "string", "example": "Any Town" },

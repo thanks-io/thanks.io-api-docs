@@ -9,7 +9,7 @@ If you are building a multi-account SaaS integration where each customer connect
 
 # API Key
 
-All API requests must be authenticated with a bearer token. This token can be created in your [API Settings](https://dashboard.thanks.io/profile/api) under the "Personal Access Tokens (API Key)" section.
+All API requests must be authenticated with a bearer token. Create one in your dashboard under **Settings → [API Access](https://dashboard.thanks.io/app/settings/api-access)**: in the **API Keys** section, click **Create API Key**, name the key, and copy it. The key is shown only once.
 
 # Bearer Token
 
@@ -42,5 +42,7 @@ Here is a minimal example of an authenticated request using `curl`:
       "front_image_url": "https://cdn.thanks.io/inspiration_templates/default10.png"
     }'
     ```
+
+For production sends, we recommend sending a saved creative with `creative_id` in place of the image and message parameters. See [Send a Creative](/api-reference/send-mailer-usage#send-a-creative).
 
 For a full first-request walkthrough, including testing mode, see the [Quickstart](/quickstart).
