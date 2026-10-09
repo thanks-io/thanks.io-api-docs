@@ -613,6 +613,30 @@
               }
             }
           },
+          "preview": {
+            "type": "object",
+            "description": "The rendered proof of this recipient's piece, personalized with their name, address and custom fields. Each value is `null` until the piece has been rendered, which happens shortly after the order is placed, and stays `null` for a piece that failed before rendering. Absent on gift card orders: the rendered card carries the redemption code, so it is never returned.",
+            "properties": {
+              "front": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "Image of the front of the piece. For a letter or windowless letter, the first page.",
+                "example": "https://cdn.thanks.io/orders/items/proofs/front-example.png"
+              },
+              "back": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "Image of the back of the piece. Postcards and magnacards only; `null` for other mailer types.",
+                "example": "https://cdn.thanks.io/orders/items/proofs/back-example.png"
+              },
+              "pdf": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "PDF proof of the full piece. Letters, windowless letters and notecards only; `null` for other mailer types.",
+                "example": null
+              }
+            }
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -9742,7 +9766,7 @@
       "get": {
         "tags": ["Orders"],
         "summary": "List Order Items",
-        "description": "Return the individual mail pieces that make up an order, one entry per recipient, with that piece's delivery status, delivery date, QR scan count, failure reason and recipient address. Use this when you need per-piece detail; Track Order returns the same order as aggregate counts instead.\n\nResults are paginated and ordered by item ID, ascending. The order must belong to the authenticated account.\n\nFor gift card orders each item also carries the gift card's `brand` and `amount`, plus `redeemed_at` and `invalidated_at` so you can see which cards have been claimed. To stop an unredeemed card from being redeemed, use Invalidate Gift Card.\n\nThe recipient's ten custom fields come back alongside the address, so the data you merged into the piece is available with it. Message content, creative and preview images, and per-item pricing are not part of this response; read those from the order itself.",
+        "description": "Return the individual mail pieces that make up an order, one entry per recipient, with that piece's delivery status, delivery date, QR scan count, failure reason and recipient address. Use this when you need per-piece detail; Track Order returns the same order as aggregate counts instead.\n\nResults are paginated and ordered by item ID, ascending. The order must belong to the authenticated account.\n\nFor gift card orders each item also carries the gift card's `brand` and `amount`, plus `redeemed_at` and `invalidated_at` so you can see which cards have been claimed. To stop an unredeemed card from being redeemed, use Invalidate Gift Card.\n\nThe recipient's ten custom fields come back alongside the address, so the data you merged into the piece is available with it. Each item also carries a `preview` with the rendered front and back of that recipient's piece (and a PDF proof for letters and notecards), so you can see exactly what was mailed to each person. Previews are `null` until the piece has been rendered, shortly after the order is placed, and are never returned for gift card orders. Message content and per-item pricing are not part of this response; read those from the order itself.",
         "parameters": [
           {
             "name": "orderId",
@@ -9839,6 +9863,11 @@
                         "custom9": "",
                         "custom10": ""
                       },
+                      "preview": {
+                        "front": "https://cdn.thanks.io/orders/items/proofs/2668662-front.png",
+                        "back": "https://cdn.thanks.io/orders/items/proofs/2668662-back.png",
+                        "pdf": null
+                      },
                       "created_at": "2025-09-08T16:05:12.000000Z"
                     },
                     {
@@ -9868,6 +9897,11 @@
                         "custom8": null,
                         "custom9": null,
                         "custom10": null
+                      },
+                      "preview": {
+                        "front": "https://cdn.thanks.io/orders/items/proofs/2668663-front.png",
+                        "back": "https://cdn.thanks.io/orders/items/proofs/2668663-back.png",
+                        "pdf": null
                       },
                       "created_at": "2025-09-08T16:05:12.000000Z"
                     }
