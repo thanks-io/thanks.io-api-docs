@@ -8,7 +8,7 @@ Giftcards offer extension features to end users, including gating and scan track
 
 ## Send a Creative (Recommended)
 
-Design the gift card once as a creative in your [dashboard](https://dashboard.thanks.io/app/creatives). A gift card creative's message carries the gift card brand and amount along with the message and handwriting, so the send only needs the creative's ID and your audience. You don't query brands or pass `giftcard_brand` and `giftcard_amount_in_cents`.
+Design the gift card once as a creative in your [dashboard](https://dashboard.thanks.io/app/creatives). A gift card creative's message carries the gift card brand and amount along with the message and handwriting, so the send only needs the creative's ID and your audience. Don't pass `giftcard_brand` or `giftcard_amount_in_cents`: a creative send that includes either is rejected with a `422`. To send a different brand or amount, save it as its own creative.
 
 <Steps>
   <Step title="Find the Creative">
@@ -23,14 +23,14 @@ Design the gift card once as a creative in your [dashboard](https://dashboard.th
   ```
   </Step>
   <Step title="Send the Creative">
-    Pass the ID as `creative_id` with your recipients. The account is charged for the mailing and for the face value of each gift card.
+    Pass the ID as `creative_id` with your recipients, as a number. Replace `501` below with the ID from the previous step. The account is charged for the mailing and for the face value of each gift card.
 
   ```bash
   curl -X POST "https://api.thanks.io/api/v2/send/giftcard" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer YOUR_API_KEY" \
     -d '{
-      "creative_id": "CREATIVE_ID_FROM_PREVIOUS_STEP",
+      "creative_id": 501,
       "recipients": [
         {
           "name": "Jane Doe",

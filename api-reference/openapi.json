@@ -965,6 +965,11 @@
           }
         }
       },
+      "creative-id": {
+        "type": "integer",
+        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url, skip_creative_generation, or for gift cards giftcard_brand and giftcard_amount_in_cents); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
+        "example": 501
+      },
       "message-template": {
         "type": "object",
         "properties": {
@@ -4307,9 +4312,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -4588,9 +4591,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -4815,9 +4816,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -5077,9 +5076,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -5340,9 +5337,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -5597,9 +5592,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`). A gift card creative's message carries its gift card brand and amount, so `giftcard_brand` and `giftcard_amount_in_cents` can be left out.",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -5623,12 +5616,12 @@
                       },
                       "giftcard_brand": {
                         "type": "string",
-                        "description": "Brand of giftcard to use.  Must be one of the supported brands. The `/giftcard-brands` endpoint can be used to retrieve a list of supported brands.",
+                        "description": "Brand of giftcard to use.  Must be one of the supported brands. The `/giftcard-brands` endpoint can be used to retrieve a list of supported brands. Leave this out when sending a `creative_id`: a gift card creative carries its own brand and amount, and passing this with it is rejected with a 422.",
                         "example": "amazonus"
                       },
                       "giftcard_amount_in_cents": {
                         "type": "integer",
-                        "description": "Amount of giftcard in cents.  The `/giftcard-brands` endpoint can be used to retrieve a list of supported amounts by brand.",
+                        "description": "Amount of giftcard in cents.  The `/giftcard-brands` endpoint can be used to retrieve a list of supported amounts by brand. Leave this out when sending a `creative_id`: a gift card creative carries its own brand and amount, and passing this with it is rejected with a 422.",
                         "example": 10000
                       }
                     }
@@ -5857,9 +5850,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -6027,9 +6018,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -6185,9 +6174,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -6344,9 +6331,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -6503,9 +6488,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`).",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -6657,9 +6640,7 @@
                     "type": "object",
                     "properties": {
                       "creative_id": {
-                        "type": "integer",
-                        "description": "Recommended: send a saved creative instead of assembling image and message parameters per request. ID of a creative from your Creatives library (see List Creatives). The creative is sent exactly as saved: its image template, message template, handwriting and background all come from it. It cannot be combined with any parameter that changes those (image_template_id, message_template_id, front_image_url, message, the handwriting and custom background parameters, pdf_only_url or skip_creative_generation); a request that does is rejected with a 422 naming them. Only qrcode_url and additional_pages_url can be added. The creative must belong to your account, be of the mailer type being sent (for postcards, the size being sent), and be complete (`is_complete: true`). A gift card creative's message carries its gift card brand and amount, so `giftcard_brand` and `giftcard_amount_in_cents` can be left out.",
-                        "example": 501
+                        "$ref": "#/components/schemas/creative-id"
                       },
                       "image_template_id": {
                         "type": "integer",
@@ -6683,12 +6664,12 @@
                       },
                       "giftcard_brand": {
                         "type": "string",
-                        "description": "Brand of giftcard to use.  Must be one of the supported brands. The `/giftcard-brands` endpoint can be used to retrieve a list of supported brands.",
+                        "description": "Brand of giftcard to use.  Must be one of the supported brands. The `/giftcard-brands` endpoint can be used to retrieve a list of supported brands. Leave this out when sending a `creative_id`: a gift card creative carries its own brand and amount, and passing this with it is rejected with a 422.",
                         "example": "amazonus"
                       },
                       "giftcard_amount_in_cents": {
                         "type": "integer",
-                        "description": "Amount of giftcard in cents.  The `/giftcard-brands` endpoint can be used to retrieve a list of supported amounts by brand.",
+                        "description": "Amount of giftcard in cents.  The `/giftcard-brands` endpoint can be used to retrieve a list of supported amounts by brand. Leave this out when sending a `creative_id`: a gift card creative carries its own brand and amount, and passing this with it is rejected with a 422.",
                         "example": 10000
                       }
                     }
@@ -8978,6 +8959,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           }
         }
       }

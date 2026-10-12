@@ -51,7 +51,15 @@ Find creative IDs with [List Creatives](/api-reference/endpoint/creatives-librar
 
 A send with `creative_id` is rejected with a `422` and an error on `creative_id` when:
 
-- It also sets a parameter that would change what the creative prints: `image_template_id`, `message_template_id` (or their `image_template` / `message_template` spellings), `front_image_url`, `message`, the handwriting parameters (`handwriting_style`, `handwriting_color`, `handwriting_size`, `realism`), the custom background parameters (`use_custom_background`, `custom_background_image`), `pdf_only_url` or `skip_creative_generation`. To send a variation, save it as its own creative.
+- It also sets a parameter that would change what the creative prints. To send a variation, save it as its own creative. These parameters can't be combined with `creative_id`:
+  - Front image: `image_template_id` (or `image_template`), `front_image_url`
+  - Message: `message`, `message_template_id` (or `message_template`)
+  - Handwriting: `handwriting_style` (or `handwriting_style_id`), `handwriting_color`, `handwriting_size`, `handwriting_realism`
+  - Background: `use_custom_background`, `custom_background_image`
+  - Letters: `pdf_only_url`, `skip_creative_generation`
+  - Gift cards: `giftcard_brand`, `giftcard_amount_in_cents`
+
+  Any other parameter that sets the front image, message, handwriting, or background is refused the same way. A parameter sent empty or `null` doesn't count, so an integration that always sends every field can leave these blank.
 - The creative isn't in your account, or was deleted.
 - The creative is a different mailer type from the endpoint. For postcards, the size counts too: a 6x9 send needs a `postcard6x9` creative. Filter the list with `mailer_type` to find the right ones.
 - The creative is incomplete (`is_complete: false`): missing its front image or its message. Letters need only a message.

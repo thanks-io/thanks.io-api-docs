@@ -24,14 +24,14 @@ Design the postcard once as a creative in your [dashboard](https://dashboard.tha
   ```
   </Step>
   <Step title="Send the Creative">
-    Pass the ID as `creative_id` with your recipients.
+    Pass the ID as `creative_id` with your recipients, as a number. Replace `501` below with the ID from the previous step.
 
   ```bash
   curl -X POST "https://api.thanks.io/api/v2/send/postcard" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer YOUR_API_KEY" \
     -d '{
-      "creative_id": "CREATIVE_ID_FROM_PREVIOUS_STEP",
+      "creative_id": 501,
       "recipients": [
         {
           "name": "Jane Doe",
