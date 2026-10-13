@@ -15,6 +15,16 @@ mode: "wide"
 
 thanks.io prints each recipient's name and address in the upper-left area of page 1, where it shows through the envelope window. Keep that area blank in your design. This includes PDF Only letters sent with `pdf_only_url`: do not put a recipient address in your PDF, or it will be printed over.
 
+# Print Zones
+
+Measured in pixels on the upload-size image above. Each size is measured in from the edge or corner named.
+
+| Zone | Size | What to know |
+|---|---|---|
+| **Bleed** | Outer 18px on every edge | Trimmed off. |
+| **Safe zone** | 42px in from every edge | Keep all text and images inside this line. |
+| **Address block** | 1627px wide from the left edge, from 465px to 1059px down from the top | The recipient address prints here and shows through the envelope window. Keep it blank. |
+
 # Image Templates
 
     <CardGroup cols={3}>

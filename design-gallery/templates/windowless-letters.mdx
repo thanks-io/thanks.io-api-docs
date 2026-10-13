@@ -11,6 +11,17 @@ mode: "wide"
 | **Pixels** | 2550px | 3300px |
 | **Inches** | 8.5in | 11in |
 
+# Print Zones
+
+Measured in pixels on the upload-size image above. Each size is measured in from the edge or corner named.
+
+| Zone | Size | What to know |
+|---|---|---|
+| **Bleed** | Outer 17px on every edge | Trimmed off. |
+| **Safe zone** | 50px in from every edge | Keep all text and images inside this line. |
+| **Barcode (single-page cover)** | 135px wide × 140px tall, from the top-right corner | A 2D barcode prints here. Keep it clear. |
+| **Barcode (multi-page cover)** | 200px wide × 260px tall, from the bottom-left corner | A 2D barcode prints here. Keep it clear. |
+
 # Image Templates
 
     <CardGroup cols={3}>
