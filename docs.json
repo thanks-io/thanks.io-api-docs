@@ -28,7 +28,7 @@
           {
             "group": "Get Started",
             "icon": "play",
-            "pages": ["index", "quickstart", "mcp-server", "updates"]
+            "pages": ["index", "quickstart", "thanks-io-mcp-server", "mcp-server", "updates"]
           },
          {
             "group": "Common Workflows",

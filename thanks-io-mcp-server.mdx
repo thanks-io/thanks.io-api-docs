@@ -1,0 +1,292 @@
+---
+title: "thanks.io MCP Server"
+sidebarTitle: "MCP Server for AI Assistants"
+og:title: "thanks.io MCP Server - Connect Claude, ChatGPT and other AI assistants"
+description: "Connect Claude, ChatGPT, Gemini, Cursor or any MCP client to your thanks.io account to plan, preview and send real postcards, letters, notecards, magnacards and gift cards."
+mode: "wide"
+---
+
+The thanks.io MCP server lets an AI assistant work in your thanks.io account. Once it is connected, you can ask in plain language and the assistant does the work with the tools listed on this page:
+
+- **Send real mail.** Postcards, windowed and windowless letters, notecards, magnacards and gift cards, to saved mailing lists or addresses you give it.
+- **Preview and price first.** Every order can be rendered as proof images with its exact total before anything is charged.
+- **Design.** Use your saved creatives and templates, or have ThanksAI Studio draw a new front design from a description.
+- **Build audiences.** Create mailing lists and add recipients.
+- **Track results.** Check printing and delivery, QR code scans and gift card redemptions, and see which designs, messages and lists perform best.
+- **Automate.** Create recurring campaigns and turn them on or off.
+
+The server is a remote MCP server at:
+
+```text
+https://mcp.thanks.io/mcp
+```
+
+<Note>
+  This is a different server from the [Documentation MCP Server](/mcp-server) at `https://docs.thanks.io/mcp`. The documentation server only searches these docs and cannot read your account or send mail. Use the server on this page to work with your account.
+</Note>
+
+## Before You Start
+
+You will need:
+
+- A [thanks.io account](https://dashboard.thanks.io/register)
+- An AI assistant that supports remote MCP servers over HTTP, such as Claude, ChatGPT, Gemini, Claude Code, Cursor or GitHub Copilot in VS Code
+
+## How It Connects
+
+### Sign in with OAuth (recommended)
+
+Most assistants need only the server URL. When you add it, the assistant opens a thanks.io sign-in page; sign in and approve access, and you are connected. There is no API key to copy or paste.
+
+The server supports OAuth 2.0 with dynamic client registration, so assistants register themselves automatically. You do not need to create an OAuth application in your dashboard first.
+
+### API key (fallback)
+
+If an assistant cannot sign in on its own, connect with an API key sent as a bearer token:
+
+1. In your dashboard, open **Settings → [API & MCP Access](https://dashboard.thanks.io/app/settings/api-access)**.
+2. In the **API Keys** section, click **Create API Key**, name it, and leave **Allow MCP access** turned on.
+3. Copy the key. It is shown only once.
+4. Configure your assistant to send it in the `Authorization` header:
+
+```json
+{
+  "mcpServers": {
+    "thanksio": {
+      "url": "https://mcp.thanks.io/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+    }
+  }
+}
+```
+
+A key created without **Allow MCP access** is refused by the MCP server. Treat an MCP-enabled key like a password: anyone holding it can act on your account, and can send mail once orders are allowed (see below).
+
+## Spending Permissions
+
+Connecting an assistant does not let it spend money. Two settings under **Settings → [API & MCP Access](https://dashboard.thanks.io/app/settings/api-access)**, in the **MCP Permissions** section, decide what it may pay for. Both start off.
+
+| Setting | What it allows |
+|---|---|
+| **Allow orders via MCP** | Placing real, paid mail orders with the send tools, and turning on a recurring campaign. |
+| **Allow lead purchases via MCP** | Paid address lookups: finding a postal address for a recipient given only an email address. |
+
+Without them, an assistant can still check results, plan, design, save templates and creatives, build mailing lists from full addresses, and preview orders. When it needs a permission you have not turned on, the tool is refused, nothing is charged, and the assistant tells you which setting to switch on.
+
+<Warning>
+  Once **Allow orders via MCP** is on, your assistant can send real mail. Orders are charged to your credit balance or card and cannot be recalled once printing starts. Gift card orders are also charged the face value of every card. The server instructs assistants to show you a preview with the total and wait for your confirmation before every send, so read the preview before you approve. Turning on a recurring campaign authorizes every send it will make on its schedule.
+</Warning>
+
+## Set Up Your Assistant
+
+The quickest way is to ask your assistant to set itself up. Paste this into the assistant you use:
+
+```text
+I'd like to connect you to my thanks.io account so you can help me with direct mail. thanks.io has a remote MCP server at https://mcp.thanks.io/mcp that uses OAuth sign-in, so no API key is needed. Walk me through adding it as a connector or MCP server in the app I'm using to talk to you right now, one step at a time. If this app can't connect to remote MCP servers, tell me which apps can.
+```
+
+Or follow the steps for your assistant. Menu names can change as these apps update.
+
+<Tabs>
+  <Tab title="Claude">
+    On claude.ai or the Claude desktop app:
+
+    1. Open **Settings**, then **Connectors**.
+    2. Choose **Add custom connector**, name it thanks.io, and paste `https://mcp.thanks.io/mcp`.
+    3. Click **Connect**, sign in to thanks.io, and approve access.
+  </Tab>
+  <Tab title="ChatGPT">
+    1. In ChatGPT, open **Settings**, then **Apps & Connectors**, and turn on **Developer mode** under **Advanced settings**.
+    2. Create a connector named thanks.io with the server URL `https://mcp.thanks.io/mcp` and OAuth authentication.
+    3. Sign in to thanks.io and approve access, then turn the connector on in a chat.
+
+    Custom connectors depend on your ChatGPT plan and workspace settings.
+  </Tab>
+  <Tab title="Gemini">
+    On gemini.google.com, on a computer:
+
+    1. Open **Settings**, then **Connected Apps**. If you don't see it, open **Personal Intelligence** first.
+    2. Under **Custom apps**, choose **Add a custom app** and paste `https://mcp.thanks.io/mcp`.
+    3. Click **Next**, sign in to thanks.io, and approve access.
+    4. In a chat, type `@` and pick thanks.io to use it.
+
+    Google currently offers custom apps to personal Google accounts in the US, in English, with Keep Activity on. Once added, thanks.io works in the Gemini mobile app too.
+
+    For the Gemini CLI, run:
+
+    ```bash
+    gemini mcp add -s user --transport http thanksio https://mcp.thanks.io/mcp
+    ```
+
+    Then start Gemini and run `/mcp auth thanksio` to sign in.
+  </Tab>
+  <Tab title="Claude Code">
+    Run this in your terminal:
+
+    ```bash
+    claude mcp add --transport http thanksio https://mcp.thanks.io/mcp
+    ```
+
+    Then start Claude Code, run `/mcp`, and choose thanks.io to sign in.
+  </Tab>
+  <Tab title="Cursor">
+    Add this to `~/.cursor/mcp.json`, or to `.cursor/mcp.json` in a project:
+
+    ```json
+    {
+      "mcpServers": {
+        "thanksio": { "url": "https://mcp.thanks.io/mcp" }
+      }
+    }
+    ```
+
+    Cursor lists thanks.io under **Settings**, then **MCP**. Click its login prompt to sign in.
+  </Tab>
+  <Tab title="VS Code">
+    For GitHub Copilot in VS Code, add this to `.vscode/mcp.json`:
+
+    ```json
+    {
+      "servers": {
+        "thanksio": { "type": "http", "url": "https://mcp.thanks.io/mcp" }
+      }
+    }
+    ```
+
+    Start the server from the file when VS Code offers to, sign in to thanks.io, then use Copilot Chat in agent mode.
+  </Tab>
+  <Tab title="Other">
+    Any assistant that supports remote MCP servers over HTTP can connect with `https://mcp.thanks.io/mcp`. If it can't sign in on its own, use an [API key](#api-key-fallback).
+
+    Assistants that only run local servers can reach thanks.io through `mcp-remote`:
+
+    ```json
+    {
+      "mcpServers": {
+        "thanksio": { "command": "npx", "args": ["mcp-remote", "https://mcp.thanks.io/mcp"] }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## What to Ask
+
+Some examples to start with:
+
+- "How is my mail doing? Which of my postcards gets the most QR scans?"
+- "Send my open house postcard to the Austin Sellers list. Show me the proof and the total first."
+- "Design a postcard for a spring HVAC tune-up special, then save it as a creative."
+- "Set up a birthday card campaign for my Clients list, but leave it paused."
+
+## How Sends Work
+
+The server guides every assistant through the same steps before any mail goes out:
+
+1. Pick the audience: a saved mailing list, or addresses you provide.
+2. Pick what to print: usually a saved creative from your creatives library, or a front design and a message.
+3. Preview the order with `preview-order`, which renders proof images and calculates the exact total without charging anything.
+4. Show you the proofs and the total, and wait for your confirmation.
+5. Send with the matching send tool.
+
+After saving a design, placing an order or creating a campaign, the assistant gives you a link to review it in your dashboard, where you can also cancel an order that is still under review.
+
+To act for one of your sub-accounts, ask the assistant to use that sub-account. It finds the sub-account with `list-sub-accounts` and passes its `sub_account_id` to the other tools.
+
+## Tools
+
+### Plan from results
+
+| Tool | What it does |
+|---|---|
+| `get-account-overview` | One briefing on the account: plan and balance, send history, best and worst performing designs and messages, mailing lists, and running campaigns. |
+| `get-performance` | QR scan rates, gift card redemptions and spend, broken down by design, message, mailer type, mailing list or campaign. |
+| `get-marketing-playbook` | Proven direct mail plays, response benchmarks and follow-up practices, for strategy questions. |
+
+### Account and catalog
+
+| Tool | What it does |
+|---|---|
+| `get-account-info` | Account details, plan, default return address, credit balance, and which MCP spending permissions are on. |
+| `list-sub-accounts` | Your sub-accounts, so the assistant can act for one with `sub_account_id`. |
+| `list-handwriting-styles` | Available handwriting styles, with sample images. |
+| `list-image-templates` | Your saved front designs. |
+| `create-image-template` | Save a new front design from an image URL, or a personalized design that changes per recipient. |
+| `update-image-template` | Rename or replace the image of one of your front designs. |
+| `list-message-templates` | Your saved messages and their handwriting settings. |
+| `create-message-template` | Save a message with its handwriting style, size and color, or a PDF to mail as a letter. |
+| `update-message-template` | Change one of your saved messages. |
+| `list-giftcard-brands` | Gift card brands you can send. |
+
+### Creatives library
+
+| Tool | What it does |
+|---|---|
+| `list-creatives` | Your creatives: saved front designs paired with a message, ready to send by `creative_id`. |
+| `get-creative` | One creative in full, and whether it is complete enough to send. |
+| `create-creative` | Pair a saved front design and message into a new creative. |
+| `update-creative` | Rename, hide, or swap the front or message of a creative. |
+
+### ThanksAI Studio
+
+| Tool | What it does |
+|---|---|
+| `create-studio-design` | Draw a new front design from a description. Free, and takes 1 to 3 minutes. |
+| `get-studio-design` | Check a design's progress and get its preview image. |
+| `list-studio-designs` | Your Studio designs, newest first. |
+| `refine-studio-design` | Ask for changes to a design, such as "make the headline bigger". |
+| `update-studio-design` | Change a design's name, QR code destination or mailer type. |
+| `save-studio-design-templates` | Save a finished design as a template and add it to your creatives library, with a new or existing message. |
+
+### Audience
+
+| Tool | What it does |
+|---|---|
+| `list-mailing-lists` | Your mailing lists and their sizes. |
+| `create-mailing-list` | Create a new mailing list. |
+| `add-recipient` | Add one recipient to a mailing list. |
+| `add-recipients` | Add many recipients to a mailing list at once. |
+| `list-recipients` | The recipients on a mailing list, with deliverability status. |
+
+### Preview then send
+
+| Tool | What it does |
+|---|---|
+| `preview-order` | Render proof images and calculate the total for an order, without charging anything. |
+| `send-postcard` | Send postcards. |
+| `send-letter` | Send letters in a windowed envelope. |
+| `send-windowlessletter` | Send letters in a windowless envelope. |
+| `send-notecard` | Send folded notecards in an envelope. |
+| `send-magnacard` | Send magnacards with a tear-off magnet. |
+| `send-giftcard` | Send gift cards. Charged for the mailing and the face value of each card. |
+
+The send tools need **Allow orders via MCP**. A recipient given an email address but no street address needs **Allow lead purchases via MCP**, for `preview-order` and the send tools as well as `add-recipient` and `add-recipients`.
+
+### Order lifecycle
+
+| Tool | What it does |
+|---|---|
+| `list-orders` | Recent orders with status, cost and QR scan counts. |
+| `get-order` | Printing and delivery status, returns, QR scans and gift card redemptions for one order. |
+| `get-order-stats` | Spend, delivery, scans and redemptions over a date range. |
+| `cancel-order` | Cancel an order that is still under review. Orders that have started printing cannot be cancelled. |
+
+### Recurring campaigns
+
+| Tool | What it does |
+|---|---|
+| `list-campaigns` | Your recurring campaigns and whether each is active. |
+| `create-campaign` | Create a recurring campaign for a mailing list. New campaigns start paused. |
+| `set-campaign-active` | Turn a campaign on or pause it. Turning one on needs **Allow orders via MCP**. Pausing is always allowed. |
+
+### Prompts
+
+The server also offers ready-made prompts for planning: plan your next campaign, review your results, set up a tracked test, win back quiet contacts, a full strategy session, and playbooks for real estate, insurance and e-commerce. How you pick a prompt depends on your assistant; many show them in a menu or as slash commands.
+
+## Disconnecting
+
+To disconnect an assistant, remove the connector or MCP server in the assistant's own settings. If you connected with an API key, delete the key under **Settings → [API & MCP Access](https://dashboard.thanks.io/app/settings/api-access)** to revoke it.
+
+## Get Help
+
+Questions about connecting an assistant? Email [support@thanks.io](mailto:support@thanks.io).
