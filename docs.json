@@ -374,6 +374,13 @@
     }
   ],
 
+  "integrations": {
+    "posthog": {
+      "apiKey": "phc_x9vVXcHH4npVKd6yxRGdCcSSLkfQ7hUYzDyhdhXrA6Uj",
+      "apiHost": "https://us.i.posthog.com"
+    }
+  },
+
   "api": {
     "playground": {
       "display": "interactive"
