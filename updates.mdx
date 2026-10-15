@@ -5,6 +5,33 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="October 15" tags={["New Feature", "API"]} >
+
+## Choose First Class or Standard Mail for Each Send
+
+You can now pick the postage class for each send and each campaign, not just for your whole account. Standard Mail, also known as Marketing Mail, costs less for US addresses but takes longer, with no tracking status and no return-to-sender.
+
+- **Send Mail:** choose **First Class** or **Standard Mail** when you review the order, with the price of each shown.
+- **Campaigns:** set a postage class for the campaign, or leave it on **Account default**.
+- **API:** every [Send Mailer](/api-reference/send-mailer-usage#postage-class) and Estimate endpoint accepts `postage_class`, set to `first_class` or `standard`.
+- **AI assistants** connected to the thanks.io MCP server can set `postage_class` when sending, previewing an order or creating a campaign, and `get-account-info` shows your `default_postage_class`.
+
+For example, add this to a send request to mail it by Standard Mail:
+
+```json
+{
+  "postage_class": "standard"
+}
+```
+
+Leave it out and the send follows **Standard Mail Mode** under **Settings > Mail Preferences**, which is now your default. Standard Mail is a paid-plan feature: free-plan accounts always mail First Class, and nonprofit accounts keep their nonprofit rate.
+
+<Note>
+**If your integration sends `send_standard_mail`:** it keeps working, but it's deprecated in favor of `postage_class`, which can also choose First Class. A request that includes both fields is rejected with a `422`.
+</Note>
+
+</Update>
+
 <Update label="October 15" tags={["New Feature"]} >
 
 ## Save a Return Address for Each Office

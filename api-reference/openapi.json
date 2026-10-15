@@ -2292,10 +2292,11 @@
             "description": "Optional comma-separated list of email addresses to notify about order events such as QR scan notifications.",
             "example": "ops@example.com,sales@example.com"
           },
-          "send_standard_mail": {
-            "type": "boolean",
-            "description": "Set to true to use Standard Mail postage. If false or omitted, account default is used.",
-            "default": false
+          "postage_class": {
+            "type": "string",
+            "description": "Postage class for this order. `first_class` mails First Class. `standard` mails Standard Mail (also known as Marketing Mail): lower cost for US addresses and slower to deliver, with no tracking status and no return-to-sender. Omit it to use your account's default, set with Standard Mail Mode under Settings > Mail Preferences. Standard Mail only changes the price of US addresses. Nonprofit accounts always mail at their nonprofit rate. `standard` needs a paid plan: free plan accounts always mail First Class, and `standard` from one is rejected with a 422.",
+            "enum": ["first_class", "standard"],
+            "example": "standard"
           },
           "return_name": {
             "type": "string",
@@ -4421,7 +4422,7 @@
                     "use_custom_background": true,
                     "custom_background_image": "https://s3.amazonaws.com/content.thanks.io/templates/branding-builder-images/c09d39aadfc-3701d4467b8/449d24b0-78cb-11f0-a351-bfecbf71caa6.png",
                     "handwriting_style_id": 3,
-                    "send_standard_mail": true,
+                    "postage_class": "standard",
                     "mailing_list_ids": [5166, 514]
                   }
                 },
@@ -5425,12 +5426,12 @@
                   }
                 },
                 "Radius Search": {
-                  "summary": "Notecard with Radius Search Targeting and Standard Shipping",
+                  "summary": "Notecard with Radius Search Targeting and Standard Mail",
                   "description": "Example of sending a notecard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
                     "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "send_standard_mail": "true",
+                    "postage_class": "standard",
                     "radius_search": {
                       "address": "123 Main Street, Fake City, NY, 55555",
                       "record_types": "likelytomove",
@@ -5673,12 +5674,12 @@
                   }
                 },
                 "Radius Search": {
-                  "summary": "Giftcard with Radius Search Targeting and Standard Shipping",
+                  "summary": "Giftcard with Radius Search Targeting and Standard Mail",
                   "description": "Example of sending a giftcard using radius search to automatically find and target recipients within a specific geographic area, with custom message and image URL.",
                   "value": {
                     "front_image_url": "https://cdn.thanks.io/notecard-inspirations/note1.png",
                     "message": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!",
-                    "send_standard_mail": "true",
+                    "postage_class": "standard",
                     "giftcard_brand": "amazonus",
                     "giftcard_amount_in_cents": 10000,
                     "radius_search": {

@@ -129,9 +129,24 @@ The content can be specified in two ways:
 - Use `message` to provide the text directly.
 - Use `message_template` to reference a thanks.io message template. Message templates can include QR codes and handwriting settings.
 
-# Standard Mail
+# Postage Class
 
-By default, mail is sent via first class. Use the `send_standard_mail` field if you want to send the order via standard mail instead.
+Use the `postage_class` field to choose how an order is mailed:
+
+- `first_class` - First Class postage, with tracking status and return-to-sender.
+- `standard` - Standard Mail, also known as Marketing Mail. It costs less for US addresses and takes longer to deliver, with no tracking status and no return-to-sender.
+
+```json
+{
+  "creative_id": 501,
+  "postage_class": "standard",
+  "mailing_list_ids": [5166]
+}
+```
+
+If you leave `postage_class` out, the order uses your account's default, which you set with **Standard Mail Mode** under **Settings > Mail Preferences** in your dashboard. The [estimate endpoints](#estimate) accept the same field, so you can compare the cost of both classes before sending.
+
+Standard Mail only changes the price of US addresses, and nonprofit accounts always mail at their nonprofit rate. Standard Mail needs a paid plan: free plan accounts always mail First Class, and a request from one that sets `postage_class` to `standard` is rejected with a `422`.
 
 # Handwriting
 
