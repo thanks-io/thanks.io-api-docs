@@ -942,7 +942,7 @@
               "object",
               "null"
             ],
-            "description": "The front. `deleted` is true when the template was deleted after the creative was made."
+            "description": "The front. `deleted` is true when the template was deleted after the creative was made. `tracked_qr_url` is set when the front prints a tracked thanks.io QR code over the one in your uploaded design, and is the address its scans go to."
           },
           "message_template": {
             "type": [
