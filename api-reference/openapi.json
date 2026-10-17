@@ -582,6 +582,11 @@
                 "type": ["string", "null"],
                 "description": "Custom field 10 as submitted with the order.",
                 "example": ""
+              },
+              "absentee_address": {
+                "type": ["string", "null"],
+                "description": "The absentee (property) address as it was when this piece was sent, or null. Mail was delivered to `address`.",
+                "example": "742 Evergreen Terrace, Springfield, IL 62704"
               }
             }
           },
@@ -964,6 +969,26 @@
             "type": "string"
           }
         }
+      },
+      "absentee-address": {
+        "type": "string",
+        "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. Give either the whole address here, or the street line here with `absentee_city`, `absentee_province` and `absentee_postal_code`. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Include the city, state and ZIP so Street View finds the right property. It is stored and returned in its own `absentee_address` field, so `custom1` through `custom10` stay free. The older convention of `custom1` = `absentee` with `custom2` = the property address is still accepted and copied into `absentee_address`.",
+        "example": "742 Evergreen Terrace"
+      },
+      "absentee-city": {
+        "type": "string",
+        "description": "City of the absentee (property) address. Requires `absentee_address` in the same request.",
+        "example": "Springfield"
+      },
+      "absentee-province": {
+        "type": "string",
+        "description": "State or province of the absentee (property) address. Requires `absentee_address` in the same request.",
+        "example": "IL"
+      },
+      "absentee-postal-code": {
+        "type": "string",
+        "description": "ZIP or postal code of the absentee (property) address. Requires `absentee_address` in the same request.",
+        "example": "62704"
       },
       "creative-id": {
         "type": "integer",
@@ -1399,6 +1424,11 @@
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
           },
+          "absentee_address": {
+            "type": ["string", "null"],
+            "description": "The property (absentee) address the absentee image template and message variables use, or null when none is set. Mail is delivered to `address`, not here.",
+            "example": "742 Evergreen Terrace, Springfield, IL 62704"
+          },
           "mailing-list": {
             "readOnly": true,
             "allOf": [
@@ -1523,6 +1553,11 @@
             "type": "string",
             "description": "Custom field for additional information about the recipient",
             "example": "Any Extra Info"
+          },
+          "absentee_address": {
+            "type": ["string", "null"],
+            "description": "The property (absentee) address the absentee image template and message variables use. Present only on recipients sent with an absentee address. Mail is delivered to `address`, not here.",
+            "example": "742 Evergreen Terrace, Springfield, IL 62704"
           }
         }
       },
@@ -1652,24 +1687,16 @@
             "example": "Any Extra Info"
           },
           "absentee_address": {
-            "type": "string",
-            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. Give either the whole address here, or the street line here with `absentee_city`, `absentee_province` and `absentee_postal_code`. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Include the city, state and ZIP so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = the full address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
-            "example": "742 Evergreen Terrace"
+            "$ref": "#/components/schemas/absentee-address"
           },
           "absentee_city": {
-            "type": "string",
-            "description": "City of the absentee (property) address. Requires `absentee_address`.",
-            "example": "Springfield"
+            "$ref": "#/components/schemas/absentee-city"
           },
           "absentee_province": {
-            "type": "string",
-            "description": "State or province of the absentee (property) address. Requires `absentee_address`.",
-            "example": "IL"
+            "$ref": "#/components/schemas/absentee-province"
           },
           "absentee_postal_code": {
-            "type": "string",
-            "description": "ZIP or postal code of the absentee (property) address. Requires `absentee_address`.",
-            "example": "62704"
+            "$ref": "#/components/schemas/absentee-postal-code"
           },
           "mailing-list": {
             "readOnly": true,
@@ -1809,24 +1836,16 @@
             "example": "Any Extra Info"
           },
           "absentee_address": {
-            "type": "string",
-            "description": "The property (absentee) address for this recipient, such as a house an absentee owner owns, as opposed to where they get mail. Give either the whole address here, or the street line here with `absentee_city`, `absentee_province` and `absentee_postal_code`. When set, the `~ABSENTEE_STREET~`, `~ABSENTEE_FULL_ADDRESS~`, `~FULL_ADDRESS~` and `~STREET_VIEW~` image template variables, and `%ABSENTEE_STREET%` in messages, use this address instead of the mailing address. The mailer is still delivered to `address`. Include the city, state and ZIP so Street View finds the right property. It is stored as `custom1` = `absentee` and `custom2` = the full address and is returned that way, so it cannot be combined with `custom1` or `custom2`: a recipient that sets either one as well is rejected with a 400.",
-            "example": "742 Evergreen Terrace"
+            "$ref": "#/components/schemas/absentee-address"
           },
           "absentee_city": {
-            "type": "string",
-            "description": "City of the absentee (property) address. Requires `absentee_address`.",
-            "example": "Springfield"
+            "$ref": "#/components/schemas/absentee-city"
           },
           "absentee_province": {
-            "type": "string",
-            "description": "State or province of the absentee (property) address. Requires `absentee_address`.",
-            "example": "IL"
+            "$ref": "#/components/schemas/absentee-province"
           },
           "absentee_postal_code": {
-            "type": "string",
-            "description": "ZIP or postal code of the absentee (property) address. Requires `absentee_address`.",
-            "example": "62704"
+            "$ref": "#/components/schemas/absentee-postal-code"
           },
           "mailing-list": {
             "readOnly": true,
@@ -3143,13 +3162,31 @@
         "tags": ["Recipients"],
         "summary": "Update Recipient",
         "operationId": "updateRecipientDetails",
-        "description": "Update details of a specific recipient by ID.",
+        "description": "Update details of a specific recipient by ID. Leave out `absentee_address` to keep the current absentee address. Sending it replaces the stored absentee address as a whole, so send it together with any of `absentee_city`, `absentee_province` and `absentee_postal_code`: those on their own, for example only a new ZIP, are refused with a 400 and nothing is updated. Send `absentee_address` as an empty string or null to remove the absentee address; if the same request also sets `custom1` to `absentee` with an address in `custom2`, that address is copied in instead.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/recipient"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/recipient"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "absentee_city": {
+                        "$ref": "#/components/schemas/absentee-city"
+                      },
+                      "absentee_province": {
+                        "$ref": "#/components/schemas/absentee-province"
+                      },
+                      "absentee_postal_code": {
+                        "$ref": "#/components/schemas/absentee-postal-code"
+                      }
+                    }
+                  }
+                ]
               }
             }
           }
@@ -3179,7 +3216,31 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/MailingListDoesNotExist"
+            "description": "The mailing list does not exist, or the absentee fields are invalid, such as `absentee_postal_code` sent without `absentee_address`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Mailing list does not exist": {
+                    "value": {
+                      "message": "Mailing List Does Not Exist"
+                    }
+                  },
+                  "Absentee fields without absentee_address": {
+                    "value": {
+                      "message": "absentee_city, absentee_province and absentee_postal_code need absentee_address as well."
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
