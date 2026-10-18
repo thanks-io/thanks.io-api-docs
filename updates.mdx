@@ -5,6 +5,23 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="October 18" tags={["New Feature", "Webhooks"]} >
+
+## Follow Up on QR Code Scans with the Scan Board
+
+When someone scans the QR code on one of your mailers, that piece now shows up as a card on the **Scan Board**, under **Reports** in your dashboard. Each card shows the recipient's name and address, a Street View photo, how many times they've scanned and when they last did.
+
+Drag cards through four follow-up columns, **New**, **Contacted**, **Follow Up** and **Done**, or use **Move to**. A repeat scan updates the scan time but leaves the card in the column you put it in.
+
+- **Notes:** add follow-up notes to any card.
+- **One card per piece:** two mailers sent to the same address get two cards.
+- **A head start:** mailers scanned in the last 30 days are already on your board.
+- **Stage webhooks:** on the Business plan and up, get a [webhook](/webhooks/available/scan-board-stage-change) when a card enters a stage, with variables like `~FIRST_NAME~` filled into the URL for each lead. Set one up from a column on the board, under **Settings > Webhooks**, or with the [Webhooks API](/api-reference/endpoint/webhooks/create-webhook).
+
+The Scan Board itself is included on every plan.
+
+</Update>
+
 <Update label="October 16" tags={["New Feature"]} >
 
 ## Track the QR Code in Your Own Uploaded Design
