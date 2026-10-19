@@ -70,6 +70,8 @@ Two parameters can be added to a creative send: `qrcode_url`, to track the send 
 
 Any order can be previewed by setting the `preview` parameter to `true`. The response will return links to PNG previews of the mailer instead of creating a production order.
 
+On the Free and Business plans, preview images carry a **DRAFT** watermark across the design. The watermark is only on the preview: the mail you send prints without it. Previews on the Professional and Enterprise plans have no watermark.
+
 # Estimate
 
 To see what an order will cost before you send it, post the same request body to the matching [Order Estimates](/api-reference/endpoint/estimate/estimate-postcard) endpoint, such as `/api/v2/estimate/postcard`. The response returns the total, a cost breakdown, and whether your account balance covers it. Nothing is charged and no order is created.
@@ -97,6 +99,8 @@ Recipients can be specified in a variety of ways:
 - Buy a list of recipients using a radius search with the `radius_search` field.
 
 Each entry in `recipients` takes the same fields as a [recipient](/api-reference/recipients-usage): the address fields, `name`, `company`, `email`, `phone`, and `custom1` through `custom10`. Set `absentee_address` (optionally with `absentee_city`, `absentee_province`, and `absentee_postal_code`) to a property address when the mailer is about a property the recipient doesn't live at, so `~STREET_VIEW~` and `~ABSENTEE_STREET~` show that property while the mail still goes to `address`. See [Absentee (property) address](/api-reference/recipients-usage#absentee-property-address) for the details. It can be used alongside `custom1` through `custom10`, and an empty `custom2` is also filled with it so older templates that print `%CUSTOM2%` keep working.
+
+A recipient with an `email` but no street address has their postal address looked up from the email, and each address found is charged as an [Email to Address lookup](/api-reference/recipients-usage). To skip the lookup, set `email_lookup` to `false`: recipients without a street address are then left out, and the order mails only the recipients that have one.
 
 ## _Front Image_
 
@@ -147,6 +151,13 @@ Use the `postage_class` field to choose how an order is mailed:
 If you leave `postage_class` out, the order uses your account's default, which you set with **Standard Mail Mode** under **Settings > Mail Preferences** in your dashboard. The [estimate endpoints](#estimate) accept the same field, so you can compare the cost of both classes before sending.
 
 Standard Mail only changes the price of US addresses, and nonprofit accounts always mail at their nonprofit rate. Standard Mail needs a paid plan: free plan accounts always mail First Class, and a request from one that sets `postage_class` to `standard` is rejected with a `422`.
+
+Orders are printed and shipped within 1 business day. Typical delivery times from the print date:
+
+| Postage class | Delivery time |
+| --- | --- |
+| First Class | 5-10 business days |
+| Standard | 10-20 business days |
 
 # Handwriting
 

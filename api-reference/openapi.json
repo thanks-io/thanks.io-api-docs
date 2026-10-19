@@ -2239,7 +2239,7 @@
         "properties": {
           "preview": {
             "type": "boolean",
-            "description": "Set to true to return a preview instead of sending the mail piece. You can use this with any send call to inspect the output before submitting the order.",
+            "description": "Set to true to return a preview instead of sending the mail piece. You can use this with any send call to inspect the output before submitting the order. On the Free and Business plans, preview images carry a DRAFT watermark; the mail you send never does. Professional and Enterprise previews have no watermark.",
             "example": true
           },
           "mailing_list_ids": {
@@ -2348,6 +2348,12 @@
             "type": "string",
             "description": "Optional comma-separated list of email addresses to notify about order events such as QR scan notifications.",
             "example": "ops@example.com,sales@example.com"
+          },
+          "email_lookup": {
+            "type": "boolean",
+            "description": "Whether a recipient given an `email` but no street address has their postal address looked up from the email. Each address found is charged as an Email to Address lookup. Defaults to `true`. Set to `false` to skip the lookup: recipients without a street address are then left out of the order, which mails only the recipients that have one. Estimates never run the lookup and price such recipients as if found.",
+            "default": true,
+            "example": false
           },
           "postage_class": {
             "type": "string",

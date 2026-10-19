@@ -12,8 +12,8 @@ The thanks.io MCP server lets an AI assistant work in your thanks.io account. On
 - **Preview and price first.** Every order can be rendered as proof images with its exact total before anything is charged.
 - **Design.** Use your saved creatives and templates, or have ThanksAI Studio draw a new front design from a description.
 - **Build audiences.** Create mailing lists and add recipients.
-- **Track results.** Check printing and delivery, QR code scans and gift card redemptions, and see which designs, messages and lists perform best.
-- **Automate.** Create recurring campaigns and turn them on or off.
+- **Track results.** Check printing and delivery, QR code scans and gift card redemptions, see which designs, messages and lists perform best, and find out whether a person or address was mailed.
+- **Automate.** Create recurring campaigns and turn them on or off, and set up webhooks that send events to your other systems.
 
 The server is a remote MCP server at:
 
@@ -207,7 +207,7 @@ To act for one of your sub-accounts, ask the assistant to use that sub-account. 
 
 | Tool | What it does |
 |---|---|
-| `get-account-info` | Account details, plan, default return address, default postage class, credit balance, and which MCP spending permissions are on. |
+| `get-account-info` | Account details, plan, default return address and any saved return addresses, default postage class, credit balance, and which MCP spending permissions are on. |
 | `list-sub-accounts` | Your sub-accounts, so the assistant can act for one with `sub_account_id`. |
 | `list-handwriting-styles` | Available handwriting styles, with sample images. |
 | `list-image-templates` | Your saved front designs. |
@@ -260,16 +260,39 @@ To act for one of your sub-accounts, ask the assistant to use that sub-account. 
 | `send-magnacard` | Send magnacards with a tear-off magnet. |
 | `send-giftcard` | Send gift cards. Charged for the mailing and the face value of each card. |
 
-The send tools need **Allow orders via MCP**. A recipient given an email address but no street address needs **Allow lead purchases via MCP**, for `preview-order` and the send tools as well as `add-recipient` and `add-recipients`.
+The send tools need **Allow orders via MCP**. A recipient given an email address but no street address needs **Allow lead purchases via MCP**, for `preview-order` and the send tools as well as `add-recipient` and `add-recipients`. To send without those lookups, the assistant can pass `email_lookup: false`, which leaves out recipients who have no street address.
+
+`preview-order` and the send tools also take:
+
+- `postage_class`: `first_class` or `standard`. See [Postage Class](/api-reference/send-mailer-usage#postage-class).
+- `return_address_id`: one of your saved return addresses, listed by `get-account-info`, in place of typing a return address.
+- `realism`: turn handwriting realism on or off for this order.
+
+On the Free and Business plans, `preview-order` proof images carry a **DRAFT** watermark. The mail you send prints without it.
 
 ### Order lifecycle
 
 | Tool | What it does |
 |---|---|
 | `list-orders` | Recent orders with status, cost and QR scan counts. |
-| `get-order` | Printing and delivery status, returns, QR scans and gift card redemptions for one order. |
-| `get-order-stats` | Spend, delivery, scans and redemptions over a date range. |
+| `get-order` | Printing and delivery status, returns, QR scans and gift card redemptions for one order, or for up to 50 orders at once. |
+| `get-order-stats` | Spend, delivery, scans and redemptions over a date range, for the whole account or narrowed to one campaign, creative or mailer type. |
+| `list-order-recipients` | Everyone an order actually mailed, page by page. |
+| `search-order-recipients` | Whether a person or street address was mailed by any of your orders, and by which. |
 | `cancel-order` | Cancel an order that is still under review. Orders that have started printing cannot be cancelled. |
+
+A mailing list shows who is on it now; `list-order-recipients` and `search-order-recipients` show who was actually mailed, which is what you need to check a contact against your CRM. Gift card codes are never returned.
+
+### Webhooks
+
+| Tool | What it does |
+|---|---|
+| `list-webhooks` | Your webhooks, and whether your plan lets you manage them. |
+| `create-webhook` | Call a URL when an order or piece changes status, a piece is delivered, a QR code is scanned, or a [Scan Board](/webhooks/available/scan-board-stage-change) card enters a stage. |
+| `update-webhook` | Change a webhook's URL, event, Scan Board stage, label, HTTP method, or mailing list and sub-account filter. |
+| `delete-webhook` | Stop a webhook. |
+
+Webhooks follow the same plan rules as in your dashboard: they need a paid plan, and Scan Board webhooks need the Business plan or higher. Webhook payloads include recipient names and addresses, so the assistant confirms the URL with you before creating or changing one. Test a webhook and see its signing secret under **Settings → Webhooks** in your dashboard.
 
 ### Recurring campaigns
 
@@ -282,6 +305,10 @@ The send tools need **Allow orders via MCP**. A recipient given an email address
 ### Prompts
 
 The server also offers ready-made prompts for planning: plan your next campaign, review your results, set up a tracked test, win back quiet contacts, a full strategy session, and playbooks for real estate, insurance and e-commerce. How you pick a prompt depends on your assistant; many show them in a menu or as slash commands.
+
+## Limits
+
+The MCP server accepts up to 120 requests per minute per account, and places at most 10 orders per minute per account across all the send tools. A request over a limit is refused and can be retried after a minute. Orders refused for invalid input don't count toward the order limit.
 
 ## Disconnecting
 

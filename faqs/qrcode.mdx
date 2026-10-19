@@ -6,3 +6,5 @@ description: 'How do I set the trackable QR code for an Order?'
 Trackable QR codes can be included in mailers to monitor engagement and response rates with the `qrcode_url` field during a [Send Mailer](/api-reference/send-mailer-usage) request. 
 
 thanks.io can notify you of each scan via email or text message. There is also an analytics dashboard available to track which templates generate the most engagement.
+
+If a front design you uploaded already has a QR code printed on it, you can make that code tracked from the creative editor in your dashboard: choose **Make it tracked** and enter where scans should go. Each piece then prints its own tracked code in that spot. This works on postcard, notecard and magnacard fronts you uploaded yourself. The address scans go to is returned as `tracked_qr_url` on the creative's front in the [Creatives API](/api-reference/endpoint/creatives-library/get-creative). Replacing the front image removes the tracking.

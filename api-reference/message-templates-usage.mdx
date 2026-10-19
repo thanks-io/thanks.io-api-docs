@@ -30,6 +30,25 @@ Message templates are created and managed through these endpoints.
 | Gift card brand + amount | The gift card to include (gift card mailer type only) |
 | Gift card gating URL/YouTube | URL or YouTube video the recipient must view to unlock the gift card |
 
+# Replacement Variables
+
+Replacement variables in a message are filled in for each recipient when the piece is printed. Write them as `%NAME%`; matching ignores case.
+
+| Variable | Prints |
+| --- | --- |
+| `%FIRST_NAME%`, `%LAST_NAME%`, `%FULL_NAME%` | The recipient's name. `%NAME%` is the same as `%FULL_NAME%`. |
+| `%COMPANY%` | The recipient's company. Blank when the company is `Or Current Resident`. |
+| `%ADDRESS%`, `%ADDRESS2%`, `%CITY%`, `%STATE%`, `%ZIP%` | The recipient's address. `%PROVINCE%` is the same as `%STATE%`, and `%POSTAL_CODE%` the same as `%ZIP%`. |
+| `%STREET_ONLY%` | The recipient's street name without the house number, or `Your Street` when there isn't one, such as a PO box. |
+| `%CUSTOM1%` to `%CUSTOM10%` | The recipient's custom fields. `%FIELD1%` to `%FIELD10%` are the same. |
+| `%ABSENTEE_STREET%` | The street line of the recipient's [absentee (property) address](/api-reference/recipients-usage#absentee-property-address), or the recipient's own street when there isn't one. |
+| `%NEIGHBORS_STREET%` | Like `%ABSENTEE_STREET%`, but prints `Your Neighbor's Property` when there's no absentee address. Used in neighbor mailings. |
+| `%YOUR_FULL_NAME%`, `%YOUR_FIRST_NAME%`, `%YOUR_COMPANY%`, `%YOUR_PHONE%`, `%YOUR_EMAIL%` | Your own details, from your account's branding. |
+| `%CURRENT_DAY%` | The date the piece is printed, such as `May 6, 2026`. |
+| `%CURRENT_MONTH%` | The month the piece is printed, such as `October`. |
+
+A variable that isn't in this list is removed from the message when it prints, so check the spelling. In image templates and QR code URLs, write variables with tildes instead, such as `~CUSTOM1~` or `~CURRENT_MONTH~`.
+
 # Gift Cards & Additional Pages
 
 Templates can carry gift card details (`giftcard_brand_code`, `giftcard_amount`) and, for letter templates, an `additional_pages` PDF URL to attach extra pages.

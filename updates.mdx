@@ -5,6 +5,30 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="October 19" tags={["New Feature", "MCP"]} >
+
+## Check Who You Mailed and Manage Webhooks from Your AI Assistant
+
+AI assistants connected to the [thanks.io MCP server](/thanks-io-mcp-server) can now answer more questions about your mail and set up your integrations for you.
+
+- **Who did we mail?** `list-order-recipients` lists everyone an order mailed, and `search-order-recipients` finds whether a person or street address was mailed by any of your orders. Useful for checking contacts against your CRM.
+- **Results across many orders:** `get-order` reads up to 50 orders at once, and `get-order-stats` can narrow to one campaign, creative or mail type.
+- **Webhooks:** `list-webhooks`, `create-webhook`, `update-webhook` and `delete-webhook` manage your webhooks, including [Scan Board stage webhooks](/webhooks/available/scan-board-stage-change), with the same plan rules as your dashboard. Your assistant confirms the URL with you first.
+
+</Update>
+
+<Update label="October 18" tags={["Improvement", "API"]} >
+
+## A Dedicated Field for Absentee Property Addresses
+
+Recipients now have their own `absentee_address` field for the property a mailer is about, such as a home whose owner lives elsewhere. Mail still goes to the recipient's address, while `~STREET_VIEW~`, `~ABSENTEE_STREET~` and `%ABSENTEE_STREET%` show the property.
+
+Set it when [adding recipients](/api-reference/recipients-usage#absentee-property-address) or on each recipient of a [send](/api-reference/send-mailer-usage), with optional `absentee_city`, `absentee_province` and `absentee_postal_code`. It's returned on recipients, order items and webhooks.
+
+You can keep using `custom1` and `custom2` alongside it. Integrations that already set `custom1` to `absentee` and the property in `custom2` keep working unchanged, and designs that print `%CUSTOM2%` still show the property.
+
+</Update>
+
 <Update label="October 18" tags={["New Feature", "Webhooks"]} >
 
 ## Follow Up on QR Code Scans with the Scan Board

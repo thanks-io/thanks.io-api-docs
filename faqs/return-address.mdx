@@ -8,9 +8,10 @@ The Return Address can be set on a per order basis during a [Send Mailer](/api-r
 The return fields available are:
 
 - `return_name`
-- `return_address_line1`
-- `return_address_line2`
+- `return_address`
+- `return_address2`
 - `return_city`
 - `return_state`
-- `return_zip`
-- `return_country`
+- `return_postal_code`
+
+Send `return_name`, `return_address`, `return_city`, `return_state` and `return_postal_code` together; `return_address2` is optional. If any of the five is missing, the order uses your account's default return address. A custom return address isn't available on the Enterprise plan.
