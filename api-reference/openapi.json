@@ -161,7 +161,8 @@
           "order_item.status_update",
           "order.status_update",
           "order_item.delivered",
-          "scans.scan_update"
+          "scans.scan_update",
+          "scan_board.status_update"
         ],
         "example": "order_item.status_update"
       },
@@ -346,6 +347,43 @@
       },
       "webhook-scan-update-payload": {
         "$ref": "#/components/schemas/webhook-data-flat"
+      },
+      "scan-board-status": {
+        "type": "string",
+        "description": "A QR Scan Board stage.",
+        "enum": ["new", "contacted", "follow_up", "done"],
+        "example": "contacted"
+      },
+      "webhook-scan-board-status-update-payload": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/webhook-data-flat"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "scan_board.card_id": {
+                "type": "integer",
+                "description": "The ID of the card on your Scan Board.",
+                "example": 1187
+              },
+              "scan_board.previous_status": {
+                "type": ["string", "null"],
+                "description": "The stage the card left. null for a new card.",
+                "enum": ["new", "contacted", "follow_up", "done", null],
+                "example": "new"
+              },
+              "scan_board.current_status": {
+                "$ref": "#/components/schemas/scan-board-status"
+              },
+              "scan_board.last_scanned_at": {
+                "type": ["string", "null"],
+                "description": "When the mailer was last scanned.",
+                "example": "2025-06-24 23:19:06"
+              }
+            }
+          }
+        ]
       },
       "order": {
         "type": "object",
@@ -3092,6 +3130,102 @@
                   "order_item.delivery_date": "2025-06-05",
                   "order_item.current_status": "Processing",
                   "qrcode.url": "https://www.google.com"
+                },
+                "timestamp": 1750817946,
+                "date_time": "2025-06-25 02:19:06"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received"
+          }
+        }
+      }
+    },
+    "scanBoardStatusUpdate": {
+      "post": {
+        "tags": [
+          "Webhook Events"
+        ],
+        "summary": "Scan Board Stage Change Webhook",
+        "description": "Sent when a card on your QR Scan Board enters the stage set in the webhook's scan_board_status, including when a newly scanned mailer lands in New. Each webhook fires at most once per card per stage. Available on the Business plan and up.",
+        "operationId": "scanBoardStatusUpdateWebhook",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_type": {
+                    "type": "string",
+                    "example": "scan_board.status_update"
+                  },
+                  "event_id": {
+                    "type": "string",
+                    "example": "c4e1aa40-516a-11f0-94e9-4b4494619f64"
+                  },
+                  "data": {
+                    "$ref": "#/components/schemas/webhook-scan-board-status-update-payload"
+                  },
+                  "timestamp": {
+                    "type": "integer",
+                    "example": 1750817946
+                  },
+                  "date_time": {
+                    "type": "string",
+                    "example": "2025-06-25 02:19:06"
+                  }
+                },
+                "required": [
+                  "event_type",
+                  "event_id",
+                  "data",
+                  "timestamp",
+                  "date_time"
+                ]
+              },
+              "example": {
+                "event_type": "scan_board.status_update",
+                "event_id": "c4e1aa40-516a-11f0-94e9-4b4494619f64",
+                "data": {
+                  "order_item.id": 2668661,
+                  "order_item.scans": 4,
+                  "order_item.failure": null,
+                  "recipient.name": "John Doe",
+                  "recipient.company": null,
+                  "recipient.address": "123 Fake St",
+                  "recipient.address2": null,
+                  "recipient.city": "Any Town",
+                  "recipient.province": "NY",
+                  "recipient.postal_code": "12345",
+                  "recipient.country": "US",
+                  "recipient.email": null,
+                  "recipient.phone": null,
+                  "recipient.custom_1": "Example Custom 1",
+                  "recipient.custom_2": "Example Custom 2",
+                  "recipient.absentee_address": null,
+                  "recipient.custom_3": "Example Custom 3",
+                  "recipient.custom_4": "Example Custom 4",
+                  "recipient.custom_5": "Example Custom 5",
+                  "recipient.custom_6": "Example Custom 6",
+                  "recipient.custom_7": "Example Custom 7",
+                  "recipient.custom_8": "Example Custom 8",
+                  "recipient.custom_9": "Example Custom 9",
+                  "recipient.custom_10": "Example Custom 10",
+                  "order.id": 42398,
+                  "order.status": "Fulfilled",
+                  "order.sub_account_id": null,
+                  "order.metadata": {
+                    "crm_deal_id": "D-1042"
+                  },
+                  "order_item.delivery_date": "2025-06-05",
+                  "scan_board.card_id": 1187,
+                  "scan_board.previous_status": "new",
+                  "scan_board.current_status": "contacted",
+                  "scan_board.last_scanned_at": "2025-06-24 23:19:06"
                 },
                 "timestamp": 1750817946,
                 "date_time": "2025-06-25 02:19:06"
@@ -9436,6 +9570,24 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/items_per_page"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Only return webhooks of this type.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/webhook-type"
+            }
+          },
+          {
+            "name": "scan_board_status",
+            "in": "query",
+            "description": "Only return Scan Board stage webhooks set to this stage.",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/scan-board-status"
+            }
           }
         ],
         "responses": {
@@ -9473,6 +9625,12 @@
                           },
                           "type": {
                             "$ref": "#/components/schemas/webhook-type"
+                          },
+                          "scan_board_status": {
+                            "type": ["string", "null"],
+                            "enum": ["new", "contacted", "follow_up", "done", null],
+                            "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                            "example": null
                           },
                           "description": {
                             "type": ["string", "null"],
@@ -9595,6 +9753,12 @@
                   "type": {
                     "$ref": "#/components/schemas/webhook-type"
                   },
+                  "scan_board_status": {
+                    "type": ["string", "null"],
+                    "enum": ["new", "contacted", "follow_up", "done", null],
+                    "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                    "example": null
+                  },
                   "description": {
                     "type": ["string", "null"],
                     "example": "Order status updates"
@@ -9638,6 +9802,12 @@
                   "properties": {
                     "type": {
                       "$ref": "#/components/schemas/webhook-type"
+                    },
+                    "scan_board_status": {
+                      "type": ["string", "null"],
+                      "enum": ["new", "contacted", "follow_up", "done", null],
+                      "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                      "example": null
                     },
                     "url": {
                       "type": "string",
@@ -9742,6 +9912,12 @@
                   },
                   "type": {
                     "$ref": "#/components/schemas/webhook-type"
+                  },
+                  "scan_board_status": {
+                    "type": ["string", "null"],
+                    "enum": ["new", "contacted", "follow_up", "done", null],
+                    "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                    "example": null
                   }
                 },
                 "required": ["url", "type", "verb"]
@@ -9785,6 +9961,12 @@
                     },
                     "type": {
                       "$ref": "#/components/schemas/webhook-type"
+                    },
+                    "scan_board_status": {
+                      "type": ["string", "null"],
+                      "enum": ["new", "contacted", "follow_up", "done", null],
+                      "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                      "example": null
                     },
                     "description": {
                       "type": ["string", "null"],

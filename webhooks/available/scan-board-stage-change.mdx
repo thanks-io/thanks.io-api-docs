@@ -1,0 +1,88 @@
+---
+title: 'Scan Board Stage Change'
+description: 'Event will fire whenever a card on your QR Scan Board enters the stage the webhook is set to.'
+---
+
+<Note>
+Scan Board stage webhooks are available on the Business plan and up.
+</Note>
+
+## When it fires
+
+Each webhook of type `scan_board.status_update` is tied to one Scan Board stage, set in `scan_board_status`: `new`, `contacted`, `follow_up` or `done`. It fires when a card enters that stage, including when a newly scanned mailer lands in **New**.
+
+Each webhook fires at most once per card per stage. Moving a card out of a stage and back in doesn't send it again. Scans already on your board when the Scan Board launched don't fire webhooks.
+
+You can add one from **Settings → [Webhooks](https://dashboard.thanks.io/app/settings/webhooks)**, from a column on the Scan Board, or with the [Create Webhook](/api-reference/endpoint/webhooks/create-webhook) endpoint:
+
+```json
+{
+    "url": "https://example.com/webhooks/thanksio?name=~FIRST_NAME~",
+    "type": "scan_board.status_update",
+    "scan_board_status": "contacted",
+    "verb": "post"
+}
+```
+
+## Personalized URLs
+
+The webhook URL can include replacement variables such as `~FIRST_NAME~` or `~CUSTOM1~`. They're filled in with each lead's details when the webhook is sent.
+
+## Scan Board fields
+
+The payload carries the same order item fields as other order item events, plus:
+
+| Field | Description |
+|---|---|
+| `scan_board.card_id` | The ID of the card on your Scan Board. |
+| `scan_board.previous_status` | The stage the card left. `null` for a new card. |
+| `scan_board.current_status` | The stage the card entered. |
+| `scan_board.last_scanned_at` | When the mailer was last scanned. |
+
+## Example
+
+```json
+{
+    "event_type": "scan_board.status_update",
+    "event_id": "c4e1aa40-516a-11f0-94e9-4b4494619f64",
+    "data": {
+        "order_item.id": 2668661,
+        "order_item.scans": 4,
+        "order_item.failure": null,
+        "recipient.name": "John Doe",
+        "recipient.company": null,
+        "recipient.address": "123 Fake St",
+        "recipient.address2": null,
+        "recipient.city": "Any Town",
+        "recipient.province": "NY",
+        "recipient.postal_code": "12345",
+        "recipient.country": "US",
+        "recipient.email": null,
+        "recipient.phone": null,
+        "recipient.custom_1": "Example Custom 1",
+        "recipient.custom_2": "Example Custom 2",
+        "recipient.absentee_address": null,
+        "recipient.custom_3": "Example Custom 3",
+        "recipient.custom_4": "Example Custom 4",
+        "recipient.custom_5": "Example Custom 5",
+        "recipient.custom_6": "Example Custom 6",
+        "recipient.custom_7": "Example Custom 7",
+        "recipient.custom_8": "Example Custom 8",
+        "recipient.custom_9": "Example Custom 9",
+        "recipient.custom_10": "Example Custom 10",
+        "order.id": 42398,
+        "order.status": "Fulfilled",
+        "order.sub_account_id": null,
+        "order.metadata": {
+            "crm_deal_id": "D-1042"
+        },
+        "order_item.delivery_date": "2025-06-05",
+        "scan_board.card_id": 1187,
+        "scan_board.previous_status": "new",
+        "scan_board.current_status": "contacted",
+        "scan_board.last_scanned_at": "2025-06-24 23:19:06"
+    },
+    "timestamp": 1750817946,
+    "date_time": "2025-06-25 02:19:06"
+}
+```

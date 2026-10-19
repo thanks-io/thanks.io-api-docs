@@ -268,7 +268,8 @@
                     "api-reference/endpoint/webhook-events/order-item-status-change",
                     "api-reference/endpoint/webhook-events/order-status-change",
                     "api-reference/endpoint/webhook-events/order-item-delivered",
-                    "api-reference/endpoint/webhook-events/qr-code-scans"
+                    "api-reference/endpoint/webhook-events/qr-code-scans",
+                    "api-reference/endpoint/webhook-events/scan-board-stage-change"
                 ]
               },
               {
@@ -359,7 +360,8 @@
               "webhooks/available/order-item-status-change",
               "webhooks/available/order-item-delivered",
               "webhooks/available/order-status-change",
-              "webhooks/available/qr-code-scans"
+              "webhooks/available/qr-code-scans",
+              "webhooks/available/scan-board-stage-change"
             ]
           }
         ]
