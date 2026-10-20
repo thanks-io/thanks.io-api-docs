@@ -306,6 +306,62 @@ Webhooks follow the same plan rules as in your dashboard: they need a paid plan,
 
 The server also offers ready-made prompts for planning: plan your next campaign, review your results, set up a tracked test, win back quiet contacts, a full strategy session, and playbooks for real estate, insurance and e-commerce. How you pick a prompt depends on your assistant; many show them in a menu or as slash commands.
 
+## What Each Tool Can Change
+
+Every tool is in one of three groups, by what it can do to your account. Each tool also carries MCP's read-only or destructive hint, which assistants use to decide when to ask you before running it.
+
+### Read
+
+These only read your account. They never change, charge or send anything.
+
+`get-account-overview`, `get-performance`, `get-marketing-playbook`, `get-account-info`, `list-sub-accounts`, `list-handwriting-styles`, `list-image-templates`, `list-message-templates`, `list-giftcard-brands`, `list-creatives`, `get-creative`, `get-studio-design`, `list-studio-designs`, `list-mailing-lists`, `list-recipients`, `list-orders`, `get-order`, `get-order-stats`, `list-order-recipients`, `search-order-recipients`, `list-webhooks`, `list-campaigns`
+
+### Write
+
+These change your account, but never charge you or send anything outside thanks.io.
+
+| Tool | What it changes |
+|---|---|
+| `create-image-template`, `update-image-template` | Saves or changes a front design. Updating replaces the design's name or image. |
+| `create-message-template`, `update-message-template` | Saves or changes a message. Updating replaces its text or settings. |
+| `create-creative`, `update-creative` | Saves or changes a creative. |
+| `create-studio-design`, `refine-studio-design`, `update-studio-design` | Creates or changes a ThanksAI Studio design. Designing is free. |
+| `save-studio-design-templates` | Saves a Studio design as templates and a creative. |
+| `create-mailing-list` | Creates an empty mailing list. |
+| `create-campaign` | Creates a recurring campaign, paused. Nothing is sent until it is turned on. |
+| `cancel-order` | Cancels an order that is still under review. |
+| `delete-webhook` | Stops a webhook. |
+
+### Sensitive write
+
+These can spend money or send recipient data outside thanks.io, so the assistant should confirm each one with you. The spending ones are refused until you turn on the setting in the last column.
+
+| Tool | What it does | Needs |
+|---|---|---|
+| `send-postcard`, `send-letter`, `send-windowlessletter`, `send-notecard`, `send-magnacard` | Places a paid order, charged to your credit balance or card. Mail can't be recalled once printing starts. | **Allow orders via MCP** |
+| `send-giftcard` | Places a paid order as above, also charged the face value of every card. | **Allow orders via MCP** |
+| `set-campaign-active` | Turning a campaign on authorizes every send it makes on its schedule, with no further preview. Pausing one is always allowed. | **Allow orders via MCP** to turn on |
+| `preview-order`, `add-recipient`, `add-recipients` | Buys an address lookup for each recipient given an email address but no street address. With full addresses they charge nothing. | **Allow lead purchases via MCP** for lookups |
+| `create-webhook`, `update-webhook` | Sends recipient names and addresses to the webhook's URL every time its event happens. | A paid plan |
+
+### When a Tool Is Refused
+
+A refused call returns a message saying why, and nothing is charged:
+
+- **Missing permission.** The message names the setting and links to it.
+- **Invalid input.** The message says which field is wrong.
+- **Duplicate order.** The same order placed again within two minutes is refused, and the message gives the first order's id. A retried call never prints or charges the same mail twice.
+- **Too many orders.** Over 10 orders in a minute, a send is refused and the message says how many seconds to wait.
+- **Charge failed.** If the billing charge fails, or the chosen mailing lists have no deliverable recipients, the order is not placed.
+
+An unexpected error returns a reference code to quote to [support@thanks.io](mailto:support@thanks.io).
+
+A placed order's result includes its status and total charged. `get-order` then reports printing and delivery, and `cancel-order` works only while the order is still under review.
+
+### Try It Without Sending
+
+Turn on **Test Mode** under **Settings → [API & MCP Access](https://dashboard.thanks.io/app/settings/api-access)**, in the **API Settings** section. The send tools still need **Allow orders via MCP**, but each order is created already cancelled: nothing is charged, printed or mailed, and the tool's result says so. `preview-order` and `get-account-info` report test mode too. Test mode does not make address lookups free, so leave **Allow lead purchases via MCP** off while testing. See [API Testing Mode](/api-reference/api-mode).
+
 ## Limits
 
 The MCP server accepts up to 120 requests per minute per account, and places at most 10 orders per minute per account across all the send tools. A request over a limit is refused and can be retried after a minute. Orders refused for invalid input don't count toward the order limit.
