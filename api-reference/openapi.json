@@ -3659,6 +3659,23 @@
                     "example": "tobias@example.com"
                   }
                 }
+              },
+              "examples": {
+                "By Address": {
+                  "summary": "Delete a recipient by address",
+                  "value": {
+                    "mailing_list_id": 1,
+                    "address": "123 Main Street",
+                    "postal_code": "12345"
+                  }
+                },
+                "By Email": {
+                  "summary": "Delete a recipient by email",
+                  "value": {
+                    "mailing_list_id": 1,
+                    "email": "tobias@example.com"
+                  }
+                }
               }
             }
           }
