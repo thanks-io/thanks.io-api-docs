@@ -7,6 +7,38 @@ mode: "wide"
 
 <Update label="October 30" tags={["New Feature"]} >
 
+## Answer Calls from Your Mail with an AI Receptionist
+
+You can now get a phone number for your mail that an AI receptionist answers for you. Open **Phone & Calls > AI Receptionist** in your dashboard and pick a US number by area code.
+
+- **A script written for you:** describe what you're trying to do, and AI writes the greeting and the questions to ask callers. You can edit all of it. Choose from four voices, each with a preview.
+- **Hear it first:** the receptionist can give you a demo call before you buy.
+- **Every call reported:** the receptionist takes each caller's details and lets them know you'll call back. After every call you get an email with the caller's details, plus a text if you have text notifications on, and **Call Logs** lists each call with its summary, transcript and recording.
+- **Callers on your Lead Board:** each caller gets a card on the Lead Board, and repeat calls update the same card.
+- **Recording consent:** calls are recorded. If your number's area code is in a state that requires everyone on a call to agree to recording, you choose between a recording notice in the greeting (the default) and not recording, which keeps only the summary and caller details.
+
+A number is $30/month, with no per-call or per-minute charges. Your account's own number is free on the Professional and Enterprise plans, and each sub-account can add its own number for $30/month. If a monthly payment fails, the number stops answering until you resume it, and it's released after 14 days.
+
+### Put your number on your mail
+
+Use `%YOUR_AI_PHONE%` in messages, or `~YOUR_AI_PHONE~` in dynamic designs and QR code URLs, to print your AI Receptionist number. When you send as a sub-account, it prints that sub-account's number. From the AI Receptionist page you can also add a "call us" line with your number to your message templates in one step. You see how many templates will change first, and the change can't be undone.
+
+A send that uses `%YOUR_AI_PHONE%` before you have a number is refused, whether it comes from your dashboard, a campaign, the API or an AI assistant, so your mail never goes out without it.
+
+</Update>
+
+<Update label="October 30" tags={["Improvement", "Webhooks"]} >
+
+## The Scan Board Is Now the Lead Board
+
+The Scan Board, under **Reports** in your dashboard, is now called the **Lead Board**, since it holds callers to your AI Receptionist as well as people who scanned your mail. Its webhook is now labeled [Lead Board Stage Change](/webhooks/available/scan-board-stage-change).
+
+There's nothing you need to change. The webhook type `scan_board.status_update`, the `scan_board_status` field and the board's address in your dashboard all stay the same. Stage webhooks still need the Business plan or higher, and they fire for scanned-mailer cards, not caller cards.
+
+</Update>
+
+<Update label="October 30" tags={["New Feature"]} >
+
 ## Find Prospects Showing Intent with Lead Feed
 
 You can now add people who are researching what you sell straight to a mailing list. On any list, choose **Add Recipients > Lead Feed**, pick **Consumers / Homeowners** or **Businesses**, and choose up to five interests, such as solar panels or a roof replacement.

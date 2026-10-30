@@ -1,19 +1,19 @@
 ---
-title: 'Scan Board Stage Change'
-description: 'Event will fire whenever a card on your QR Scan Board enters the stage the webhook is set to.'
+title: 'Lead Board Stage Change'
+description: 'Event will fire whenever a card on your Lead Board enters the stage the webhook is set to.'
 ---
 
 <Note>
-Scan Board stage webhooks are available on the Business plan and up.
+Lead Board stage webhooks are available on the Business plan and up.
 </Note>
 
 ## When it fires
 
-Each webhook of type `scan_board.status_update` is tied to one Scan Board stage, set in `scan_board_status`: `new`, `contacted`, `follow_up` or `done`. It fires when a card enters that stage, including when a newly scanned mailer lands in **New**.
+Each webhook of type `scan_board.status_update` is tied to one Lead Board stage, set in `scan_board_status`: `new`, `contacted`, `follow_up` or `done`. It fires when a card enters that stage, including when a newly scanned mailer lands in **New**. Cards for callers to your [AI Receptionist](https://dashboard.thanks.io/app/ai-receptionist) number appear on the Lead Board too, but they don't fire this webhook, because its payload is built from the mailer that was scanned.
 
-Each webhook fires at most once per card per stage. Moving a card out of a stage and back in doesn't send it again. Scans already on your board when the Scan Board launched don't fire webhooks.
+Each webhook fires at most once per card per stage. Moving a card out of a stage and back in doesn't send it again. Scans already on your board when the board launched don't fire webhooks.
 
-You can add one from **Settings → [Webhooks](https://dashboard.thanks.io/app/settings/webhooks)**, from a column on the Scan Board, or with the [Create Webhook](/api-reference/endpoint/webhooks/create-webhook) endpoint:
+You can add one from **Settings → [Webhooks](https://dashboard.thanks.io/app/settings/webhooks)**, from a column on the Lead Board, or with the [Create Webhook](/api-reference/endpoint/webhooks/create-webhook) endpoint:
 
 ```json
 {
@@ -28,13 +28,13 @@ You can add one from **Settings → [Webhooks](https://dashboard.thanks.io/app/s
 
 The webhook URL can include replacement variables such as `~FIRST_NAME~` or `~CUSTOM1~`. They're filled in with each lead's details when the webhook is sent.
 
-## Scan Board fields
+## Lead Board fields
 
 The payload carries the same order item fields as other order item events, plus:
 
 | Field | Description |
 |---|---|
-| `scan_board.card_id` | The ID of the card on your Scan Board. |
+| `scan_board.card_id` | The ID of the card on your Lead Board. |
 | `scan_board.previous_status` | The stage the card left. `null` for a new card. |
 | `scan_board.current_status` | The stage the card entered. |
 | `scan_board.last_scanned_at` | When the mailer was last scanned. |

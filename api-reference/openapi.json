@@ -350,7 +350,7 @@
       },
       "scan-board-status": {
         "type": "string",
-        "description": "A QR Scan Board stage.",
+        "description": "A Lead Board stage.",
         "enum": ["new", "contacted", "follow_up", "done"],
         "example": "contacted"
       },
@@ -364,7 +364,7 @@
             "properties": {
               "scan_board.card_id": {
                 "type": "integer",
-                "description": "The ID of the card on your Scan Board.",
+                "description": "The ID of the card on your Lead Board.",
                 "example": 1187
               },
               "scan_board.previous_status": {
@@ -3155,8 +3155,8 @@
         "tags": [
           "Webhook Events"
         ],
-        "summary": "Scan Board Stage Change Webhook",
-        "description": "Sent when a card on your QR Scan Board enters the stage set in the webhook's scan_board_status, including when a newly scanned mailer lands in New. Each webhook fires at most once per card per stage. Available on the Business plan and up.",
+        "summary": "Lead Board Stage Change Webhook",
+        "description": "Sent when a card on your Lead Board enters the stage set in the webhook's scan_board_status, including when a newly scanned mailer lands in New. Each webhook fires at most once per card per stage. Cards for AI Receptionist callers don't fire it. Available on the Business plan and up.",
         "operationId": "scanBoardStatusUpdateWebhook",
         "requestBody": {
           "required": true,
@@ -9606,7 +9606,7 @@
           {
             "name": "scan_board_status",
             "in": "query",
-            "description": "Only return Scan Board stage webhooks set to this stage.",
+            "description": "Only return Lead Board stage webhooks set to this stage.",
             "required": false,
             "schema": {
               "$ref": "#/components/schemas/scan-board-status"
@@ -9652,7 +9652,7 @@
                           "scan_board_status": {
                             "type": ["string", "null"],
                             "enum": ["new", "contacted", "follow_up", "done", null],
-                            "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                            "description": "The Lead Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
                             "example": null
                           },
                           "description": {
@@ -9779,7 +9779,7 @@
                   "scan_board_status": {
                     "type": ["string", "null"],
                     "enum": ["new", "contacted", "follow_up", "done", null],
-                    "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                    "description": "The Lead Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
                     "example": null
                   },
                   "description": {
@@ -9829,7 +9829,7 @@
                     "scan_board_status": {
                       "type": ["string", "null"],
                       "enum": ["new", "contacted", "follow_up", "done", null],
-                      "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                      "description": "The Lead Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
                       "example": null
                     },
                     "url": {
@@ -9939,7 +9939,7 @@
                   "scan_board_status": {
                     "type": ["string", "null"],
                     "enum": ["new", "contacted", "follow_up", "done", null],
-                    "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                    "description": "The Lead Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
                     "example": null
                   }
                 },
@@ -9988,7 +9988,7 @@
                     "scan_board_status": {
                       "type": ["string", "null"],
                       "enum": ["new", "contacted", "follow_up", "done", null],
-                      "description": "The Scan Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
+                      "description": "The Lead Board stage this webhook fires on. Required when type is scan_board.status_update; null for other types.",
                       "example": null
                     },
                     "description": {

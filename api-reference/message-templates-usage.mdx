@@ -44,6 +44,7 @@ Replacement variables in a message are filled in for each recipient when the pie
 | `%ABSENTEE_STREET%` | The street line of the recipient's [absentee (property) address](/api-reference/recipients-usage#absentee-property-address), or the recipient's own street when there isn't one. |
 | `%NEIGHBORS_STREET%` | Like `%ABSENTEE_STREET%`, but prints `Your Neighbor's Property` when there's no absentee address. Used in neighbor mailings. |
 | `%YOUR_FULL_NAME%`, `%YOUR_FIRST_NAME%`, `%YOUR_COMPANY%`, `%YOUR_PHONE%`, `%YOUR_EMAIL%` | Your own details, from your account's branding. |
+| `%YOUR_AI_PHONE%` | Your AI Receptionist phone number, or the sub-account's own number when you send as a sub-account. A send that uses it is refused while the account (or sub-account) has no AI Receptionist number. |
 | `%CURRENT_DAY%` | The date the piece is printed, such as `May 6, 2026`. |
 | `%CURRENT_MONTH%` | The month the piece is printed, such as `October`. |
 

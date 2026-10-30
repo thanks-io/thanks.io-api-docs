@@ -213,6 +213,7 @@ To act for one of your sub-accounts, ask the assistant to use that sub-account. 
 | `list-image-templates` | Your saved front designs. |
 | `create-image-template` | Save a new front design from an image URL, or a personalized design that changes per recipient. |
 | `update-image-template` | Rename or replace the image of one of your front designs. |
+| `track-image-template-qr` | Swap the QR code printed in one of your uploaded front designs for a tracked thanks.io code, so its scans count in your results and send to the page you choose. Can be undone. |
 | `list-message-templates` | Your saved messages and their handwriting settings. |
 | `create-message-template` | Save a message with its handwriting style, size and color, or a PDF to mail as a letter. |
 | `update-message-template` | Change one of your saved messages. |
@@ -288,11 +289,11 @@ A mailing list shows who is on it now; `list-order-recipients` and `search-order
 | Tool | What it does |
 |---|---|
 | `list-webhooks` | Your webhooks, and whether your plan lets you manage them. |
-| `create-webhook` | Call a URL when an order or piece changes status, a piece is delivered, a QR code is scanned, or a [Scan Board](/webhooks/available/scan-board-stage-change) card enters a stage. |
-| `update-webhook` | Change a webhook's URL, event, Scan Board stage, label, HTTP method, or mailing list and sub-account filter. |
+| `create-webhook` | Call a URL when an order or piece changes status, a piece is delivered, a QR code is scanned, or a [Lead Board](/webhooks/available/scan-board-stage-change) card enters a stage. |
+| `update-webhook` | Change a webhook's URL, event, Lead Board stage, label, HTTP method, or mailing list and sub-account filter. |
 | `delete-webhook` | Stop a webhook. |
 
-Webhooks follow the same plan rules as in your dashboard: they need a paid plan, and Scan Board webhooks need the Business plan or higher. Webhook payloads include recipient names and addresses, so the assistant confirms the URL with you before creating or changing one. Test a webhook and see its signing secret under **Settings → Webhooks** in your dashboard.
+Webhooks follow the same plan rules as in your dashboard: they need a paid plan, and Lead Board webhooks need the Business plan or higher. Webhook payloads include recipient names and addresses, so the assistant confirms the URL with you before creating or changing one. Test a webhook and see its signing secret under **Settings → Webhooks** in your dashboard.
 
 ### Recurring campaigns
 
@@ -323,6 +324,7 @@ These change your account, but never charge you or send anything outside thanks.
 | Tool | What it changes |
 |---|---|
 | `create-image-template`, `update-image-template` | Saves or changes a front design. Updating replaces the design's name or image. |
+| `track-image-template-qr` | Replaces the QR code in a front design with a tracked one, or puts the original image back. |
 | `create-message-template`, `update-message-template` | Saves or changes a message. Updating replaces its text or settings. |
 | `create-creative`, `update-creative` | Saves or changes a creative. |
 | `create-studio-design`, `refine-studio-design`, `update-studio-design` | Creates or changes a ThanksAI Studio design. Designing is free. |
