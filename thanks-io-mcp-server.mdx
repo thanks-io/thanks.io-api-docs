@@ -11,7 +11,7 @@ The thanks.io MCP server lets an AI assistant work in your thanks.io account. On
 - **Send real mail.** Postcards, windowed and windowless letters, notecards, magnacards and gift cards, to saved mailing lists or addresses you give it.
 - **Preview and price first.** Every order can be rendered as proof images with its exact total before anything is charged.
 - **Design.** Use your saved creatives and templates, or have ThanksAI Studio draw a new front design from a description.
-- **Build audiences.** Create mailing lists and add recipients.
+- **Build audiences.** Create mailing lists and add recipients, or find new people to mail with Targeted Leads, once or through a daily or weekly lead feed.
 - **Track results.** Check printing and delivery, QR code scans and gift card redemptions, see which designs, messages and lists perform best, and find out whether a person or address was mailed.
 - **Automate.** Create recurring campaigns and turn them on or off, and set up webhooks that send events to your other systems.
 
@@ -69,12 +69,12 @@ Connecting an assistant does not let it spend money. Two settings under **Settin
 | Setting | What it allows |
 |---|---|
 | **Allow orders via MCP** | Placing real, paid mail orders with the send tools, and turning on a recurring campaign. |
-| **Allow lead purchases via MCP** | Paid address lookups: finding a postal address for a recipient given only an email address. |
+| **Allow lead purchases via MCP** | Every lead purchase: paid address lookups (finding a postal address for a recipient given only an email address), buying Targeted Leads, starting a lead feed, resuming a paused one, and raising what a running feed can spend. |
 
-Without them, an assistant can still check results, plan, design, save templates and creatives, build mailing lists from full addresses, and preview orders. When it needs a permission you have not turned on, the tool is refused, nothing is charged, and the assistant tells you which setting to switch on.
+Without them, an assistant can still check results, plan, design, save templates and creatives, build mailing lists from full addresses, preview orders, search and preview Targeted Leads, and pause or stop a lead feed. When it needs a permission you have not turned on, the tool is refused, nothing is charged, and the assistant tells you which setting to switch on.
 
 <Warning>
-  Once **Allow orders via MCP** is on, your assistant can send real mail. Orders are charged to your credit balance or card and cannot be recalled once printing starts. Gift card orders are also charged the face value of every card. The server instructs assistants to show you a preview with the total and wait for your confirmation before every send, so read the preview before you approve. Turning on a recurring campaign authorizes every send it will make on its schedule.
+  Once **Allow orders via MCP** is on, your assistant can send real mail. Orders are charged to your credit balance or card and cannot be recalled once printing starts. Gift card orders are also charged the face value of every card. The server instructs assistants to show you a preview with the total and wait for your confirmation before every send, so read the preview before you approve. Turning on a recurring campaign authorizes every send it will make on its schedule, and starting or resuming a lead feed authorizes every lead it buys until you pause or stop it.
 </Warning>
 
 ## Set Up Your Assistant
@@ -189,7 +189,7 @@ The server guides every assistant through the same steps before any mail goes ou
 4. Show you the proofs and the total, and wait for your confirmation.
 5. Send with the matching send tool.
 
-After saving a design, placing an order or creating a campaign, the assistant gives you a link to review it in your dashboard, where you can also cancel an order that is still under review.
+After saving a design, placing an order, creating a campaign, or buying leads or changing a lead feed, the assistant gives you a link to review it in your dashboard, where you can also cancel an order that is still under review.
 
 To act for one of your sub-accounts, ask the assistant to use that sub-account. It finds the sub-account with `list-sub-accounts` and passes its `sub_account_id` to the other tools.
 
@@ -248,6 +248,21 @@ To act for one of your sub-accounts, ask the assistant to use that sub-account. 
 | `add-recipient` | Add one recipient to a mailing list. |
 | `add-recipients` | Add many recipients to a mailing list at once. |
 | `list-recipients` | The recipients on a mailing list, with deliverability status. |
+
+### Targeted Leads
+
+| Tool | What it does |
+|---|---|
+| `search-lead-topics` | Find the interest topics you can target: people who have recently researched a product or service online, as consumers or businesses. |
+| `suggest-lead-locations` | Look up the ZIP codes, cities, counties and states to target, spelled the way the other Targeted Leads tools expect. |
+| `preview-targeted-leads` | Start counting how many people match a search. Free. |
+| `get-targeted-leads-preview` | Check a preview for its match count, the price per lead, and a few masked sample leads. |
+| `buy-targeted-leads` | Buy up to 100 new leads once and add them to a new or existing mailing list, at 10 cents for each lead added. People already on the list are skipped and not charged. |
+| `create-lead-feed` | Start a lead feed that adds new matches to a mailing list every day or every week, at 10 cents for each lead added, up to a per-run cap you choose. Its first run starts right away. |
+| `list-lead-feeds` | Your lead feeds, with each one's status, cadence, per-run cap, leads added, and the mailing list it fills. |
+| `update-lead-feed` | Pause, resume or stop a lead feed, or change how often it runs or how many leads a run can add. |
+
+The assistant previews a search and shows you the match count and cost before buying or starting a feed. A mailing list can have one lead feed; pair it with a campaign that mails each recipient a set number of days after they are added, and every new lead is mailed automatically. Pausing a feed is always safe. Stopping one is final: a stopped feed can't run again.
 
 ### Preview then send
 
@@ -315,7 +330,7 @@ Every tool is in one of three groups, by what it can do to your account. Each to
 
 These only read your account. They never change, charge or send anything.
 
-`get-account-overview`, `get-performance`, `get-marketing-playbook`, `get-account-info`, `list-sub-accounts`, `list-handwriting-styles`, `list-image-templates`, `list-message-templates`, `list-giftcard-brands`, `list-creatives`, `get-creative`, `get-studio-design`, `list-studio-designs`, `list-mailing-lists`, `list-recipients`, `list-orders`, `get-order`, `get-order-stats`, `list-order-recipients`, `search-order-recipients`, `list-webhooks`, `list-campaigns`
+`get-account-overview`, `get-performance`, `get-marketing-playbook`, `get-account-info`, `list-sub-accounts`, `list-handwriting-styles`, `list-image-templates`, `list-message-templates`, `list-giftcard-brands`, `list-creatives`, `get-creative`, `get-studio-design`, `list-studio-designs`, `list-mailing-lists`, `list-recipients`, `search-lead-topics`, `suggest-lead-locations`, `get-targeted-leads-preview`, `list-lead-feeds`, `list-orders`, `get-order`, `get-order-stats`, `list-order-recipients`, `search-order-recipients`, `list-webhooks`, `list-campaigns`
 
 ### Write
 
@@ -330,6 +345,7 @@ These change your account, but never charge you or send anything outside thanks.
 | `create-studio-design`, `refine-studio-design`, `update-studio-design` | Creates or changes a ThanksAI Studio design. Designing is free. |
 | `save-studio-design-templates` | Saves a Studio design as templates and a creative. |
 | `create-mailing-list` | Creates an empty mailing list. |
+| `preview-targeted-leads` | Starts a Targeted Leads count. Free, and limited per hour. |
 | `create-campaign` | Creates a recurring campaign, paused. Nothing is sent until it is turned on. |
 | `cancel-order` | Cancels an order that is still under review. |
 | `delete-webhook` | Stops a webhook. |
@@ -344,6 +360,9 @@ These can spend money or send recipient data outside thanks.io, so the assistant
 | `send-giftcard` | Places a paid order as above, also charged the face value of every card. | **Allow orders via MCP** |
 | `set-campaign-active` | Turning a campaign on authorizes every send it makes on its schedule, with no further preview. Pausing one is always allowed. | **Allow orders via MCP** to turn on |
 | `preview-order`, `add-recipient`, `add-recipients` | Buys an address lookup for each recipient given an email address but no street address. With full addresses they charge nothing. | **Allow lead purchases via MCP** for lookups |
+| `buy-targeted-leads` | Buys up to 100 Targeted Leads once, charged for each lead added to the list. | **Allow lead purchases via MCP** |
+| `create-lead-feed` | Starts a lead feed. Starting one authorizes every lead it buys on its schedule until it is paused or stopped. | **Allow lead purchases via MCP** |
+| `update-lead-feed` | Resuming a feed restarts its charges, and switching it to daily or raising its per-run cap raises what it can spend. Pausing, stopping, slowing a feed down or lowering its cap is always allowed. | **Allow lead purchases via MCP** to resume or raise spend |
 | `create-webhook`, `update-webhook` | Sends recipient names and addresses to the webhook's URL every time its event happens. | A paid plan |
 
 ### When a Tool Is Refused
@@ -353,7 +372,9 @@ A refused call returns a message saying why, and nothing is charged:
 - **Missing permission.** The message names the setting and links to it.
 - **Invalid input.** The message says which field is wrong.
 - **Duplicate order.** The same order placed again within two minutes is refused, and the message gives the first order's id. A retried call never prints or charges the same mail twice.
+- **Duplicate lead purchase.** The same Targeted Leads purchase, or the same lead feed, started again within 24 hours is refused, and the message points to the first one.
 - **Too many orders.** Over 10 orders in a minute, a send is refused and the message says how many seconds to wait.
+- **Too many previews.** Over 20 Targeted Leads previews in an hour, a preview is refused and the message says how many minutes to wait.
 - **Charge failed.** If the billing charge fails, or the chosen mailing lists have no deliverable recipients, the order is not placed.
 
 An unexpected error returns a reference code to quote to [support@thanks.io](mailto:support@thanks.io).
@@ -362,11 +383,11 @@ A placed order's result includes its status and total charged. `get-order` then 
 
 ### Try It Without Sending
 
-Turn on **Test Mode** under **Settings → [API & MCP Access](https://dashboard.thanks.io/app/settings/api-access)**, in the **API Settings** section. The send tools still need **Allow orders via MCP**, but each order is created already cancelled: nothing is charged, printed or mailed, and the tool's result says so. `preview-order` and `get-account-info` report test mode too. Test mode does not make address lookups free, so leave **Allow lead purchases via MCP** off while testing. See [API Testing Mode](/api-reference/api-mode).
+Turn on **Test Mode** under **Settings → [API & MCP Access](https://dashboard.thanks.io/app/settings/api-access)**, in the **API Settings** section. The send tools still need **Allow orders via MCP**, but each order is created already cancelled: nothing is charged, printed or mailed, and the tool's result says so. `preview-order` and `get-account-info` report test mode too. Test mode does not make address lookups or Targeted Leads free, so leave **Allow lead purchases via MCP** off while testing. See [API Testing Mode](/api-reference/api-mode).
 
 ## Limits
 
-The MCP server accepts up to 120 requests per minute per account, and places at most 10 orders per minute per account across all the send tools. A request over a limit is refused and can be retried after a minute. Orders refused for invalid input don't count toward the order limit.
+The MCP server accepts up to 120 requests per minute per account, and places at most 10 orders per minute per account across all the send tools. It starts at most 20 Targeted Leads previews per hour per account. A request over a limit is refused and can be retried after a minute. Orders refused for invalid input don't count toward the order limit.
 
 ## Disconnecting
 

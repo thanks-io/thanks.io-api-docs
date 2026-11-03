@@ -5,6 +5,20 @@ rss: "true"
 mode: "wide"
 ---
 
+<Update label="November 3" tags={["New Feature", "MCP"]} >
+
+## Find and Buy Leads from Your AI Assistant
+
+AI assistants connected to the [thanks.io MCP server](/thanks-io-mcp-server) can now work with the same leads you add from **Add Recipients > Lead Feed** in your dashboard.
+
+- **Search and preview for free:** `search-lead-topics` and `suggest-lead-locations` help choose interests and places, and `preview-targeted-leads` with `get-targeted-leads-preview` shows how many people match. Previews are limited to 20 an hour per account.
+- **Buy once or keep a feed:** `buy-targeted-leads` adds up to 100 leads to a mailing list, and `create-lead-feed` starts a daily or weekly feed. Each new lead is $0.10, as in your dashboard.
+- **Manage feeds:** `list-lead-feeds` shows your feeds, and `update-lead-feed` pauses, resumes or stops one, or changes how often it runs or how many leads a run can add. Stopping is final, so pause a feed you may want back.
+
+Buying leads, starting or resuming a feed, or letting one spend more (running daily or adding more leads per run) needs **Allow lead purchases via MCP**, under **Settings > API & MCP Access > MCP Permissions**. Everything else works without it. Repeating the same purchase or feed within 24 hours is refused, so a retry doesn't charge you twice. Test Mode doesn't make leads free.
+
+</Update>
+
 <Update label="October 30" tags={["New Feature"]} >
 
 ## Answer Calls from Your Mail with an AI Receptionist
