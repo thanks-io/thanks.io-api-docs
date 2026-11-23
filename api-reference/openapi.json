@@ -178,6 +178,21 @@
             "type": ["integer", "null"],
             "example": null
           },
+          "order_item.carrier": {
+            "type": ["string", "null"],
+            "description": "Gift orders only: the parcel carrier, once the gift has shipped.",
+            "example": "UPS"
+          },
+          "order_item.tracking_number": {
+            "type": ["string", "null"],
+            "description": "Gift orders only.",
+            "example": "1Z999AA10123456784"
+          },
+          "order_item.tracking_url": {
+            "type": ["string", "null"],
+            "description": "Gift orders only.",
+            "example": "https://www.ups.com/track?tracknum=1Z999AA10123456784"
+          },
           "order_item.failure": {
             "type": ["string", "null"],
             "example": null
@@ -414,7 +429,8 @@
               "letter",
               "notecard",
               "giftcard",
-              "windowlessletter"
+              "windowlessletter",
+              "gift"
             ],
             "example": "postcard"
           },
@@ -2108,6 +2124,423 @@
           }
         }
       },
+      "gift": {
+        "type": "object",
+        "title": "Gift",
+        "description": "A gift thanks.io can send in place of a mail piece. There is no design to choose: each gift says what you add to it in `personalization` (a short handwritten note, an image, or nothing) and where it ships in `ships_to`.",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Pass as `gift` to /send/gift and /estimate/gift.",
+            "example": "hunky-chunky-classic-comforts"
+          },
+          "name": {
+            "type": "string",
+            "example": "Classic Comforts"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Four six-ounce cookies."
+          },
+          "contents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "What's inside.",
+            "example": [
+              "Sunday Cookie",
+              "Cookies & Cream",
+              "Chocolate Gem",
+              "Animal Sugar Cookie"
+            ]
+          },
+          "details": {
+            "type": "array",
+            "description": "Labelled facts about the gift, such as ingredients and allergens.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "example": "Allergens"
+                },
+                "text": {
+                  "type": "string",
+                  "example": "Contains wheat, milk and eggs."
+                }
+              }
+            }
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "delivery_note": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Baked fresh and shipped within 2 business days"
+          },
+          "ships_to": {
+            "type": "string",
+            "example": "The lower 48 states and DC. No P.O. boxes or military addresses."
+          },
+          "price_cents": {
+            "type": "integer",
+            "description": "Price per recipient in cents, shipping included.",
+            "example": 4900
+          },
+          "available": {
+            "type": "boolean",
+            "example": true
+          },
+          "personalization": {
+            "description": "What you add to this gift, and the request fields it takes.",
+            "oneOf": [
+              {
+                "type": "object",
+                "title": "Note",
+                "description": "Send `message` and `signed_by`. The gift maker writes the note by hand.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "note"
+                    ]
+                  },
+                  "message_max": {
+                    "type": "integer",
+                    "description": "Most characters, spaces included, once replacement variables are filled in.",
+                    "example": 100
+                  },
+                  "signed_by_max": {
+                    "type": "integer",
+                    "example": 40
+                  },
+                  "max_line_breaks": {
+                    "type": "integer",
+                    "example": 2
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "title": "Image",
+                "description": "Send `image_url`.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image"
+                    ]
+                  },
+                  "label": {
+                    "type": "string",
+                    "example": "Photo"
+                  },
+                  "help": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "min_width": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "min_height": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "formats": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "png",
+                      "jpg"
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "title": "None",
+                "description": "Send nothing extra.",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "gift-send-request": {
+        "type": "object",
+        "required": [
+          "gift"
+        ],
+        "description": "Give recipients, mailing_lists, or both. Send the personalization fields the gift's `personalization.type` takes: `message` and `signed_by` for a note, `image_url` for an image, neither for none. Recipients the gift can't reach (see its `ships_to`) are left out and not charged.",
+        "properties": {
+          "gift": {
+            "type": "string",
+            "description": "The gift's code from GET /gifts.",
+            "example": "hunky-chunky-classic-comforts"
+          },
+          "message": {
+            "type": "string",
+            "description": "For a note gift: the card note, written by hand. At most the gift's `message_max` characters including spaces once variables such as %FIRST_NAME% are filled in, at most `max_line_breaks` line breaks, and letters, numbers and everyday punctuation only (no emoji).",
+            "example": "Congratulations on the new home, %FIRST_NAME%!"
+          },
+          "signed_by": {
+            "type": "string",
+            "description": "For a note gift: the sign-off at the bottom of the card, up to the gift's `signed_by_max` characters.",
+            "example": "Jane from Sunrise Realty"
+          },
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "For an image gift: a public https:// link to the image, in one of the gift's `formats`.",
+            "example": "https://example.com/team-photo.jpg"
+          },
+          "recipients": {
+            "type": "array",
+            "maxItems": 500,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "address",
+                "city",
+                "province",
+                "postal_code"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jordan Lee"
+                },
+                "company": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 Main St"
+                },
+                "address2": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "example": "Apt 4"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "Denver"
+                },
+                "province": {
+                  "type": "string",
+                  "description": "Two-letter state code.",
+                  "example": "CO"
+                },
+                "postal_code": {
+                  "type": "string",
+                  "example": "80202"
+                },
+                "country": {
+                  "type": "string",
+                  "description": "US only.",
+                  "example": "US"
+                },
+                "email": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "phone": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Optional. Helps the carrier with delivery problems."
+                }
+              }
+            }
+          },
+          "mailing_lists": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "Mailing list IDs to send to.",
+            "example": [
+              1234
+            ]
+          },
+          "sub_account": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Sub-account to send as."
+          },
+          "metadata": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Your own key-value data, returned on the order and its webhooks."
+          },
+          "preview": {
+            "type": "boolean",
+            "description": "On /send/gift, price and check the order like /estimate/gift instead of placing it.",
+            "default": false
+          }
+        }
+      },
+      "gift-estimate-response": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "OK"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "gift": {
+                "$ref": "#/components/schemas/gift"
+              },
+              "estimate": {
+                "type": "object",
+                "properties": {
+                  "total_recipients": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "eligible_recipients": {
+                    "type": "integer",
+                    "description": "Recipients the gift can ship to; only these are charged.",
+                    "example": 1
+                  },
+                  "ineligible_recipients": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "unit_price_cents": {
+                    "type": "integer",
+                    "example": 4900
+                  },
+                  "total_cents": {
+                    "type": "integer",
+                    "example": 4900
+                  }
+                }
+              },
+              "errors": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Problems that would stop the send, by field (gift, message, signed_by, image_url, recipients, plan). Empty when it can be sent."
+              },
+              "ineligible": {
+                "type": "array",
+                "description": "Each `recipients` entry the gift cannot reach, by its index, and why.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "example": "Kai Snow"
+                    },
+                    "reason": {
+                      "type": "string",
+                      "example": "This gift ships to the lower 48 states and DC only"
+                    }
+                  }
+                }
+              },
+              "can_send": {
+                "type": "boolean",
+                "example": true
+              }
+            }
+          }
+        }
+      },
+      "gift-send-response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The order ID. Track it with /orders/{orderId}/track and the order item webhooks.",
+            "example": 98451
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "gift"
+            ],
+            "example": "gift"
+          },
+          "gift": {
+            "type": "string",
+            "example": "hunky-chunky-classic-comforts"
+          },
+          "status": {
+            "type": "string",
+            "example": "reviewing"
+          },
+          "total_recipients": {
+            "type": "integer",
+            "example": 2
+          },
+          "authorization_total": {
+            "type": "integer",
+            "description": "Amount charged in cents, for the recipients the gift can ship to. Recipients the gift maker refuses are refunded when the order settles.",
+            "example": 4900
+          },
+          "test_mode": {
+            "type": "boolean",
+            "example": false
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-11-20T15:04:05+00:00"
+          }
+        }
+      },
       "estimate-response": {
         "type": "object",
         "title": "Estimate Response",
@@ -2813,6 +3246,10 @@
     },
     {
       "name": "Giftcards"
+    },
+    {
+      "name": "Gifts",
+      "description": "Gifts sent in place of a mail piece, with a handwritten note, an image, or nothing added."
     },
     {
       "name": "Dynamic Images",
@@ -8588,6 +9025,117 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+
+      "/gifts": {
+      "get": {
+        "tags": [
+          "Gifts"
+        ],
+        "operationId": "listGifts",
+        "summary": "List Gifts",
+        "description": "The gifts this account can send, with their price per recipient (shipping included), what each takes as personalization, and where each ships.",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/gift"
+                      }
+                    },
+                    "can_send_gifts": {
+                      "type": "boolean",
+                      "description": "Whether this account's plan allows sending gifts (Business plan and up)."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+      "/estimate/gift": {
+      "post": {
+        "tags": [
+          "Gifts"
+        ],
+        "operationId": "estimateGift",
+        "summary": "Estimate Gift",
+        "description": "Price and check a gift send without placing it. Creates and charges nothing.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/gift-send-request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estimate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/gift-estimate-response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "See the response's message and code."
+          }
+        }
+      }
+    },
+
+      "/send/gift": {
+      "post": {
+        "tags": [
+          "Gifts"
+        ],
+        "operationId": "sendGift",
+        "summary": "Send Gift",
+        "description": "Send a gift with whatever it takes (a handwritten note, an image, or nothing) to each recipient. **A gift cannot be cancelled once it goes to the gift maker**: the only window is the order's review delay. Requires the Business plan or higher.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/gift-send-request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order placed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/gift-send-response"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "The plan does not allow gifts (`code: gifts_require_paid_plan`), or the charge failed."
+          },
+          "409": {
+            "description": "An identical order was placed less than 2 minutes ago."
+          },
+          "422": {
+            "description": "The gift or note is invalid, or no recipient can receive a gift (`code: no_deliverable_recipients`)."
           }
         }
       }

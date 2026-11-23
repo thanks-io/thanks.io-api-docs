@@ -1,0 +1,73 @@
+---
+title: "Gifts"
+description: "Send a gift in place of a mail piece, with a handwritten note, an image, or nothing added."
+---
+
+# Overview
+
+A gift is something thanks.io sends in place of a mail piece, such as a box of cookies. There is no design to choose: you pick a gift and add what it takes - for a box of cookies, a short note the gift maker writes by hand. Each recipient gets one gift.
+
+Gifts are sent through their own endpoints, not the Send Mailer endpoints:
+
+| Endpoint | What it does |
+| --- | --- |
+| `GET /gifts` | The gifts you can send, with their price per recipient and what each takes |
+| `POST /estimate/gift` | Price and check a send without placing it |
+| `POST /send/gift` | Place the order |
+
+## Before You Start
+
+- Gifts need the Business plan or higher. `GET /gifts` returns `can_send_gifts` for your account.
+- A gift is charged its full price, shipping included, for each recipient it can ship to.
+- **A gift can't be cancelled once it goes to the gift maker**, shortly after you place the order. Always estimate first.
+
+## Where Gifts Ship
+
+Each gift's `ships_to` says where it can go, and its `delivery_note` how quickly it ships. Gifts ship to US addresses only. Recipients a gift can't reach are left out of the order and not charged; `POST /estimate/gift` lists them with the reason.
+
+## Personalization
+
+Each gift's `personalization.type` says what to send with it:
+
+| Type | Send | Notes |
+| --- | --- | --- |
+| `note` | `message` and `signed_by` | A short note the gift maker writes by hand. See [The Note](#the-note). |
+| `image` | `image_url` | A public `https://` link to an image in one of the gift's `formats`. |
+| `none` | Neither | The gift goes as it is. |
+
+Fields a gift doesn't take are ignored.
+
+## The Note
+
+For a `note` gift, the note is written by hand, so it is short and plain:
+
+- At most the gift's `message_max` characters, spaces included, **after** replacement variables such as `%FIRST_NAME%` are filled in. A long name makes the note longer.
+- At most `max_line_breaks` line breaks.
+- Letters, numbers and everyday punctuation only. No emoji.
+- `signed_by` is the sign-off at the bottom of the card, up to `signed_by_max` characters.
+
+A recipient whose filled-in note runs over the limit is left out and not charged.
+
+## Example
+
+Estimate first. This gift takes a note:
+
+```bash
+curl -X POST https://api.thanks.io/api/v2/estimate/gift \
+  -H "Authorization: Bearer $THANKS_IO_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "gift": "hunky-chunky-classic-comforts",
+    "message": "Congratulations on the new home, %FIRST_NAME%!",
+    "signed_by": "Jane from Sunrise Realty",
+    "recipients": [
+      {"name": "Jordan Lee", "address": "123 Main St", "city": "Denver", "province": "CO", "postal_code": "80202"}
+    ]
+  }'
+```
+
+When `data.can_send` is `true`, send the same body to `POST /send/gift`. You can also send to saved mailing lists with `mailing_lists: [1234]`.
+
+## Tracking
+
+A gift order is an order like any other: `GET /orders/{orderId}/track` and the [order item status webhook](/api-reference/endpoint/webhook-events/order-item-status-change) report each gift's progress (Processing, Shipped, Delivered). Gift order item events also carry `order_item.carrier`, `order_item.tracking_number` and `order_item.tracking_url` once the gift has shipped.

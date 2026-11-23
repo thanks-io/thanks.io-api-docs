@@ -275,6 +275,9 @@ The assistant previews a search and shows you the match count and cost before bu
 | `send-notecard` | Send folded notecards in an envelope. |
 | `send-magnacard` | Send magnacards with a tear-off magnet. |
 | `send-giftcard` | Send gift cards. Charged for the mailing and the face value of each card. |
+| `list-gifts` | Gifts you can send in place of mail, such as cookie boxes, with their price per recipient, where each ships, and what each takes: a note, an image, or nothing. |
+| `preview-gift` | Price and check a gift send, naming any recipient the gift can't reach, without charging anything. |
+| `send-gift` | Send a gift to each recipient, with the note or image it takes. Charged the gift's full price, shipping included, and can't be cancelled once it goes to the gift maker. |
 
 The send tools need **Allow orders via MCP**. A recipient given an email address but no street address needs **Allow lead purchases via MCP**, for `preview-order` and the send tools as well as `add-recipient` and `add-recipients`. To send without those lookups, the assistant can pass `email_lookup: false`, which leaves out recipients who have no street address.
 
@@ -330,7 +333,7 @@ Every tool is in one of three groups, by what it can do to your account. Each to
 
 These only read your account. They never change, charge or send anything.
 
-`get-account-overview`, `get-performance`, `get-marketing-playbook`, `get-account-info`, `list-sub-accounts`, `list-handwriting-styles`, `list-image-templates`, `list-message-templates`, `list-giftcard-brands`, `list-creatives`, `get-creative`, `get-studio-design`, `list-studio-designs`, `list-mailing-lists`, `list-recipients`, `search-lead-topics`, `suggest-lead-locations`, `get-targeted-leads-preview`, `list-lead-feeds`, `list-orders`, `get-order`, `get-order-stats`, `list-order-recipients`, `search-order-recipients`, `list-webhooks`, `list-campaigns`
+`get-account-overview`, `get-performance`, `get-marketing-playbook`, `get-account-info`, `list-sub-accounts`, `list-handwriting-styles`, `list-image-templates`, `list-message-templates`, `list-giftcard-brands`, `list-gifts`, `preview-gift`, `list-creatives`, `get-creative`, `get-studio-design`, `list-studio-designs`, `list-mailing-lists`, `list-recipients`, `search-lead-topics`, `suggest-lead-locations`, `get-targeted-leads-preview`, `list-lead-feeds`, `list-orders`, `get-order`, `get-order-stats`, `list-order-recipients`, `search-order-recipients`, `list-webhooks`, `list-campaigns`
 
 ### Write
 
@@ -358,6 +361,7 @@ These can spend money or send recipient data outside thanks.io, so the assistant
 |---|---|---|
 | `send-postcard`, `send-letter`, `send-windowlessletter`, `send-notecard`, `send-magnacard` | Places a paid order, charged to your credit balance or card. Mail can't be recalled once printing starts. | **Allow orders via MCP** |
 | `send-giftcard` | Places a paid order as above, also charged the face value of every card. | **Allow orders via MCP** |
+| `send-gift` | Places a paid gift order, charged the gift's price for each recipient it can ship to. A gift can't be cancelled once it goes to the gift maker. | **Allow orders via MCP** and the Business plan |
 | `set-campaign-active` | Turning a campaign on authorizes every send it makes on its schedule, with no further preview. Pausing one is always allowed. | **Allow orders via MCP** to turn on |
 | `preview-order`, `add-recipient`, `add-recipients` | Buys an address lookup for each recipient given an email address but no street address. With full addresses they charge nothing. | **Allow lead purchases via MCP** for lookups |
 | `buy-targeted-leads` | Buys up to 100 Targeted Leads once, charged for each lead added to the list. | **Allow lead purchases via MCP** |

@@ -201,6 +201,16 @@
                 ]
               },
               {
+                "group": "Gifts",
+                "icon": "gift",
+                "pages": [
+                    "api-reference/gifts-usage",
+                    "api-reference/endpoint/gifts/list-gifts",
+                    "api-reference/endpoint/gifts/estimate-gift",
+                    "api-reference/endpoint/gifts/send-gift"
+                ]
+              },
+              {
                 "group": "Order Estimates",
                 "icon": "calculator",
                 "pages": [
