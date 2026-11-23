@@ -390,23 +390,27 @@
         "properties": {
           "id": {
             "type": "integer",
+            "description": "Order ID. Use it with Track Order, List Order Items and Cancel Order.",
             "example": 42708
           },
           "message": {
             "type": "string",
+            "description": "The handwritten message as submitted, with replacement variables such as `%FIRST_NAME%` left unresolved. Each piece fills them in for its own recipient.",
             "example": "Hey %FIRST_NAME%!,\n\nTHANK YOU for allowing us the opportunity to HELP you with your plan!"
           },
           "size": {
             "type": "string",
-            "description": "Only valid for postcards",
+            "description": "Postcard size: `4x6`, `6x9` or `6x11`. Empty for other mailer types.",
             "example": "4x6"
           },
           "sub_account_id": {
             "type": ["integer", "null"],
+            "description": "The sub-account the order was placed for, or `null` when it was placed for the main account.",
             "example": null
           },
           "type": {
             "type": "string",
+            "description": "Mailer type. Some older 6x9 postcard orders report `postcard` with a `size` of `6x9`.",
             "enum": [
               "postcard",
               "postcard6x9",
@@ -414,12 +418,14 @@
               "letter",
               "notecard",
               "giftcard",
-              "windowlessletter"
+              "windowlessletter",
+              "magnacard"
             ],
             "example": "postcard"
           },
           "display_type": {
             "type": "string",
+            "description": "Human-readable mailer type: `Postcard-4x6`, `Postcard-6x9`, `Postcard-6x11`, `Windowed Letter`, `Windowless Letter`, `Notecard`, `Magnacard` or `Giftcard`.",
             "example": "Postcard-4x6"
           },
           "style": {
@@ -429,50 +435,62 @@
           },
           "front_image": {
             "type": "string",
+            "description": "URL of the front design printed on the order's pieces.",
             "example": "https://cdn.thanks.io/letter-backgrounds/bg0.png"
           },
           "high_quality_preview": {
-            "type": "string",
-            "description": "PDF of the high quality preview of the order"
+            "type": ["string", "null"],
+            "description": "URL of a PDF proof of the whole piece, rendered for one sample recipient. `null` until the proof has been generated, shortly after the order is placed."
           },
           "authorization_total": {
             "type": "integer",
+            "description": "Estimated cost of the order in cents, deducted from your account balance when the order was placed. It is set once and never changes. Compare it with `grand_total` once the order has settled to see what was credited back or charged at settlement. `0` for test-mode orders. Gift card face values are not included.",
             "example": 73
           },
           "grand_total": {
             "type": "integer",
+            "description": "Final cost of the order in cents, calculated when the order settles, once every piece has been processed. Pieces that could not be mailed (for example an undeliverable address or a duplicate recipient) are not charged. `0` until the order settles, and `0` for a cancelled order. At settlement, if `authorization_total` is higher, the difference is credited back to your account balance; if it is lower, the difference is deducted. Gift card face values are not included.",
             "example": 73
           },
           "order_total": {
             "type": "integer",
+            "description": "The order's cost in cents: `grand_total` once the order has settled, `authorization_total` until then. Use this field when you want a single figure for what the order costs. Gift card face values are not included.",
             "example": 73
           },
           "total_estimated_recipients": {
             "type": "integer",
+            "description": "Number of pieces the order was priced for when it was placed. `authorization_total` is based on this count.",
             "example": 1
           },
           "total_recipients": {
             "type": "integer",
+            "description": "Number of pieces actually sent, counted when the order settles. Excludes recipients that could not be mailed. `0` until the order settles, and `0` for a cancelled order.",
             "example": 1
           },
           "recipient_count": {
             "type": "integer",
+            "description": "The order's piece count: `total_recipients` once the order has settled, `total_estimated_recipients` until then.",
             "example": 1
           },
           "status": {
             "type": "string",
+            "description": "Order status.\n\n- `Reviewing`: placed and not yet sent to print. Orders in this status can be cancelled.\n- `Printing`: being printed.\n- `Printed`: printed and waiting to be mailed.\n- `Shipped`: handed to the postal service.\n- `Fulfilled`: every piece has been processed and the order has settled.\n- `Delivered`: delivered.\n- `Cancelled`: cancelled. Test-mode orders also report this status.\n- `Error`: the order settled with no pieces sent, for example because no recipient could be mailed.\n\nTrack each piece's delivery with List Order Items.",
+            "enum": ["Reviewing", "Printing", "Printed", "Shipped", "Fulfilled", "Delivered", "Cancelled", "Error"],
             "example": "Fulfilled"
           },
           "method": {
             "type": "string",
+            "description": "How the order was placed, for example `API`, `Campaign`, `Send Mail Wizard`, `Zapier`, `AI Agent` or `Email send@thanks.io`.",
             "example": "Campaign"
           },
           "cancellable": {
             "type": "boolean",
+            "description": "Whether the order is still early enough in production to be cancelled. Cancel Order accepts only orders in `Reviewing` status.",
             "example": false
           },
           "total_scans": {
             "type": "integer",
+            "description": "Number of times the QR codes on this order's pieces have been scanned.",
             "example": 0
           },
           "metadata": {
@@ -486,11 +504,13 @@
           "created_at": {
             "type": "string",
             "format": "date-time",
+            "description": "When the order was placed, in UTC.",
             "example": "2025-09-08T16:05:12.000000Z"
           },
           "updated_at": {
             "type": "string",
             "format": "date-time",
+            "description": "When the order last changed, in UTC.",
             "example": "2025-09-08T16:06:08.000000Z"
           }
         }
@@ -10096,7 +10116,7 @@
       "get": {
         "tags": ["Orders"],
         "summary": "List Orders",
-        "description": "Return list of recent orders.",
+        "description": "Return list of recent orders, newest first. Amounts are integer cents. Each order reports its estimated cost (`authorization_total`), its final cost (`grand_total`) and the figure that currently applies (`order_total`). Individual balance transactions, such as the deduction when an order is placed and any credit returned at settlement, are not available through the API; they are listed in Billing History in your dashboard.",
         "parameters": [
           {
             "$ref": "#/components/parameters/items_per_page"
