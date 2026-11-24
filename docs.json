@@ -400,7 +400,7 @@
     "links": [
       {
         "label": "Schedule API Consult",
-        "href": "https://calendly.com/thanks-io/",
+        "href": "https://thanks.io/meet",
         "icon": "headset"
       },
       {
@@ -434,7 +434,7 @@
           },
           {
             "label": "Schedule API Consult",
-            "href": "https://calendly.com/thanks-io/"
+            "href": "https://thanks.io/meet"
           },
           {
             "label": "Postman",
