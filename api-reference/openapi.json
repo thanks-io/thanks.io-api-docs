@@ -1073,9 +1073,9 @@
             "example": 18
           },
           "font_size": {
-            "type": "integer",
-            "description": "Font size used in the message template.  Only valid for AI fonts",
-            "enum": ["auto", "large", "medium", "small"]
+            "type": "string",
+            "description": "Font size used in the message template: `auto`, `small`, `medium`, `large` or `extralarge`, or for a `Typed` handwriting style a point size from 8 to 24, such as `11`.",
+            "example": "auto"
           },
           "font_color": {
             "type": "string",
@@ -2359,6 +2359,11 @@
             "description": "Set to true to enable the realism effect for AI fonts.",
             "example": true
           },
+          "font_size": {
+            "type": "string",
+            "description": "Handwriting size:`auto`, `small`, `medium`, `large` or `extralarge` (lowercase). For a `Typed` handwriting style (see List Handwriting Styles) it can also be a point size from 8 to 24, such as `11` for a business letter. At a point size a typed style prints as a letter at exactly that size, where a blank line starts a new paragraph; a message too long for the space at that size is rejected rather than shrunk. `auto` fits the message to the space.",
+            "example": "auto"
+          },
           "sub_account": {
             "type": "integer",
             "description": "Sub-account ID to use for this order.",
@@ -2515,8 +2520,7 @@
           },
           "font_size": {
             "type": "string",
-            "description": "Font size for the order",
-            "enum": ["auto", "small", "medium", "large"],
+            "description": "Font size for the order: `auto`, `small`, `medium`, `large` or `extralarge`, or a point size such as `11` for a `Typed` handwriting style.",
             "example": "auto"
           },
           "style": {
@@ -7169,9 +7173,9 @@
                           },
                           "type": {
                             "type": "string",
-                            "description": "Type of handwriting style",
+                            "description": "Type of handwriting style. `Typed` styles are computer fonts for typed letters: they take a point size as `font_size`, and `**double asterisks**` around words in their message print those words bold.",
                             "example": "Realistic",
-                            "enum": ["Realistic", "AI"]
+                            "enum": ["Realistic", "Bold", "International", "AI", "Typed"]
                           }
                         }
                       }
