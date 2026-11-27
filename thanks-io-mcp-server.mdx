@@ -381,6 +381,11 @@ A refused call returns a message saying why, and nothing is charged:
 - **Too many previews.** Over 20 Targeted Leads previews in an hour, a preview is refused and the message says how many minutes to wait.
 - **Charge failed.** If the billing charge fails, or the chosen mailing lists have no deliverable recipients, the order is not placed.
 
+Two creates are not refused when repeated, but hand back the first result instead of making a copy:
+
+- **`create-webhook`** with the same event, stage, URL, method, mailing list and sub-account as a webhook you already have returns that webhook, so events are never delivered twice. Use `update-webhook` to change it.
+- **`create-mailing-list`** with the same name and sub-account as a list made in the last 10 minutes returns that list. Lists with the same name made further apart are still allowed.
+
 An unexpected error returns a reference code to quote to [support@thanks.io](mailto:support@thanks.io).
 
 A placed order's result includes its status and total charged. `get-order` then reports printing and delivery, and `cancel-order` works only while the order is still under review.
